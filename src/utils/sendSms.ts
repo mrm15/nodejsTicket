@@ -1,13 +1,20 @@
-const axios = require('axios')
-const sendSms = async (text, destinationNumber) => {
-  const url = `https://niksms.com/fa/publicapi/groupsms?username=09126970541&password=Endj174622endj&numbers=${destinationNumber}&sendernumber=50002660&message=${text}`
-  const res = await axios.get(url);
+import axios from 'axios';
 
-  if (res?.data?.Status === 1) {
-    return true
-  } else {
-    return false
-  }
+const sendSms = async (text: string, destinationNumber: string): Promise<boolean> => {
+    const url = `https://niksms.com/fa/publicapi/groupsms?username=09126970541&password=Endj174622endj&numbers=${destinationNumber}&sendernumber=50002660&message=${text}`;
+
+    try {
+        const res = await axios.get(url);
+
+        if (res?.data?.Status === 1) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error sending SMS:', error);
+        return false;
+    }
 }
 
-module.exports = {sendSms}
+export { sendSms };

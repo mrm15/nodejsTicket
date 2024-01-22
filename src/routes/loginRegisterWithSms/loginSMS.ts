@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import * as loginController from '../../controllers/LoginRegisterSms/loginController';
+
 const router = express.Router();
-const loginController = require('../../controllers/LoginRegisterSms/loginController');
 
 router.post('/new', loginController.handleLoginSMS);
 router.post('/verify', loginController.verifyLoginSMS);
 
-module.exports = router;
+export default router;
