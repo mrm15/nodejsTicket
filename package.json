@@ -5,48 +5,23 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon src/index.js",
-    "dev": "ts-node src/index.ts"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "src"
-    ],
-    "ext": "ts",
-    "ignore": [
-      "src/**/*.spec.ts"
-    ],
-    "exec": "ts-node ./src/index.ts"
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "debug": "nodemon --inspect server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@types/uuid": "^9.0.7",
+    "express": "^4.18.2",
+    "uuid": "^9.0.1"
+  },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.6",
-    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.5",
-    "@types/mongoose": "^5.11.97",
     "@types/node": "^20.11.5",
-    "@types/uuid": "^9.0.7",
-    "nodemon": "^3.0.3",
-    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "axios": "^1.6.5",
-    "body-parser": "^1.20.2",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "date-fns": "^3.3.0",
-    "dotenv": "^16.3.2",
-    "ejs": "^3.1.9",
-    "express": "^4.18.2",
-    "express-ejs-layouts": "^2.5.1",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.1.0",
-    "niksms.library.javascript": "^0.0.1",
-    "uuid": "^9.0.1",
-    "xml2js": "^0.6.2"
   }
 }
