@@ -11,7 +11,7 @@ interface IUserTask {
 }
 
 interface IUser extends Document {
-    _id?: any;
+    // _id?: any;
     userId?: string;
     userName?: string;
     departmentId?: string;
@@ -47,12 +47,12 @@ interface IUser extends Document {
     postalCode: string;
     lastUpdateTimeStamp: string;
     refreshTokens: string[];
-    loginCode: string;
-    loginCodeSendDate: string;
+    loginCode: number;
+    loginCodeSendDate: number;
     isActive: string;
     tickets: string[];
-    createAt:string;
-    updateAt: string;
+    // createAt:string;
+    // updateAt: string;
 }
 
 // Create the User schema
@@ -129,14 +129,15 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     },
     phoneNumber: {
         type: String,
-        required: false,
-        default: "",
+        required: true,
+        unique:true,
 
     },
     mobile: {
         type: String,
-        required: true,
-        unique:true,
+        required: false,
+        default: "",
+
     },
     fax: {
         type: String,
@@ -269,12 +270,12 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         required: false,
     }],
     loginCode: {
-        type: String,
+        type: Number,
         required: false,
 
     },
     loginCodeSendDate: {
-        type: String,
+        type: Number,
         required: false,
     },
     isActive: {
@@ -287,14 +288,14 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         required: false,
     }],
 
-    createAt: {
-        type: String,
-        required: false,
-    },
-    updateAt: {
-        type: String,
-        required: false,
-    },
+    // createAt: {
+    //     type: String,
+    //     required: false,
+    // },
+    // updateAt: {
+    //     type: String,
+    //     required: false,
+    // },
 });
 
 // Create a virtual 'id' property
