@@ -1,3 +1,3 @@
-const getCurrentTimeStamp = (): number => Math.floor(new Date().getTime() / 1000);
+const getCurrentTimeStamp = (): Date => new Date()
 
 export { getCurrentTimeStamp };

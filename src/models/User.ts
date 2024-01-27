@@ -1,7 +1,7 @@
 import mongoose, {Schema, Document} from 'mongoose';
 import {v4 as uuidV4} from 'uuid';
 
-// Define the roles enum
+
 
 
 // Define the User document interface (optional but recommended)
@@ -11,11 +11,10 @@ interface IUserTask {
 }
 
 interface IUser extends Document {
-    // _id?: any;
-    userId?: string;
+
     userName?: string;
     departmentId?: string;
-    role?: string;
+    role?: mongoose.Types.ObjectId;
     tasks: IUserTask[];
     accountingCode: string;
     company: string;
@@ -45,14 +44,19 @@ interface IUser extends Document {
     city: string;
     profilePictureUrl: string;
     postalCode: string;
-    lastUpdateTimeStamp: string;
-    refreshTokens: string[];
+    tokens: {
+        refreshToken:string;
+        os:string;
+        ip:string;
+        useragent:string;
+        loginTime:Date;
+    }[] |[];
     loginCode: number;
-    loginCodeSendDate: number;
-    isActive: string;
+    loginCodeSendDate: Date;
+    isActive: Boolean;
     tickets: string[];
-    // createAt:string;
-    // updateAt: string;
+    createAt:Date;
+    updateAt: Date;
 }
 
 // Create the User schema
@@ -64,12 +68,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     //     default: "",
     //
     // },
-    // userId: {
-    //     type: String,
-    //     required: false,
-    //     default: "",
-    //
-    // },
+
     userName: {
         type: String,
         required: true,
@@ -259,15 +258,13 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         default: "",
 
     },
-    lastUpdateTimeStamp: {
-        type: String,
-        required: false,
-        default: "",
 
-    },
-    refreshTokens: [{
-        type: String,
-        required: false,
+    tokens: [{
+        refreshToken: { type: String, required: true },
+        os: { type: String, required: true },
+        ip: { type: String, required: true },
+        useragent: { type: String, required: true },
+        loginTime: { type: Date, required: true }
     }],
     loginCode: {
         type: Number,
@@ -275,27 +272,27 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
 
     },
     loginCodeSendDate: {
-        type: Number,
+        type: Date,
         required: false,
     },
     isActive: {
-        type: String,
-        required: false,
-        default: "",
+        type: Boolean,
+        default:false,
     },
     tickets: [{
         type: String,
         required: false,
     }],
 
-    // createAt: {
-    //     type: String,
-    //     required: false,
-    // },
-    // updateAt: {
-    //     type: String,
-    //     required: false,
-    // },
+    createAt: {
+        type: Date,
+        default: Date.now,
+        required: false,
+    },
+    updateAt: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 // Create a virtual 'id' property

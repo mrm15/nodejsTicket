@@ -11,9 +11,15 @@ import mongoose from 'mongoose';
 import {connectDB} from './config/dbConn';
 import { corsOptions } from './config/corsOptions';
 import bodyParser from 'body-parser';
+import  loginSMS from './routes/loginRegisterWithSms/loginSMS'
+import useragent from 'express-useragent';
+import admin from "./routes/admin";
+import refresh from "./routes/auth/refresh";
+
+
 
 const app: Application = express();
-const PORT: number | string = process.env.PORT || 3001;
+const PORT: number | string = process.env.PORT || 3000;
 
 // Connect to MongoDB
 void connectDB();
@@ -33,6 +39,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // Built-in middleware for JSON
 app.use(express.json());
+
+app.use(useragent.express());
+
 
 // Middleware for cookies
 app.use(cookieParser());
@@ -59,12 +68,13 @@ app.use(express.json()); // add to test
 // app.use('/sendsms', require('./routes/smstest/send'));
 // loginRegister SMS
 //---------------  Auth ------------------
-app.use('/register', require('./routes/loginRegisterWithSms/registerSMS'));
-// app.use('/login', require('./routes/loginRegisterWithSms/loginSMS'));
+//app.use('/register', require('./routes/loginRegisterWithSms/registerSMS'));
+ app.use('/login',loginSMS);
+ app.use('/admin',admin)
 // // app.use('/register', require('./routes/auth/register'));
 // app.use('/auth', require('./routes/auth/auth'));
-// app.use('/users', require('./routes/users'));
-// app.use('/refresh', require('./routes/auth/refresh'));
+// app.use('/users', require('./routes/')
+app.use('/refresh', refresh);
 // app.use('/logout', require('./routes/auth/logout'));
 //---------------------------------------
 
