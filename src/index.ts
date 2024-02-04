@@ -15,7 +15,8 @@ import  loginSMS from './routes/loginRegisterWithSms/loginSMS'
 import useragent from 'express-useragent';
 import admin from "./routes/admin";
 import refresh from "./routes/auth/refresh";
-import handleUplaod from "./routes/handleUplaod";
+import handleUplaod from "./routes/handleUpload";
+import myRouter from "./routes";
 
 
 
@@ -61,40 +62,12 @@ app.use(bodyParser.json());
 
 // app.use(bodyParser.urlencoded({limit: '10mb', extended: false}));
 app.use(express.json()); // add to test
-
-// Add Routes
-// app.use('/api', require('./routes/index'));
-
-// ===== Test SMS=========
-// app.use('/sendsms', require('./routes/smstest/send'));
-// loginRegister SMS
-//---------------  Auth ------------------
-//app.use('/register', require('./routes/loginRegisterWithSms/registerSMS'));
-// app.use("/", )
- app.use('/login',loginSMS);
- app.use('/admin',admin)
-// // app.use('/register', require('./routes/auth/register'));
-// app.use('/auth', require('./routes/auth/auth'));
-// app.use('/users', require('./routes/')
-app.use('/refresh', refresh);
-// app.use('/logout', require('./routes/auth/logout'));
-//---------------------------------------
-
-//----------- Path Need To verifyJWT ----------------------------
-app.use(verifyJWT);
-app.use('/upload' , handleUplaod);
-
-// app.use('/api/products', require('./routes/products'));
-// app.use('/api/productGroup', require('./routes/productGroup'));
-// app.use('/api/orders/submit', require('./routes/orders/submit'));
-// app.use('/users', require('./routes/users'));
-//----------- End  Need To verifyJWT ----------------------------
-
+app.use('/', myRouter);
 app.all('*', (req: Request, res: Response) => {
     res.status(404).send({ message: `404 Not Found: ${req.url} ` });
 });
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
