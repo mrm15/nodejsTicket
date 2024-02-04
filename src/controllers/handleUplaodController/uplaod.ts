@@ -30,8 +30,7 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
         res.status(403).json({message});
         return
     }
-    res.status(200).json({myToken, message:' اینم ریکویت'});
-    return
+
     const saveFileToDataBase = async (myToken: {
         phoneNumber: any;
     }, fileDetails: Express.Multer.File | undefined, tag: string) => {
