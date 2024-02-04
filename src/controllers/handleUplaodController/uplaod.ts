@@ -4,6 +4,7 @@ import path from 'path';
 import {IUser, User} from "../../models/User";
 import {File, IFile} from "../../models/files";
 import {getCurrentTimeStamp} from "../../utils/timing";
+import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 
 // Configure multer storage
 const storage = multer.diskStorage({
@@ -20,11 +21,17 @@ const storage = multer.diskStorage({
 // Initialize multer with the defined storage configuration
 const myUpload = multer({storage: storage});
 
-const handleUpload = (req: Request, res: Response, next: NextFunction) => {
+const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
 
-    const myToken = req.body.myToken;
-
+    const {myToken} = req;
+    if(!myToken){
+        const message = 'مقدار توکن توی ری کوئست موجود نیست'
+        res.status(403).json({message});
+        return
+    }
+    res.status(200).json({myToken, message:' اینم ریکویت'});
+    return
     const saveFileToDataBase = async (myToken: {
         phoneNumber: any;
     }, fileDetails: Express.Multer.File | undefined, tag: string) => {
