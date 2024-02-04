@@ -1,11 +1,9 @@
 import { logEvents } from './logEvents';
 import { NextFunction, Request, Response } from 'express';
 
-const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction): void => {
-    logEvents(`${err.name}:${err.message}`, 'errLog.txt').then((r) => {
-        console.log('Mission Done!');
-    });
-    console.error(err.stack);
+const errorHandler = async (err: Error, req: Request, res: Response, next: NextFunction) => {
+    await logEvents(`${err.name}:${err.message}`, 'errLog.txt')
+    //console.error(err.stack);
     res.status(500).send({
         message: err.message,
     });
