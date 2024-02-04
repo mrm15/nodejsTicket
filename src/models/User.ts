@@ -44,6 +44,12 @@ interface IUser extends Document {
     city: string;
     profilePictureUrl: string;
     postalCode: string;
+    loginCode: number;
+    loginCodeSendDate: Date;
+    isActive: Boolean;
+    tickets: string[];
+    createAt:Date;
+    updateAt: Date;
     tokens: {
         refreshToken:string;
         os:string;
@@ -51,12 +57,6 @@ interface IUser extends Document {
         useragent:string;
         loginTime:Date;
     }[] |[];
-    loginCode: number;
-    loginCodeSendDate: Date;
-    isActive: Boolean;
-    tickets: string[];
-    createAt:Date;
-    updateAt: Date;
 }
 
 // Create the User schema
