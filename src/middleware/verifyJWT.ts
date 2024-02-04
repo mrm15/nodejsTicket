@@ -3,7 +3,7 @@ import jwt, { JwtPayload, VerifyErrors } from 'jsonwebtoken';
 
 // Define a custom Request type that extends ExpressRequest
 interface CustomRequest extends ExpressRequest {
-    userInfo?: JwtPayload['UserInfo']; // Add the userInfo property
+    myToken?: JwtPayload
 }
 
 const verifyJWT = (req: CustomRequest, res: Response, next: NextFunction): void => {
@@ -28,7 +28,8 @@ const verifyJWT = (req: CustomRequest, res: Response, next: NextFunction): void 
                 return; // Return early to avoid further execution
             } //invalid token
             // Assign userInfo directly to req object
-            req.userInfo = decoded?.UserInfo;
+            debugger
+            req.body.myToken = decoded
             next();
         }
     );
