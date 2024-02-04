@@ -15,6 +15,7 @@ import  loginSMS from './routes/loginRegisterWithSms/loginSMS'
 import useragent from 'express-useragent';
 import admin from "./routes/admin";
 import refresh from "./routes/auth/refresh";
+import handleUplaod from "./routes/handleUplaod";
 
 
 
@@ -69,6 +70,7 @@ app.use(express.json()); // add to test
 // loginRegister SMS
 //---------------  Auth ------------------
 //app.use('/register', require('./routes/loginRegisterWithSms/registerSMS'));
+// app.use("/", )
  app.use('/login',loginSMS);
  app.use('/admin',admin)
 // // app.use('/register', require('./routes/auth/register'));
@@ -80,6 +82,8 @@ app.use('/refresh', refresh);
 
 //----------- Path Need To verifyJWT ----------------------------
 app.use(verifyJWT);
+app.use('/upload' , handleUplaod);
+
 // app.use('/api/products', require('./routes/products'));
 // app.use('/api/productGroup', require('./routes/productGroup'));
 // app.use('/api/orders/submit', require('./routes/orders/submit'));
