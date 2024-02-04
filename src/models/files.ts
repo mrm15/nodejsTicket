@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, {Document, Schema} from 'mongoose';
 
 // Define the File document interface
 interface IFile extends Document {
@@ -70,5 +70,17 @@ const fileSchema: Schema<IFile> = new mongoose.Schema({
     },
 });
 
+fileSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialized
+fileSchema.set('toJSON', {
+    virtuals: true
+});
 // Export the File model
-export default mongoose.model<IFile>('File', fileSchema);
+const File = mongoose.model<IFile>('File', fileSchema);
+
+export {File, IFile}
+
+
