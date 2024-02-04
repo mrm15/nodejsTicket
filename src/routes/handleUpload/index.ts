@@ -48,28 +48,28 @@ const myUpload = multer({storage: storage})
 
 //
 // Wrapping multer with custom middleware
-const multerMiddleware = (req: Request, res: Response, next: NextFunction) => {
-
-
-    console.log("req.body.myToken")
-    console.log(req.body?.myToken);
-    const myToken = req.body.myToken
-
-    const upload = myUpload.single("singleFile");
-    upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            // A Multer error occurred when uploading.
-            return res.status(500).json({message: err.message});
-        } else if (err) {
-            // An unknown error occurred when uploading.
-            return res.status(500).json({message: "An error occurred during the file upload."});
-        }
-        // If no errors, proceed to the next middleware
-
-        req.body = {...req.body, myToken: {...myToken}}
-        next();
-    });
-};
+// const multerMiddleware = (req: Request, res: Response, next: NextFunction) => {
+//
+//
+//     console.log("req.myToken")
+//     console.log(req?.myToken);
+//     const myToken = req.myToken
+//
+//     const upload = myUpload.single("singleFile");
+//     upload(req, res, function (err) {
+//         if (err instanceof multer.MulterError) {
+//             // A Multer error occurred when uploading.
+//             return res.status(500).json({message: err.message});
+//         } else if (err) {
+//             // An unknown error occurred when uploading.
+//             return res.status(500).json({message: "An error occurred during the file upload."});
+//         }
+//         // If no errors, proceed to the next middleware
+//
+//         req.body = {...req.body, myToken: {...myToken}}
+//         next();
+//     });
+// };
 //
 router.post('/', uploadController.handleUpload);
 
