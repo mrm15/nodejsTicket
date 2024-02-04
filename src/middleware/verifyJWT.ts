@@ -23,8 +23,9 @@ const verifyJWT = (req: CustomRequest, res: Response, next: NextFunction): void 
         process.env.ACCESS_TOKEN_SECRET as string,
         (err: any, decoded:any) => {
             if (err) {
-                debugger;
-                res.sendStatus(403);
+                const message = 'Token is Not Valid.☹️ try get new Token!'
+
+                res.status(403).json({message});
                 return; // Return early to avoid further execution
             } //invalid token
             // Assign userInfo directly to req object
