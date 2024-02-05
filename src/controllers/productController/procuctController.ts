@@ -37,7 +37,7 @@ const addNewProduct = async (req, res) => {
 const getProductList = async (req, res) => {
   const searchOptions = req.query.name ? {name: new RegExp(req.query.name, 'i')} : {};
 
-  // console.log('searchOptions', searchOptions);
+  // // console.log('searchOptions', searchOptions);
   try {
     const products = await Products.find(searchOptions).populate('category').lean();
     products.forEach(v => {

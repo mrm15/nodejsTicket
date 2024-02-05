@@ -16,13 +16,13 @@ const logEvents = async (message: string, logName: string): Promise<void> => {
 
         await fsPromises.appendFile(path.join(__dirname, '..', 'logs', logName), logItem);
     } catch (err) {
-        console.log(err);
+        // console.log(err);
     }
 };
 
 const logger = (req: Request, res: Response, next: NextFunction): void => {
     logEvents(`${req.method}\t${req.headers.origin}\t${req.url}`, 'reqLog.txt').then((r) => {
-        console.log('reported!');
+        // console.log('reported!');
     });
     next();
 };

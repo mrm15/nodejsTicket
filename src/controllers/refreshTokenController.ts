@@ -39,12 +39,12 @@ const handleRefreshToken = async (req: Request, res: Response): Promise<void> =>
             res.status(403).json({error: err}); // Forbidden
             return
         }
-        //console.log('attempted refresh token reuse!');
+        //// console.log('attempted refresh token reuse!');
         const hackedUser = await User.findOne({phoneNumber: decoded?.phoneNumber}).exec();
         if (hackedUser) {
             hackedUser.tokens = [];
             const result = await hackedUser.save();
-            //console.log(result);
+            //// console.log(result);
         }
     }
 
@@ -61,10 +61,10 @@ const handleRefreshToken = async (req: Request, res: Response): Promise<void> =>
 
     const callBack = async (err: any, decoded: any) => {
         if (err) {
-            console.log('expired refresh token');
+            // console.log('expired refresh token');
             foundUser.tokens = [...newTokensArray];
             const result = await foundUser.save();
-            console.log(result);
+            // console.log(result);
             res.sendStatus(403);
             return
         }

@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const handleLogin = async (req, res) => {
 
     const cookies = req.cookies;
-    console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
+    // console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
     const { user, pwd } = req.body;
     if (!user || !pwd) return res.status(400).json({ 'message': 'Username and password are required.' });
 
@@ -51,7 +51,7 @@ const handleLogin = async (req, res) => {
 
             // Detected refresh token reuse!
             if (!foundToken) {
-                console.log('attempted refresh token reuse at login!')
+                // console.log('attempted refresh token reuse at login!')
                 // clear out ALL previous refresh tokens
                 newRefreshTokenArray = [];
             }
@@ -62,8 +62,8 @@ const handleLogin = async (req, res) => {
         // Saving refreshToken with current user
         foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
         const result = await foundUser.save();
-        console.log(result);
-        console.log(roles);
+        // console.log(result);
+        // console.log(roles);
 
         // Creates Secure Cookie with refresh token
         res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
