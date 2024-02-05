@@ -70,6 +70,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     // },
 
     userName: {
+        unique:true,
         type: String,
         required: true,
         default: () => uuidV4(),
