@@ -51,8 +51,8 @@ const myUpload = multer({storage: storage})
 // const multerMiddleware = (req: Request, res: Response, next: NextFunction) => {
 //
 //
-//     console.log("req.myToken")
-//     console.log(req?.myToken);
+//     // console.log("req.myToken")
+//     // console.log(req?.myToken);
 //     const myToken = req.myToken
 //
 //     const upload = myUpload.single("singleFile");
