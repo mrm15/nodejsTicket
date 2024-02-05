@@ -2,45 +2,75 @@ import {Request, Response, NextFunction} from 'express';
 import {IUser, User} from "../../models/User";
 import {File, IFile} from "../../models/files";
 import {getCurrentTimeStamp} from "../../utils/timing";
+import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
+import {addNewUserF} from "../LoginRegisterSms/addNewUserF";
+import {uuidGenerator} from "../../utils/uuidGenerator";
+import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
+import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
+import {checkAccessList} from "../../utils/checkAccessList";
 
 
+const createUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
-const createUserController = (req: Request, res: Response, next: NextFunction) => {
+    const {myToken} = req;
+    const newUserData = req.body;
 
+    // res.status(201).json({myToken})
+    //
+    // return
 
-    const myToken = req.body;
-    // const newUser = new User({})
-
-    res.status(200).json({message:myToken})
-    debugger
-    const saveFileToDataBase = async (myToken: {
-        phoneNumber: any;
-    }, fileDetails: Express.Multer.File | undefined, tag: string) => {
-
-        const {phoneNumber} = myToken;
-
-
-        const foundUser: IUser = (await User.findOne({phoneNumber}).exec())!;
-        const currentTimestamp = getCurrentTimeStamp()
-        const userId = foundUser.id
-        const newFile: IFile = new File({
-            fileName: fileDetails?.originalname || "",
-            fileType: fileDetails?.mimetype || "",
-            fileSize: fileDetails?.size || '',
-            userId,
-            uploadDate: currentTimestamp,
-            filePath: fileDetails?.filename || "",
-            description: "",
-            tag,
-            downloadCount: 0,
-            createAt: currentTimestamp,
-            updateAt: currentTimestamp,
-        });
-
-        const result = await newFile.save()
-        return result.id
+    if (!myToken) {
+        const message = 'مقدار توکن توی ری کوئست موجود نیست'
+        res.status(403).json({message});
+        return
     }
 
+    try {
+
+        const {phoneNumber} = myToken
+
+        // console.log(myToken)
+        // آیا کاربر اجازه داره   کابری رو ثبت کنه؟
+        const arrayListToCheck = [
+            ACCESS_LIST.USER_CREATE
+        ]
+        const hasAccessToAddUser = await checkAccessList({phoneNumber, arrayListToCheck})
+        if (!hasAccessToAddUser) {
+            res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
+            return
+        }
+
+        // check if this phone number is uniq
+        const isThereAnyUserWithThatPhoneNumber = await getUserInfoByPhoneNumber(newUserData.phoneNumber);
+
+        if (Object.keys(isThereAnyUserWithThatPhoneNumber).length !== 0) {
+            res.status(409).json({
+                message: 'کاربر تکراری',
+            });
+            return
+        }
+
+        // maybe user dont enter userName  but it is required so
+        if (!newUserData.userName) {
+            newUserData.userName = uuidGenerator()
+        }
+        // اگه تعیین نکرد که کاربر فعال یا غیر فعال باشه توی این فرم باید کاربر پیش فرض فعال باشه
+        if (!newUserData.isActive) {
+            newUserData.isActive = true
+        }
+        //
+
+
+        const result = await  User.create(newUserData);
+        // const result = await newUser.save();
+        res.status(200).json({result, message: ' اینم از کاربر جدید',});
+        return;
+
+    } catch (error) {
+        // console.log(error)
+        res.status(500).json({error});
+        return
+    }
 
 
 };
