@@ -1,0 +1,61 @@
+export const ACCESS_LIST = {
+
+
+    STATUS_LIST_CREATE: "statusListCreate",
+    STATUS_LIST_READ: "statusListRead",
+    STATUS_LIST_UPDATE: "statusListUpdate",
+    STATUS_LIST_DELETE: "statusListDelete",
+    TICKET_CREATE: "ticketCreate",
+    TICKET_READ_ALL: "ticketReadAll",
+    TICKET_READ_OWN: "ticketReadOwn",           //(all users has in user list of ticket)
+    TICKET_UPDATE: "ticketUpdate",                //(not Allowed to no one)
+    TICKET_DELETE: "ticketDelete",                // - justAdmin(check has any replies)
+    THEME_CREATE: "themeCreate",
+    THEME_READ: "themeRead",
+    THEME_UPDATE: "themeUpdate",
+    THEME_DELETE: "themeDelete",
+    DEPARTMENT_CREATE: "departmentCreate",
+    DEPARTMENT_READ: "departmentRead",
+    DEPARTMENT_UPDATE: "departmentUpdate",
+    DEPARTMENT_DELETE: "departmentDelete",
+    FILE_CREATE: "fileCreate",
+    FILE_READ: "fileRead",
+    FILE_UPDATE: "fileUpdate",
+    FILE_DELETE: "fileDelete",                  //(check ticke and user profile and etc before delete)
+    TASKS_CREATE_FULL_ACCESS_TO_USERS: "tasksCreateFullAccessToUsers",
+    TASKS_CREATE_TO_ASSIGN_SAME_DEPARTMENT: "tasksCreateToAssignSameDepartment",                //(just ShowUsers InsameDepartment)
+    TASKS_READ_ALL: "tasksReadAll",
+    TASKS_OWN_READ: "tasksOwnRead",
+    TASKS_UPDATE_ALL: "tasksUpdateAll",
+    TASKS_OWN_UPDATE: "tasksOwnUpdate",
+    TASKS_DELETE_ALL: "tasksDeleteAll",
+    TASKS_OWN_DELETE: "tasksOwnDelete",
+    ROLES_CREATE: "rolesCreate",
+    ROLES_READ: "rolesRead",
+    ROLES_UPDATE: "rolesUpdate",
+    ROLES_DELETE: "rolesDelete",
+    TICKET_REPLIES_CREATE: "ticketRepliesCreate",
+    TICKET_REPLIES_READ: "ticketRepliesRead",
+    TICKET_REPLIES_UPDATE: "ticketRepliesUpdate",
+    TICKET_REPLIES_DELETE: "ticketRepliesDelete",
+    TICKET_CHANGE_HISTORY_READ: "ticketChangeHistoryRead",
+    TICKET_CHANGE_HISTORY_REPLIES_UPDATE: "ticketChangeHistoryRepliesUpdate",
+    TICKET_CHANGE_HISTORY_DELETE: "ticketChangeHistoryDelete",
+    USER_CREATE: "userCreate",
+    USER_READ_ALL: "userReadAll",
+    USER_READ_SAME_DEPARTMENT: "userReadSameDepartment",
+    USER_UPDATE_ALL: "userUpdateAll",
+    USER_UPDATE_SAME_DEPARTMENT: "userUpdateSameDepartment",
+    USER_DELETE_ALL: "userDeleteAll",
+    USER_DELETE_SAME_DEPARTMENT: "userDeleteSameDepartment",
+    REPORT: "report",
+    HOW_MANY_USERS_THERE_ARE: "howManyUsersThereAre",
+    HOW_MANY_USERS_IS_IN_EVERY_DEPARTMENT: "howManyUsersIsInEveryDepartment",
+    HOW_MANY_TICKETS_THERE_ARE: "howManyTicketsThereAre",
+    HOW_MANY_TICKETS_THERE_ARE_IN_EVERY_DEPARTMENT: "howManyTicketsThereAreInEveryDepartment",             //(in proccess)
+    HOW_MANY_TICKETS_HAS_DONE_STATUS: "howManyTicketsHasDoneStatus",
+    HOW_MANY_TICKETS_HAS_DONE_STATUS_IN_12MONTH: "howManyTicketsHasDoneStatusIn12Month",
+    ACTIVE_AND_DE_ACTIVE_USERS: "activeAndDeActiveUsers",
+    EDIT_USERS_ROLE: "editUsersRole",
+
+}
