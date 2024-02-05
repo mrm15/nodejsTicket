@@ -1,23 +1,16 @@
 import 'dotenv/config';
-import express, { Application, Request, Response, NextFunction } from 'express';
-import path from 'path';
+import express, {Application, Request, Response,} from 'express';
 import cors from 'cors';
-import { logger } from './middleware/logEvents';
-import { errorHandler } from './middleware/errorHandler';
-import { verifyJWT } from './middleware/verifyJWT';
+import {logger} from './middleware/logEvents';
+import {errorHandler} from './middleware/errorHandler';
 import cookieParser from 'cookie-parser';
 import credentials from './middleware/credentials';
 import mongoose from 'mongoose';
 import {connectDB} from './config/dbConn';
-import { corsOptions } from './config/corsOptions';
+import {corsOptions} from './config/corsOptions';
 import bodyParser from 'body-parser';
-import  loginSMS from './routes/loginRegisterWithSms/loginSMS'
 import useragent from 'express-useragent';
-import admin from "./routes/admin";
-import refresh from "./routes/auth/refresh";
-import handleUplaod from "./routes/handleUpload";
 import myRouter from "./routes";
-
 
 
 const app: Application = express();
@@ -37,7 +30,7 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // Built-in middleware to handle url-encoded form data
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 
 // Built-in middleware for JSON
 app.use(express.json());
@@ -64,12 +57,14 @@ app.use(bodyParser.json());
 app.use(express.json()); // add to test
 app.use('/', myRouter);
 app.all('*', (req: Request, res: Response) => {
-    res.status(404).send({ message: `404 Not Found: ${req.url} ` });
+    res.status(404).send({message: `404 Not Found: ${req.url} `});
 });
 
 app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    // console.log('Connected to MongoDB');
+    app.listen(PORT, () => {
+        // console.log(`Server running on port ${PORT}`)
+    })
 });
