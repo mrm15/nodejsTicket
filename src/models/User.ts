@@ -11,7 +11,7 @@ interface IUserTask {
 }
 
 interface IUser extends Document {
-
+    [key: string]: any;
     userName?: string;
     departmentId?: string;
     role?: mongoose.Types.ObjectId;
