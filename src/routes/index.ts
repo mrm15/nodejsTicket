@@ -20,6 +20,7 @@ import {verifyJWT} from "../middleware/verifyJWT";
 import handleUpload from "./handleUpload"; // Note the typo in 'handleUpload', consider renaming for clarity
 import {admin} from "../controllers/Admin/admin";
 import handleUserRoute from "./userRoutes/handleUserRoute";
+import handleRoleRoute from "./roleRoutes/handleRoleRoute";
 
 
 // Add Routes
@@ -55,6 +56,7 @@ myRouter.use('/refresh', refresh);
 myRouter.use(verifyJWT);
 myRouter.use('/upload' , handleUpload);
 myRouter.use('/user' , handleUserRoute);
+myRouter.use('/role' , handleRoleRoute);
 
 // myRouter.use('/api/products', require('./routes/products'));
 // myRouter.use('/api/productGroup', require('./routes/productGroup'));
