@@ -1,17 +1,11 @@
 import {Request, Response, NextFunction} from 'express';
 import {IUser, User} from "../../models/User";
-import {File, IFile} from "../../models/files";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {addNewUserF} from "../LoginRegisterSms/addNewUserF";
-import {uuidGenerator} from "../../utils/uuidGenerator";
-import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {IRole, Role} from "../../models/roles";
-import {myPermissionsArray} from "./permissinsArray";
-import Department from "../../models/department";
-
+import {Department} from "../../models/department";
+import {stringToBoolean} from "./departmentFunction";
 
 const createDepartmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -72,11 +66,6 @@ const createDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
 
         const userId = userFound?.id
 
-
-        const resultOfString = (trueOrFalseString: string) => {
-            return trueOrFalseString === 'true'
-        }
-
         const newDepartmentObject: any = {
 
             name: newDepartmentData?.name || "بدون نام",
@@ -86,17 +75,17 @@ const createDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
             parentDepartmentId: newDepartmentData?.parentDepartmentId || null,
             location: newDepartmentData?.location || null,
             address: newDepartmentData?.address || '',
-            PhoneNumber: newDepartmentData?.PhoneNumber || '',
-            EmailAddress: newDepartmentData?.EmailAddress || '',
+            phoneNumber: newDepartmentData?.phoneNumber || '',
+            emailAddress: newDepartmentData?.emailAddress || '',
             contactInfo: newDepartmentData?.contactInfo || '',
-            departmentAccessToSendTicket: resultOfString(newDepartmentData?.departmentAccessToSendTicket),
-            departmentAccessToReplyTicket: resultOfString(newDepartmentData?.departmentAccessToReplyTicket),
-            departmentAccessToArchiveTicket: resultOfString(newDepartmentData?.departmentAccessToArchiveTicket),
-            departmentAccessToTaskSection: resultOfString(newDepartmentData?.departmentAccessToTaskSection),
-            departmentTaskColor: resultOfString(newDepartmentData?.departmentTaskColor),
-            departmentAccessToArchiveTasks: resultOfString(newDepartmentData?.departmentAccessToArchiveTasks),
-            accessToSameDepartmentToAssignTask: resultOfString(newDepartmentData?.accessToSameDepartmentToAssignTask),
-            accessToOtherUsersToAssignTask: resultOfString(newDepartmentData?.accessToOtherUsersToAssignTask),
+            departmentAccessToSendTicket: stringToBoolean(newDepartmentData?.departmentAccessToSendTicket),
+            departmentAccessToReplyTicket: stringToBoolean(newDepartmentData?.departmentAccessToReplyTicket),
+            departmentAccessToArchiveTicket: stringToBoolean(newDepartmentData?.departmentAccessToArchiveTicket),
+            departmentAccessToTaskSection: stringToBoolean(newDepartmentData?.departmentAccessToTaskSection),
+            departmentTaskColor: newDepartmentData?.departmentTaskColor,
+            departmentAccessToArchiveTasks: stringToBoolean(newDepartmentData?.departmentAccessToArchiveTasks),
+            accessToSameDepartmentToAssignTask: stringToBoolean(newDepartmentData?.accessToSameDepartmentToAssignTask),
+            accessToOtherUsersToAssignTask: stringToBoolean(newDepartmentData?.accessToOtherUsersToAssignTask),
             createAt: getCurrentTimeStamp(),
             updateAt: getCurrentTimeStamp(),
 
