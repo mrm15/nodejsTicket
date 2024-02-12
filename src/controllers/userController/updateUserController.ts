@@ -19,8 +19,7 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
             return
         }
 
-        res.status(403).json({message: req.body});
-        return
+
 
 
         try {
