@@ -1,7 +1,7 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {Role} from "../../models/roles";
-import Department from "../../models/department";
+import {Department} from "../../models/department";
 
 
 const departmentList = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -30,7 +30,7 @@ const departmentList = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         const departmentListFromCollection = await Department.find({}).exec();
 
 
-        const list = departmentListFromCollection.map(row => {
+        const list = departmentListFromCollection.map((row:any) => {
 
             return {
                 value: row.id ? row.id : row._id,
