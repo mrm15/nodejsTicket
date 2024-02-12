@@ -57,4 +57,4 @@ departmentSchema.set('toJSON', {
     virtuals: true
 });
 
-export default Department;
+export {Department , IDepartment};
