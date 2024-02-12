@@ -9,6 +9,7 @@ import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNu
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {IRole, Role} from "../../models/roles";
+import {myPermissionsArray} from "./permissinsArray";
 
 
 const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -46,7 +47,7 @@ const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
 
         // check if this phone number is uniq
-        const isThereAnyRoleWithThatName: any = await Role.find({name: newRoleData}).exec()
+        const isThereAnyRoleWithThatName: any = await Role.findOne({name: newRoleData.name}).exec()
 
 
         if (isThereAnyRoleWithThatName.length !== 0) {
@@ -69,72 +70,18 @@ const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
 
 
-        const userFound : IUser | null = await User.findOne({phoneNumber: myToken.phoneNumber})
+        const userFound: IUser | null = await User.findOne({phoneNumber: myToken.phoneNumber})
 
-        if (!userFound){
+        if (!userFound) {
             res.status(500).json({message: "کاربری تایید نشد."});
             return
         }
-        const userId = userFound.id
+
+        const userId = userFound?.id
 
 
+        const permissionsArray = [...myPermissionsArray]
 
-        const  permissionsArray = [
-            "statusListCreate",
-            "statusListRead",
-            "statusListUpdate",
-            "statusListDelete",
-            "ticketCreate",
-            "ticketReadAll",
-            "ticketReadOwn",
-            "ticketUpdate",
-            "ticketDelete",
-            "themeCreate",
-            "themeRead",
-            "themeUpdate",
-            "themeDelete",
-            "departmentCreate",
-            "departmentRead",
-            "departmentUpdate",
-            "departmentDelete",
-            "fileCreate",
-            "fileRead",
-            "fileUpdate",
-            "fileDelete",
-            "tasksCreateFullAccessToUsers",
-            "tasksCreateToAssignSameDepartment",
-            "tasksReadAll",
-            "tasksOwnRead",
-            "tasksUpdateAll",
-            "tasksOwnUpdate",
-            "tasksDeleteAll",
-            "tasksOwnDelete",
-            "rolesCreate",
-            "rolesRead",
-            "rolesUpdate",
-            "rolesDelete",
-            "ticketRepliesCreate",
-            "ticketRepliesRead",
-            "ticketRepliesUpdate",
-            "ticketRepliesDelete",
-            "ticketChangeHistoryRead",
-            "ticketChangeHistoryRepliesUpdate",
-            "ticketChangeHistoryDelete",
-            "userCreate",
-            "userReadAll",
-            "userReadSameDepartment",
-            "userUpdateAll",
-            "userUpdateSameDepartment",
-            "userDeleteAll",
-            "userDeleteSameDepartment",
-            "report",
-            "howManyUsersThereAre",
-            "howManyUsersIsInEveryDepartment",
-            "howManyTicketsThereAre",
-            "howManyTicketsThereAreInEveryDepartment",
-            "howManyTicketsHasDoneStatus",
-            "howManyTicketsHasDoneStatusIn12Month",
-        ]
 
         const newRoleObject: any = {
 
@@ -145,21 +92,24 @@ const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
             userId,
         }
 
-        permissionsArray.forEach(item=>{
-            newRoleObject[item] = !!newRoleData?.statusListCreate[item];
-        });
-
-
+        console.log(newRoleData)
+        permissionsArray.forEach(item => {
+            newRoleData.statusListCreate.forEach((frontItem: string) => {
+                newRoleObject[item] = (item === frontItem);
+            })
+        })
 
 
         const result = await Role.create(newRoleObject);
-        // const result = await newUser.save();
         res.status(200).json({result, message: ' اینم از نقش  جدید',});
         return;
 
     } catch (error) {
         // console.log(error)
-        res.status(500).json({error: error?.toString()});
+        res.status(500).json({
+            error: error?.toString(),
+
+        });
         return
     }
 
