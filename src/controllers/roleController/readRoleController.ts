@@ -1,13 +1,8 @@
 import {Request, Response, NextFunction} from 'express';
-import {IUser, User} from "../../models/User";
-import {File, IFile} from "../../models/files";
-import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {addNewUserF} from "../LoginRegisterSms/addNewUserF";
-import {uuidGenerator} from "../../utils/uuidGenerator";
-import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
+import {Role} from "../../models/roles";
 
 
 const readRoleController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -33,31 +28,16 @@ const readRoleController = async (req: CustomRequestMyTokenInJwt, res: Response,
             return
         }
 
-        const userList = await User.find({}).exec();
-        // نکته ای که الان فهمیدم اینه که مقدار آی دی رو
-        // lean
-        // نمیده ولی
-        // exec
-        // میده
+        const userList = await Role.find({}).exec();
+
 
 
         const columnDefs = []
 
 
         columnDefs.push({minWidth: 150, headerName: "name", field: "name"})
-        columnDefs.push({minWidth: 150, headerName: "شماره تماس", field: "phoneNumber"})
-        columnDefs.push({minWidth: 150, headerName: "phoneNumber3", field: "phoneNumber3"})
-        columnDefs.push({minWidth: 150, headerName: "postalCode", field: "postalCode"})
-        columnDefs.push({minWidth: 150, headerName: "profilePictureUrl", field: "profilePictureUrl"})
-        columnDefs.push({minWidth: 150, headerName: "province", field: "province"})
-        columnDefs.push({minWidth: 150, headerName: "registerNumberCompany", field: "registerNumberCompany"})
-        columnDefs.push({minWidth: 150, headerName: "tasks", field: "tasks"})
-        columnDefs.push({minWidth: 150, headerName: "tickets", field: "tickets"})
-        columnDefs.push({minWidth: 150, headerName: "title", field: "title"})
-        columnDefs.push({minWidth: 150, headerName: "tokens", field: "tokens"})
-        columnDefs.push({minWidth: 150, headerName: "updateAt", field: "updateAt"})
-        columnDefs.push({minWidth: 150, headerName: "userName", field: "userName"})
-        columnDefs.push({minWidth: 150, headerName: "website", field: "website"})
+        columnDefs.push({minWidth: 150, headerName: "description", field: "description"})
+
 
 
         const rowData = [...userList]
