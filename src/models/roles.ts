@@ -3,6 +3,7 @@ import {randomUUID} from "node:crypto";
 import {v4 as uuidV4} from 'uuid';
 
 interface IRole extends Document {
+    [key: string]: any;
     name: string;
     description: string;
     createAt: Date;
