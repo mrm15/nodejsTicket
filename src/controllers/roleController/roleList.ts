@@ -29,7 +29,7 @@ const roleList = async (req: CustomRequestMyTokenInJwt, res: Response, next: Nex
         const roleListFromCollection = await Role.find({}).exec();
 
 
-        const roleList = roleListFromCollection.map(row => {
+        const list = roleListFromCollection.map(row => {
 
             return {
                 value: row.id ? row.id : row._id,
@@ -39,7 +39,7 @@ const roleList = async (req: CustomRequestMyTokenInJwt, res: Response, next: Nex
 
 
         res.status(200).json({
-            roleList, message: 'لیست بارگزاری شد.',
+            list, message: 'لیست بارگزاری شد.',
         });
         return;
 
