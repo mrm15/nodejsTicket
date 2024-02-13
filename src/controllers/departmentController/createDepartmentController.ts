@@ -5,7 +5,7 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {Department} from "../../models/department";
-import {stringToBoolean} from "./departmentFunction";
+import {stringToBoolean} from "../../utils/stringBoolean";
 
 const createDepartmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
