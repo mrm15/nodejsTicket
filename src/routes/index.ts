@@ -23,6 +23,7 @@ import handleUserRoute from "./userRoutes/handleUserRoute";
 import handleRoleRoute from "./roleRoutes/handleRoleRoute";
 import handleDepartmentRoute from "./departmentRoutes/handleDepartmentRoute";
 import handleStatusRoute from "./statusRoute/handleStatusRoute";
+import handleLogout from "./logoutRout/handleLogout";
 
 
 // Add Routes
@@ -61,6 +62,7 @@ myRouter.use('/user' , handleUserRoute);
 myRouter.use('/role' , handleRoleRoute);
 myRouter.use('/department' , handleDepartmentRoute);
 myRouter.use('/status' , handleStatusRoute);
+myRouter.use('/logout' , handleLogout);
 
 // myRouter.use('/api/products', require('./routes/products'));
 // myRouter.use('/api/productGroup', require('./routes/productGroup'));
