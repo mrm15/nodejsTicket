@@ -6,14 +6,15 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {IRole, Role} from "../../models/roles";
 import {Department, IDepartment} from "../../models/department";
-import {stringToBoolean} from "../../utils/stringBoolean";
+import {booleanToString, stringToBoolean} from "../../utils/stringBoolean";
+import {IStatus, Status} from "../../models/status";
 
 
 const updateStatusController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
 
         const {myToken} = req;
-        const updatedDepartment = req.body;
+        const updatedStatus = req.body;
 
         // res.status(201).json({myToken})
         //
@@ -34,21 +35,21 @@ const updateStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
 
             const arrayListToCheck = [
-                ACCESS_LIST.DEPARTMENT_UPDATE
+                ACCESS_LIST.STATUS_LIST_UPDATE
             ]
-            const hasAccessToUpdateDepartment = await checkAccessList({phoneNumber, arrayListToCheck})
+            const hasAccessToUpdateStatus = await checkAccessList({phoneNumber, arrayListToCheck})
 
-            if (!hasAccessToUpdateDepartment) {
+            if (!hasAccessToUpdateStatus) {
                 res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
                 return
             }
 
             // check if this phone number is uniq
-            let foundDepartment: IDepartment = (await Department.findOne({_id: id}).exec())!
+            let foundStatus: IStatus = (await Status.findOne({_id: id}).exec())!
+            debugger
 
-
-            if (!foundDepartment) {
-                res.status(500).json({message: "دپارتمانی با این نام یافت نشد."});
+            if (!foundStatus) {
+                res.status(500).json({message: "وضعیتی  با این نام یافت نشد."});
                 return
             }
 
@@ -60,36 +61,31 @@ const updateStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
                 return
             }
 
-            if (updatedDepartment?.parentDepartmentId === foundDepartment.name) {
-                res.status(500).json({message: "دپارتمان والد و دپارتمان فعلی نمی تواند یکی باشد."});
-                return
+            // یک مورد رو باید چک کنیم//
+            // بجز خودش باید ببینیم آیا چیزی هست وضعیت نهاییش مقدار درست باشه
+            const foundStatusFinal: IStatus | null = await Status.findOne({isFinal: true}).exec()
+
+
+            if (stringToBoolean(updatedStatus.isFinal)) {
+                if (foundStatusFinal && (foundStatusFinal.id !== updatedStatus.id)) {
+                    res.status(409).json({
+                        message: 'فقط یک وضعیت میتواند  وضعیت نهایی داشته باشد. قبلا یک استاتوس با وضعیت نهایی ثبت شده است.' + `  نام وضعیت با استاتوس نهایی: «${foundStatusFinal.name}»`,
+                        foundStatusFinal
+                    });
+                    return
+                }
             }
-
-            const userId = userFound?.id
-
-
-            foundDepartment.userId = userId;
-            foundDepartment.description = updatedDepartment?.description || " بدون توضیحات";
-            foundDepartment.managerUserId = updatedDepartment?.managerUserId || null;
-            foundDepartment.parentDepartmentId = updatedDepartment?.parentDepartmentId || null;
-            foundDepartment.location = updatedDepartment?.location || null;
-            foundDepartment.address = updatedDepartment?.address || '';
-            foundDepartment.phoneNumber = updatedDepartment?.phoneNumber || '';
-            foundDepartment.emailAddress = updatedDepartment?.emailAddress || '';
-            foundDepartment.contactInfo = updatedDepartment?.contactInfo || '';
-            foundDepartment.departmentAccessToSendTicket = stringToBoolean(updatedDepartment?.departmentAccessToSendTicket);
-            foundDepartment.departmentAccessToReplyTicket = stringToBoolean(updatedDepartment?.departmentAccessToReplyTicket);
-            foundDepartment.departmentAccessToArchiveTicket = stringToBoolean(updatedDepartment?.departmentAccessToArchiveTicket);
-            foundDepartment.departmentAccessToTaskSection = stringToBoolean(updatedDepartment?.departmentAccessToTaskSection);
-            foundDepartment.departmentTaskColor = updatedDepartment?.departmentTaskColor;
-            foundDepartment.departmentAccessToArchiveTasks = stringToBoolean(updatedDepartment?.departmentAccessToArchiveTasks);
-            foundDepartment.accessToSameDepartmentToAssignTask = stringToBoolean(updatedDepartment?.accessToSameDepartmentToAssignTask);
-            foundDepartment.accessToOtherUsersToAssignTask = stringToBoolean(updatedDepartment?.accessToOtherUsersToAssignTask);
-            foundDepartment.updatedAt = getCurrentTimeStamp();
+            foundStatus.name = updatedStatus?.name;
+            foundStatus.colorCode = updatedStatus.colorCode;
+            foundStatus.description = updatedStatus.description;
+            foundStatus.isActive = stringToBoolean(updatedStatus.isActive);
+            foundStatus.isFinal = stringToBoolean(updatedStatus.isFinal);
+            foundStatus.order = updatedStatus.order;
+            foundStatus.updateAt = getCurrentTimeStamp();
 
 
-            await foundDepartment.save()
-            res.status(200).json({message: 'اطلاعات دپارتمان با موفقیت آپدیت شد',});
+            await foundStatus.save()
+            res.status(200).json({message: 'اطلاعات وضعیت با موفقیت آپدیت شد',});
             return;
 
         } catch (error) {
