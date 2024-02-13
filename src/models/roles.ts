@@ -51,6 +51,9 @@ interface IRole extends Document {
     ticketChangeHistoryDelete:Boolean;
     userCreate:Boolean;
     userReadAll:Boolean;
+    userActiveAndDeActiveUsers:Boolean;
+    userEditUsersRole:Boolean;
+    userEditUsersDepartment:Boolean;
     userReadSameDepartment:Boolean;
     userUpdateAll:Boolean;
     userUpdateSameDepartment:Boolean;
@@ -126,6 +129,9 @@ const roleSchema: Schema<IRole> = new Schema({
     userUpdateSameDepartment:{type:Boolean , default:false , required:true},
     userDeleteAll:{type:Boolean , default:false , required:true},
     userDeleteSameDepartment:{type:Boolean , default:false , required:true},
+    userActiveAndDeActiveUsers:{type:Boolean , default:false , required:true},
+    userEditUsersRole:{type:Boolean , default:false , required:true},
+    userEditUsersDepartment:{type:Boolean , default:false , required:true},
     report:{type:Boolean , default:false , required:true},
     howManyUsersThereAre:{type:Boolean , default:false , required:true},
     howManyUsersIsInEveryDepartment:{type:Boolean , default:false , required:true},
