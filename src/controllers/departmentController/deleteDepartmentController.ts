@@ -42,7 +42,7 @@ const deleteDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
         }
 
         // Successfully deleted the user
-        res.status(200).json({message: `نقش با نام ${deletedDepartment.name} برای همیشه حذف شد.`,});
+        res.status(200).json({message: `دپارتمان با نام ${deletedDepartment.name} برای همیشه حذف شد.`,});
         return
     } catch (error: any) {
         // Handle potential errors, such as invalid ObjectId format
