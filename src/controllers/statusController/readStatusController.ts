@@ -4,6 +4,7 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {Role} from "../../models/roles";
 import {Department, IDepartment} from "../../models/department";
+import {IStatus, Status} from "../../models/status";
 
 
 const readStatusController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -29,11 +30,11 @@ const readStatusController = async (req: CustomRequestMyTokenInJwt, res: Respons
             return
         }
 
-        let departmentList: IDepartment[] = await Department.find({}).lean()
+        let statusList: IStatus[] = await Status.find({}).lean()
 
 
-        const myList: any = departmentList.map((departmentData, index) => {
-            let row: any = {...departmentData}
+        const myList: any = statusList.map((r, index) => {
+            let row: any = {...r}
             for (const rowKey in row) {
                 const value = row[rowKey];
                 let temp = value

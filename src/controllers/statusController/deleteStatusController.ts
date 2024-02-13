@@ -41,12 +41,14 @@ const deleteStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
             return
         }
 
+
+        const message = 'باید حتما اینجا چک کنم که  قبل از پاک کردن استاتوس هیچ تیکتی  این استاتوس رو نداشته باشه.';
         // Successfully deleted the user
-        res.status(200).json({message: `نقش با نام ${deletedDepartment.name} برای همیشه حذف شد.`,});
+        res.status(200).json({message: `وضعیت با نام ${deletedDepartment.name} برای همیشه حذف شد.` + message,});
         return
     } catch (error: any) {
         // Handle potential errors, such as invalid ObjectId format
-        res.status(500).json({message: 'Error deleting ROLE', error: error?.message});
+        res.status(500).json({message: 'Error deleting ', error: error?.message});
         return
     }
 

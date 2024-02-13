@@ -6,12 +6,12 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {Department} from "../../models/department";
 import {stringToBoolean} from "../../utils/stringBoolean";
+import {Status, IStatus} from "../../models/status";
 
 
 const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
     const {myToken} = req;
-    const newDepartmentData = req.body;
 
     // res.status(201).json({myToken})
     //
@@ -29,26 +29,26 @@ const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const {phoneNumber} = myToken
 
 
-        const newDepartment = req.body
+        const newStatus = req.body
 
         const arrayListToCheck = [
             ACCESS_LIST.DEPARTMENT_CREATE
         ]
-        const hasAccessToAddDepartment = await checkAccessList({phoneNumber, arrayListToCheck})
+        const hasAccessToAddStatus = await checkAccessList({phoneNumber, arrayListToCheck})
 
-        if (!hasAccessToAddDepartment) {
+        if (!hasAccessToAddStatus) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
             return
         }
 
         // check if this phone number is uniq
-        const isThereAnyDepartmentWithThatName: any = await Department.findOne({name: newDepartment.name}).exec()
+        const isThereAnyStatusWithThatName: any = await Status.findOne({name: newStatus.name}).exec()
 
 
-        if (isThereAnyDepartmentWithThatName) {
+        if (isThereAnyStatusWithThatName) {
 
             res.status(409).json({
-                message: 'نام دپارتمان تکراری',
+                message: 'نام وضعیت تکراری',
             });
             return
         }
@@ -67,34 +67,48 @@ const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         const userId = userFound?.id
 
-        const newDepartmentObject: any = {
 
-            name: newDepartmentData?.name || "بدون نام",
+        //باید جلوی اوردر تکراری رو بگیرم
+        const foundStatusForOrder: IStatus | null = await Status.findOne({order: newStatus.order}).exec();
+
+        // res.status(409).json({foundStatus, message: foundStatus,});
+        // return;
+
+        if (foundStatusForOrder && foundStatusForOrder?.order!=='') {
+            res.status(409).json({
+                message: 'قبلا یک وضعیت با این ترتیب(order)  ثبت شده است'
+            });
+            return
+        }
+
+        const foundStatusFinal: IStatus | null = await Status.findOne({isFinal: true}).exec();
+
+        if (foundStatusFinal?.isFinal===newStatus?.isFinal) {
+            res.status(409).json({
+                message: 'فقط یک وضعیت میتواند  وضعیت نهایی داشته باشد. قبلا یک استاتوس با وضعیت نهایی ثبت شده است.',
+                foundStatusFinal
+            });
+            return
+        }
+
+
+        const newStatusObject: any = {
+
             userId,
-            description: newDepartmentData?.description || " بدون توضیحات",
-            managerUserId: newDepartmentData?.managerUserId || null,
-            parentDepartmentId: newDepartmentData?.parentDepartmentId || null,
-            location: newDepartmentData?.location || null,
-            address: newDepartmentData?.address || '',
-            phoneNumber: newDepartmentData?.phoneNumber || '',
-            emailAddress: newDepartmentData?.emailAddress || '',
-            contactInfo: newDepartmentData?.contactInfo || '',
-            departmentAccessToSendTicket: stringToBoolean(newDepartmentData?.departmentAccessToSendTicket),
-            departmentAccessToReplyTicket: stringToBoolean(newDepartmentData?.departmentAccessToReplyTicket),
-            departmentAccessToArchiveTicket: stringToBoolean(newDepartmentData?.departmentAccessToArchiveTicket),
-            departmentAccessToTaskSection: stringToBoolean(newDepartmentData?.departmentAccessToTaskSection),
-            departmentTaskColor: newDepartmentData?.departmentTaskColor,
-            departmentAccessToArchiveTasks: stringToBoolean(newDepartmentData?.departmentAccessToArchiveTasks),
-            accessToSameDepartmentToAssignTask: stringToBoolean(newDepartmentData?.accessToSameDepartmentToAssignTask),
-            accessToOtherUsersToAssignTask: stringToBoolean(newDepartmentData?.accessToOtherUsersToAssignTask),
+            name: newStatus?.name,
+            colorCode: newStatus.colorCode,
+            description: newStatus.description,
+            isActive: stringToBoolean(newStatus.isActive),
+            isFinal: stringToBoolean(newStatus.isFinal),
+            order: newStatus.order,
             createAt: getCurrentTimeStamp(),
             updateAt: getCurrentTimeStamp(),
 
         }
 
 
-        const result = await Department.create(newDepartmentObject);
-        res.status(200).json({result, message: 'دپارتمان با موفقیت ایجاد شد.',});
+        const result = await Status.create(newStatusObject);
+        res.status(200).json({result, message: 'وضعیت با موفقیت ایجاد شد.',});
         return;
 
     } catch (error) {
