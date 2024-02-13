@@ -4,9 +4,8 @@ import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {IRole, Role} from "../../models/roles";
-import {stringToBoolean} from "./departmentFunction";
 import {Department, IDepartment} from "../../models/department";
+import {stringToBoolean} from "../../utils/stringBoolean";
 
 
 const updateDepartmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
