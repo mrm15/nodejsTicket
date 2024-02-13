@@ -1,4 +1,5 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, {Document, Schema} from 'mongoose';
+import {IDepartment} from "./department";
 
 // Define the Status document interface
 interface IStatus extends Document {
@@ -6,7 +7,7 @@ interface IStatus extends Document {
     description: string;
     colorCode: string;
     isActive: boolean;
-    order: number;
+    order: string;
     isFinal: boolean;
     userId: mongoose.Schema.Types.ObjectId;
     createAt: Date;
@@ -30,16 +31,17 @@ const statusSchema: Schema<IStatus> = new mongoose.Schema({
     },
     isActive: {
         type: Boolean,
-        default:true,
+        default: true,
     },
     order: {
-        type: Number,
+        type: "string",
         required: true,
+        default: '',
     },
     isFinal: {
         type: Boolean,
         required: true,
-        default:false,
+        default: false,
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -56,5 +58,18 @@ const statusSchema: Schema<IStatus> = new mongoose.Schema({
     },
 });
 
+// Create a virtual 'id' property
+
+
+statusSchema.virtual('id').get(function (this: IStatus) {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialized
+statusSchema.set('toJSON', {
+    virtuals: true
+});
 // Export the Status model
-export default mongoose.model<IStatus>('Status', statusSchema);
+const Status = mongoose.model<IStatus>('Status', statusSchema);
+
+export {Status, IStatus};
