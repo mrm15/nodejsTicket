@@ -11,6 +11,6 @@ router.post('/create', createStatusController);
 router.get('/read', readStatusController);
 router.post('/update', updateStatusController);
 router.delete('/delete/:id', deleteStatusController);
-router.get('/departmentList', statusList);
+router.get('/statusList', statusList);
 
 export default router;
