@@ -10,7 +10,7 @@ import {getRoleAccessList} from "./LoginRegisterSms/getRoleAccessList"; // Adjus
 const handleRefreshToken = async (req: Request, res: Response): Promise<void> => {
     const cookies = req.cookies;
     if (!cookies?.jwt) {
-        res.sendStatus(401);
+        res.status(401).json({message:"handleRefreshToken Not Found User"});
         return
     }
     const refreshToken = cookies.jwt;
