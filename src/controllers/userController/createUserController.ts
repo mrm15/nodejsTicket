@@ -68,7 +68,7 @@ const createUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
     } catch (error) {
         // console.log(error)
-        res.status(500).json({error});
+        res.status(500).json({error: error?.toString()});
         return
     }
 
