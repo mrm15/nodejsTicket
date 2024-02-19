@@ -31,9 +31,7 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
         return
     }
 
-    const saveFileToDataBase = async (myToken: {
-        phoneNumber: any;
-    }, fileDetails: Express.Multer.File | undefined, tag: string) => {
+    const saveFileToDataBase = async (myToken: {phoneNumber: any;}, fileDetails: Express.Multer.File | undefined, tag: string) => {
 
         const {phoneNumber} = myToken;
 
@@ -66,6 +64,7 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
     // For example, checking the token or any other request validations
     // If everything is okay, proceed with the file upload
     upload(req, res, async function (err) {
+
         if (err instanceof multer.MulterError) {
             // Handle multer-specific errors
             return res.status(500).json({message: err.message});
