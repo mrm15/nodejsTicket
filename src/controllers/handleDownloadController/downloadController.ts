@@ -36,7 +36,7 @@ const downloadController = async (req: CustomRequestMyTokenInJwt, res: Response,
                     loginTime: timestampToTime(systemData.loginTime),
                 });
             }
-        });
+        })
         return
     } catch (error) {
         res.status(500).send({error: error?.toString()});
