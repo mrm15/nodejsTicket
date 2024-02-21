@@ -22,7 +22,7 @@ import {admin} from "../controllers/Admin/admin";
 import handleUserRoute from "./userRoutes/handleUserRoute";
 import handleRoleRoute from "./roleRoutes/handleRoleRoute";
 import handleDepartmentRoute from "./departmentRoutes/handleDepartmentRoute";
-import handleStatusRoute from "./statusRoute/";
+import handleStatusRoute from "./statusRoute/handleStatusRoute";
 import handleLogout from "./logoutRout/handleLogout";
 import handleDownloadRoute from "./downloadRoute/handleDownloadRoute";
 import handleTicketRoute from "./statusRoute/handleTicketRoute";
