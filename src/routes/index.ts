@@ -22,9 +22,10 @@ import {admin} from "../controllers/Admin/admin";
 import handleUserRoute from "./userRoutes/handleUserRoute";
 import handleRoleRoute from "./roleRoutes/handleRoleRoute";
 import handleDepartmentRoute from "./departmentRoutes/handleDepartmentRoute";
-import handleStatusRoute from "./statusRoute/handleStatusRoute";
+import handleStatusRoute from "./statusRoute/";
 import handleLogout from "./logoutRout/handleLogout";
 import handleDownloadRoute from "./downloadRoute/handleDownloadRoute";
+import handleTicketRoute from "./statusRoute/handleTicketRoute";
 
 
 // Add Routes
@@ -64,6 +65,7 @@ myRouter.use('/user' , handleUserRoute);
 myRouter.use('/role' , handleRoleRoute);
 myRouter.use('/department' , handleDepartmentRoute);
 myRouter.use('/status' , handleStatusRoute);
+myRouter.use('/ticket' , handleTicketRoute);
 myRouter.use('/logout' , handleLogout);
 
 // myRouter.use('/api/products', require('./routes/products'));
