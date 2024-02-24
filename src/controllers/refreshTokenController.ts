@@ -10,7 +10,7 @@ import {getRoleAccessList} from "./LoginRegisterSms/getRoleAccessList"; // Adjus
 const handleRefreshToken = async (req: Request, res: Response): Promise<void> => {
     const cookies = req.cookies;
     if (!cookies?.jwt) {
-        res.status(401).json({message:"handleRefreshToken Not Found User"});
+        res.status(401).json({message: "handleRefreshToken Not Found User"});
         return
     }
     const refreshToken = cookies.jwt;
@@ -39,12 +39,12 @@ const handleRefreshToken = async (req: Request, res: Response): Promise<void> =>
             res.status(403).json({error: err}); // Forbidden
             return
         }
-        //// console.log('attempted refresh token reuse!');
+
         const hackedUser = await User.findOne({phoneNumber: decoded?.phoneNumber}).exec();
         if (hackedUser) {
             hackedUser.tokens = [];
             const result = await hackedUser.save();
-            //// console.log(result);
+
         }
     }
 
@@ -61,10 +61,10 @@ const handleRefreshToken = async (req: Request, res: Response): Promise<void> =>
 
     const callBack = async (err: any, decoded: any) => {
         if (err) {
-            // console.log('expired refresh token');
+
             foundUser.tokens = [...newTokensArray];
             const result = await foundUser.save();
-            // console.log(result);
+
             res.sendStatus(403);
             return
         }
@@ -81,7 +81,19 @@ const handleRefreshToken = async (req: Request, res: Response): Promise<void> =>
 
         // Saving refreshToken with current user
         foundUser.tokens = [...newTokensArray, newToken];
-        await foundUser.save();
+        //await foundUser.save();
+        try {
+            const result = await foundUser.save();
+
+        } catch (error:any) {
+            if (error.code === 11000) {
+                console.error('VersionError: Document version mismatch');
+            } else {
+                console.error('Error saving document:', error);
+            }
+        }
+
+
 
         // Creates Secure Cookie with refresh token
         res.cookie('jwt', refreshToken, {
