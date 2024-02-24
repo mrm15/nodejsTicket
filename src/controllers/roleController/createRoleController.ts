@@ -34,7 +34,7 @@ const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
 
         const newRoleData = req.body
-        // console.log(myToken)
+
         // آیا کاربر اجازه داره   کابری رو ثبت کنه؟
         const arrayListToCheck = [
             ACCESS_LIST.ROLES_CREATE
@@ -92,7 +92,7 @@ const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
             userId,
         }
 
-        console.log(newRoleData)
+
         permissionsArray.forEach(item => {
             newRoleData.statusListCreate.forEach((frontItem: string) => {
                 newRoleObject[item] = (item === frontItem);
@@ -105,7 +105,7 @@ const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
         return;
 
     } catch (error) {
-        // console.log(error)
+
         res.status(500).json({
             error: error?.toString(),
 
