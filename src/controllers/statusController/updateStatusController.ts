@@ -89,7 +89,7 @@ const updateStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
             return;
 
         } catch (error) {
-            // console.log(error)
+
             res.status(500).json({
                 error: error?.toString(),
 
