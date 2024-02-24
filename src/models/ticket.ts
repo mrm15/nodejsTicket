@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 import {Counter} from "./counterSchema";
 //
 
-async function getNextSequenceValue(sequenceName: string): Promise<number> {
+export async function getNextSequenceValue(sequenceName: string): Promise<number> {
     const counterDocument = await Counter.findByIdAndUpdate(
         sequenceName,
         { $inc: { seq: 1 } },
@@ -24,7 +24,7 @@ interface ITicket extends Document {
     priority: string;
     status: string;
     assignedToDepartmentId: mongoose.Schema.Types.ObjectId;
-    assignToUserId: mongoose.Schema.Types.ObjectId;
+    assignToUserId: mongoose.Schema.Types.ObjectId | null;
     attachments: string[]; // Assuming attachments are an array of string URLs
     lastChangeTimeStamp: Date;
     returnStatus: boolean;
@@ -73,7 +73,7 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
     assignToUserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User collection
-        required: true,
+        required: false,
     },
     attachments: [String],
     lastChangeTimeStamp: {
@@ -104,12 +104,25 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
 });
 
 // Export the Ticket model
-export default mongoose.model<ITicket>('Ticket', ticketSchema);
+
+
+
+// ticketSchema.pre('save', async function (next) {
+//     if (this.isNew) {
+//         const seqValue = await getNextSequenceValue('ticketNumber');
+//         this.id = seqValue; // Assuming 'id' is your auto-incrementing field
+//     }
+//     next();
+// });
 
 ticketSchema.pre('save', async function (next) {
-    if (this.isNew) {
-        const seqValue = await getNextSequenceValue('ticket');
-        this.id = seqValue; // Assuming 'id' is your auto-incrementing field
+    if (this.isNew && !this.ticketNumber) {
+        const seqValue = await getNextSequenceValue('ticketNumber');
+        this.ticketNumber = seqValue; // Set the ticketNumber if it's not already set
     }
     next();
 });
+
+const Ticket = mongoose.model<ITicket>('Ticket', ticketSchema);
+
+export { Ticket, ITicket };
