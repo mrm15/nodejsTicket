@@ -45,7 +45,7 @@ const userList = async (req: CustomRequestMyTokenInJwt, res: Response, next: Nex
         return;
 
     } catch (error) {
-        // console.log(error)
+
         res.status(500).json({error});
         return
     }
