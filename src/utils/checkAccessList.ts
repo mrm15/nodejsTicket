@@ -8,7 +8,7 @@ interface CheckAccessListParams {
 export const checkAccessList = async ({ phoneNumber, arrayListToCheck }: CheckAccessListParams): Promise<boolean> => {
     const accessList = await getRoleAccessList(phoneNumber);
 
-    // console.log(accessList)
+
 
     let hasAccess = true;
 
