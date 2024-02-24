@@ -40,7 +40,7 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
             });
             return;
         } catch (error) {
-            // console.log(error)
+
             res.status(500).json({error});
             return
         }
