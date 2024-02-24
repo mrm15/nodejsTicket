@@ -12,7 +12,7 @@ const submitNewOrder = async (req, res) => {
 
   } = req.body;
 
-  //// console.log(req.userInfo.phoneNumber);
+
   const phoneNumber = req.userInfo.phoneNumber
 
   if (!title) return res.status(400).json({status: false, message: "عنوان را وارد کنید"});
