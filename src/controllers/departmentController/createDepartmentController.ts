@@ -97,7 +97,7 @@ const createDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
         return;
 
     } catch (error) {
-        // console.log(error)
+
         res.status(500).json({
             error: error?.toString(),
         });
