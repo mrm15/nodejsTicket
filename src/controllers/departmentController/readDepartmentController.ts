@@ -69,7 +69,7 @@ const readDepartmentController = async (req: CustomRequestMyTokenInJwt, res: Res
         return;
 
     } catch (error) {
-        // console.log(error)
+
         res.status(500).json({error});
         return
     }
