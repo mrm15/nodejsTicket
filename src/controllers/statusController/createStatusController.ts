@@ -74,7 +74,7 @@ const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
         // res.status(409).json({foundStatus, message: foundStatus,});
         // return;
 
-        if (foundStatusForOrder && foundStatusForOrder?.order!=='') {
+        if (foundStatusForOrder && foundStatusForOrder?.order !== '') {
             res.status(409).json({
                 message: 'قبلا یک وضعیت با این ترتیب(order)  ثبت شده است'
             });
@@ -83,7 +83,7 @@ const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         const foundStatusFinal: IStatus | null = await Status.findOne({isFinal: true}).exec();
 
-        if (foundStatusFinal?.isFinal===newStatus?.isFinal) {
+        if (foundStatusFinal?.isFinal === newStatus?.isFinal) {
             res.status(409).json({
                 message: 'فقط یک وضعیت میتواند  وضعیت نهایی داشته باشد. قبلا یک استاتوس با وضعیت نهایی ثبت شده است.',
                 foundStatusFinal
@@ -112,7 +112,7 @@ const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
         return;
 
     } catch (error) {
-        // console.log(error)
+
         res.status(500).json({
             error: error?.toString(),
         });
