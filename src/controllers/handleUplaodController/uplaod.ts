@@ -25,13 +25,15 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
 
 
     const {myToken} = req;
-    if(!myToken){
+    if (!myToken) {
         const message = 'مقدار توکن توی ری کوئست موجود نیست'
         res.status(403).json({message});
         return
     }
 
-    const saveFileToDataBase = async (myToken: {phoneNumber: any;}, fileDetails: Express.Multer.File | undefined, tag: string) => {
+    const saveFileToDataBase = async (myToken: {
+        phoneNumber: any;
+    }, fileDetails: Express.Multer.File | undefined, tag: string) => {
 
         const {phoneNumber} = myToken;
 
@@ -39,19 +41,20 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
         const foundUser: IUser = (await User.findOne({phoneNumber}).exec())!;
         const currentTimestamp = getCurrentTimeStamp()
         const userId = foundUser.id
-        const newFile: IFile = new File({
-            fileName: fileDetails?.originalname || "",
-            fileType: fileDetails?.mimetype || "",
-            fileSize: fileDetails?.size || '',
-            userId,
-            uploadDate: currentTimestamp,
-            filePath: fileDetails?.filename || "",
-            description: "",
-            tag,
-            downloadCount: 0,
-            createAt: currentTimestamp,
-            updateAt: currentTimestamp,
-        });
+        const newFile: IFile = new File(
+            {
+                fileName: fileDetails?.originalname || "",
+                fileType: fileDetails?.mimetype || "",
+                fileSize: fileDetails?.size || 0,
+                userId,
+                uploadDate: currentTimestamp,
+                filePath: fileDetails?.filename || "",
+                description: "",
+                tag,
+                downloadCount: 0,
+                createAt: currentTimestamp,
+                updateAt: currentTimestamp,
+            });
 
         const result = await newFile.save()
         return result.id
@@ -74,13 +77,24 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
         }
         const fileDetails = req.file;
         const tag = req.body.tag
+
+
+        const isValidFile = (fileDetails?.size && fileDetails?.path && fileDetails?.filename && fileDetails?.originalname)
+        if (!isValidFile) {
+            res.status(409).json({
+                message: 'جزئیات فایل ارسالی کامل نیست.',
+                id: '',
+            });
+            return
+        }
         const resultId = await saveFileToDataBase(myToken, fileDetails, tag)
         // File is successfully uploaded at this point
         // Proceed with any post-upload processing here
         res.status(200).json({
             message: 'فایل با موفقیت بارگزاری شد.',
-            id:resultId, // Access uploaded file details via req.file
+            id: resultId, // Access uploaded file details via req.file
         });
+        return
     });
 };
 
