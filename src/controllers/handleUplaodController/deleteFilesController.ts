@@ -5,8 +5,7 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 
 import {Department} from "../../models/department";
 import {File, IFile} from "../../models/files"
-import Ticket from "../../models/ticket";
-import TicketReply from "../../models/ticketReply";
+ import TicketReply from "../../models/ticketReply";
 import {removeFileFromServer} from "../../utils/removeFileFromServer";
 
 
