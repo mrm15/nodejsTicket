@@ -7,11 +7,11 @@ import { IUser, User } from "../../models/User";
 
 export const getRoleAccessList = async (phoneNumber: string): Promise<string[] | null> => {
     const foundUser = await User.findOne({ phoneNumber }).exec();
-    // console.log("foundUser")
-    // console.log(foundUser)
+
+
     const userRoleId = foundUser?.role;
-    // console.log("userRoleId")
-    // console.log(userRoleId)
+
+
 
 
     if (userRoleId) {
