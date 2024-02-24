@@ -72,9 +72,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const userId = userFound?.id
 
 
-
-
-        let {status , assignedToDepartmentId} = await getSettings();
+        let {status, assignedToDepartmentId} = await getSettings();
 
         if (!status || !assignedToDepartmentId) {
             res.status(404).json({
@@ -82,9 +80,10 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             })
             return
         }
+        const ticketNumber = await getNextSequenceValue('ticketNumber')
 
         const newTicket: any = {
-
+            ticketNumber,
             userId,
             title: ticketData.title,
             description: ticketData.description,
@@ -103,7 +102,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
 
         const result: ITicket = await Ticket.create(newTicket);
-        res.status(200).json({result, message: 'سفارش با موفقیت ثبت شد.',});
+        res.status(200).json({result, message: 'سفارش با موفقیت ایجاد شد.',});
         return;
 
     } catch (error) {
