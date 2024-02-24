@@ -201,7 +201,7 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
         // const foundToken = await User.findOne({refreshToken: refreshToken.refreshToken}).exec();
 
         if (!foundRefreshToken) {
-            // console.log('attempted refresh token reuse at login!');
+
             //newRefreshTokenArray = [];
         }
 
