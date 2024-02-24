@@ -29,7 +29,7 @@ const createUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
         const {phoneNumber} = myToken
 
-        // console.log(myToken)
+
         // آیا کاربر اجازه داره   کابری رو ثبت کنه؟
         const arrayListToCheck = [
             ACCESS_LIST.USER_CREATE
@@ -67,7 +67,7 @@ const createUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
         return;
 
     } catch (error) {
-        // console.log(error)
+
         res.status(500).json({error: error?.toString()});
         return
     }
