@@ -25,7 +25,7 @@ import handleDepartmentRoute from "./departmentRoutes/handleDepartmentRoute";
 import handleStatusRoute from "./statusRoute/handleStatusRoute";
 import handleLogout from "./logoutRout/handleLogout";
 import handleDownloadRoute from "./downloadRoute/handleDownloadRoute";
-import handleTicketRoute from "./statusRoute/handleTicketRoute";
+import handleTicketRoute from "./handleTicketRoute/handleTicketRoute";
 
 
 // Add Routes
@@ -48,7 +48,7 @@ const myRouter = Router();
 // myRouter.use('/upload', handleUploadRoutes);
 // Setup other routes
 
-myRouter.use('/login',loginSMS);
+myRouter.use('/login',loginSMS)
 myRouter.use('/admin',admin)
 myRouter.use('/download' , handleDownloadRoute)
 // // myRouter.use('/register', require('./routes/auth/register'));
