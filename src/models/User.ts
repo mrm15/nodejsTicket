@@ -130,8 +130,8 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     phoneNumber: {
         type: String,
         required: true,
-        unique:true,
-
+        unique: true, // Considering phoneNumber is unique
+        index: true // Adding index to phoneNumber
     },
     mobile: {
         type: String,
