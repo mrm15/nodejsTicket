@@ -2,9 +2,9 @@ import {Request, Response, NextFunction} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {Role} from "../../models/roles";
-import {Department, IDepartment} from "../../models/department";
-import {IStatus, Status} from "../../models/status";
+
+import {ITicket, Ticket} from "../../models/ticket";
+import {IUser, User} from "../../models/User";
 
 
 const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -23,40 +23,44 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
 
     try {
-        const arrayListToCheck = [ACCESS_LIST.USER_READ_ALL]
-        const hasAccessToReadAllUsers = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
-        if (!hasAccessToReadAllUsers) {
+        const arrayListToCheck = [ACCESS_LIST.TICKET_READ_ALL]
+        const hasAccessToReadAllTicket = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
+        if (!hasAccessToReadAllTicket) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
             return
         }
 
-        let statusList: IStatus[] = await Status.find({}).lean()
+        // اینجا قراره بعدا 10 تا 10 تا درخواست بزنم بگم هر ده تا یه بار درخواست بزن
+        const {startIndex , endIndex} = req.params;
+
+        let ticketList: ITicket[];
+        if(!startIndex || !endIndex){
+            ticketList= await Ticket.find({}).lean()
+        }else {
+            ticketList = await Ticket.find({}).lean()
+        }
 
 
-        const myList: any = statusList.map((r, index) => {
-            let row: any = {...r}
-            for (const rowKey in row) {
-                const value = row[rowKey];
-                let temp = value
-                if (value === true) {
-                    temp = 'true'
-                } else if (value === false) {
-                    temp = 'false'
-                }
-                row[rowKey] = temp
-            }
 
-            row.id = row._id
-            return row
-        })
+        const myList = await Promise.all(ticketList.map(async (singleTicket) => {
+            const row: any = {...singleTicket};
+            const userFound: IUser = (await User.findOne({_id: row.userId}).lean())!;
+            row['userCreateThisOrder'] = userFound.name
+            row['numberOfAttachments'] = row.attachments.length
+            return row;
+        }));
+
 
 
 
         const columnDefs = []
 
 
-        columnDefs.push({minWidth: 150, headerName: "name", field: "name"})
-        columnDefs.push({minWidth: 150, headerName: "description", field: "description"})
+        columnDefs.push({minWidth: 150, headerName: "کد سفارش", field: "ticketNumber"})
+        columnDefs.push({minWidth: 150, headerName: "عنوان سفارش", field: "title"})
+        columnDefs.push({minWidth: 150, headerName: "توضیح", field: "description"})
+        columnDefs.push({minWidth: 150, headerName: "کاربر ثبت کننده سفارش", field: "userCreateThisOrder"})
+        columnDefs.push({minWidth: 150, headerName: "تعداد فایل ضمیمه ", field: "numberOfAttachments"})
 
 
         const rowData = [...myList]
@@ -65,14 +69,12 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
         res.status(200).json({
             list, message: 'لیست بارگزاری شد.',
-
-
         });
         return;
 
-    } catch (error) {
+    } catch (error:any) {
 
-        res.status(500).json({error});
+        res.status(500).json({error:error.toString()});
         return
     }
 
