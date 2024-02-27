@@ -5,6 +5,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 
 import {ITicket, Ticket} from "../../models/ticket";
 import {IUser, User} from "../../models/User";
+import {timestampToTime} from "../../utils/timestampToTime";
 
 
 const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -47,6 +48,8 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
             const userFound: IUser = (await User.findOne({_id: row.userId}).lean())!;
             row['userCreateThisOrder'] = userFound.name
             row['numberOfAttachments'] = row.attachments.length
+            row['dateCreate'] = timestampToTime(row.createAt)
+            row['lastChangeTime'] = timestampToTime(row.lastChangeTimeStamp)
             return row;
         }));
 
@@ -55,10 +58,11 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
         const columnDefs = []
 
-
         columnDefs.push({minWidth: 150, headerName: "کد سفارش", field: "ticketNumber"})
         columnDefs.push({minWidth: 150, headerName: "عنوان سفارش", field: "title"})
         columnDefs.push({minWidth: 150, headerName: "توضیح", field: "description"})
+        columnDefs.push({minWidth: 150, headerName: "تاریخ ثبت ", field: "dateCreate"})
+        columnDefs.push({minWidth: 150, headerName: "تاریخ آخرین تغییر ", field: "lastChangeDate"})
         columnDefs.push({minWidth: 150, headerName: "کاربر ثبت کننده سفارش", field: "userCreateThisOrder"})
         columnDefs.push({minWidth: 150, headerName: "تعداد فایل ضمیمه ", field: "numberOfAttachments"})
 
