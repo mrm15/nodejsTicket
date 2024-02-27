@@ -7,6 +7,7 @@ export const ACCESS_LIST = {
     STATUS_LIST_DELETE: "statusListDelete",
     TICKET_CREATE: "ticketCreate",
     TICKET_READ_ALL: "ticketReadAll",
+    TICKET_CHAT_LIST: "ticketChatList",
     TICKET_READ_OWN: "ticketReadOwn",           //(all users has in user list of ticket)
     TICKET_UPDATE: "ticketUpdate",                //(not Allowed to no one)
     TICKET_DELETE: "ticketDelete",                // - justAdmin(check has any replies)
