@@ -5,6 +5,7 @@ export const myPermissionsArray = [
     "statusListDelete",
     "ticketCreate",
     "ticketReadAll",
+    "ticketChatList",
     "ticketReadOwn",
     "ticketUpdate",
     "ticketDelete",
