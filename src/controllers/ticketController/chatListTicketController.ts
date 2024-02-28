@@ -6,9 +6,9 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {ITicket, Ticket} from "../../models/ticket";
 import {IUser, User} from "../../models/User";
 import {timestampToTime} from "../../utils/timestampToTime";
-import {IFile, File} from "../../models/files";
-import mongoose from "mongoose";
 import {Department, IDepartment} from "../../models/department";
+import {filesToFileData} from "../../utils/filesToFileData";
+import {TicketReply} from "../../models/ticketReply";
 
 interface IChatList {
     ticketNumber?: number;
@@ -91,11 +91,11 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
 
         chatList.lastDepartment = department.name;
 
-        const tempFilesArray = await Promise.all(foundTicket.attachments.map(async (fileId) => {
-            const fileObject: IFile = (await File.findOne({_id: fileId}).lean())!;
-            const {fileName, fileSize, filePath, fileType} = fileObject
-            return {fileName, fileSize, filePath, fileType};
-        }));
+        // const tempFilesArray = await Promise.all(foundTicket.attachments.map(async (fileId) => {
+        //     const fileObject: IFile = (await File.findOne({_id: fileId}).lean())!;
+        //     const {fileName, fileSize, filePath, fileType} = fileObject
+        //     return {fileName, fileSize, filePath, fileType};
+        // }));
 
         // آرایه مای دیتا که قراره بره توی آبجکت چت لیست
         const myData = [];
@@ -120,30 +120,50 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
 
         }
 
+        const tempFilesArray = await filesToFileData(foundTicket.attachments)
         myData.push({
+            ticketReplyId: '',
             user_name,
             department_name,
             description: foundTicket.description,
             files: tempFilesArray,
             createAt: chatList.createAt,
         })
-        res.status(500).json({
-            myData,
-            message: 'اطلاعات چت دریافت شد'
-        });
 
 
         // اینجا باید برم توی ریپلای ها سرچ کنم
-        // به ترتیب مربشون کنم
+        // به ترتیب مرتبشون کنم
         // بریزمشون توی آرایه ی دیتا که توی چت لیست قرار داره و بعدش بفرستم سمت فرانت
 
         // last action here I want to add reply collection
         // chatList.files = [...tempFilesArray];
+        // let's go find some replies
+        const replies = await TicketReply.find({ticketId}).exec();
+
+        const myList = await Promise.all(replies.map(async (singleTicketReply) => {
+            const row: any = {};
+            const foundUser: IUser = (await User.findOne({_id: singleTicketReply.userId}).lean())!;
+            const foundDepartment: IDepartment = (await Department.findOne({_id: singleTicketReply.departmentId}).lean())!;
+            debugger
+            const filesPropertiesArray = await filesToFileData(foundTicket.attachments)
+            row['ticketReplyId'] = singleTicketReply._id
+            row['user_name'] = foundUser.name
+            row['department_name'] = foundDepartment.name
+            row['description'] = singleTicketReply?.description || 'یافت نشد'
+            row['files'] = filesPropertiesArray
+            row['createAt'] = timestampToTime(singleTicketReply?.createAt)
+            return row;
+        }));
 
 
 
+        chatList.data = [ ...myData,...myList]
+        res.status(409).json({
+            chatList,
+            message: 'ریپلای مورد نظر دریافت شد',
+        });
+        return
     } catch (error: any) {
-
         res.status(500).json({error: error.toString()});
         return
     }
