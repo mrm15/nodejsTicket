@@ -5,7 +5,7 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {getNextSequenceValue, ITicket, Ticket} from "../../models/ticket";
-import {getFirstDepartment, getFirstStatus, getSettings} from "../../utils/getFirstStatus";
+import {getSettings} from "../../utils/getFirstStatus";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -69,7 +69,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             return
         }
 
-        const userId = userFound?.id
+        const userId = userFound?._id
 
 
         let {status, assignedToDepartmentId} = await getSettings();
