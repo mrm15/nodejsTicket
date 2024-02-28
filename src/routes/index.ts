@@ -48,6 +48,7 @@ const myRouter = Router();
 // myRouter.use('/refresh', authRefreshRoutes);
 // myRouter.use('/upload', handleUploadRoutes);
 // Setup other routes
+myRouter.use('/ticketReply' , handleTicketReplyRoute);
 
 myRouter.use('/login',loginSMS)
 myRouter.use('/admin',admin)
@@ -58,7 +59,6 @@ myRouter.use('/download' , handleDownloadRoute)
 myRouter.use('/refresh', refresh);
 // myRouter.use('/logout', require('./routes/auth/logout'));
 //---------------------------------------
-
 //----------- Path Need To verifyJWT ----------------------------
 myRouter.use(verifyJWT);
 myRouter.use('/upload' , handleUpload);
@@ -67,7 +67,8 @@ myRouter.use('/role' , handleRoleRoute);
 myRouter.use('/department' , handleDepartmentRoute);
 myRouter.use('/status' , handleStatusRoute);
 myRouter.use('/ticket' , handleTicketRoute);
-myRouter.use('/ticketReply' , handleTicketReplyRoute);
+
+
 myRouter.use('/logout' , handleLogout);
 
 // myRouter.use('/api/products', require('./routes/products'));
