@@ -16,7 +16,7 @@ interface IChatList {
     createAt?: string;
     lastChangeTimeStamp?: string;
     lastDepartment?: string;
-    data?:IChatListArray[];
+    data?: IChatListArray[];
 
 }
 
@@ -97,21 +97,49 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             return {fileName, fileSize, filePath, fileType};
         }));
 
+        // آرایه مای دیتا که قراره بره توی آبجکت چت لیست
+        const myData = [];
+
+        let user_name = '';
+        let department_name = ''
+
+        // اسم کاربری رو میخوام که تیکت رو ثبت کرده،
+        // خب قاعدتا جزو مشتری ها هست و مشتری هست که
+        // تیکت رو ثبت کرده میره توی دپارتمان مشتریان
+        // اگه اسم دپارتمان مشتری رو تغییر بدیم اینم تغییر میکنه
+        const foundUser: IUser | null = await User.findOne({_id: foundTicket.userId})
+
+
+        if (foundUser) {
+            user_name = foundUser?.name
+            const foundDepartment: IDepartment = (await Department.findOne({}).lean())!;
+
+            if (!!foundDepartment) {
+                department_name = foundDepartment.name
+            }
+
+        }
+
+        myData.push({
+            user_name,
+            department_name,
+            description: foundTicket.description,
+            files: tempFilesArray,
+            createAt: chatList.createAt,
+        })
+        res.status(500).json({
+            myData,
+            message: 'اطلاعات چت دریافت شد'
+        });
+
+
         // اینجا باید برم توی ریپلای ها سرچ کنم
         // به ترتیب مربشون کنم
         // بریزمشون توی آرایه ی دیتا که توی چت لیست قرار داره و بعدش بفرستم سمت فرانت
 
         // last action here I want to add reply collection
-
-
         // chatList.files = [...tempFilesArray];
 
-
-        res.status(500).json({
-            chatList,
-            message: 'اطلاعات چت دریافت شد'
-        });
-        return
 
 
     } catch (error: any) {
