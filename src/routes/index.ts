@@ -26,6 +26,7 @@ import handleStatusRoute from "./statusRoute/handleStatusRoute";
 import handleLogout from "./logoutRout/handleLogout";
 import handleDownloadRoute from "./downloadRoute/handleDownloadRoute";
 import handleTicketRoute from "./handleTicketRoute/handleTicketRoute";
+import handleTicketReplyRoute from "./handleTicketReplyRoute/handleTicketReplyRoute";
 
 
 // Add Routes
@@ -66,6 +67,7 @@ myRouter.use('/role' , handleRoleRoute);
 myRouter.use('/department' , handleDepartmentRoute);
 myRouter.use('/status' , handleStatusRoute);
 myRouter.use('/ticket' , handleTicketRoute);
+myRouter.use('/ticketReply' , handleTicketReplyRoute);
 myRouter.use('/logout' , handleLogout);
 
 // myRouter.use('/api/products', require('./routes/products'));
