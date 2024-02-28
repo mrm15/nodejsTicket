@@ -3,9 +3,7 @@ import {IUser, User} from "../../models/User";
 
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 
-import {Department} from "../../models/department";
 import {File, IFile} from "../../models/files"
- import TicketReply from "../../models/ticketReply";
 import {removeFileFromServer} from "../../utils/removeFileFromServer";
 
 
