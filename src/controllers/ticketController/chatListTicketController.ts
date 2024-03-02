@@ -49,7 +49,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         // اول باید اطلاعات تیکت رو بگیرم
         // بعدش باید برم از جدول ریپلای ها بگیرم ببینم چیا رو باید بزنم
         //اون تیکت آی دی رو باید بگیرم ببینم چه ریپلای هایی خورده
-        // آرایه از از آبجکت ها رو ارسال میکنم به سمت فرانت
+        // آرایه از آبجکت ها رو ارسال میکنم به سمت فرانت
 
 
         const hasAccessToChatList = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
@@ -122,6 +122,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
 
         const tempFilesArray = await filesToFileData(foundTicket.attachments)
         myData.push({
+            isTicketSender: true,
             ticketReplyId: '',
             user_name,
             department_name,
@@ -146,6 +147,8 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             const foundDepartment: IDepartment = (await Department.findOne({_id: singleTicketReply.departmentId}).lean())!;
             debugger
             const filesPropertiesArray = await filesToFileData(foundTicket.attachments)
+            row['isTicketSender'] = singleTicketReply.userId.toString() === foundTicket.userId.toString();
+            row['userId'] = singleTicketReply.userId;
             row['ticketReplyId'] = singleTicketReply._id
             row['user_name'] = foundUser.name
             row['department_name'] = foundDepartment.name
@@ -156,9 +159,8 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         }));
 
 
-
-        chatList.data = [ ...myData,...myList]
-        res.status(409).json({
+        chatList.data = [...myData, ...myList]
+        res.status(200).json({
             chatList,
             message: 'ریپلای مورد نظر دریافت شد',
         });
