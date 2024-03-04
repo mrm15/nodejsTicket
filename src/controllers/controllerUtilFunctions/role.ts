@@ -1,20 +1,17 @@
-import {Role} from "../../models/roles";
+import {IRole, Role} from "../../models/roles";
 
 type RoleKeyValuePair = {
     key: string;
     value: string;
 };
 
-const getRoleListKeyValuePairs = async (): Promise<RoleKeyValuePair[]> => {
+const getRoleListKeyValuePairs = async (): Promise<IRole|any[]> => {
 
-    const roleListArray = await Role.find({}).exec()
-    const keyValuePairs = []
+    const roleListArray: IRole | null = await Role.find({}).lean()
+    if (!roleListArray) {
+        return []
+    } else {
+        return roleListArray
+    }
 
-
-    return roleListArray
-    // return [
-    //     {key: "role1", value: "Role 1"},
-    //     {key: "role2", value: "Role 2"},
-    //     // Add more role key-value pairs as needed
-    // ];
 };
