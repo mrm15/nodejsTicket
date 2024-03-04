@@ -30,10 +30,12 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // Built-in middleware to handle url-encoded form data
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 
 // Built-in middleware for JSON
-app.use(express.json());
+// app.use(express.json());
+// @ts-ignore
+app.use(express.json({ limit: '10mb', extended: true, encoding: 'utf-8' }));
 
 app.use(useragent.express());
 
@@ -65,6 +67,6 @@ app.use(errorHandler);
 mongoose.connection.once('open', () => {
 
     app.listen(PORT, () => {
-
+        console.log('server is running on port ' + PORT);
     })
 });
