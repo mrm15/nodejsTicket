@@ -16,8 +16,8 @@ if (!MONGODB_PASSWORD) {
 const dbName = 'ticket'; // Replace 'ticket' with your actual database name
 
 
-// const mongoURI = 'mongodb://127.0.0.1:27017/ticket';
-const mongoURI = `mongodb://${MONGO_USER}:${MONGODB_PASSWORD}@services.irn5.chabokan.net:36399/${dbName}?authSource=admin`;
+const mongoURI = 'mongodb://127.0.0.1:27017/ticket';
+// const mongoURI = `mongodb://${MONGO_USER}:${MONGODB_PASSWORD}@services.irn5.chabokan.net:36399/${dbName}?authSource=admin`;
 //mongodb://USERNASME:PASSWORD@MONGO_SERVER_URL:MONGO_PORT/?authSource=admin
 
 const connectDB = async (): Promise<void> => {
