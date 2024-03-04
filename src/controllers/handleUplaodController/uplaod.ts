@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from 'express';
+import {NextFunction, Response} from 'express';
 import multer from 'multer';
 import path from 'path';
 import {IUser, User} from "../../models/User";
@@ -6,6 +6,12 @@ import {File, IFile} from "../../models/files";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 
+const convertToPersian = (fileName: WithImplicitCoercion<string> | {
+    [Symbol.toPrimitive](hint: "string"): string;
+}) => {
+    // Encode filename to UTF-8
+    return Buffer.from(fileName, 'latin1').toString('utf-8')
+}
 // Configure multer storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -14,7 +20,10 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + '-' + file.originalname);
+        debugger
+        const fileName = convertToPersian(file.originalname) // Encode filename to UTF-8
+        debugger
+        cb(null, uniqueSuffix + '-' + fileName);
     },
 });
 
@@ -73,12 +82,12 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
             return res.status(500).json({message: err.message});
         } else if (err) {
             // Handle other errors
-            return res.status(500).json({message: "An error occurred during the file upload." ,err,
-                messageExplain: err.toString(),
-            });
-
+            return res.status(500).json({message: "An error occurred during the file upload."});
         }
         const fileDetails = req.file;
+        if (fileDetails?.originalname) {
+            fileDetails.originalname = convertToPersian(fileDetails.originalname)
+        }
         const tag = req.body.tag
 
 
