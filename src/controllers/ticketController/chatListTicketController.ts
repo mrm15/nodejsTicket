@@ -8,7 +8,7 @@ import {IUser, User} from "../../models/User";
 import {timestampToTime} from "../../utils/timestampToTime";
 import {Department, IDepartment} from "../../models/department";
 import {filesToFileData} from "../../utils/filesToFileData";
-import {TicketReply} from "../../models/ticketReply";
+import {ITicketReply, TicketReply} from "../../models/ticketReply";
 
 interface IChatList {
     ticketNumber?: number;
@@ -121,8 +121,12 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         }
 
         const tempFilesArray = await filesToFileData(foundTicket.attachments)
+        const senderUserId = foundTicket.userId.toString()
+        const isHeTicketSenderHere = (senderUserId === myToken?.UserInfo?.userData?.userData?.userId.toString());
+
         myData.push({
-            isTicketSender: true,
+            isTicketSender: isHeTicketSenderHere,
+            userId: senderUserId,
             ticketReplyId: '',
             user_name,
             department_name,
@@ -146,13 +150,17 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             const foundUser: IUser = (await User.findOne({_id: singleTicketReply.userId}).lean())!;
             const foundDepartment: IDepartment = (await Department.findOne({_id: singleTicketReply.departmentId}).lean())!;
             debugger
-            const filesPropertiesArray = await filesToFileData(foundTicket.attachments)
-            row['isTicketSender'] = singleTicketReply.userId.toString() === foundTicket.userId.toString();
+            let filesPropertiesArray: { fileName: string; fileSize: number; filePath: string; fileType: string; }[] = []
+            if (singleTicketReply.attachments) {
+                filesPropertiesArray = await filesToFileData(singleTicketReply.attachments)
+            }
+
+            row['isTicketSender'] = (singleTicketReply.userId.toString() === myToken?.UserInfo?.userData?.userData?.userId.toString());
             row['userId'] = singleTicketReply.userId;
             row['ticketReplyId'] = singleTicketReply._id
             row['user_name'] = foundUser.name
             row['department_name'] = foundDepartment.name
-            row['description'] = singleTicketReply?.description || 'یافت نشد'
+            row['description'] = singleTicketReply?.description || 'یافت نشد';
             row['files'] = filesPropertiesArray
             row['createAt'] = timestampToTime(singleTicketReply?.createAt)
             return row;
