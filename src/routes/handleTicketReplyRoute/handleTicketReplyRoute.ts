@@ -8,7 +8,7 @@ import {ticketReplyList} from "../../controllers/ticketReplyController/ticketRep
 
 const router = express.Router();
 
-router.get('/create', createTicketReplyController)
+router.post('/create', createTicketReplyController)
 router.get('/read', readTicketReplyController)
 router.post('/update', updateTicketReplyController);
 router.delete('/delete/:id', deleteTicketReplyController);
