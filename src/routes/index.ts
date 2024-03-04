@@ -10,10 +10,6 @@
 
 
 import { Router } from 'express';
-import adminRoutes from './admin';
-import authRefreshRoutes from './auth/refresh'; // Adjust the import path as needed
-import loginSMSRoutes from './loginRegisterWithSms/loginSMS';
-import handleUploadRoutes from './handleUpload';
 import loginSMS from "./loginRegisterWithSms/loginSMS";
 import refresh from "./auth/refresh";
 import {verifyJWT} from "../middleware/verifyJWT";
@@ -48,7 +44,6 @@ const myRouter = Router();
 // myRouter.use('/refresh', authRefreshRoutes);
 // myRouter.use('/upload', handleUploadRoutes);
 // Setup other routes
-myRouter.use('/ticketReply' , handleTicketReplyRoute);
 
 myRouter.use('/login',loginSMS)
 myRouter.use('/admin',admin)
@@ -67,6 +62,8 @@ myRouter.use('/role' , handleRoleRoute);
 myRouter.use('/department' , handleDepartmentRoute);
 myRouter.use('/status' , handleStatusRoute);
 myRouter.use('/ticket' , handleTicketRoute);
+myRouter.use('/ticketReply' , handleTicketReplyRoute);
+
 
 
 myRouter.use('/logout' , handleLogout);
