@@ -283,6 +283,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     tickets: [{
         type: String,
         required: false,
+        index:true,
     }],
 
     createAt: {
