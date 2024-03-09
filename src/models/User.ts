@@ -12,8 +12,9 @@ interface IUserTask {
 
 interface IUser extends Document {
     [key: string]: any;
+
     userName?: string;
-    departmentId?: string;
+    departmentId?: mongoose.Schema.Types.ObjectId;
     role?: mongoose.Types.ObjectId;
     tasks: IUserTask[];
     accountingCode: string;
@@ -47,16 +48,16 @@ interface IUser extends Document {
     loginCode: number;
     loginCodeSendDate: Date;
     isActive: Boolean;
-    tickets: string[];
-    createAt:Date;
+    tickets: mongoose.Schema.Types.ObjectId[];
+    createAt: Date;
     updateAt: Date;
     tokens: {
-        refreshToken:string;
-        os:string;
-        ip:string;
-        useragent:string;
-        loginTime:Date;
-    }[] |[];
+        refreshToken: string;
+        os: string;
+        ip: string;
+        useragent: string;
+        loginTime: Date;
+    }[] | [];
 }
 
 // Create the User schema
@@ -70,14 +71,14 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     // },
 
     userName: {
-        unique:true,
+        unique: true,
         type: String,
         required: true,
         default: () => uuidV4(),
 
     },
     departmentId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: false,
 
 
@@ -281,7 +282,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         default:false,
     },
     tickets: [{
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: false,
         index:true,
     }],
