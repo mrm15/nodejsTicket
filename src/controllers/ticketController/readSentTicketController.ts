@@ -39,8 +39,8 @@ const ReadSentTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
 
 
         const arrayListToCheck = [ACCESS_LIST.TICKET_READ_OWN]
-        const hasAccessToReadAllTicket = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
-        if (!hasAccessToReadAllTicket) {
+        const hasAccessToReadOwnTicket = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
+        if (!hasAccessToReadOwnTicket) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
             return
         }
