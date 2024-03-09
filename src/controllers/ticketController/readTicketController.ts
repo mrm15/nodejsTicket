@@ -2,11 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-
-import {ITicket, Ticket} from "../../models/ticket";
-import {IUser, User} from "../../models/User";
-import {timestampToTime} from "../../utils/timestampToTime";
-import {defineTable} from "./defineTable";
+import {defineTable} from "../../utils/defineTable";
 
 
 const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
