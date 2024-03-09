@@ -1,9 +1,9 @@
-import {timestampToTime} from "../../utils/timestampToTime";
-import {IUser, User} from "../../models/User";
-import {ITicket, Ticket} from "../../models/ticket";
-import {readTicketController} from "./readTicketController";
-import {ReadSentTicketController} from "./readSentTicketController";
-import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
+import {timestampToTime} from "./timestampToTime";
+import {IUser, User} from "../models/User";
+import {ITicket, Ticket} from "../models/ticket";
+import {readTicketController} from "../controllers/ticketController/readTicketController";
+import {ReadSentTicketController} from "../controllers/ticketController/readSentTicketController";
+import {CustomRequestMyTokenInJwt} from "../middleware/verifyJWT";
 import mongoose from "mongoose";
 
 interface myObject {
