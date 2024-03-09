@@ -10,7 +10,7 @@ interface myInterface {
 
 export const inboxTicketList = async ({ userId }: myInterface) => {
     const list = await userTicketTable({ userId });
-    const rowData: ITicket[] = list.rowData;
+    const rowDataTemp: ITicket[] = list.rowData;
 
     const foundUser: IUser | null = await User.findOne({ _id: userId });
 
@@ -19,14 +19,31 @@ export const inboxTicketList = async ({ userId }: myInterface) => {
         departmentTicketList = await getDepartmentTicketList({ id: foundUser?.departmentId });
     }
 
-    // Convert to array
+
+
     const inboxTickets: ITicket[] = [];
 
     departmentTicketList.forEach(singleTicketInDepartment => {
-        if (rowData.includes(singleTicketInDepartment)) {
+        if (rowDataTemp.includes(singleTicketInDepartment)) {
             inboxTickets.push(singleTicketInDepartment);
         }
     });
 
-    return inboxTickets;
+
+    const columnDefs = []
+
+    columnDefs.push({minWidth: 150, headerName: "کد سفارش", field: "ticketNumber"})
+    columnDefs.push({minWidth: 150, headerName: "عنوان سفارش", field: "title"})
+    columnDefs.push({minWidth: 150, headerName: "توضیح", field: "description"})
+    columnDefs.push({minWidth: 150, headerName: "تاریخ ثبت ", field: "dateCreate"})
+    columnDefs.push({minWidth: 150, headerName: "تاریخ آخرین تغییر ", field: "lastChangeDate"})
+    columnDefs.push({minWidth: 150, headerName: "کاربر ثبت کننده سفارش", field: "userCreateThisOrder"})
+    columnDefs.push({minWidth: 150, headerName: "تعداد فایل ضمیمه ", field: "numberOfAttachments"})
+
+
+    const rowData = [...inboxTickets]
+
+    return {columnDefs, rowData}
+
+
 };
