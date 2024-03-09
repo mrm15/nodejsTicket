@@ -6,7 +6,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {ITicket, Ticket} from "../../models/ticket";
 import {IUser, User} from "../../models/User";
 import {timestampToTime} from "../../utils/timestampToTime";
-import {defineTable} from "./defineTable";
+import {defineTable} from "../../utils/defineTable";
 
 
 const ReadSentTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
