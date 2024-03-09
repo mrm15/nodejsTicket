@@ -11,8 +11,8 @@ const router = express.Router();
 router.post('/create', createTicketController);
 
 router.get('/read', readTicketController); // a simple get All data controller for ADMIN
-router.get('/readSentTicket', readTicketController); // sent ticket List
-router.get('/readMyInboxTicket', readTicketController); // tickets that is im my department and in my ticketAccess List in user Model
+router.get('/readSentTickets', readTicketController); // sent ticket List
+router.get('/readMyInboxTickets', readTicketController); // tickets that is im my department and in my ticketAccess List in user Model
 router.get('/readMyAllTickets', readTicketController); // tickets that is im my department and in my ticketAccess List in user Model
 
 router.get('/chatList/:ticketId', chatListTicketController);
