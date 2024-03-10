@@ -14,7 +14,7 @@ import myRouter from "./routes";
 
 
 const app: Application = express();
-const PORT: number | string = process.env.PORT || 3000;
+const PORT: number | string = process.env.PORT || 3001;
 
 // Connect to MongoDB
 void connectDB();
