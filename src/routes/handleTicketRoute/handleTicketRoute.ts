@@ -8,6 +8,7 @@ import {chatListTicketController} from "../../controllers/ticketController/chatL
 import {ReadSentTicketController} from "../../controllers/ticketController/readSentTicketController";
 import {readMyAllTicketsController} from "../../controllers/ticketController/readMyAllTicketsController";
 import {readMyInboxTicketsController} from "../../controllers/ticketController/readMyInboxTicketsController";
+import {readDepartmentTicketsController} from "../../controllers/ticketController/readDepartmentTicketsController";
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get('/read', readTicketController); // a simple get All data controller f
 router.get('/readSentTickets', ReadSentTicketController); // sent ticket List // done
 router.get('/readMyAllTickets', readMyAllTicketsController); // done tickets that is im my department and in my ticketAccess List in user Model
 router.get('/readMyInboxTickets', readMyInboxTicketsController); //  tickets that is im my department and in my ticketAccess List in user Model
-// router.get('/readDepartmentTickets', readDepartmentTicketsController); //  tickets that is im my department and in my ticketAccess List in user Model
+router.get('/readDepartmentTickets', readDepartmentTicketsController); //  tickets that is im my department  just admin of department has access to this part
 
 router.get('/chatList/:ticketId', chatListTicketController);
 router.post('/update', updateTicketController);
