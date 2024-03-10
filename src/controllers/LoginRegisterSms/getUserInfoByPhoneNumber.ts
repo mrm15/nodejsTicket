@@ -1,13 +1,21 @@
 import {Types} from "mongoose";
 import {getRoleAccessList} from "./getRoleAccessList";
 import {User} from "../../models/User";
+import {Department} from "../../models/department";
 
 
 export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
     const foundUser = await User.findOne({phoneNumber:userPhoneNumber}).exec();
     let userInfo = {}
+
     if (foundUser) {
-        const roleAccessList = await getRoleAccessList(userPhoneNumber)
+
+        const roleAccessList = await getRoleAccessList(userPhoneNumber);
+        const isDepartmentAdmin = await Department.findOne({managerUserId:foundUser._id}).exec();
+        if(isDepartmentAdmin){
+            roleAccessList?.push('readDepartmentTickets')
+        }
+
         const {
             departmentId,
             accountingCode,
