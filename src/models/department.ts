@@ -27,7 +27,7 @@ const departmentSchema: Schema = new Schema({
     name: {type: String, required: true},
     userId: {type: Schema.Types.ObjectId, ref: 'User'},
     description: {type: String, required: false},
-    managerUserId: {type: Schema.Types.ObjectId, ref: 'User'},
+    managerUserId: {type: Schema.Types.ObjectId, ref: 'User' , index:true},
     parentDepartmentId: {type: Schema.Types.ObjectId, ref: 'Department'},
     location: {type: String, required: false},
     address: {type: String, required: false},
