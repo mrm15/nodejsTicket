@@ -136,6 +136,8 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         })
 
 
+
+
         // اینجا باید برم توی ریپلای ها سرچ کنم
         // به ترتیب مرتبشون کنم
         // بریزمشون توی آرایه ی دیتا که توی چت لیست قرار داره و بعدش بفرستم سمت فرانت
@@ -144,6 +146,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         // chatList.files = [...tempFilesArray];
         // let's go find some replies
         const replies = await TicketReply.find({ticketId}).exec();
+
 
         const myList = await Promise.all(replies.map(async (singleTicketReply) => {
             const row: any = {};
@@ -158,8 +161,8 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             row['isTicketSender'] = (singleTicketReply.userId.toString() === myToken?.UserInfo?.userData?.userData?.userId.toString());
             row['userId'] = singleTicketReply.userId;
             row['ticketReplyId'] = singleTicketReply._id
-            row['user_name'] = foundUser.name
-            row['department_name'] = foundDepartment.name
+            row['user_name'] = foundUser?.name
+            row['department_name'] = foundDepartment?.name
             row['description'] = singleTicketReply?.description || 'یافت نشد';
             row['files'] = filesPropertiesArray
             row['createAt'] = timestampToTime(singleTicketReply?.createAt)
