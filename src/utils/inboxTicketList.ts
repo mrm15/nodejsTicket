@@ -34,6 +34,9 @@ export const inboxTicketList = async ({ userId }: myInterface) => {
 
     columnDefs.push({minWidth: 150, headerName: "کد سفارش", field: "ticketNumber"})
     columnDefs.push({minWidth: 150, headerName: "عنوان سفارش", field: "title"})
+    columnDefs.push({minWidth: 150, headerName: "آخرین دپارتمان", field: "lastDepartmentAssigned"})
+    columnDefs.push({minWidth: 150, headerName: "آخرین کاربر", field: "lastUserAssigned"})
+
     columnDefs.push({minWidth: 150, headerName: "توضیح", field: "description"})
     columnDefs.push({minWidth: 150, headerName: "تاریخ ثبت ", field: "dateCreate"})
     columnDefs.push({minWidth: 150, headerName: "تاریخ آخرین تغییر ", field: "lastChangeDate"})
