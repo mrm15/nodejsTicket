@@ -4,10 +4,12 @@ import {readTicketReplyController} from "../../controllers/forwardTicketControll
 import {updateTicketReplyController} from "../../controllers/forwardTicketController/updateTicketReplyController";
 import {deleteTicketReplyController} from "../../controllers/forwardTicketController/deleteTicketReplyController";
 import {ticketReplyList} from "../../controllers/forwardTicketController/ticketReplyList";
+import {getForwardConfig} from "../../controllers/forwardTicketController/getForwardConfig";
 
 
 const router = express.Router();
 
+router.get('/getConfig' , getForwardConfig)
 router.post('/toUser', forwardTicketToUserController)  //  // forward  to user
 router.post('/toDepartment', readTicketReplyController) // // forward ticket  to Department
 
