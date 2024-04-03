@@ -31,7 +31,7 @@ const handleRefreshToken = async (req: Request, res: Response): Promise<void> =>
 
 
     const foundUser: IUser | null = await User.findOne({phoneNumber}).exec();
-    debugger
+
 
     // Detected refresh token reuse!
     const callbackIfUserHacked = async (err: any, decoded: any) => {
