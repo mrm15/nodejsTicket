@@ -52,6 +52,7 @@ interface IRole extends Document {
     ticketChangeHistoryRead:Boolean;
     ticketChangeHistoryRepliesUpdate:Boolean;
     ticketChangeHistoryDelete:Boolean;
+    UnlimitedForward:Boolean;
     userCreate:Boolean;
     userReadAll:Boolean;
     userActiveAndDeActiveUsers:Boolean;
@@ -128,6 +129,7 @@ const roleSchema: Schema<IRole> = new Schema({
     ticketChangeHistoryRead:{type:Boolean , default:false , required:true},
     ticketChangeHistoryRepliesUpdate:{type:Boolean , default:false , required:true},
     ticketChangeHistoryDelete:{type:Boolean , default:false , required:true},
+    UnlimitedForward:{type:Boolean , default:false , required:true},
     userCreate:{type:Boolean , default:false , required:true},
     userReadAll:{type:Boolean , default:false , required:true},
     userReadSameDepartment:{type:Boolean , default:false , required:true},
