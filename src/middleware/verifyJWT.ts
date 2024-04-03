@@ -1,5 +1,5 @@
-import { Request as ExpressRequest, Response, NextFunction } from 'express';
-import jwt, { JwtPayload, VerifyErrors } from 'jsonwebtoken';
+import {Request as ExpressRequest, Response, NextFunction} from 'express';
+import jwt, {JwtPayload} from 'jsonwebtoken';
 
 // Define a custom Request type that extends ExpressRequest
 export interface CustomRequestMyTokenInJwt extends ExpressRequest {
@@ -21,7 +21,7 @@ const verifyJWT = (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunc
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET as string,
-        (err: any, decoded:any) => {
+        (err: any, decoded: any) => {
             if (err) {
                 const message = 'Token is Not Valid.☹️ try get new Token!'
 
