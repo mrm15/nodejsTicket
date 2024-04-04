@@ -9,7 +9,11 @@ export interface IDataList {
     name: string;
     id: string;
     photoUrl?: string;
-    userList?: IDataList [];
+    userList?: {
+        name: string;
+        id: string;
+        departmentId:string | undefined;
+    }[]
 }
 
 interface IList {
