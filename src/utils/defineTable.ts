@@ -31,7 +31,7 @@ export const defineTable = async ({req, conditionString, ticketUserId}: myObject
     let myList = await Promise.all(ticketList.map(async (singleTicket) => {
         const row: any = {...singleTicket};
         const userFound: IUser = (await User.findOne({_id: row.userId}).lean())!;
-        row['userCreateThisOrder'] = userFound.name
+        row['userCreateThisOrder'] = userFound?.name || 'یافت نشد'
 
         const lastDepartmentAssigned: IDepartment | null = await Department.findOne({_id: singleTicket.assignedToDepartmentId})
         row['lastDepartmentAssigned'] = lastDepartmentAssigned ? lastDepartmentAssigned?.name : ''
