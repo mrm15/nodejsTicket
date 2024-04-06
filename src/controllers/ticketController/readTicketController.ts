@@ -31,7 +31,7 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
             return
         }
 
-
+        debugger
         const list = await defineTable({
             req, conditionString: 'readTicketController',
             ticketUserId: '',
@@ -44,7 +44,7 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
     } catch (error: any) {
 
-        res.status(500).json({error: error.toString()});
+        res.status(500).json({error:  error.toString() +  ' موردی در  دریافت اطلاعات رخ داد.'});
         return
     }
 
