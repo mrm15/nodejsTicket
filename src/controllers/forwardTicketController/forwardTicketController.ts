@@ -11,7 +11,7 @@ import {generateRefreshToken} from "../LoginRegisterSms/generateAccessToken";
 import {uuidGenerator} from "../../utils/uuidGenerator";
 
 
-const forwardTicketToUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
+const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
 
     const {myToken} = req;
@@ -117,4 +117,4 @@ const forwardTicketToUserController = async (req: CustomRequestMyTokenInJwt, res
 
 };
 
-export {forwardTicketToUserController};
+export {forwardTicketController};
