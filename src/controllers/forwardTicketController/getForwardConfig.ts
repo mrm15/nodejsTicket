@@ -74,15 +74,15 @@ const getForwardConfig = async (req: CustomRequestMyTokenInJwt, res: Response, n
             // اگه آره پس میتونه لیست دپارتمان ها رو ببینه
             // اگه نه هم که پس باید لیست دپارتمان خالی براش ارسال بشه
             const departments: IDepartment[] = await Department.find().lean();
-            const departmentAdminListArray = departments.map(dep => dep.userId.toString());
+            const departmentAdminListArray = departments.map(dep => dep.managerUserId.toString());
 
             const {userId} = myToken.UserInfo.userData.userData;
 
 
-            const isAdmin = departmentAdminListArray.includes(userId);
+            const isDepartmentAdmin = departmentAdminListArray.includes(userId);
 
-            list.mode = isAdmin ? 'departmentAdmin' : 'usualUser';
-            list.departmentList = isAdmin ? departments.map(department => ({
+            list.mode = isDepartmentAdmin ? 'departmentAdmin' : 'usualUser';
+            list.departmentList = isDepartmentAdmin ? departments.map(department => ({
                 name: department.name,
                 id: department._id
             })) : [];
