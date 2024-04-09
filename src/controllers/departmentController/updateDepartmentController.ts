@@ -64,7 +64,7 @@ const updateDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
                 return
             }
 
-            const userId = userFound?.id
+            const userId = userFound?._id
 
 
             foundDepartment.userId = userId;
