@@ -16,6 +16,7 @@ export async function getNextSequenceValue(sequenceName: string): Promise<number
 
 // Define the Ticket document interface
 interface ITicket extends Document {
+    ticketFound: mongoose.Types.ObjectId;
      // ticketId: string;
     ticketNumber:number
     userId: mongoose.Schema.Types.ObjectId;

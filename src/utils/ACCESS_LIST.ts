@@ -60,5 +60,6 @@ export const ACCESS_LIST = {
     HOW_MANY_TICKETS_HAS_DONE_STATUS_IN_12MONTH: "howManyTicketsHasDoneStatusIn12Month",
     ACTIVE_AND_DE_ACTIVE_USERS: "activeAndDeActiveUsers",
     EDIT_USERS_ROLE: "editUsersRole",
+    ADMIN_SETTINGS: "adminSettings",
 
 }

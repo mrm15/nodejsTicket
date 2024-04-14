@@ -62,4 +62,5 @@ export const myPermissionsArray = [
     "howManyTicketsHasDoneStatusIn12Month",
     "UnlimitedForward",
     "forwardTickets",
+    "adminSettings",
 ]

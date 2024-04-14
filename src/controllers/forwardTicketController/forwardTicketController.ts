@@ -1,20 +1,27 @@
-import {Request, Response, NextFunction} from 'express';
+import {NextFunction, Response} from 'express';
 
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-
-import {ITicketReply, TicketReply} from "../../models/ticketReply";
-import {getCurrentTimeStamp} from "../../utils/timing";
 import {ITicket, Ticket} from "../../models/ticket";
 import {IUser, User} from "../../models/User";
-import {Department} from "../../models/department";
-import {generateRefreshToken} from "../LoginRegisterSms/generateAccessToken";
-import {uuidGenerator} from "../../utils/uuidGenerator";
 
 
 const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
 
     const {myToken} = req;
+
+    // اینجا باید سه تا مقدار بیاد
+
+    //اولی نام کاربری هست که تیکت باید براش ارسال بشه
+    // دومی دپارتمانی هست که باید تیکت براش ارسال بشه
+    // سومی مشخصات تیکتی هست که باید بیاد سمت ما
+
+    // ما باید اول چک کنیم و تایید بگیری مه ایشون میتونه تیکت ها رو فروراد کنه
+    // که چک کردن اینکه آیا کاربر میتونه تیکت فروارد کنه یا نه رو بعدا انجام میدم. و خیلی مهمه
+
+    //و در ادامه تیکت رو به لیست تیکت های کاربر اضافه میکنم.
+    //
+
     if (!myToken) {
         const message = 'مقدار توکن توی ری کوئست موجود نیست'
         res.status(403).json({message});
@@ -23,89 +30,79 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
 
 
     let {
-        ticketNumber,
-        description,
-        visibleToUser,
-        attachments,
+        tickets,
+        department,
+        user,
     } = req.body;
 
 
-    if (!visibleToUser) {
-
-        visibleToUser = true
-    }
-
-
-    if (!ticketNumber) {
-        res.status(500).json({
-            message: 'شماره تیکت  در ریکوئست موجود نیست',
-        });
-        return
-    }
-
-
-    if (!description) {
-        res.status(500).json({
-            message: 'مقدار توضیحات نمیتواند خالی باشد  ',
-        });
-        return
-    }
-    if (!attachments) {
-        attachments = []
-    }
-
-
-    const ticketId = (((await Ticket.findOne({ticketNumber: ticketNumber}).exec())!)['_id']);
-
-    const userId = myToken?.UserInfo?.userData?.userData?.userId
-
-
-    if (!userId) {
-        res.status(500).json({
-            message: 'مقدار userId نمیتواند خالی باشد  ',
-        });
-        return
-    }
-
-    //  دپارتمان فعلی که کاربر توش عضو هست رو وارد میکنم
-    const foundUser: IUser | null = await User.findOne({_id: userId}).lean()
-    if (!foundUser) {
-        res.status(500).json({
-            message: 'هیچ کاربری برای ثبت  دپارتمان یافت نشد'
-        });
-        return
-    }
-
-
-    const departmentId = foundUser?.departmentId
-    if (!departmentId) {
-        res.status(500).json({
-            message: 'دپارتمان کاربر نمیتواند خالی باشد'
-        });
-        return
-    }
-
-
-    const dataToInsertInTicketReplyCollection = {
-        ticketId,
-        userId,
-        departmentId,
-        description,
-        replyDate: getCurrentTimeStamp(),
-        attachments,
-        visibleToUser: true,
-        createAt: getCurrentTimeStamp(),
-        updateAt: getCurrentTimeStamp(),
-    }
-
-
     try {
+        // اینجا بعدا باید توکن رو ببینم و بر اساس یوزر آیدی تشخیص بدم آیا کاربر  ادمین کل هست؟ یا اینکه ادمنی دپارتمان هست و یا اینکه کاربر معمولی هست
 
-        const result = await TicketReply.create(dataToInsertInTicketReplyCollection)
+
+        // خب بریم اول روی آرایه ی تیکت ها لوپ بزنیم
+        //
+        //  اول دپارتمان
+        // روی تیکت ها لوپ میزنم و دپارتمانشون رو عوض میکنم
+
+
+        let departmentTicketChange = false
+        let userTicketChange = false;
+        if (!department && !user) {
+            res.status(406).json({
+                message: 'باید حتما  نام  یا دپارتمان را انخاب کنید.',
+            });
+            return
+        }
+
+        if (department !== '') {
+            const departmentId = department
+            const myList = await Promise.all(tickets.map(async (singleTicket: ITicket) => {
+
+                const row: any = {...singleTicket};
+                const ticketFound: ITicket = (await Ticket.findOne({_id: row._id}).exec())!;
+                ticketFound.assignedToDepartmentId = departmentId
+                if (user !== '') {
+                    ticketFound.assignToUserId =  user
+                }
+                return await ticketFound.save();
+            }));
+            departmentTicketChange = true;
+        }
+
+
+        if (user !== '') {
+
+
+            const foundUser: IUser | null = await User.findOne({_id: user}).exec();
+
+            if (foundUser) {
+                const currentTickets = foundUser.tickets || []; // Ensure there's an array to work with
+                const newTickets = req.body.tickets || []; // Assuming req.body.tickets contains the new tickets to add
+
+                // Combine the current tickets with the new ones, and convert to a Set to ensure uniqueness
+                const uniqueTickets = new Set([...currentTickets, ...newTickets]);
+
+                // Convert the Set back to an array
+                foundUser.tickets = Array.from(uniqueTickets);
+
+                const result = await foundUser.save(); // Save the updated user document
+            }
+            userTicketChange = true
+        }
+
+        const message = (userTicketChange && departmentTicketChange) ?
+            'سفارش های کاربر و دپارتمان ارجاع شد.' :
+            departmentTicketChange ?
+                'سفارش های دپارتمان ارجاع شد' :
+                userTicketChange ?
+                    'سفارش های کاربر ارجاع شد' :
+                    'هیچ تغییری انجام نشد!!!!!☹️';
         res.status(200).json({
-            message: 'پاسخ شما با موفقیت ثبت شد.',
+            message
         });
         return
+
     } catch (error) {
         res.status(500).json({
             message: error?.toString(),

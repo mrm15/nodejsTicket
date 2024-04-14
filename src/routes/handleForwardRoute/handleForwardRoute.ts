@@ -1,5 +1,5 @@
 import express from 'express';
-import {forwardTicketToUserController} from "../../controllers/forwardTicketController/forwardTicketToUserController";
+import {forwardTicketController} from "../../controllers/forwardTicketController/forwardTicketController";
 import {readTicketReplyController} from "../../controllers/forwardTicketController/readTicketReplyController";
 import {updateTicketReplyController} from "../../controllers/forwardTicketController/updateTicketReplyController";
 import {deleteTicketReplyController} from "../../controllers/forwardTicketController/deleteTicketReplyController";
@@ -10,8 +10,9 @@ import {getForwardConfig} from "../../controllers/forwardTicketController/getFor
 const router = express.Router();
 
 router.get('/getConfig' , getForwardConfig)
-router.post('/toUser', forwardTicketToUserController)  //  // forward  to user
-router.post('/toDepartment', readTicketReplyController) // // forward ticket  to Department
+router.post('/submit', forwardTicketController)  //  // forward  to user Or department
+
+router.post('/toNextDepartment', readTicketReplyController) // // forward ticket  to Department
 
 router.post('/toUserToDepartment', readTicketReplyController) // // forward ticket  to  a user in a Department
 
