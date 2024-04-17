@@ -2,8 +2,6 @@ import mongoose, {Schema, Document} from 'mongoose';
 import {v4 as uuidV4} from 'uuid';
 
 
-
-
 // Define the User document interface (optional but recommended)
 interface IUserTask {
     taskId: mongoose.Schema.Types.ObjectId;
@@ -58,6 +56,7 @@ interface IUser extends Document {
         useragent: string;
         loginTime: Date;
     }[] | [];
+    userStatus: string;
 }
 
 // Create the User schema
@@ -262,11 +261,11 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     },
 
     tokens: [{
-        refreshToken: { type: String, required: true },
-        os: { type: String, required: true },
-        ip: { type: String, required: true },
-        useragent: { type: String, required: true },
-        loginTime: { type: Date, required: true }
+        refreshToken: {type: String, required: true},
+        os: {type: String, required: true},
+        ip: {type: String, required: true},
+        useragent: {type: String, required: true},
+        loginTime: {type: Date, required: true}
     }],
     loginCode: {
         type: Number,
@@ -279,12 +278,18 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     },
     isActive: {
         type: Boolean,
-        default:false,
+        default: false,
     },
+    userStatus: {
+        type: String, //   online offline busy  away
+        required: false,
+        default: 'offline',
+    },
+
     tickets: [{
         type: mongoose.Schema.Types.ObjectId,
         required: false,
-        index:true,
+        index: true,
     }],
 
     createAt: {
@@ -296,6 +301,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         type: Date,
         default: Date.now
     },
+
 });
 
 // Create a virtual 'id' property
