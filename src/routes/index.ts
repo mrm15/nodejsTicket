@@ -24,6 +24,8 @@ import handleDownloadRoute from "./downloadRoute/handleDownloadRoute";
 import handleTicketRoute from "./handleTicketRoute/handleTicketRoute";
 import handleTicketReplyRoute from "./handleTicketReplyRoute/handleTicketReplyRoute";
 import handleForwardRoute from "./handleForwardRoute/handleForwardRoute";
+import handleAdminSettingsRoute from "./handleAdminSettingsRoute/handleAdminSettingsRoute";
+import handleUserStatusRoute from "./handleUserStatusRoute/handleUserStatusRoute";
 
 
 // Add Routes
@@ -65,6 +67,8 @@ myRouter.use('/status' , handleStatusRoute);
 myRouter.use('/ticket' , handleTicketRoute);
 myRouter.use('/ticketReply' , handleTicketReplyRoute);
 myRouter.use('/forward' , handleForwardRoute);
+myRouter.use('/adminSettings' , handleAdminSettingsRoute);
+myRouter.use('/userStatus' , handleUserStatusRoute);
 
 
 
