@@ -61,5 +61,6 @@ export const ACCESS_LIST = {
     ACTIVE_AND_DE_ACTIVE_USERS: "activeAndDeActiveUsers",
     EDIT_USERS_ROLE: "editUsersRole",
     ADMIN_SETTINGS: "adminSettings",
+    USER_STATUS: "userStatusInDashboard",
 
 }

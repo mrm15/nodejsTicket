@@ -63,4 +63,5 @@ export const myPermissionsArray = [
     "UnlimitedForward",
     "forwardTickets",
     "adminSettings",
+    "userStatusInDashboard",
 ]

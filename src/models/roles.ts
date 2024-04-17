@@ -60,6 +60,7 @@ interface IRole extends Document {
     userEditUsersRole:Boolean;
     userEditUsersDepartment:Boolean;
     adminSettings:Boolean;
+    userStatusInDashboard:Boolean;
     userReadSameDepartment:Boolean;
     userUpdateAll:Boolean;
     userUpdateSameDepartment:Boolean;
@@ -144,6 +145,7 @@ const roleSchema: Schema<IRole> = new Schema({
     userEditUsersRole:{type:Boolean , default:false , required:true},
     userEditUsersDepartment:{type:Boolean , default:false , required:true},
     adminSettings:{type:Boolean , default:false , required:true},
+    userStatusInDashboard:{type:Boolean , default:false , required:true},
 
     report:{type:Boolean , default:false , required:true},
     howManyUsersThereAre:{type:Boolean , default:false , required:true},
