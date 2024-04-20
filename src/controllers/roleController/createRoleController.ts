@@ -46,12 +46,10 @@ const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
             return
         }
 
-        // check if this phone number is uniq
-        const isThereAnyRoleWithThatName: any = await Role.findOne({name: newRoleData.name}).exec()
+        // check if this role name is uniq
+        const isThereAnyRoleWithThatName: IRole[] | null = await Role.findOne({name: newRoleData.name}).lean()
 
-
-        if (isThereAnyRoleWithThatName.length !== 0) {
-
+        if (!!isThereAnyRoleWithThatName && isThereAnyRoleWithThatName?.length !== 0) {
             res.status(409).json({
                 message: 'نام نقش تکراری',
             });
