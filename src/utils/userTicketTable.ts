@@ -1,4 +1,4 @@
-import {IUser, User} from "../models/User";
+import {ITicketInfo, IUser, User} from "../models/User";
 import {ITicket, Ticket} from "../models/ticket";
 import mongoose from "mongoose";
 import {Department, IDepartment} from "../models/department";
@@ -9,29 +9,40 @@ interface myObject {
 
 export const userTicketTable = async ({userId}: myObject) => {
 
-    let myList: ITicket[] | [] = []
+    debugger
     // get userTicket List from user Model
-    const foundUser: IUser | null = await User.findOne({userId: userId}).lean()
-    let userTicketArray: mongoose.Schema.Types.ObjectId[] | undefined | [] = foundUser?.tickets
+    const foundUser: IUser | null = await User.findOne({_id: userId}).lean()
+    let userTicketArray: ITicketInfo[] | undefined | [] = foundUser?.tickets
     if (!userTicketArray) {
         userTicketArray = []
     }
 
 
-    myList = await Promise.all(userTicketArray?.map(async (ticketId) => {
+    console.log("userTicketArray:", userTicketArray);
 
-        const foundTicket: ITicket = (await Ticket.findOne({_id: ticketId}).lean())!;
+    const myList = await Promise.all(userTicketArray.map(async (singleRow: ITicketInfo) => {
+        try {
+            const foundTicket: ITicket | null = await Ticket.findOne({_id: singleRow.ticketId}).lean();
 
-        const row: any = {...foundTicket}
 
-        const lastDepartmentAssigned: IDepartment | null = await Department.findOne({_id: foundTicket.assignedToDepartmentId})
-        row['lastDepartmentAssigned'] = lastDepartmentAssigned ? lastDepartmentAssigned?.name : ''
+            if (foundTicket) {
+                const lastDepartmentAssigned: IDepartment | null = await Department.findOne({_id: foundTicket?._id});
+                const lastUserAssigned: ITicket | null = await Ticket.findOne({_id: foundTicket?._id});
 
-        const lastUserAssigned: IDepartment | null = await Department.findOne({_id: foundTicket.assignToUserId})
-        row['lastUserAssigned'] = lastUserAssigned ? lastUserAssigned.name : ''
+                const row: any = {...foundTicket};
+                row['lastDepartmentAssigned'] = lastDepartmentAssigned ? lastDepartmentAssigned?.name : '';
+                row['lastUserAssigned'] = lastUserAssigned ? lastUserAssigned.title : '';
 
-        return row
-    }))
+                return row;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error("Error fetching ticket:", error);
+            return null;
+        }
+    }));
+
 
 
     const columnDefs = []
