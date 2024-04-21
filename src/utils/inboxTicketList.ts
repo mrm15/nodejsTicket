@@ -18,16 +18,25 @@ export const inboxTicketList = async ({ userId }: myInterface) => {
     if (foundUser?.departmentId) {
         departmentTicketList = await getDepartmentTicketList({ id: foundUser?.departmentId });
     }
+    console.log("departmentTicketList")
+    console.log(departmentTicketList)
+    console.log("rowDataTemp")
+    console.log(rowDataTemp)
 
 
 
-    const inboxTickets: ITicket[] = [];
+    let inboxTickets: ITicket[] = [];
 
-    departmentTicketList.forEach(singleTicketInDepartment => {
-        if (rowDataTemp.includes(singleTicketInDepartment)) {
-            inboxTickets.push(singleTicketInDepartment);
-        }
-    });
+    // departmentTicketList.forEach(singleTicketInDepartment => {
+    //     if (rowDataTemp.includes(singleTicketInDepartment)) {
+    //         inboxTickets.push(singleTicketInDepartment);
+    //     }
+    // });
+
+    // Filter department tickets that also exist in user's personal ticket list
+     inboxTickets = departmentTicketList.filter(ticket =>
+        rowDataTemp.some(userTicket => userTicket._id.toString() === ticket._id.toString())
+    );
 
 
     const columnDefs = []
@@ -46,7 +55,7 @@ export const inboxTicketList = async ({ userId }: myInterface) => {
 
     const rowData = [...inboxTickets]
 
-    return {columnDefs, rowData}
+    return {columnDefs, rowData:inboxTickets}
 
 
 };
