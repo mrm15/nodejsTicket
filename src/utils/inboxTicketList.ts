@@ -18,11 +18,6 @@ export const inboxTicketList = async ({ userId }: myInterface) => {
     if (foundUser?.departmentId) {
         departmentTicketList = await getDepartmentTicketList({ id: foundUser?.departmentId });
     }
-    console.log("departmentTicketList")
-    console.log(departmentTicketList)
-    console.log("rowDataTemp")
-    console.log(rowDataTemp)
-
 
 
     let inboxTickets: ITicket[] = [];
