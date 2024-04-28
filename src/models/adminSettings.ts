@@ -7,6 +7,8 @@ interface IAdminSettings extends Document {
     userId: mongoose.Schema.Types.ObjectId | null;
     firstDestinationForTickets: mongoose.Schema.Types.ObjectId | null;
     showUsersListInSendTicketForm: Boolean;
+    firstStatusTicket: mongoose.Schema.Types.ObjectId | null;
+    maxFileSize: Number | null;
     createAt: Date;
     updateAt: Date;
 }
@@ -30,6 +32,14 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
     showUsersListInSendTicketForm: {
         type: Boolean,
         default: false,
+    },
+    firstStatusTicket: {
+        type: mongoose.Schema.Types.ObjectId || null,
+        required: false,
+    },
+    maxFileSize: {
+        type: Number || null,
+        required: false,
     },
     createAt: {
         type: Date,
