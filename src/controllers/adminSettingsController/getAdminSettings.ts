@@ -11,6 +11,7 @@ import {IUser, User} from "../../models/User";
 import {IRole, Role} from "../../models/roles";
 import mongoose from "mongoose";
 import {getCurrentTimeStamp} from "../../utils/timing";
+import {IStatus, Status} from "../../models/status";
 
 export interface IDataList {
     name: string;
@@ -67,10 +68,17 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
             }
 
 
-            const randomDepartment: IDepartment | null = await Department.findOne({}).lean()
+            const randomDepartment: IDepartment | null = await Status.findOne({}).lean()
             if (!randomDepartment) {
                 res.status(406).json({
                     message: 'لطفا یک دپارتمان تعریف کنید.',
+                });
+                return;
+            }
+            const randomStatus: IStatus | null = await Department.findOne({}).lean()
+            if (!randomStatus) {
+                res.status(406).json({
+                    message: 'لطفا یک استاتوس تعریف کنید.',
                 });
                 return;
             }
@@ -81,6 +89,8 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
                 userId: randomUser._id,
                 firstDestinationForTickets: randomDepartment._id,
                 showUsersListInSendTicketForm: false,
+                firstStatusTicket:randomStatus._id,
+                maxFileSize:5.0,
                 createAt: getCurrentTimeStamp(),
                 updateAt: getCurrentTimeStamp(),
             })
