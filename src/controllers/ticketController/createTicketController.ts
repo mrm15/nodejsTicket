@@ -6,10 +6,11 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {getNextSequenceValue, ITicket, Ticket} from "../../models/ticket";
 import {getSettings} from "../../utils/getFirstStatus";
+import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
-
+    debugger
     const {myToken} = req;
     const ticketData = req.body;
 
@@ -29,6 +30,10 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
     if (!ticketData.files || ticketData.files.length === 0) {
         message += ' - هیچ فایلی ضمیمه نشده است'
+    }
+    // اگه قرار بود کاربران نمایش داده بشن ولی دپارتمان مقصد و یا کاربر مقصد مشخص نبود پس گیر داریم
+    if (ticketData.showUsersListInSendTicketForm && !(ticketData.destinationDepartmentId || ticketData.destinationUserId)) {
+        message += 'کاربر یا دپارتمان مقصد مشخص نشده است'
     }
 
     if (message !== '') {
@@ -70,17 +75,66 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         }
 
         const userId = userFound?._id
+        const ticketNumber = await getNextSequenceValue('ticketNumber')
 
 
-        let {status, assignedToDepartmentId} = await getSettings();
+        // let { assignedToDepartmentId} = await getSettings();
+        //
+        // if (!assignedToDepartmentId) {
+        //     res.status(404).json({
+        //         message: ' دپارتمانی تعریف نشده است.'
+        //     })
+        //     return
+        // }
+        // بریم ببینم آیا باید تیکت رو به مدیر دپارتمان ارجاع بدیم یا اینکه  باید یک راست تحویل کسی بدیم که مشتری انتخاب کرده.
+        // بریم اینو از تنظیمات ببینیم
+        const adminSettingsResult: IAdminSettings | null = await AdminSettings.findOne({}).lean();
 
-        if (!status || !assignedToDepartmentId) {
+        if (!adminSettingsResult) {
             res.status(404).json({
-                message: 'هیچ وضعیت یا دپارتمانی تعریف نشده است.'
+                message: 'هیچ تنظیمات مدیریتی ثبت نشده است.'
             })
             return
         }
-        const ticketNumber = await getNextSequenceValue('ticketNumber')
+        const status = (adminSettingsResult.firstStatusTicket)!;
+        if (!status) {
+            res.status(404).json({
+                message: 'اولین استاتوس تیکت در تنظیمات مدیریتی ثبت نشده است. .'
+            })
+            return
+        }
+        // اگه قرار بود بره واسه مدیر دپارتمان پس ینی
+        // adminSettingsResult.showUsersListInSendTicketForm
+        // باید مقدارش فالز باشه
+        // و اگه قراره بره برای یه شخص در دپارتمان (دریافت سفارش) بره پس باید مقدار باید ترو باشه
+
+
+        //   اگه اونجا کاربرای دپارتمان مقصد رو نشون بدیم ینی باید به یک کاربر خاص تیکت ارسال بشه
+        // پس اگه نمایش کاربران ترو باشه ارسال به ادمین دپارتمان فالز هست
+        const isSendTicketToAdmin = !adminSettingsResult.showUsersListInSendTicketForm
+
+        let assignedToDepartmentId = null;
+        let assignToUserId = null;
+
+        // اگه قرار بود سفارشات ثبت شده به ادمنی دپارتمان
+        if (isSendTicketToAdmin) {
+            assignedToDepartmentId = adminSettingsResult.firstDestinationForTickets;
+        } else {
+            // اول مطمین بشیم که کاربری که از فرانت آیدیش به عنوان دریافت کننده تیکت
+            // میاد دقیقا توی همون دپارتمان وجود داره.
+            // چون ممکنه یه درصد یه نفر بخواد هکی رو بکار ببره و اطلاعات اشتباه ثبت کنه
+            const isValidUser: IUser | null = await User.findOne({_id: ticketData.destinationUserId});
+            if (!isValidUser || !isValidUser.isActive) {
+                res.status(404).json({
+                    message: 'کاربر مورد نظر در دپارتمان یافت نشد'
+                })
+                return
+            }
+
+            assignToUserId = ticketData.destinationUserId
+
+        }
+
 
         const newTicket: any = {
             ticketNumber,
@@ -90,7 +144,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             priority: 'زیاد',
             status,
             assignedToDepartmentId,
-            assignToUserId: null,
+            assignToUserId,
             attachments: ticketData.files,
             lastChangeTimeStamp: getCurrentTimeStamp(),
             returnStatus: null,
