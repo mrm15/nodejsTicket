@@ -51,6 +51,8 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             currentSettings.userId = myToken?.UserInfo?.userData?.userData?.userId;
             currentSettings.firstDestinationForTickets = updatedAdminSettings.firstDestinationForTickets;
             currentSettings.showUsersListInSendTicketForm = updatedAdminSettings.showUsersListInSendTicketForm;
+            currentSettings.firstStatusTicket = updatedAdminSettings.firstStatusTicket;
+            currentSettings.maxFileSize = parseFloat(updatedAdminSettings.maxFileSize);
             currentSettings.updateAt = getCurrentTimeStamp();
 
 
