@@ -34,6 +34,7 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
 
 
     const {myToken} = req;
+    // اینجا باید حجم فایل رو نگاه کنم و با توجه به محدودیتی که وجود داره ارور بدم.
     if (!myToken) {
         const message = 'مقدار توکن توی ری کوئست موجود نیست'
         res.status(403).json({message});
