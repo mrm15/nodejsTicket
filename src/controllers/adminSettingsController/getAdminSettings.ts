@@ -47,6 +47,7 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
         const arrayListToCheck = [
             ACCESS_LIST.TICKET_CREATE
         ]
+
         const hasAccessToCreateTicket = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
 
         const arrayListToCheck1 = [
@@ -55,7 +56,7 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
         const hasAccessToAdminList = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck:arrayListToCheck1})
 
         // اگه  به افزودن تیکت دسترسی نداشت و همچنین به تنطیمات مدیریتی دسترسی نداشت  بهش بگو دسترسی نداری.  این برای گرفتن اطلاعات هست و برای ثبت نیست
-        if (!(hasAccessToAdminList && hasAccessToCreateTicket)) {
+        if (!hasAccessToAdminList && !hasAccessToCreateTicket) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'})
             return
         }
