@@ -173,7 +173,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         chatList.data = [...myData, ...myList]
         res.status(200).json({
             chatList,
-            message: 'پاسخ شما ثبت شد.',
+            message: 'چت لیست دریافت شد',
         });
         return
     } catch (error: any) {
