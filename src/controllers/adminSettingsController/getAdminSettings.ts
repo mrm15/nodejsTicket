@@ -53,9 +53,12 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
         const arrayListToCheck1 = [
             ACCESS_LIST.ADMIN_SETTINGS
         ]
-        const hasAccessToAdminList = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck:arrayListToCheck1})
+        const hasAccessToAdminList = await checkAccessList({
+            phoneNumber: myToken.phoneNumber,
+            arrayListToCheck: arrayListToCheck1
+        })
 
-        // اگه  به افزودن تیکت دسترسی نداشت و همچنین به تنطیمات مدیریتی دسترسی نداشت  بهش بگو دسترسی نداری.  این برای گرفتن اطلاعات هست و برای ثبت نیست
+        // اگه  به افزودن تیکت دسترسی نداشت و همچنین به تنطیمات مدیریتی دسترسی نداشت بهش بگو دسترسی نداری.  این برای گرفتن اطلاعات هست و برای ثبت نیست
         if (!hasAccessToAdminList && !hasAccessToCreateTicket) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'})
             return
@@ -91,15 +94,18 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
             }
 
 
+            const currentTimeStamp = getCurrentTimeStamp()
             const newAdminSettingData: IAdminSettings = new AdminSettings({
 
                 userId: randomUser._id,
                 firstDestinationForTickets: randomDepartment._id,
                 showUsersListInSendTicketForm: false,
-                firstStatusTicket:randomStatus._id,
-                maxFileSize:5.0,
-                createAt: getCurrentTimeStamp(),
-                updateAt: getCurrentTimeStamp(),
+                firstStatusTicket: randomStatus._id,
+                maxFileSize: 5.0,
+                registerInPanel: "notActive",
+                registerDepartment: null,
+                createAt: currentTimeStamp,
+                updateAt: currentTimeStamp,
             })
             await newAdminSettingData.save();
 
