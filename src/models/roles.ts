@@ -73,6 +73,7 @@ interface IRole extends Document {
     howManyTicketsThereAreInEveryDepartment:Boolean;
     howManyTicketsHasDoneStatus:Boolean;
     howManyTicketsHasDoneStatusIn12Month:Boolean;
+    sendHiddenMessage:Boolean;
 
 
 }
@@ -154,6 +155,7 @@ const roleSchema: Schema<IRole> = new Schema({
     howManyTicketsThereAreInEveryDepartment:{type:Boolean , default:false , required:true},
     howManyTicketsHasDoneStatus:{type:Boolean , default:false , required:true},
     howManyTicketsHasDoneStatusIn12Month:{type:Boolean , default:false , required:true},
+    sendHiddenMessage:{type:Boolean , default:false , required:true},
 });
 
 roleSchema.virtual('id').get(function () {
