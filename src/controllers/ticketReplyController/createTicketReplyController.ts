@@ -93,7 +93,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         description,
         replyDate: getCurrentTimeStamp(),
         attachments,
-        visibleToUser: true,
+        visibleToUser: visibleToUser,
         createAt: getCurrentTimeStamp(),
         updateAt: getCurrentTimeStamp(),
     }
