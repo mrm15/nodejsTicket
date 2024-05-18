@@ -29,6 +29,7 @@ import {getRoleAccessList} from "./getRoleAccessList";
 import {generateAccessToken, generateRefreshToken} from "./generateAccessToken";
 import {getUserAgentData} from "./getUserAgentData";
 import {getUserInfoByPhoneNumber} from "./getUserInfoByPhoneNumber";
+import {sendSms} from "../../utils/sendSms";
 
 
 interface LoginRequestBody {
@@ -130,10 +131,11 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
         const loginCode = loginCodeGenerator();
         const text = generateLoginSms(loginCode);
         // Uncomment the following lines if you have the sendSms function ready
-        // const isSend = await sendSms(text, phoneNumber);
-        // if (!isSend) {
-        //   return res.status(500).json({ status: false, message: "ارسال پیام موفقیت آمیز نبود" });
-        // }
+        const isSend = await sendSms(text, phoneNumber);
+        if (!isSend) {
+            res.status(500).json({status: false, message: "ارسال پیام موفقیت آمیز نبود"});
+            return
+        }
 
         user.loginCode = loginCode;
         user.loginCodeSendDate = new Date();
