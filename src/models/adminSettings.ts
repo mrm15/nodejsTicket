@@ -9,6 +9,9 @@ interface IAdminSettings extends Document {
     showUsersListInSendTicketForm: Boolean;
     firstStatusTicket: mongoose.Schema.Types.ObjectId | null;
     maxFileSize: Number | null;
+    registerInPanel: "active" | 'notActive' | null;
+    registerDepartment: mongoose.Schema.Types.ObjectId | null;
+    registerRole: mongoose.Schema.Types.ObjectId | null;
     createAt: Date;
     updateAt: Date;
 }
@@ -40,6 +43,18 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
     maxFileSize: {
         type: Number || null,
         required: false,
+    },
+    registerInPanel: {
+        type: String || null,
+        required: true,
+    },
+    registerDepartment: {
+        type: mongoose.Schema.Types.ObjectId || null,
+        required: true,
+    },
+    registerRole: {
+        type: mongoose.Schema.Types.ObjectId || null,
+        required: true,
     },
     createAt: {
         type: Date,
