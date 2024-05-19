@@ -104,6 +104,7 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
                 maxFileSize: 5.0,
                 registerInPanel: "notActive",
                 registerDepartment: null,
+                registerRole: null,
                 createAt: currentTimeStamp,
                 updateAt: currentTimeStamp,
             })
