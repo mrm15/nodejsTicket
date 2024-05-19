@@ -1,14 +1,17 @@
 import {IUser, User} from "../../models/User";
 
-
-
-
-export const addNewUserF = async  (number: string)=>{
+interface myInput {
+    phoneNumber:String;
+    departmentId:any;
+    roleId:any;
+}
+export const addNewUserF = async ({phoneNumber,departmentId,roleId}:myInput) => {
 
     const object = {
-        phoneNumber: number,
+        phoneNumber,
         createAt: new Date(),
-        departmentId: "",
+        departmentId,
+        role:roleId,
         SHABA_Number: "",
         accountNumber: "",
         accountingCode: "",
@@ -39,14 +42,17 @@ export const addNewUserF = async  (number: string)=>{
         tasks: [],
         tickets: [],
         title: "",
-        isActive:true,
+        isActive: true,
         updateAt: new Date(),
         website: "",
         loginCodeSendDate: new Date(),
     }
+    debugger
 
-
-    const newUser = new User(object);
-    await newUser.save();
+    try {
+        await User.create(object);
+    } catch (error: any) {
+        throw new Error(error)
+    }
 
 }
