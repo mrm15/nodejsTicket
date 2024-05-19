@@ -1,0 +1,1 @@
+export const setNullIfEmpty = (value: string | null | undefined) => (value === '' ? null : value);
