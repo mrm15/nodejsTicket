@@ -22,11 +22,11 @@ const admin = async (req: Request, res: Response, next: NextFunction): Promise<v
 
         }
 
-        await addNewUserF(phoneNumber)
+        await addNewUserF({phoneNumber, departmentId: null,roleId:null})
         message += '\n_ کاربر ادد شد __ ';
 
         await addRole();
-        message += '\nروا ادد شد'
+        message += '\nرول ادد شد'
 
         // assign role to user
         const user = await User.findOne({ phoneNumber }).exec();
