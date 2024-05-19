@@ -30,6 +30,7 @@ import {generateAccessToken, generateRefreshToken} from "./generateAccessToken";
 import {getUserAgentData} from "./getUserAgentData";
 import {getUserInfoByPhoneNumber} from "./getUserInfoByPhoneNumber";
 import {sendSms} from "../../utils/sendSms";
+import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 
 
 interface LoginRequestBody {
@@ -68,6 +69,44 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
 
         // بعدا که قرار شد ثبت نام کاربر باز باشه اینجا کاربر رو ثبت نام میکنم. و یه رکورد براش توی دیتا بیس ثبت میکنم
         if (!user) {
+
+            // چک کن ببین آیا توی تنظیمات ثبت نام باز هست یا نه؟
+            const adminSettingsData: IAdminSettings | null = await AdminSettings.findOne({}).lean();
+
+
+            if (!adminSettingsData) {
+                res.status(403).json({
+                    status: false,
+                    message: "تنظیمات تعریف نشده!"
+                });
+
+                return
+            }
+            if (adminSettingsData.registerInPanel!=='active') {
+                res.status(403).json({
+                    status: false,
+                    message: "جهت ثبت نام با مدیرسایت تماس بگیرید"
+                });
+
+                return
+            }
+
+            if (!adminSettingsData.registerDepartment) {
+                res.status(403).json({
+                    status: false,
+                    message: "دپارتمان ثبت نامی ها تعریف نشده با مدیر سایت تماس بگیرید."
+                });
+                return
+            }
+            if (!adminSettingsData.registerRole) {
+                res.status(403).json({
+                    status: false,
+                    message: "نقش ثبت نامی ها تعریف نشده با مدیر سایت تماس بگیرید."
+                });
+                return
+            }
+
+
             // res.status(401).json({
             //     status: false,
             //     message: "کاربری با این شماره تلفن یافت نشد!"
@@ -78,7 +117,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
             try {
 
                 debugger
-                await addNewUserF(phoneNumber)
+                await addNewUserF({phoneNumber,departmentId:adminSettingsData.registerDepartment , roleId:adminSettingsData.registerRole} )
                 user = await User.findOne({phoneNumber}).exec()!;
                 if (!user) {
                     res.status(401).json({
@@ -111,6 +150,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
         // اول چک میکنم آیا زمان فعلی سیستم  تا زمانی که کاربر آخرین بار درخواست کد وروود داده بیشتر از 1 دقیقه گذشته یا نه
         const currentTime = getCurrentTimeStamp()
         const savedTimestamp = user.loginCodeSendDate;
+        /*
         if (savedTimestamp) {
 
             const savedDate = savedTimestamp instanceof Date ? savedTimestamp : new Date(savedTimestamp);
@@ -125,7 +165,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
                 return
             }
         }
-
+        */
 
         // کد ورود رو ست میکنم.
         const loginCode = loginCodeGenerator();
