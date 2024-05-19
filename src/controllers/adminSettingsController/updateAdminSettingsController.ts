@@ -7,6 +7,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {booleanToString, stringToBoolean} from "../../utils/stringBoolean";
 import {IStatus, Status} from "../../models/status";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
+import {setNullIfEmpty} from "../../utils/functions";
 
 
 const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -40,7 +41,7 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             }
 
             // check if this phone number is uniq
-            let currentSettings: IAdminSettings = (await AdminSettings.findOne({}).exec())!
+            let currentSettings: IAdminSettings = (await AdminSettings.findOne({}).lean())!
 
 
             if (!currentSettings) {
@@ -48,17 +49,24 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
                 return
             }
 
+
+            updatedAdminSettings.registerDepartment = setNullIfEmpty(updatedAdminSettings.registerDepartment);
+            updatedAdminSettings.registerRole = setNullIfEmpty(updatedAdminSettings.registerRole);
+
+
+
             currentSettings.userId = myToken?.UserInfo?.userData?.userData?.userId;
             currentSettings.firstDestinationForTickets = updatedAdminSettings.firstDestinationForTickets;
             currentSettings.showUsersListInSendTicketForm = updatedAdminSettings.showUsersListInSendTicketForm;
             currentSettings.firstStatusTicket = updatedAdminSettings.firstStatusTicket;
             currentSettings.registerInPanel = updatedAdminSettings.registerInPanel;
             currentSettings.registerDepartment = updatedAdminSettings.registerDepartment;
+            currentSettings.registerRole = updatedAdminSettings.registerRole;
             currentSettings.maxFileSize = parseFloat(updatedAdminSettings.maxFileSize);
             currentSettings.updateAt = getCurrentTimeStamp();
 
 
-            await currentSettings.save()
+            await AdminSettings.updateOne({_id: currentSettings._id}, currentSettings).exec();
             res.status(200).json({message: 'تنظیمات مدیریتی با موفقیت ثبت شد.',});
             return;
 
