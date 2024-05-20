@@ -102,6 +102,7 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
                 showUsersListInSendTicketForm: false,
                 firstStatusTicket: randomStatus._id,
                 maxFileSize: 5.0,
+                customerDepartment: null,
                 registerInPanel: "notActive",
                 registerDepartment: null,
                 registerRole: null,
