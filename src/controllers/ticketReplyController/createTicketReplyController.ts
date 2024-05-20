@@ -30,8 +30,8 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
     } = req.body;
 
 
-    if (!visibleToUser) {
 
+    if (visibleToUser=== undefined) {
         visibleToUser = true
     }
 

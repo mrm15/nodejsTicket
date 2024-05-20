@@ -9,6 +9,7 @@ import {timestampToTime} from "../../utils/timestampToTime";
 import {Department, IDepartment} from "../../models/department";
 import {filesToFileData} from "../../utils/filesToFileData";
 import {ITicketReply, TicketReply} from "../../models/ticketReply";
+import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 
 interface IChatList {
     ticketNumber?: number;
@@ -136,8 +137,6 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         })
 
 
-
-
         // اینجا باید برم توی ریپلای ها سرچ کنم
         // به ترتیب مرتبشون کنم
         // بریزمشون توی آرایه ی دیتا که توی چت لیست قرار داره و بعدش بفرستم سمت فرانت
@@ -145,10 +144,10 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         // last action here I want to add reply collection
         // chatList.files = [...tempFilesArray];
         // let's go find some replies
-        const replies = await TicketReply.find({ticketId}).exec();
+        const replies = await TicketReply.find({ticketId}).lean();
 
 
-        const myList = await Promise.all(replies.map(async (singleTicketReply) => {
+        let myList = await Promise.all(replies.map(async (singleTicketReply) => {
             const row: any = {};
             const foundUser: IUser = (await User.findOne({_id: singleTicketReply.userId}).lean())!;
             const foundDepartment: IDepartment = (await Department.findOne({_id: singleTicketReply.departmentId}).lean())!;
@@ -164,10 +163,26 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             row['user_name'] = foundUser?.name
             row['department_name'] = foundDepartment?.name
             row['description'] = singleTicketReply?.description || 'یافت نشد';
+            row['visibleToUser'] = singleTicketReply?.visibleToUser;
             row['files'] = filesPropertiesArray
             row['createAt'] = timestampToTime(singleTicketReply?.createAt)
+            console.log(singleTicketReply)
             return row;
         }));
+
+        // بریم ببینیم آیا اون دپارتمانی که درخواست کرده که تیکت ها رو ببینه همون دپارتمان مشتری ها هست؟ اگه آره  پنهان ها رو نشون نده
+        const result: IAdminSettings | null = await AdminSettings.findOne({}).lean();
+
+        if (result) {
+
+
+
+            const userDepartment = myToken.UserInfo.userData.userData.departmentId;
+            const customerDepartment = (result.customerDepartment)?.toString();
+            if (customerDepartment === userDepartment) {
+                myList = myList.filter(item => item.visibleToUser === true)
+            }
+        }
 
 
         chatList.data = [...myData, ...myList]
