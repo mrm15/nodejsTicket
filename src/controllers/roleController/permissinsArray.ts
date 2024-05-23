@@ -65,4 +65,7 @@ export const myPermissionsArray = [
     "adminSettings",
     "userStatusInDashboard",
     "sendHiddenMessage",
+    "smsArchive",
+    "smsPending",
+    "smsSend",
 ]
