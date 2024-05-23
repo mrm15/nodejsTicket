@@ -74,6 +74,9 @@ interface IRole extends Document {
     howManyTicketsHasDoneStatus:Boolean;
     howManyTicketsHasDoneStatusIn12Month:Boolean;
     sendHiddenMessage:Boolean;
+    smsArchive:Boolean;
+    smsPending:Boolean;
+    smsSend:Boolean;
 
 
 }
@@ -156,6 +159,9 @@ const roleSchema: Schema<IRole> = new Schema({
     howManyTicketsHasDoneStatus:{type:Boolean , default:false , required:true},
     howManyTicketsHasDoneStatusIn12Month:{type:Boolean , default:false , required:true},
     sendHiddenMessage:{type:Boolean , default:false , required:true},
+    smsArchive:{type:Boolean , default:false , required:true},
+    smsPending:{type:Boolean , default:false , required:true},
+    smsSend:{type:Boolean , default:false , required:true},
 });
 
 roleSchema.virtual('id').get(function () {
