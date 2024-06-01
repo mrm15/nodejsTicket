@@ -34,7 +34,8 @@ const userList = async (req: CustomRequestMyTokenInJwt, res: Response, next: Nex
 
             return {
                 value: row.id ? row.id : row._id,
-                key: row.name
+                key: row.name,
+                phoneNumber:row.phoneNumber
             }
         })
 
