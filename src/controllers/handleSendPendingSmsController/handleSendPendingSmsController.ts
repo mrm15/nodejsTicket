@@ -2,7 +2,7 @@ import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {IsmsPending, SmsPending} from "../../models/smsPending";
 import {getCurrentTimeStamp} from "../../utils/timing";
-import {sendSms} from "../../utils/sendSms";
+import {sendSms, sendSms1} from "../../utils/sendSms";
 import {SmsArchive} from "../../models/smsArchive";
 const runFunction = async () => {
 
@@ -29,8 +29,8 @@ const runFunction = async () => {
         if (singleSMS.status === 'pending') {
 
             // try to send SMS
-            const resultOfSendSMS = await sendSms(singleSMS.text, singleSMS.destinationNumber);
-
+            const resultOfSendSMS = await sendSms1(singleSMS.text, singleSMS.destinationNumber);
+            console.log(resultOfSendSMS)
             if (resultOfSendSMS) {
                 try{
                     const currentTime = getCurrentTimeStamp()
@@ -38,12 +38,15 @@ const runFunction = async () => {
                     row.counter = singleSMS.counter + 1
                     row.status = 'sent'
                     row.updateAt = currentTime;
-                    const archivedSms = new SmsArchive(row);
-                    await archivedSms.save();
-                    // Remove from SmsPending table
+
+                    delete  row._id
+                    await SmsArchive.create(row);
+                    //
+                    // // Remove from SmsPending table
                     await SmsPending.deleteOne({ _id: singleSMS._id });
                     return 1;
                 }catch (error){
+                    console.log(error)
                     return 0;
                 }
             } else {
@@ -93,7 +96,7 @@ const handleSendPendingSmsController = async (req: CustomRequestMyTokenInJwt, re
 
     } else {
         res.status(200).json({
-            message: 'هیچ پیامی واسه ارسال نداریم'
+            message: 'بازه زمانی پیامک نیست'
         })
         return
     }
