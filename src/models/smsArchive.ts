@@ -72,6 +72,6 @@ const SmsArchiveSchema: Schema<IsmsArchive> = new Schema<IsmsArchive>({
 
 
 // Create and export the User model
-const SmsArchive = mongoose.model<IsmsArchive>('SmsPending', SmsArchiveSchema);
+const SmsArchive = mongoose.model<IsmsArchive>('SmsArchive', SmsArchiveSchema);
 
 export {SmsArchive, IsmsArchive};

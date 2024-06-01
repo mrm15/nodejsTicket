@@ -62,5 +62,8 @@ export const ACCESS_LIST = {
     EDIT_USERS_ROLE: "editUsersRole",
     ADMIN_SETTINGS: "adminSettings",
     USER_STATUS: "userStatusInDashboard",
+    SMS_ARCHIVE: 'smsArchive',
+    SMS_PENDING: 'smsPending',
+    SMS_SEND: 'smsSend',
 
 }

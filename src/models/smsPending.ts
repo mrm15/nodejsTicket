@@ -1,14 +1,17 @@
 import mongoose, {Schema, Document} from 'mongoose';
 import {v4 as uuidV4} from 'uuid';
+import {IDepartment} from "./department";
 
 
 interface IsmsPending extends Document {
     [key: string]: any;
     senderUserId: mongoose.Types.ObjectId;
     senderDepartmentId?: mongoose.Schema.Types.ObjectId | null;//
-    sendTimeStamp: Date;
+    sendTimeStamp: Date| null;
+    counter:number;
     text: string;
-    status: string;
+    destinationNumber: string;
+    status: String;
     replyId: mongoose.Types.ObjectId| null;
     createAt: Date;
     updateAt: Date;
@@ -37,10 +40,18 @@ const SmsPendingSchema: Schema<IsmsPending> = new Schema<IsmsPending>({
     },
 
     sendTimeStamp: {
-        type: Date,
-        required: true,
+        type: Date || null,
+        required: false,
+    },
+    counter:{
+        type: Number,
+        required: false,
     },
     text: {
+        type: String,
+        required: true,
+    },
+    destinationNumber: {
         type: String,
         required: true,
     },
@@ -49,8 +60,8 @@ const SmsPendingSchema: Schema<IsmsPending> = new Schema<IsmsPending>({
         required: true,
     },
     replyId: {
-        type: Date,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId || null,
+        required: false,
         ref:'TicketReply',
     },
 
@@ -73,5 +84,14 @@ const SmsPendingSchema: Schema<IsmsPending> = new Schema<IsmsPending>({
 
 // Create and export the User model
 const SmsPending = mongoose.model<IsmsPending>('SmsPending', SmsPendingSchema);
+
+SmsPendingSchema.virtual('id').get(function (this: IDepartment) {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialized
+SmsPendingSchema.set('toJSON', {
+    virtuals: true
+});
 
 export {SmsPending, IsmsPending};
