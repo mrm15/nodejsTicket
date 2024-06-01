@@ -4,14 +4,14 @@ import {v4 as uuidV4} from 'uuid';
 
 interface IsmsArchive extends Document {
     [key: string]: any;
-
-    _id: mongoose.Types.ObjectId;
     senderUserId: mongoose.Types.ObjectId;
     senderDepartmentId?: mongoose.Schema.Types.ObjectId | null;//
-    sendTimeStamp: Date;
+    sendTimeStamp: Date| null;
+    counter:number;
     text: string;
-    status: string;
-    replyId: mongoose.Types.ObjectId | null;
+    destinationNumber: string;
+    status: String;
+    replyId: mongoose.Types.ObjectId| null;
     createAt: Date;
     updateAt: Date;
 }
@@ -19,29 +19,33 @@ interface IsmsArchive extends Document {
 // Create the User schema
 const SmsArchiveSchema: Schema<IsmsArchive> = new Schema<IsmsArchive>({
 
-    _id: {
-        type: mongoose.Types.ObjectId,
-        required: true,
-    },
+
 
     senderUserId: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User',
+        ref:'User',
 
     },
     senderDepartmentId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Department',
-
-
+        ref:'Department',
     },
+
     sendTimeStamp: {
-        type: Date,
-        required: true,
+        type: Date || null,
+        required: false,
+    },
+    counter:{
+        type: Number,
+        required: false,
     },
     text: {
+        type: String,
+        required: true,
+    },
+    destinationNumber: {
         type: String,
         required: true,
     },
@@ -50,9 +54,9 @@ const SmsArchiveSchema: Schema<IsmsArchive> = new Schema<IsmsArchive>({
         required: true,
     },
     replyId: {
-        type: Date,
-        required: true,
-        ref: 'TicketReply',
+        type: mongoose.Schema.Types.ObjectId || null,
+        required: false,
+        ref:'TicketReply',
     },
 
     createAt: {
