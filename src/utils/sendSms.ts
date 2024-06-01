@@ -17,4 +17,10 @@ const sendSms = async (text: string, destinationNumber: string): Promise<boolean
     }
 }
 
-export { sendSms };
+const sendSms1=async (text: any, destinationNumber: any)=>{
+
+    // console.log(text,destinationNumber)
+    return true
+}
+
+export { sendSms , sendSms1 };
