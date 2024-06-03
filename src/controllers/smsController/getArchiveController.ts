@@ -1,8 +1,10 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {Role} from "../../models/roles";
-import {Department} from "../../models/department";
+import {Department, IDepartment} from "../../models/department";
 import {IsmsArchive, SmsArchive} from "../../models/smsArchive";
+import {IUser, User} from "../../models/User";
+import {timestampToTime} from "../../utils/timestampToTime";
 
 
 const getArchiveController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -21,18 +23,33 @@ const getArchiveController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
 
     try {
-        const rowData : IsmsArchive[] = await SmsArchive.find({}).lean();
+        const myRowData : IsmsArchive[] = await SmsArchive.find({}).lean();
+
+
+
+        const rowData = await Promise.all(myRowData.map(async (singleRow) => {
+            const row: any = {...singleRow};
+            const foundedDepartment : IDepartment | null = await Department.findOne({_id:row.senderDepartmentId});
+            row['senderDepartmentId'] = foundedDepartment?.name || "- "
+            const foundedUser = await User.findOne({_id:row.senderUserId})
+            row['senderUserId']  = foundedUser?.name || "-"
+            return row;
+        }));
 
 
         const columnDefs = []
 
 
-        columnDefs.push({minWidth: 150, headerName: "name", field: "name"})
-        columnDefs.push({minWidth: 150, headerName: "description", field: "description"})
+        columnDefs.push({minWidth: 150, headerName: "تعداد تلاش ", field: "counter"})
+        columnDefs.push({minWidth: 150, headerName: "شماره مقصد", field: "destinationNumber"})
+        columnDefs.push({minWidth: 150, headerName: "دپارتمان مبدا", field: "senderDepartmentId"})
+        columnDefs.push({minWidth: 150, headerName: "کاربر ارسال کننده", field: "senderUserId"})
+        columnDefs.push({minWidth: 150, headerName: "وضعیت", field: "status"})
+        columnDefs.push({minWidth: 150, headerName: "متن", field: "text"})
 
 
 
-        const list = {columnDefs, rowData:[]}
+        const list = {columnDefs, rowData}
 
 
 
