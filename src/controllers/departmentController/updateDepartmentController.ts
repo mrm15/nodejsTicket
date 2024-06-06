@@ -76,6 +76,8 @@ const updateDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
             foundDepartment.phoneNumber = updatedDepartment?.phoneNumber || '';
             foundDepartment.emailAddress = updatedDepartment?.emailAddress || '';
             foundDepartment.contactInfo = updatedDepartment?.contactInfo || '';
+            foundDepartment.sendSmsAfterSubmitResponse= updatedDepartment?.sendSmsAfterSubmitResponse || false;
+            foundDepartment.smsText= updatedDepartment?.smsText || '';
             foundDepartment.departmentAccessToSendTicket = stringToBoolean(updatedDepartment?.departmentAccessToSendTicket);
             foundDepartment.departmentAccessToReplyTicket = stringToBoolean(updatedDepartment?.departmentAccessToReplyTicket);
             foundDepartment.departmentAccessToArchiveTicket = stringToBoolean(updatedDepartment?.departmentAccessToArchiveTicket);
@@ -102,6 +104,6 @@ const updateDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
 
 
     }
-;
+
 
 export {updateDepartmentController};

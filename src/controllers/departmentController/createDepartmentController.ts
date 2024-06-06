@@ -78,6 +78,8 @@ const createDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
             phoneNumber: newDepartmentData?.phoneNumber || '',
             emailAddress: newDepartmentData?.emailAddress || '',
             contactInfo: newDepartmentData?.contactInfo || '',
+            sendSmsAfterSubmitResponse: newDepartmentData?.sendSmsAfterSubmitResponse || false,
+            smsText: newDepartmentData?.smsText || '',
             departmentAccessToSendTicket: stringToBoolean(newDepartmentData?.departmentAccessToSendTicket),
             departmentAccessToReplyTicket: stringToBoolean(newDepartmentData?.departmentAccessToReplyTicket),
             departmentAccessToArchiveTicket: stringToBoolean(newDepartmentData?.departmentAccessToArchiveTicket),
