@@ -11,6 +11,8 @@ interface IDepartment extends Document {
     phoneNumber: string;
     emailAddress: string;
     contactInfo: string;
+    sendSmsAfterSubmitResponse: boolean,
+    smsText: string | null,
     departmentAccessToSendTicket: boolean;
     departmentAccessToReplyTicket: boolean;
     departmentAccessToArchiveTicket: boolean;
@@ -34,6 +36,8 @@ const departmentSchema: Schema = new Schema({
     phoneNumber: {type: String, required: false},
     emailAddress: {type: String, required: false},
     contactInfo: {type: String, required: false},
+    sendSmsAfterSubmitResponse: {type: Boolean, required: true, default: false},
+    smsText: {type: String ||null, required: false},
     departmentAccessToSendTicket: {type: Boolean, required: true, default: false},
     departmentAccessToReplyTicket: {type: Boolean, required: true, default: false},
     departmentAccessToArchiveTicket: {type: Boolean, required: true, default: false},
