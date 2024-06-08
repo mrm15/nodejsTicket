@@ -3,11 +3,11 @@ import { SmsPending} from "../models/smsPending";
 import mongoose from "mongoose";
 
 interface myArgument {
-    senderUserId: mongoose.Types.ObjectId;
-    senderDepartmentId: mongoose.Types.ObjectId;
+    senderUserId:string;
+    senderDepartmentId:string;
     text: string;
-    replyId: mongoose.Types.ObjectId | null;
-    destinationNumber: String;
+    replyId: string | null;
+    destinationNumber: string;
 }
 
 export const setForSendMessage = async ({
