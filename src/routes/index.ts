@@ -28,6 +28,7 @@ import handleAdminSettingsRoute from "./handleAdminSettingsRoute/handleAdminSett
 import handleUserStatusRoute from "./handleUserStatusRoute/handleUserStatusRoute";
 import handleSmsRoute from "./handleSmsRoute/handleSmsRoute";
 import handleSendPendingSmsRoute from "./handleSendPendingSmsRoute/handleSendPendingSmsRoute";
+import handleHesabfaRoute from "./handleHesabfaRoute/handleHesabfaRoute";
 
 
 // Add Routes
@@ -73,6 +74,7 @@ myRouter.use('/adminSettings' , handleAdminSettingsRoute);
 myRouter.use('/userStatus' , handleUserStatusRoute);
 myRouter.use('/sms' , handleSmsRoute);
 
+myRouter.use('/hesabfa' , handleHesabfaRoute);
 
 
 myRouter.use('/logout' , handleLogout);
