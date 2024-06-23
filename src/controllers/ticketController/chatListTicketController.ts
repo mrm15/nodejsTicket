@@ -90,7 +90,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
 
         const department: IDepartment = (await Department.findOne({_id: foundTicket.assignedToDepartmentId}))!; // دپارتمان تیکت
 
-        chatList.lastDepartment = department.name;
+        chatList.lastDepartment = department?.name;
 
         // const tempFilesArray = await Promise.all(foundTicket.attachments.map(async (fileId) => {
         //     const fileObject: IFile = (await File.findOne({_id: fileId}).lean())!;
