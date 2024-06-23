@@ -69,7 +69,7 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
     assignedToDepartmentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Department', // Reference to the Department collection
-        required: true,
+        required: false,
     },
     assignToUserId: {
         type: mongoose.Schema.Types.ObjectId,
