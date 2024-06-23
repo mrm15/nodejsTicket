@@ -86,7 +86,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         //     })
         //     return
         // }
-        // بریم ببینم آیا باید تیکت رو به مدیر دپارتمان ارجاع بدیم یا اینکه  باید یک راست تحویل کسی بدیم که مشتری انتخاب کرده.
+        // بریم ببینم آیا باید تیکت رو به مدیر دپارتمان ارجاع بدیم یا اینکه باید یک راست تحویل کسی بدیم که مشتری انتخاب کرده.
         // بریم اینو از تنظیمات ببینیم
         const adminSettingsResult: IAdminSettings | null = await AdminSettings.findOne({}).lean();
 
@@ -116,6 +116,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         let assignedToDepartmentId = null;
         let assignToUserId = null;
 
+
         // اگه قرار بود سفارشات ثبت شده به ادمنی دپارتمان
         if (isSendTicketToAdmin) {
             assignedToDepartmentId = adminSettingsResult.firstDestinationForTickets;
@@ -132,6 +133,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             }
 
             assignToUserId = ticketData.destinationUserId
+            assignedToDepartmentId = adminSettingsResult.firstDestinationForTickets;
 
         }
 
@@ -156,7 +158,46 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
 
         const result: ITicket = await Ticket.create(newTicket);
-        res.status(200).json({result, message: 'سفارش با موفقیت ایجاد شد.',});
+        console.log(result)
+
+        debugger
+        // افزودن تیکت به تیکت های کاربر
+        // if (!isSendTicketToAdmin) {
+        //     debugger
+        //     const foundUser: IUser = (await User.findOne({_id: userId}).exec())!
+        //     foundUser.tickets = [...foundUser.tickets,
+        //         {ticketId: result._id?.toString(), readStatus: false,}
+        //     ]
+        //
+        //     await foundUser.save()
+        //
+        // }
+        let msg1=""
+        if (!isSendTicketToAdmin) {
+
+            // Find the user and update tickets array
+            const foundUser: IUser | null = await User.findById(userId).exec();
+            if (foundUser) {
+                foundUser.tickets.push({
+                    ticketId: result._id,
+                    readStatus: false,
+                });
+
+                // Mark the tickets array as modified
+                foundUser.markModified('tickets');
+
+                // Save the updated user document
+                await foundUser.save();
+                msg1='و به کاربر ارجاع شد '
+            }
+        }
+
+
+
+
+
+        const msg0 = 'سفارش با موفقیت ایجاد شد.'
+        res.status(200).json({result, message:msg0 + msg1 ,});
         return;
 
     } catch (error) {
