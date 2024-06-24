@@ -29,7 +29,7 @@ import handleUserStatusRoute from "./handleUserStatusRoute/handleUserStatusRoute
 import handleSmsRoute from "./handleSmsRoute/handleSmsRoute";
 import handleSendPendingSmsRoute from "./handleSendPendingSmsRoute/handleSendPendingSmsRoute";
 import handleHesabfaRoute from "./handleHesabfaRoute/handleHesabfaRoute";
-import handlehesabFaOpenRoute from "./handleSendPendingSmsRoute/handlehesabFaOpenRoute";
+import handleHesabfaOpenRoute from "./handlehesabFaOpenRoute/handleHesabfaOpenRoute";
 
 
 // Add Routes
@@ -53,7 +53,7 @@ const myRouter = Router();
 // Setup other routes
 myRouter.use('/handleSendPendingSms' , handleSendPendingSmsRoute)
 
-myRouter.use('/hesabfaOpen' , handlehesabFaOpenRoute)
+myRouter.use('/hesabfaOpen' , handleHesabfaOpenRoute)
 
 myRouter.use('/login',loginSMS)
 // myRouter.use('/admin',admin)
