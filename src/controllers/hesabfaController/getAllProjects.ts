@@ -5,12 +5,21 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
 import {setForSendMessage} from "../../utils/setForSendMessage";
 import axios from "axios";
-import {handleResponse} from "./utility/handleResponse";
+import {handleResponse} from "../utility/handleResponse";
 
 
 const getAllProjects = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
-    debugger
+    const API_KEY = process.env.HESABFA_API_KEY
+    if(!API_KEY){
+        res.status(500).json({message:'api key یافت نشد'});
+        return
+    }
+    const LOGIN_TOKEN = process.env.HESABFA_LOGIN_TOKEN
+    if(!LOGIN_TOKEN){
+        res.status(500).json({message:'LOGIN TOKEN یافت نشد'});
+        return
+    }
 
     const {myToken} = req;
     if (!myToken) {
@@ -50,10 +59,10 @@ const getAllProjects = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         try {
             const url = 'https://api.hesabfa.com/v1/setting/GetProjects'
             const data = {
-                apiKey: 'Snr0mPXZCmFoRzzqQG5Dv8C1kPJKf4J8',
+                apiKey: API_KEY,
                 // userId: 'mail@example.com',
                 // password: '123456',
-                loginToken: '387d64b1ff9052d6ceb3d39c4df8eb27f87ebbb0a535a23931ec800b03304bc56de3eba0b94569ab15508a4c1ad19a9c',
+                loginToken: LOGIN_TOKEN,
             }
             const result = await axios.post(url, data);
             debugger

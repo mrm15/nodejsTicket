@@ -5,7 +5,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
 import {setForSendMessage} from "../../utils/setForSendMessage";
 import axios from "axios";
-import {handleResponse} from "./utility/handleResponse";
+import {handleResponse} from "../utility/handleResponse";
 import 'dotenv/config';
 
 
