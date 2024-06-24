@@ -1,9 +1,6 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
-import {setForSendMessage} from "../../utils/setForSendMessage";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
 
@@ -53,15 +50,15 @@ const getBillData = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
         // }
 
 
-        const {userId} = myToken?.UserInfo?.userData?.userData;
-
-        const foundUser: IUser | null = await User.findOne({_id: userId}).lean();
-
-
-        if (!foundUser) {
-            res.status(401).json({message: 'کاربری با این شماره تلفن یافت نشد'});
-            return
-        }
+        // const {userId} = myToken?.UserInfo?.userData?.userData;
+        //
+        // const foundUser: IUser | null = await User.findOne({_id: userId}).lean();
+        //
+        //
+        // if (!foundUser) {
+        //     res.status(401).json({message: 'کاربری با این شماره تلفن یافت نشد'});
+        //     return
+        // }
 
 
         // دریافت تمام محصولات از حسابفا
