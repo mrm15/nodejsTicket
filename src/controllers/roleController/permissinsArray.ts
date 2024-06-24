@@ -68,4 +68,14 @@ export const myPermissionsArray = [
     "smsArchive",
     "smsPending",
     "smsSend",
+    // حسابفا
+    "showBillAccess",
+    "downloadBillAsPdf",
+    "downloadBillAsCsv",
+    "submitBillInSubmitOrderForm",
+    "submitBillInChatList",
+    "saveBillAsDraft",
+    "saveBillAsDone",
+    "deleteBill",
+    "allContactsWhenSubmitBill",
 ]

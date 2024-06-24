@@ -78,6 +78,16 @@ interface IRole extends Document {
     smsPending:Boolean;
     smsSend:Boolean;
 
+    showBillAccess:Boolean;
+    downloadBillAsPdf:Boolean;
+    downloadBillAsCsv:Boolean;
+    submitBillInSubmitOrderForm:Boolean;
+    submitBillInChatList:Boolean;
+    saveBillAsDraft:Boolean;
+    saveBillAsDone:Boolean;
+    deleteBill:Boolean;
+    allContactsWhenSubmitBill:Boolean;
+
 
 }
 
@@ -162,6 +172,16 @@ const roleSchema: Schema<IRole> = new Schema({
     smsArchive:{type:Boolean , default:false , required:true},
     smsPending:{type:Boolean , default:false , required:true},
     smsSend:{type:Boolean , default:false , required:true},
+    // hesabfa
+    showBillAccess:{type:Boolean , default:false , required:true},
+    downloadBillAsPdf:{type:Boolean , default:false , required:true},
+    downloadBillAsCsv:{type:Boolean , default:false , required:true},
+    submitBillInSubmitOrderForm:{type:Boolean , default:false , required:true},
+    submitBillInChatList:{type:Boolean , default:false , required:true},
+    saveBillAsDraft:{type:Boolean , default:false , required:true},
+    saveBillAsDone:{type:Boolean , default:false , required:true},
+    deleteBill:{type:Boolean , default:false , required:true},
+    allContactsWhenSubmitBill:{type:Boolean , default:false , required:true},
 });
 
 roleSchema.virtual('id').get(function () {
