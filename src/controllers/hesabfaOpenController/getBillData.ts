@@ -28,7 +28,7 @@ const getBillData = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
         return
     }
 
-    const {myToken} = req;
+    // const {myToken} = req;
     // if (!myToken) {
     //     const message = 'مقدار توکن توی ری کوئست موجود نیست'
     //     res.status(200).json({message});
