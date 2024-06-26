@@ -80,7 +80,8 @@ const getBillData = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
         } catch (error:any) {
             const statusCode = error?.status || 500
             res.status(statusCode).json({
-                message: error?.toString(),
+                message1: error?.toString(),
+                message: 'خطا در دریافت اطلاعاا از حسابفا',
             })
             return;
         }
