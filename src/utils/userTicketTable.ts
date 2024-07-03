@@ -44,7 +44,6 @@ export const userTicketTable = async ({userId}: myObject) => {
     }));
 
 
-
     const columnDefs = []
 
     columnDefs.push({minWidth: 150, headerName: "کد سفارش", field: "ticketNumber"})
@@ -57,7 +56,7 @@ export const userTicketTable = async ({userId}: myObject) => {
     columnDefs.push({minWidth: 150, headerName: "تعداد فایل ضمیمه ", field: "numberOfAttachments"})
 
 
-    const rowData = [...myList]
+    const rowData = [...myList.reverse()]
 
     return {columnDefs, rowData}
 
