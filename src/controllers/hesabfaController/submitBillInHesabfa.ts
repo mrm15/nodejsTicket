@@ -62,7 +62,7 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
             return
         }
 
-        const test1={
+        const test1 = {
             Number: '',
             Reference: '',
             Date: '2024-06-27 09:38:12',//
@@ -73,7 +73,7 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
             Status: 0, // پیش نویس
             Tag: 'تگ تستی', // تگ تستی
             InvoiceItems: [{
-                Id:321654,
+                Id: 321654,
                 Description: 'test',
                 ItemCode: '000313',
                 Unit: 'متر طول',
@@ -83,20 +83,13 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                 Tax: 9000,
 
             }],
-            Others: [
-                {
-                    "Title": "هزینه های گمرکی",
-                    "Amount": 1540000.0,
-                    "Add": true
-                }
-            ],
-            Currency: "IRR",
+            Others: [],
+            Currency: "IRT", // IRR rial  , IRT  Toman
             TaxId: "",
             CurrencyRate: 1.0000000000
         }
 
         // دریافت تمام محصولات از حسابفا
-        debugger
         try {
             const url = ' https://api.hesabfa.com/v1/invoice/save'
             const data = {
