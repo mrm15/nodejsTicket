@@ -1,11 +1,11 @@
 import {Request, Response, NextFunction} from 'express';
-import {IUser, User} from "../../models/User";
+
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {booleanToString, stringToBoolean} from "../../utils/stringBoolean";
-import {IStatus, Status} from "../../models/status";
+
+
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {setNullIfEmpty} from "../../utils/functions";
 
@@ -54,16 +54,16 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             updatedAdminSettings.registerRole = setNullIfEmpty(updatedAdminSettings.registerRole);
 
 
-
             currentSettings.userId = myToken?.UserInfo?.userData?.userData?.userId;
             currentSettings.firstDestinationForTickets = updatedAdminSettings.firstDestinationForTickets;
             currentSettings.showUsersListInSendTicketForm = updatedAdminSettings.showUsersListInSendTicketForm;
             currentSettings.firstStatusTicket = updatedAdminSettings.firstStatusTicket;
-            currentSettings.customerDepartment = updatedAdminSettings.customerDepartment;
             currentSettings.registerInPanel = updatedAdminSettings.registerInPanel;
+            currentSettings.maxFileSize = parseFloat(updatedAdminSettings.maxFileSize);
+            currentSettings.customerDepartment = updatedAdminSettings.customerDepartment;
             currentSettings.registerDepartment = updatedAdminSettings.registerDepartment;
             currentSettings.registerRole = updatedAdminSettings.registerRole;
-            currentSettings.maxFileSize = parseFloat(updatedAdminSettings.maxFileSize);
+            currentSettings.forwardTicketsAfterVerify = updatedAdminSettings.forwardTicketsAfterVerify || null;
             currentSettings.updateAt = getCurrentTimeStamp();
 
 

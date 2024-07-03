@@ -106,6 +106,7 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
                 registerInPanel: "notActive",
                 registerDepartment: null,
                 registerRole: null,
+                forwardTicketsAfterVerify: null,
                 createAt: currentTimeStamp,
                 updateAt: currentTimeStamp,
             })

@@ -13,6 +13,7 @@ interface IAdminSettings extends Document {
     registerInPanel: "active" | 'notActive' | null;
     registerDepartment: mongoose.Schema.Types.ObjectId | null;
     registerRole: mongoose.Schema.Types.ObjectId | null;
+    forwardTicketsAfterVerify: mongoose.Schema.Types.ObjectId | null;
     createAt: Date;
     updateAt: Date;
 }
@@ -58,6 +59,10 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
         required: true,
     },
     registerRole: {
+        type: mongoose.Schema.Types.ObjectId || null,
+        required: true,
+    },
+    forwardTicketsAfterVerify: {
         type: mongoose.Schema.Types.ObjectId || null,
         required: true,
     },
