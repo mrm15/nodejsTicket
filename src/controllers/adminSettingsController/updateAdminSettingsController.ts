@@ -64,6 +64,7 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             currentSettings.registerDepartment = updatedAdminSettings.registerDepartment;
             currentSettings.registerRole = updatedAdminSettings.registerRole;
             currentSettings.forwardTicketsAfterVerify = updatedAdminSettings.forwardTicketsAfterVerify || null;
+            currentSettings.sendSMSAfterVerifyBill = updatedAdminSettings.sendSMSAfterVerifyBill;
             currentSettings.updateAt = getCurrentTimeStamp();
 
 

@@ -14,6 +14,7 @@ interface IAdminSettings extends Document {
     registerDepartment: mongoose.Schema.Types.ObjectId | null;
     registerRole: mongoose.Schema.Types.ObjectId | null;
     forwardTicketsAfterVerify: mongoose.Schema.Types.ObjectId | null;
+    sendSMSAfterVerifyBill: Boolean;
     createAt: Date;
     updateAt: Date;
 }
@@ -65,6 +66,10 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
     forwardTicketsAfterVerify: {
         type: mongoose.Schema.Types.ObjectId || null,
         required: true,
+    },
+    sendSMSAfterVerifyBill: {
+        type: Boolean,
+        default: false,
     },
     createAt: {
         type: Date,
