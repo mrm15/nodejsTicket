@@ -7,6 +7,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {getNextSequenceValue, ITicket, Ticket} from "../../models/ticket";
 import {getSettings} from "../../utils/getFirstStatus";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
+import {IInitialBillResponse} from "../utility/initialBillResponse";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -160,6 +161,14 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const result: ITicket = await Ticket.create(newTicket);
         console.log(result)
 
+        // اینجا من توی جواب این درخواست میخوام این اطلاعات رو بفرستم:
+        // ticketId:"",         // result._id
+        // type: "" ,           // ticket , ticketReply
+        // billNumber :"",      // empty  because t need to submit First bill
+        // contactCode:"",      // contact Code hesabfa needs To submit bill
+        // title: ""            // title Of The bill
+        // tag:
+        // const myTag = myToken
         debugger
         // افزودن تیکت به تیکت های کاربر
         // if (!isSendTicketToAdmin) {
@@ -172,7 +181,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         //     await foundUser.save()
         //
         // }
-        let msg1=""
+        let msg1 = ""
         if (!isSendTicketToAdmin) {
 
             // Find the user and update tickets array
@@ -188,16 +197,42 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
                 // Save the updated user document
                 await foundUser.save();
-                msg1='و به کاربر ارجاع شد '
+                msg1 = 'و به کاربر ارجاع شد '
             }
         }
 
 
+        const msg0 = 'سفارش با موفقیت ایجاد شد.';
+
+        const contactName = myToken.UserInfo.userData.userData.name; // اینجا جاییه که همون کاربری که دکمه ی ثبت رو زده میخواد فاکتور ثبت کنه پس اسم مشتری همون اسم کسیه که لاگین شده
+        const contactCode = myToken.UserInfo.userData.userData.contactCode; // کد کسیه که الان لاگین شده و باید اینو توی جدول کد ها برابر با دیتای حسابفا بزارم.
+        const billNumber = ""; // این باید خالی باشه. چون من دارم تازه یه دونه جدید ثبت میکنم
+        const billType = "ticket";
+        const id = result._id
+        const ticketId = result._id; // اینجا این مقدارش در صورتی که ما داریم تیکت ریپلای میزنیم و میخوایم بعد از بازگشت برگرده به صفحه ی چت لیست و این مقدار رو لازم داریم. ولی چون اینجا  تازه داره تیکت ایجاد میکنه نیاز نیست
+        const note = "سفارش دهنده";
+        const title = result.title;
+        const tag = myToken.UserInfo.userData.userData.name; // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه
 
 
+        const myDataForTicketNeedsBill: IInitialBillResponse = {
+            contactName,
+            contactCode,
+            billNumber,
+            billType,
+            id,
+            ticketId,
+            note,
+            title,
+            tag,
+        }
 
-        const msg0 = 'سفارش با موفقیت ایجاد شد.'
-        res.status(200).json({result, message:msg0 + msg1 ,});
+        res.status(200).json({
+                result,
+                message: msg0 + msg1,
+                data: myDataForTicketNeedsBill
+            }
+        );
         return;
 
     } catch (error) {
