@@ -11,6 +11,7 @@ import {generateRefreshToken} from "../LoginRegisterSms/generateAccessToken";
 import {uuidGenerator} from "../../utils/uuidGenerator";
 import {setForSendMessage} from "../../utils/setForSendMessage";
 import {logger} from "../../middleware/logEvents";
+import {IInitialBillResponse} from "../utility/initialBillResponse";
 
 
 const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -128,7 +129,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
                     senderUserId: userId, senderDepartmentId: depString, text: smsText, replyId: null,
                     destinationNumber: customerPhoneNumber
                 });
-                if (resultSendSms.smsStatusCode===200) {
+                if (resultSendSms.smsStatusCode === 200) {
                     smsMsg = "پیامک درج شد."
                 }
 
@@ -158,9 +159,39 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
     try {
 
         const message = 'پاسخ شما با موفقیت ثبت شد.' + " " + smsMsg
-        const result = await TicketReply.create(dataToInsertInTicketReplyCollection)
+        const result = await TicketReply.create(dataToInsertInTicketReplyCollection);
+
+        // اینجا باید اطلاعات اون تیکت رو ببینیم و از روی اون ببینم نام کاربر و کد کاربر چیه که بفرستیم سمت فرانت
+
+
+        debugger
+
+        const contactName = customerDocument.name; // اسم مشتری رو میخوایم که میتونیم از اینجا که  داکیومنت مشتری هست پیدا کنیم و بفرستیم
+        const contactCode = customerDocument.contactCode; // کد مشتری هست که از روی داکیومنت مستری میگیریم
+        const billNumber = ""; // این باید خالی باشه. چون من دارم تازه یه دونه جدید ثبت میکنم
+        const billType = "ticketReply";
+        const id = result._id;
+        const note = (myToken.UserInfo.userData.userData.contactCode === customerDocument.contactCode) ? "سفارش دهنده" : "کاربر سازمانی"
+        const title = ticketDoc.title;
+        const tag = myToken.UserInfo.userData.userData.name; // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه
+
+
+        const myDataForTicketNeedsBill: IInitialBillResponse = {
+            contactName,
+            contactCode,
+            billNumber,
+            billType,
+            id,
+            ticketId, // که ای دی تیکت هست و میفرستیم که اگه برگشت توی چت لیست ریکوئست بزنه
+            note,
+            title,
+            tag,
+        }
+
         res.status(200).json({
             message,
+            result,
+            data: myDataForTicketNeedsBill,
         });
         return
     } catch (error) {
@@ -172,6 +203,6 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
     }
 
 
-};
+}
 
 export {createTicketReplyController};
