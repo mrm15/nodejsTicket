@@ -62,6 +62,7 @@ interface IUser extends Document {
         loginTime: Date;
     }[] | [];
     userStatus: string;
+    contactCode: string;
 }
 
 // Create the User schema
@@ -289,6 +290,11 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         type: String, //   online offline busy  away
         required: false,
         default: 'offline',
+    },
+    contactCode: { // کد کاربر توی حسابفا هست این که موقعی که داریم فاکتور میزنیم لازم میشه و هنگام ثبت کاربر جدید هم لازمش داریم. که باید دقیقا برابر با کاربری که توی حسابفا ثبت میشه ثبتش کنیم.
+        type: String, //
+        required: false,
+        default: '',
     },
 
 
