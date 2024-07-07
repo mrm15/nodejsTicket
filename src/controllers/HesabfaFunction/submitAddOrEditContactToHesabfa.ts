@@ -1,6 +1,5 @@
 import axios from "axios";
 import {IUser} from "../../models/User";
-import {InitialContact} from "./initialContact";
 
 export const submitAddOrEditContactToHesabfa = async (myContact:any) => {
 
