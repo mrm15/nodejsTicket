@@ -60,7 +60,7 @@ const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response,
         columnDefs.push({minWidth: 150, headerName: "website", field: "website"})
 
 
-        const rowData = [...userList]
+        const rowData = [...userList.reverse()]
 
         const list = {columnDefs, rowData}
 
