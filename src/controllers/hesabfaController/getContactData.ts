@@ -64,7 +64,7 @@ const getContactData = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         }
 
 
-        // دریافت تمام محصولات از حسابفا
+        // دریافت تمام مخاطبین از حسابفا
 
         try {
             const url = 'https://api.hesabfa.com/v1/contact/get'
