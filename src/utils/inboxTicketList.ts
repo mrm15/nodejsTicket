@@ -11,7 +11,7 @@ interface myInterface {
 export const inboxTicketList = async ({ userId }: myInterface) => {
     const list = await userTicketTable({ userId });
     const rowDataTemp: ITicket[] = list.rowData;
-
+    debugger
     const foundUser: IUser | null = await User.findOne({ _id: userId });
 
     let departmentTicketList: ITicket[] | null | [] = [];
@@ -30,7 +30,7 @@ export const inboxTicketList = async ({ userId }: myInterface) => {
 
     // Filter department tickets that also exist in user's personal ticket list
      inboxTickets = departmentTicketList.filter(ticket =>
-        rowDataTemp.some(userTicket => userTicket._id.toString() === ticket._id.toString())
+        rowDataTemp.some(userTicket => userTicket?._id.toString() === ticket._id?.toString())
     );
 
 
@@ -48,9 +48,9 @@ export const inboxTicketList = async ({ userId }: myInterface) => {
     columnDefs.push({minWidth: 150, headerName: "تعداد فایل ضمیمه ", field: "numberOfAttachments"})
 
 
-    const rowData = [...inboxTickets]
+    const rowData = [...inboxTickets.reverse()]
 
-    return {columnDefs, rowData:inboxTickets}
+    return {columnDefs, rowData}
 
 
 };
