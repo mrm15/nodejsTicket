@@ -68,7 +68,7 @@ export const defineTable = async ({req, conditionString, ticketUserId}: myObject
     columnDefs.push({minWidth: 150, headerName: "تعداد فایل ضمیمه ", field: "numberOfAttachments"})
 
 
-    const rowData = [...myFilteredList]
+    const rowData = [...myFilteredList.reverse()]
 
     return {columnDefs, rowData}
 
