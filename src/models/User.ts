@@ -49,7 +49,7 @@ interface IUser extends Document {
     profilePictureUrl: string;
     postalCode: string;
     loginCode: number;
-    loginCodeSendDate: Date;
+    loginCodeSendDate: Date | null;
     isActive: Boolean;
     tickets: ITicketInfo[];
     createAt: Date;
@@ -279,8 +279,9 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
 
     },
     loginCodeSendDate: {
-        type: Date,
+        type: Date || null,
         required: false,
+        default: null
     },
     isActive: {
         type: Boolean,
