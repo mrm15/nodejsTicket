@@ -6,6 +6,7 @@ import {IUser, User} from "../../models/User";
 import {setForSendMessage} from "../../utils/setForSendMessage";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
+import {saveFactorNumberAndStatus} from "./functions";
 
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -56,38 +57,12 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
         }
 
         debugger
-        const {invoice} = req.body;
+        const {invoice, billData} = req.body;
         if (!invoice) {
             res.status(500).json({message: 'مقدار invoice  در بدنه درخواست وجود ندارد.'});
             return
         }
 
-        const test1 = {
-            Number: '',
-            Reference: '',
-            Date: '2024-06-27 09:38:12',//
-            DueDate: '2024-06-27 09:38:12',//
-            ContactCode: '000001',
-            Note: 'یادداشت تستی',
-            InvoiceType: 0,
-            Status: 0, // پیش نویس
-            Tag: 'تگ تستی', // تگ تستی
-            InvoiceItems: [{
-                Id: 321654,
-                Description: 'test',
-                ItemCode: '000313',
-                Unit: 'متر طول',
-                Quantity: 1,
-                UnitPrice: 50, // مبلغی که ارسال میشه سمت بک و محاسبات بک اند بر همین اسا انجام میشه
-                Discount: 0,
-                Tax: 9000,
-
-            }],
-            Others: [],
-            Currency: "IRT", // IRR rial  , IRT  Toman
-            TaxId: "",
-            CurrencyRate: 1.0000000000
-        }
 
         // دریافت تمام محصولات از حسابفا
         try {
@@ -100,9 +75,21 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                 invoice
             }
             const result = await axios.post(url, data);
-            debugger
-            console.log(result)
-            handleResponse(result, res);
+
+            // خب فاکتور توی حسابفا ثبت شد حالا ما باید اطلاعات فاکتور رو توی دیتا بیس خودمون ثبت کنیم.
+
+            if (result.data.Result) {
+                try {
+                    await saveFactorNumberAndStatus(result.data.Result, billData)
+                    handleResponse(result, res);
+                } catch (error) {
+                    res.status(500).json({
+                        message: error?.toString(),
+                    })
+                    return;
+                }
+            }
+
 
         } catch (error: any) {
             const statusCode = error?.status || 500
