@@ -1,24 +1,23 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, {Document, Schema} from 'mongoose';
 import {Counter} from "./counterSchema";
+
 //
 
 export async function getNextSequenceValue(sequenceName: string): Promise<number> {
     const counterDocument = await Counter.findByIdAndUpdate(
         sequenceName,
-        { $inc: { seq: 1 } },
-        { new: true, upsert: true }
+        {$inc: {seq: 1}},
+        {new: true, upsert: true}
     );
     return counterDocument.seq;
 }
 
 
-
-
 // Define the Ticket document interface
 interface ITicket extends Document {
     ticketFound: mongoose.Types.ObjectId;
-     // ticketId: string;
-    ticketNumber:number
+    // ticketId: string;
+    ticketNumber: number;
     userId: mongoose.Schema.Types.ObjectId;
     title: string;
     description: string;
@@ -31,6 +30,8 @@ interface ITicket extends Document {
     returnStatus: boolean;
     returnUserId: mongoose.Schema.Types.ObjectId;
     returnTime: string;
+    billNumber: string | null;
+    billStatus: number | null; // (0=> draft )   (1=> verify)
     createAt: Date;
     updateAt: Date;
 }
@@ -41,8 +42,8 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
     //     type: String,
     //     required: true,
     // },
-    ticketNumber:{
-        type:Number,
+    ticketNumber: {
+        type: Number,
 
     },
     userId: {
@@ -94,6 +95,15 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
         type: String,
         required: false,
     },
+    billNumber: {
+        type: String || null,
+        required: false,
+        default: "",
+    },
+    billStatus: {
+        type: Number || null,
+        required: false,
+    },
     createAt: {
         type: Date,
         default: Date.now,
@@ -107,9 +117,6 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
 // Export the Ticket model
 
 
-
-
-
 ticketSchema.pre('save', async function (next) {
     if (this.isNew && !this.ticketNumber) {
         console.log("Generating ticket number...");
@@ -118,7 +125,7 @@ ticketSchema.pre('save', async function (next) {
             this.ticketNumber = seqValue; // Set the ticketNumber if it's not already set
             console.log("Generated ticket number:", this.ticketNumber);
             next();
-        } catch (error:any) {
+        } catch (error: any) {
             console.error("Error generating ticket number:", error);
             next(error); // Pass any errors to the next middleware
         }
@@ -129,7 +136,6 @@ ticketSchema.pre('save', async function (next) {
 });
 
 
-
 const Ticket = mongoose.model<ITicket>('Ticket', ticketSchema);
 
-export { Ticket, ITicket };
+export {Ticket, ITicket};
