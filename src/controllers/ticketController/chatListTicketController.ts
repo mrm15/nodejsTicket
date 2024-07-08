@@ -30,6 +30,7 @@ interface IChatListArray {
         filePath: string;
         fileType: string;
     }[];
+
     createAt: string;
 }
 
@@ -132,6 +133,8 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             user_name,
             department_name,
             description: foundTicket.description,
+            billNumber: foundTicket.billNumber,
+            billStatus: foundTicket.billStatus,
             files: tempFilesArray,
             createAt: chatList.createAt,
         })
@@ -165,6 +168,8 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             row['description'] = singleTicketReply?.description || 'یافت نشد';
             row['visibleToUser'] = singleTicketReply?.visibleToUser;
             row['files'] = filesPropertiesArray
+            row['billNumber'] = singleTicketReply.billNumber
+            row['billStatus'] = singleTicketReply.billStatus
             row['createAt'] = timestampToTime(singleTicketReply?.createAt)
             console.log(singleTicketReply)
             return row;
@@ -174,7 +179,6 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         const result: IAdminSettings | null = await AdminSettings.findOne({}).lean();
 
         if (result) {
-
 
 
             const userDepartment = myToken.UserInfo.userData.userData.departmentId;
