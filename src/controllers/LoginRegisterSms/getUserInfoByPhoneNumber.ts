@@ -45,7 +45,8 @@ export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
             province,
             city,
             profilePictureUrl,
-            id:userId
+            id:userId,
+            contactCode,
         } = foundUser
         userInfo = {
             roleAccessList,
@@ -79,6 +80,7 @@ export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
                 province,
                 city,
                 profilePictureUrl,
+                contactCode
             }
         }
     }
