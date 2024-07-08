@@ -9,6 +9,8 @@ interface ITicketReply extends Document {
     replyDate: Date;
     attachments?: mongoose.Schema.Types.ObjectId[]; // Assuming attachments are an array of string URLs
     visibleToUser: boolean;
+    billNumber: string | null;
+    billStatus: number | null; // (0=> draft )   (1=> verify)
     createAt: Date;
     updateAt: Date;
 }
@@ -47,6 +49,15 @@ const ticketReplySchema: Schema<ITicketReply> = new mongoose.Schema({
     visibleToUser: {
         type: Boolean,
         required: true,
+    },
+    billNumber: {
+        type: String || null,
+        required: false,
+        default: "",
+    },
+    billStatus: {
+        type: Number || null,
+        required: false,
     },
     createAt: {
         type: Date,
