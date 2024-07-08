@@ -169,7 +169,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         // title: ""            // title Of The bill
         // tag:
         // const myTag = myToken
-        debugger
+
         // افزودن تیکت به تیکت های کاربر
         // if (!isSendTicketToAdmin) {
         //     debugger
@@ -205,7 +205,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const msg0 = 'سفارش با موفقیت ایجاد شد.';
 
         const contactName = myToken.UserInfo.userData.userData.name; // اینجا جاییه که همون کاربری که دکمه ی ثبت رو زده میخواد فاکتور ثبت کنه پس اسم مشتری همون اسم کسیه که لاگین شده
-        const contactCode = myToken.UserInfo.userData.userData.contactCode; // کد کسیه که الان لاگین شده و باید اینو توی جدول کد ها برابر با دیتای حسابفا بزارم.
+        const contactCode = myToken.UserInfo.userData.userData.contactCode || 'Error'; // کد کسیه که الان لاگین شده و باید اینو توی جدول کد ها برابر با دیتای حسابفا بزارم.
         const billNumber = ""; // این باید خالی باشه. چون من دارم تازه یه دونه جدید ثبت میکنم
         const billType = "ticket";
         const id = result._id
@@ -228,7 +228,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         }
 
         res.status(200).json({
-                result,
+
                 message: msg0 + msg1,
                 data: myDataForTicketNeedsBill
             }
