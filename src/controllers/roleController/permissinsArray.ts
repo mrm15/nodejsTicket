@@ -78,4 +78,5 @@ export const myPermissionsArray = [
     "saveBillAsDone",
     "deleteBill",
     "allContactsWhenSubmitBill",
+    "editBillInChatList",
 ]
