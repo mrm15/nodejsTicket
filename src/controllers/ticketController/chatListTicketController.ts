@@ -130,6 +130,8 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             isTicketSender: isHeTicketSenderHere,
             userId: senderUserId,
             ticketReplyId: '',
+            type: "ticket", // اگه لازم باشه فاکتور حذف بشه لازم میشه
+            id: foundTicket._id, // اگه لازم باشه فاکتور حذف بشه لازم میشه
             user_name,
             department_name,
             description: foundTicket.description,
@@ -170,8 +172,11 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             row['files'] = filesPropertiesArray
             row['billNumber'] = singleTicketReply.billNumber
             row['billStatus'] = singleTicketReply.billStatus
+            row['type'] = "ticketReply"// اگه لازم باشه فاکتور حذف بشه لازم میشه
+            row['id'] = singleTicketReply._id // اگه لازم باشه فاکتور حذف بشه لازم میشه
+
             row['createAt'] = timestampToTime(singleTicketReply?.createAt)
-            console.log(singleTicketReply)
+            //console.log(singleTicketReply)
             return row;
         }));
 
