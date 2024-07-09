@@ -86,6 +86,7 @@ interface IRole extends Document {
     saveBillAsDraft:Boolean;
     saveBillAsDone:Boolean;
     deleteBill:Boolean;
+    editBillInChatList:Boolean;
     allContactsWhenSubmitBill:Boolean;
 
 
@@ -181,6 +182,7 @@ const roleSchema: Schema<IRole> = new Schema({
     saveBillAsDraft:{type:Boolean , default:false , required:true},
     saveBillAsDone:{type:Boolean , default:false , required:true},
     deleteBill:{type:Boolean , default:false , required:true},
+    editBillInChatList:{type:Boolean , default:false , required:true},
     allContactsWhenSubmitBill:{type:Boolean , default:false , required:true},
 });
 
