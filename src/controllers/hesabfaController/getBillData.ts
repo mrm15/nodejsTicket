@@ -6,26 +6,27 @@ import {IUser, User} from "../../models/User";
 import {setForSendMessage} from "../../utils/setForSendMessage";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
+import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 
 
 const getBillData = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
-    const {billNumber} =  req.params;
+    const {billNumber} = req.params;
 
     console.log(billNumber)
     debugger
     const API_KEY = process.env.HESABFA_API_KEY
-    if(!API_KEY){
-        res.status(500).json({message:'api key یافت نشد'});
+    if (!API_KEY) {
+        res.status(500).json({message: 'api key یافت نشد'});
         return
     }
     const LOGIN_TOKEN = process.env.HESABFA_LOGIN_TOKEN
-    if(!LOGIN_TOKEN){
-        res.status(500).json({message:'LOGIN TOKEN یافت نشد'});
+    if (!LOGIN_TOKEN) {
+        res.status(500).json({message: 'LOGIN TOKEN یافت نشد'});
         return
     }
 
-    if(!billNumber){
+    if (!billNumber) {
         const message = 'مقدار شماره فاکتور معتبر نیست'
         res.status(500).json({message});
         return
@@ -73,14 +74,17 @@ const getBillData = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
                 // userId: 'mail@example.com',
                 // password: '123456',
                 loginToken: LOGIN_TOKEN,
-                number: billNumber+"",
+                number: billNumber + "",
                 type: 0
             }
             const result = await axios.post(url, data);
-            debugger
-            console.log(result)
-            handleResponse(result,res)
-        } catch (error:any) {
+
+            const adminSettings: IAdminSettings = (await AdminSettings.findOne({}).lean())!
+            const listOfExceptionDepartmentArray: string[] = adminSettings.exceptionFromChangeFactorTagList?.split(",")
+            const exceptionArray = listOfExceptionDepartmentArray.filter(row => row !== '')
+            const temp = {exceptionArray,}
+            handleResponse(result, res, temp)
+        } catch (error: any) {
             const statusCode = error?.status || 500
             res.status(statusCode).json({
                 message: error?.toString(),
