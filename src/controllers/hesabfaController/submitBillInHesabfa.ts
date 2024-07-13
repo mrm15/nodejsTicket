@@ -7,11 +7,12 @@ import {setForSendMessage} from "../../utils/setForSendMessage";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
 import {saveFactorNumberAndStatus} from "./functions";
+import {sendAfterSavedBillSMS} from "./sendAfterSavedBillSMS";
 
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
-
+    debugger
     const API_KEY = process.env.HESABFA_API_KEY
     if (!API_KEY) {
         res.status(500).json({message: 'api key یافت نشد'});
@@ -56,10 +57,14 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
             return
         }
 
-        debugger
+
         const {invoice, billData} = req.body;
-        if (!invoice) {
-            res.status(500).json({message: 'مقدار invoice  در بدنه درخواست وجود ندارد.'});
+        if(!invoice.ContactCode){
+            res.status(500).json({message: 'کد مشتری برای این کاربر تعریف نشده است.'});
+            return
+        }
+        if (!invoice || !billData || !billData.billType || billData.ticketId === "") {
+            res.status(500).json({message: 'مقدارهای مورد نیاز ورودی در بدنه درخواست وجود ندارد.'});
             return
         }
 
@@ -67,6 +72,8 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
         // دریافت تمام محصولات از حسابفا
         try {
             const url = ' https://api.hesabfa.com/v1/invoice/save'
+
+
             const data = {
                 apiKey: API_KEY,
                 // userId: 'mail@example.com',
@@ -74,20 +81,34 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                 loginToken: LOGIN_TOKEN,
                 invoice
             }
+
             const result = await axios.post(url, data);
 
             // خب فاکتور توی حسابفا ثبت شد حالا ما باید اطلاعات فاکتور رو توی دیتا بیس خودمون ثبت کنیم.
 
             if (result.data.Result) {
                 try {
-                    await saveFactorNumberAndStatus(result.data.Result, billData)
-                    handleResponse(result, res);
+                    const isSavedFactor = await saveFactorNumberAndStatus(result.data.Result, billData);
+
+
+                    if (isSavedFactor) {
+                        const isSentSMS = await sendAfterSavedBillSMS(result.data.Result)
+                        handleResponse(result, res);
+                    }
+
+
                 } catch (error) {
                     res.status(500).json({
                         message: error?.toString(),
                     })
                     return;
                 }
+            } else {
+                console.log(result?.data)
+                res.status(500).json({
+                    message: result?.data?.ErrorMessage
+                })
+                return;
             }
 
 
