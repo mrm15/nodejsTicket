@@ -1,43 +1,46 @@
-import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
-import {setForSendMessage} from "../../utils/setForSendMessage";
-import {afterSubmitBillSmsText} from "../../SMS/template";
-import {IInitialBillResponse} from "../utility/initialBillResponse";
+import { AdminSettings, IAdminSettings } from "../../models/adminSettings";
+import { setForSendMessage } from "../../utils/setForSendMessage";
+import { afterSubmitBillSmsText, afterVerifiedBillSmsText } from "../../SMS/template";
+import { IInitialBillResponse } from "../utility/initialBillResponse";
 
 export const sendAfterSavedBillSMS = async (billData: any) => {
-    const adminSettingsResult: IAdminSettings | null = await AdminSettings.findOne({}).lean();
+    const adminSettings: IAdminSettings | null = await AdminSettings.findOne({}).lean();
 
-    if (!adminSettingsResult) {
-        return false
+    if (!adminSettings) {
+        return false;
     }
-    if (adminSettingsResult.sendSMSAfterVerifyBill) {
 
-        let text = afterSubmitBillSmsText.text;
+    // Determine if the bill is verified
+    const isBillVerified = (billData.Status === "1" || billData.Status === 1);
 
-        const siteUrl = process.env.SITE_ADDRESS
+    // Function to send SMS
+    const sendSMS = async (textTemplate: string) => {
+        const siteUrl = process.env.SITE_ADDRESS;
         if (!siteUrl) {
-            throw new Error('Invalid API_KEY: Environment variable API_KEY is missing');
+            throw new Error('Invalid SITE_ADDRESS: Environment variable SITE_ADDRESS is missing');
         }
 
-
-        const itemLink = siteUrl + "showBill/" + billData.Number;
-        text = text.replace(afterSubmitBillSmsText.replaceItems[0], billData.ContactTitle);
+        const itemLink = `${siteUrl}showBill/${billData.Number}`;
+        let text = textTemplate.replace(afterSubmitBillSmsText.replaceItems[0], billData.ContactTitle);
         text = text.replace(afterSubmitBillSmsText.replaceItems[1], itemLink);
 
-        debugger
-
-        const {smsStatusCode, resultSmsMessage} = await setForSendMessage({
+        const { smsStatusCode, resultSmsMessage } = await setForSendMessage({
             senderUserId: null,
             senderDepartmentId: null,
             text,
             replyId: null,
             destinationNumber: billData.Contact.Mobile,
-        })
-        if (smsStatusCode === 200) {
-            return true
+        });
 
-        }
+        return smsStatusCode === 200;
+    };
+
+    // Send SMS based on the bill status and settings
+    if (isBillVerified && adminSettings.sendSMSAfterSubmitBill) {
+        return await sendSMS(afterVerifiedBillSmsText.text);
+    } else if (adminSettings.sendSMSAfterSubmitBill) {
+        return await sendSMS(afterSubmitBillSmsText.text);
     }
-    return false
 
-
-}
+    return false;
+};
