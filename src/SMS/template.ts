@@ -4,3 +4,9 @@ export const afterSubmitBillSmsText = {
     `,
     replaceItems:["customerName","billLink"]
 }
+export const afterVerifiedBillSmsText = {
+    text:`کاربر عزیز customerName فاکتور سفارش شما در سایت نمارنگ تایید شد.
+    billLink
+    `,
+    replaceItems:["customerName","billLink"]
+}
