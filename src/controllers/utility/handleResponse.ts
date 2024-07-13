@@ -10,7 +10,7 @@ interface hesabfaResponse {
     } | null,
 }
 
-export const handleResponse = (result: AxiosResponse, res: Response) => {
+export const handleResponse = (result: AxiosResponse, res: Response, newObjectData = {}) => {
 
     let mainResponse: hesabfaResponse = {
         Success: false,
@@ -26,10 +26,14 @@ export const handleResponse = (result: AxiosResponse, res: Response) => {
 
 
         if (mainResponse.Success) {
-            res.status(200).json({
+
+            const myRes = {
                 message: 'اطلاعات بارگزاری شد',
-                data: mainResponse.Result
-            });
+                data: mainResponse.Result,
+                ...newObjectData
+            }
+
+            res.status(200).json(myRes);
         } else {
             res.status(500).json({
                 message: result.data.ErrorMessage
