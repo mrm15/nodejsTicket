@@ -14,7 +14,9 @@ interface IAdminSettings extends Document {
     registerDepartment: mongoose.Schema.Types.ObjectId | null;
     registerRole: mongoose.Schema.Types.ObjectId | null;
     forwardTicketsAfterVerify: mongoose.Schema.Types.ObjectId | null;
+    sendSMSAfterSubmitBill: Boolean;
     sendSMSAfterVerifyBill: Boolean;
+    exceptionFromChangeFactorTagList: string;// رشته ای از دپارتمان هایی که قرار نیست توی ویرایش فاکتور اسمشون لحاظ بشه و با کاما جدا شده
     createAt: Date;
     updateAt: Date;
 }
@@ -67,9 +69,18 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
         type: mongoose.Schema.Types.ObjectId || null,
         required: true,
     },
+    sendSMSAfterSubmitBill: {
+        type: Boolean,
+        default: false,
+    },
     sendSMSAfterVerifyBill: {
         type: Boolean,
         default: false,
+    },
+    exceptionFromChangeFactorTagList: {
+        type: String,
+        required: false,
+        default: ""
     },
     createAt: {
         type: Date,

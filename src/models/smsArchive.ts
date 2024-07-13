@@ -4,7 +4,7 @@ import {v4 as uuidV4} from 'uuid';
 
 interface IsmsArchive extends Document {
     [key: string]: any;
-    senderUserId: mongoose.Types.ObjectId;
+    senderUserId: mongoose.Types.ObjectId | null;
     senderDepartmentId?: mongoose.Schema.Types.ObjectId | null;//
     sendTimeStamp: Date| null;
     counter:number;
@@ -22,15 +22,17 @@ const SmsArchiveSchema: Schema<IsmsArchive> = new Schema<IsmsArchive>({
 
 
     senderUserId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId||null,
+        required: false,
         ref:'User',
+        default:null,
 
     },
     senderDepartmentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId|| null,
+        required: false,
         ref:'Department',
+        default:null,
     },
 
     sendTimeStamp: {

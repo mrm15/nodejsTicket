@@ -5,7 +5,7 @@ import {IDepartment} from "./department";
 
 interface IsmsPending extends Document {
     [key: string]: any;
-    senderUserId: mongoose.Types.ObjectId;
+    senderUserId: mongoose.Types.ObjectId | null;
     senderDepartmentId?: mongoose.Schema.Types.ObjectId | null;//
     sendTimeStamp: Date| null;
     counter:number;
@@ -28,15 +28,17 @@ const SmsPendingSchema: Schema<IsmsPending> = new Schema<IsmsPending>({
     // },
 
     senderUserId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId||null,
+        required: false,
         ref:'User',
+        default:null,
 
     },
     senderDepartmentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId||null,
+        required: false,
         ref:'Department',
+        default:null,
     },
 
     sendTimeStamp: {
