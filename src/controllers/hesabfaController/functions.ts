@@ -9,7 +9,6 @@ interface IBillRes {
 }
 
 export const saveFactorNumberAndStatus = async (billRes: IBillRes, billData: IInitialBillResponse) => {
-
     let foundTicket: ITicket | ITicketReply | null;
     if (billData.billType === "ticket") {
         foundTicket = await Ticket.findOne({_id: billData.ticketId}).exec()
@@ -19,7 +18,12 @@ export const saveFactorNumberAndStatus = async (billRes: IBillRes, billData: IIn
     if (foundTicket) {
         foundTicket.billNumber = billRes.Number
         foundTicket.billStatus = billRes.Status
-        await foundTicket.save()
+        try {
+            await foundTicket.save()
+            return true
+        } catch (error) {
+            return false
+        }
     }
 }
 export const deleteOneBillFromTicketOrTicketReply = async ({id, type}: any) => {
