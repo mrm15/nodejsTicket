@@ -1,11 +1,11 @@
 import {getCurrentTimeStamp} from "./timing";
-import { SmsPending} from "../models/smsPending";
+import {SmsPending} from "../models/smsPending";
 import mongoose from "mongoose";
 
 interface myArgument {
-    senderUserId:string;
-    senderDepartmentId:string;
-    text: string;
+    senderUserId: string | null;
+    senderDepartmentId: string | null;
+    text: string | null;
     replyId: string | null;
     destinationNumber: string;
 }
@@ -34,7 +34,7 @@ export const setForSendMessage = async ({
             return {smsStatusCode: 500, resultSmsMessage: "شماره تلفن باید با 09 شروع شود."}
         }
 
-        const currentTime = getCurrentTimeStamp()
+        const currentTime = getCurrentTimeStamp();
         const newPending = {
             senderUserId: senderUserId,
 
@@ -42,7 +42,7 @@ export const setForSendMessage = async ({
             sendTimeStamp: null,
             text: text,
             destinationNumber,
-            counter:0,
+            counter: 0,
             status: 'pending',
             replyId: replyId,
             createAt: currentTime,
