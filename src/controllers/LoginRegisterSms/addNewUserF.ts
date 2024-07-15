@@ -47,7 +47,7 @@ export const addNewUserF = async ({phoneNumber,departmentId,roleId}:myInput) => 
         website: "",
         loginCodeSendDate: new Date(),
     }
-    debugger
+
 
     try {
         await User.create(object);
