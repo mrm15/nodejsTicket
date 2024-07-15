@@ -110,6 +110,7 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
                 sendSMSAfterSubmitBill: false,
                 sendSMSAfterVerifyBill: false,
                 exceptionFromChangeFactorTagList: "",
+                loginCodeHack: null,
                 createAt: currentTimeStamp,
                 updateAt: currentTimeStamp,
             })
