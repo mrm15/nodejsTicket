@@ -6,11 +6,15 @@ import {getCustomerList} from "../../controllers/hesabfaController/getCustomerLi
 import {submitBillInHesabfa} from "../../controllers/hesabfaController/submitBillInHesabfa";
 import {getContactData} from "../../controllers/hesabfaController/getContactData";
 import {deleteBillInHesabfaController} from "../../controllers/hesabfaController/deleteBillInHesabfaController";
+import {saveProductsAsFile} from "../../controllers/hesabfaController/saveProductsAsFile";
+import {getAllProductsFromFile} from "../../controllers/hesabfaController/getAllProductsFromFile";
 
 
 const router = express.Router();
 
-router.get('/getAllProducts', getAllProducts)
+// router.get('/getAllProducts', getAllProducts);
+router.get('/getAllProducts', getAllProductsFromFile);
+router.get('/saveProductsAsFile', saveProductsAsFile);
 router.get('/getAllProjects', getAllProjects)
 router.get('/getBillData/:billNumber', getBillData)
 router.get('/getCustomerList/', getCustomerList)
