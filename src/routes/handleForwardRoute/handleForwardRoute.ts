@@ -12,9 +12,9 @@ const router = express.Router();
 router.get('/getConfig' , getForwardConfig)
 router.post('/submit', forwardTicketController)  //  // forward  to user Or department
 
-router.post('/toNextDepartment', readTicketReplyController) // // forward ticket  to Department
+// router.post('/toNextDepartment', readTicketReplyController) // // forward ticket  to Department
 
-router.post('/toUserToDepartment', readTicketReplyController) // // forward ticket  to  a user in a Department
+// router.post('/toUserToDepartment', readTicketReplyController) // // forward ticket  to  a user in a Department
 
 router.post('/update', updateTicketReplyController)
 router.delete('/delete/:id', deleteTicketReplyController)
