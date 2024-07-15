@@ -1,14 +1,10 @@
-import { AdminSettings, IAdminSettings } from "../../models/adminSettings";
-import { setForSendMessage } from "../../utils/setForSendMessage";
-import { afterSubmitBillSmsText, afterVerifiedBillSmsText } from "../../SMS/template";
-import { IInitialBillResponse } from "../utility/initialBillResponse";
+import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
+import {setForSendMessage} from "../../utils/setForSendMessage";
+import {afterSubmitBillSmsText, afterVerifiedBillSmsText} from "../../SMS/template";
+import {IInitialBillResponse} from "../utility/initialBillResponse";
 
-export const sendAfterSavedBillSMS = async (billData: any) => {
-    const adminSettings: IAdminSettings | null = await AdminSettings.findOne({}).lean();
+export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdminSettings) => {
 
-    if (!adminSettings) {
-        return false;
-    }
 
     // Determine if the bill is verified
     const isBillVerified = (billData.Status === "1" || billData.Status === 1);
@@ -24,7 +20,7 @@ export const sendAfterSavedBillSMS = async (billData: any) => {
         let text = textTemplate.replace(afterSubmitBillSmsText.replaceItems[0], billData.ContactTitle);
         text = text.replace(afterSubmitBillSmsText.replaceItems[1], itemLink);
 
-        const { smsStatusCode, resultSmsMessage } = await setForSendMessage({
+        const {smsStatusCode, resultSmsMessage} = await setForSendMessage({
             senderUserId: null,
             senderDepartmentId: null,
             text,
