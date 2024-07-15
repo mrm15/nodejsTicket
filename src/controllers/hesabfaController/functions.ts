@@ -1,6 +1,7 @@
 import {IInitialBillResponse} from "../utility/initialBillResponse";
 import {ITicket, Ticket} from "../../models/ticket";
 import {ITicketReply, TicketReply} from "../../models/ticketReply";
+import mongoose from "mongoose";
 
 
 interface IBillRes {
@@ -43,4 +44,28 @@ export const deleteOneBillFromTicketOrTicketReply = async ({id, type}: any) => {
     } catch (error) {
         return false
     }
+}
+
+
+export const forwardTicketAfterVerify = async ({depId, billData}: {
+    depId: any,
+    billData: IInitialBillResponse
+}) => {
+    debugger
+    if (!depId) {
+
+    }
+    if (!billData) {
+
+    }
+    if (depId && billData) {
+
+        debugger
+        const ticketFound: ITicket = (await Ticket.findOne({_id: billData.ticketId}).exec())!;
+        ticketFound.assignedToDepartmentId = depId;
+        await ticketFound.save();
+
+
+    }
+
 }
