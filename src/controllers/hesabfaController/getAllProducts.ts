@@ -64,6 +64,11 @@ const getAllProducts = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
         try {
 
+            // اینجا میخوام بگم اگه فایل جی سون بود اونو بردار و و بفرست سمت فرانت
+            // اگه نبود هم ارور بده
+
+
+
             const url = 'https://api.hesabfa.com/v1/item/getitems'
             const data = {
                 apiKey: API_KEY,
