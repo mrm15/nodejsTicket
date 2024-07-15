@@ -6,8 +6,9 @@ import {IUser, User} from "../../models/User";
 import {setForSendMessage} from "../../utils/setForSendMessage";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
-import {saveFactorNumberAndStatus} from "./functions";
+import {forwardTicketAfterVerify, saveFactorNumberAndStatus} from "./functions";
 import {sendAfterSavedBillSMS} from "./sendAfterSavedBillSMS";
+import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -39,9 +40,9 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
         const arrayListToCheck = [
             ACCESS_LIST.SUBMIT_BILL_IN_SUBMIT_ORDER_FORM
         ]
-        const hasAccessTo = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
+        const hasAccessTo11 = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
 
-        if (!hasAccessTo) {
+        if (!hasAccessTo11) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'})
             return
         }
@@ -59,11 +60,12 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
 
 
         const {invoice, billData} = req.body;
-        if(!invoice.ContactCode){
+        if (!invoice.ContactCode) {
             res.status(500).json({message: 'کد مشتری برای این کاربر تعریف نشده است.'});
             return
         }
         if (!invoice || !billData || !billData.billType || billData.ticketId === "") {
+            debugger
             res.status(500).json({message: 'مقدارهای مورد نیاز ورودی در بدنه درخواست وجود ندارد.'});
             return
         }
@@ -92,7 +94,17 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
 
 
                     if (isSavedFactor) {
-                        const isSentSMS = await sendAfterSavedBillSMS(result.data.Result)
+                        const adminSettings: IAdminSettings | null = await AdminSettings.findOne({}).lean();
+                        if (!adminSettings) {
+                            return false;
+                        }
+                        const isSentSMS = await sendAfterSavedBillSMS(result.data.Result, adminSettings)
+                        // اگه فاکتور تایید شده بود. باید تیکت رو بفرستم به دپارتمان مربوط به نود گیری. این فرآیند خودکار انجام میشه
+                        // در واقع اگه دپارتمان مقصد تعریف شده بود و نال نبود باید تیکت رو بفرستیم بره به دپارتمان نود گیری
+                        debugger
+                        if ((adminSettings.forwardTicketsAfterVerify && invoice.Status === 1)||(adminSettings.forwardTicketsAfterVerify && invoice.Status === "1")) {
+                            await forwardTicketAfterVerify({depId: adminSettings.forwardTicketsAfterVerify, billData})
+                        }
                         handleResponse(result, res);
                     }
 
