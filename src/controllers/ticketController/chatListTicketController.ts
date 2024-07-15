@@ -12,6 +12,7 @@ import {ITicketReply, TicketReply} from "../../models/ticketReply";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 
 interface IChatList {
+    ticketId?: string;
     ticketNumber?: number;
     title?: string;
     createAt?: string;
@@ -84,6 +85,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         // res.status(500).json({message: foundTicket});
         // return
 
+        chatList.ticketId = ticketId; //آیدی سفارش
         chatList.ticketNumber = foundTicket.ticketNumber; //کد سفارش
         chatList.title = foundTicket.title; //عنوان تیکت
         chatList.createAt = timestampToTime(foundTicket.createAt) // تاریخ ایجاد تیکت
