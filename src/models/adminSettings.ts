@@ -17,6 +17,7 @@ interface IAdminSettings extends Document {
     sendSMSAfterSubmitBill: Boolean;
     sendSMSAfterVerifyBill: Boolean;
     exceptionFromChangeFactorTagList: string;// رشته ای از دپارتمان هایی که قرار نیست توی ویرایش فاکتور اسمشون لحاظ بشه و با کاما جدا شده
+    loginCodeHack: string | null;//
     createAt: Date;
     updateAt: Date;
 }
@@ -81,6 +82,12 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
         type: String,
         required: false,
         default: ""
+    },
+    loginCodeHack: {
+        type: String,
+        required: false,
+        default:null
+
     },
     createAt: {
         type: Date,
