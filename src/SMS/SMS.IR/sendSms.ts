@@ -2,7 +2,7 @@ import axios from "axios";
 
 export type SendSmsMethodType = "smsIR" | "nikSMS";
 export const getSendSMSMethod = (): SendSmsMethodType => {
-    return "nikSMS"
+    return "smsIR"
 }
 
 interface inputTypes {
@@ -18,7 +18,7 @@ interface SendSmsResponse {
     message?: string; // Optional because it might not always be present
 }
 
-const myApiKey: string = `I999QekubH6pbxonIw6hH3WgRnCedQwPk9op5xUhZTDgP6RlkUsZWMOyIPVXvdzM`
+const myApiKey: string = `48Q30RepX0qVRyTtPUGvfJevRKfHNoOqWmMO5BYQFdHOQpaWHViy799peS4ygupD`
 export const sendSmsFromSMSIR = async ({mobile, templateId, parameters}: inputTypes): Promise<SendSmsResponse> => {
     const data = JSON.stringify({
         "mobile": mobile,
@@ -84,24 +84,63 @@ export const sendSmsFromSMSIR = async ({mobile, templateId, parameters}: inputTy
     //         }
     //     });
 }
-export const sendLoginSMS = async (mobile: any, loginCode: any) => {
+export const sendLoginSMS = async ({mobile, loginCode}: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
-        mobile: mobile, templateId: "678399", parameters: [{
+        mobile: mobile, templateId: "844695", parameters: [{
             "name": "LOGINCODE",
             "value": loginCode
         }]
     })
 }
-export const sendSubmitFactorSMS = async (mobile: any, loginCode: any) => {
+export const sendSubmitBillSMS = async ({mobile, contactName, billLink}: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
-        mobile: mobile, templateId: "678399", parameters: [{
-            "name": "LOGINCODE",
-            "value": loginCode
-        }]
+        mobile: mobile, templateId: "969918", parameters: [
+            {
+                "name": "CONTACTNAME",
+                "value": contactName
+            },
+            {
+                "name": "BILLLINK",
+                "value": billLink
+            }
+        ]
+    })
+}
+export const sendVerifyBillSMS = async ({mobile, contactName, billLink , orderNumber}: any) => {
+    return await sendSmsFromSMSIR({
+        // توی تملیت آیدی براش متن تعریف شده
+        mobile: mobile, templateId: "808848", parameters: [
+            {
+                "name": "CONTACTNAME",
+                "value": contactName
+            },
+            {
+                "name": "BILLNUMBER",
+                "value": orderNumber
+            },
+            {
+                "name": "BILLLINK",
+                "value": billLink
+            }
+        ]
+    })
+}
+export const sendPackageSMS = async ({mobile, contactName, orderNumber}: any) => {
+    return await sendSmsFromSMSIR({
+        // توی تملیت آیدی براش متن تعریف شده
+        mobile: mobile, templateId: "306042", parameters: [
+            {
+                "name": "CONTACTNAME",
+                "value": contactName
+            },
+            {
+                "name": "BILLNUMBER",
+                "value": orderNumber
+            },
+        ]
     })
 }
 
 
-    
