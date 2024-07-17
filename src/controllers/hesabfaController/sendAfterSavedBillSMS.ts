@@ -2,6 +2,7 @@ import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {setForSendMessage} from "../../utils/setForSendMessage";
 import {afterSubmitBillSmsText, afterVerifiedBillSmsText} from "../../SMS/template";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
+import {sendSubmitBillSMS, sendVerifyBillSMS} from "../../SMS/SMS.IR/sendSms";
 
 export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdminSettings) => {
 
@@ -10,32 +11,37 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
     const isBillVerified = (billData.Status === "1" || billData.Status === 1);
 
     // Function to send SMS
-    const sendSMS = async (textTemplate: string) => {
+    const sendSMS = async (typeOfSendMessage: "submitBill" | "verifyBill") => {
         const siteUrl = process.env.SITE_ADDRESS;
         if (!siteUrl) {
             throw new Error('Invalid SITE_ADDRESS: Environment variable SITE_ADDRESS is missing');
         }
 
-        const itemLink = `${siteUrl}showBill/${billData.Number}`;
-        let text = textTemplate.replace(afterSubmitBillSmsText.replaceItems[0], billData.ContactTitle);
-        text = text.replace(afterSubmitBillSmsText.replaceItems[1], itemLink);
+        const itemLink = `${siteUrl}s/${billData.Number}`;
+        const destinationNumber = billData.Contact.Mobile;
+        const contactName = billData.ContactTitle;
+        const billLink = itemLink
+        let orderNumber = billData?.ticketNumber;
+        let sendSmsResult;
+        debugger
+        if (typeOfSendMessage === "submitBill") {
+            sendSmsResult = await sendSubmitBillSMS(
+                {mobile: destinationNumber, contactName, billLink}
+            )
+        } else {
+            sendSmsResult = await sendVerifyBillSMS(
+                {mobile: destinationNumber, contactName, billLink, orderNumber}
+            )
+        }
 
-        const {smsStatusCode, resultSmsMessage} = await setForSendMessage({
-            senderUserId: null,
-            senderDepartmentId: null,
-            text,
-            replyId: null,
-            destinationNumber: billData.Contact.Mobile,
-        });
-
-        return smsStatusCode === 200;
+        sendSmsResult.status
     };
 
     // Send SMS based on the bill status and settings
     if (isBillVerified && adminSettings.sendSMSAfterSubmitBill) {
-        return await sendSMS(afterVerifiedBillSmsText.text);
-    } else if (adminSettings.sendSMSAfterSubmitBill) {
-        return await sendSMS(afterSubmitBillSmsText.text);
+        return await sendSMS("verifyBill");
+    } else if (adminSettings.sendSMSAfterVerifyBill) {
+        return await sendSMS("submitBill");
     }
 
     return false;
