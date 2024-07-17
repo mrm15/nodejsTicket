@@ -189,7 +189,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
         }
         if (send_sms_method === "smsIR") {
             // const isSend = await sendSms1(text, phoneNumber);
-            const isSend = await sendLoginSMS(phoneNumber, loginCode)
+            const isSend = await sendLoginSMS({mobile:phoneNumber, loginCode})
 
             if (!isSend.status) {
                 // res.status(500).json({status: false, message: "ارسال پیام موفقیت آمیز نبود"});
