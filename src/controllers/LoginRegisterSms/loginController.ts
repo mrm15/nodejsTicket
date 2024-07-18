@@ -45,7 +45,7 @@ interface VerifyRequestBody {
 
 const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Response, next: NextFunction): Promise<void> => {
 
-    const {phoneNumber} = req.body;
+    const {phoneNumber, secretMode}: any = req.body;
 
     if (!phoneNumber) {
         res.status(400).json({message: 'شماره تلفن یافت نشد'});
@@ -83,6 +83,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
 
                 return
             }
+
             if (adminSettingsData.registerInPanel !== 'active') {
                 res.status(403).json({
                     status: false,
@@ -177,26 +178,29 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
 
         let send_sms_method = getSendSMSMethod()
 
-        if (send_sms_method === "nikSMS") {
-            const isSend = await sendSms1(text, phoneNumber);
-            // const isSend = await sendLoginSMS(phoneNumber, loginCode)
+        if(!secretMode){
+            if (send_sms_method === "nikSMS") {
+                const isSend = await sendSms1(text, phoneNumber);
+                // const isSend = await sendLoginSMS(phoneNumber, loginCode)
 
-            if (!isSend) {
-                res.status(500).json({status: false, message: "ارسال پیام موفقیت آمیز نبود"});
-                // res.status(500).json({status: false, message: isSend.messageId});
-                return
+                if (!isSend) {
+                    res.status(500).json({status: false, message: "ارسال پیام موفقیت آمیز نبود"});
+                    // res.status(500).json({status: false, message: isSend.messageId});
+                    return
+                }
+            }
+            if (send_sms_method === "smsIR") {
+                // const isSend = await sendSms1(text, phoneNumber);
+                const isSend = await sendLoginSMS({mobile: phoneNumber, loginCode})
+
+                if (!isSend.status) {
+                    // res.status(500).json({status: false, message: "ارسال پیام موفقیت آمیز نبود"});
+                    res.status(500).json({status: false, message: isSend.messageId});
+                    return
+                }
             }
         }
-        if (send_sms_method === "smsIR") {
-            // const isSend = await sendSms1(text, phoneNumber);
-            const isSend = await sendLoginSMS({mobile:phoneNumber, loginCode})
 
-            if (!isSend.status) {
-                // res.status(500).json({status: false, message: "ارسال پیام موفقیت آمیز نبود"});
-                res.status(500).json({status: false, message: isSend.messageId});
-                return
-            }
-        }
         // Uncomment the following lines if you have the sendSms function ready
         // const isSend = await sendSms1(text, phoneNumber);
         // const isSend = await sendLoginSMS(phoneNumber, loginCode)
@@ -213,7 +217,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
         // user.updateAt = getCurrentTimeStamp();
         await user.save();
 
-        res.status(200).json({status: true, message: "کد ورود به سایت پیامک شد.", text});
+        res.status(200).json({status: true, message: "کد ورود به سایت پیامک شد."});
         return
     } catch (err: any) {
         res.status(500).json({message: err?.message});
@@ -221,7 +225,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
 };
 
 const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Response, next: NextFunction): Promise<void> => {
-    const {phoneNumber, loginCode} = req.body;
+    const {phoneNumber, loginCode, secretMode}: any = req.body;
 
     if (!phoneNumber) {
         res.status(400).json({message: 'شماره تلفن را وارد کنید'});
@@ -250,7 +254,9 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
     }
 
     const adminSettings = await AdminSettings.findOne({}).lean();
-    const loginCodeHack = adminSettings?.loginCodeHack
+
+    // اینجا میگیم اگه فرانت سیکرت کد رو فرستاده بود ما باید به  یزی که توی تنظیمات هست توجه کنم در این صورت نیازی نیست توجه کنیم.
+    const loginCodeHack = secretMode ? (adminSettings?.loginCodeHack) : undefined
     const SECRET_LOGIN_KEY = "93846421599384642159"
     const loginCodeHackHolder: string = (!!loginCodeHack) ? loginCodeHack : SECRET_LOGIN_KEY
     // Check if the provided login code matches either the user's login code or the hack code
