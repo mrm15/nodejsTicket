@@ -177,6 +177,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
 
 
         const myDataForTicketNeedsBill: IInitialBillResponse = {
+            ticketNumber:ticketDoc.ticketNumber,
             contactName,
             contactCode,
             billNumber,
