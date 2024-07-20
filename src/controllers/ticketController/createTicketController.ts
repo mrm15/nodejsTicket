@@ -212,10 +212,14 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const ticketId = result._id; // اینجا این مقدارش در صورتی که ما داریم تیکت ریپلای میزنیم و میخوایم بعد از بازگشت برگرده به صفحه ی چت لیست و این مقدار رو لازم داریم. ولی چون اینجا  تازه داره تیکت ایجاد میکنه نیاز نیست
         const note = "سفارش دهنده";
         const title = result.title;
-        const tag = myToken.UserInfo.userData.userData.name; // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه
+        const tag = JSON.stringify({
+            tn:result.ticketNumber,
+            n:myToken.UserInfo.userData.userData.name
+        }); // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه
 
 
         const myDataForTicketNeedsBill: IInitialBillResponse = {
+            ticketNumber : result.ticketNumber,
             contactName,
             contactCode,
             billNumber,
