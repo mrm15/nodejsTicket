@@ -88,6 +88,7 @@ interface IRole extends Document {
     deleteBill:Boolean;
     editBillInChatList:Boolean;
     allContactsWhenSubmitBill:Boolean;
+    sellBill:Boolean;
 
 
 }
@@ -184,6 +185,7 @@ const roleSchema: Schema<IRole> = new Schema({
     deleteBill:{type:Boolean , default:false , required:true},
     editBillInChatList:{type:Boolean , default:false , required:true},
     allContactsWhenSubmitBill:{type:Boolean , default:false , required:true},
+    sellBill:{type:Boolean , default:false , required:true},
 });
 
 roleSchema.virtual('id').get(function () {
