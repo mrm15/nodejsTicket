@@ -7,29 +7,15 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {deleteOneBillFromTicketOrTicketReply} from "./functions";
 import {logEvents} from "../../middleware/logEvents";
+import {hesabfaApiRequest} from "../utility/hesabfa/functions";
 
 const getBillList = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     try {
-        const API_KEY = process.env.HESABFA_API_KEY;
-        const LOGIN_TOKEN = process.env.HESABFA_LOGIN_TOKEN;
-
-        if (!API_KEY || !LOGIN_TOKEN) {
-            return res.status(500).json({message: 'API key or LOGIN TOKEN not found'});
-        }
 
         const {myToken} = req;
         if (!myToken) {
             return res.status(200).json({message: 'Token not found in the request'});
         }
-
-        // const hasAccess = await checkAccessList({
-        //     phoneNumber: myToken.phoneNumber,
-        //     arrayListToCheck: [ACCESS_LIST.DELETE_BILL]
-        // });
-        //
-        // if (!hasAccess) {
-        //     return res.status(403).json({message: 'You do not have permission to delete this bill'});
-        // }
 
         const {userId} = myToken?.UserInfo?.userData?.userData;
         const foundUser: IUser | null = await User.findOne({_id: userId}).lean();
@@ -44,16 +30,16 @@ const getBillList = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
         //     return
         // }
 
-        const hesabfaUrl = 'https://api.hesabfa.com/v1/invoice/getinvoices';
-        const data = {
-            apiKey: API_KEY,
-            loginToken: LOGIN_TOKEN,
+        const myData = {
             type: 0, // Only sales invoices (type 0)
             queryInfo,
         }
-
-        const result = await axios.post(hesabfaUrl, data);
-        handleResponse(result, res)
+        const myResult = await hesabfaApiRequest("invoice/getinvoices", myData)
+        if (!myResult.response) {
+            return res.status(500).json({message: myResult.message});
+        } else if (myResult.response) {
+            handleResponse(myResult.response, res)
+        }
 
 
     } catch (error: any) {
