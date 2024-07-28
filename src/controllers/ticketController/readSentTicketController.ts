@@ -88,8 +88,8 @@ const ReadSentTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         // const rowData = [...myList]
 
         const list = await defineTable({
-            req, conditionString: 'readTicketController',
-            ticketUserId: '',
+            req, conditionString: 'ReadSentTicketController',// readTicketController
+            ticketUserId: userId,
         })
 
         res.status(200).json({
