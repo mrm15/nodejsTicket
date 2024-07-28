@@ -185,7 +185,8 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         if (!isSendTicketToAdmin) {
 
             // Find the user and update tickets array
-            const foundUser: IUser | null = await User.findById(userId).exec();
+            const foundUser = (await User.findById({_id:assignToUserId}).exec())!;
+            debugger
             if (foundUser) {
                 foundUser.tickets.push({
                     ticketId: result._id,
