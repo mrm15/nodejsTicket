@@ -27,6 +27,7 @@ export const defineTable = async ({req, conditionString, ticketUserId}: myObject
         ticketList = await Ticket.find({}).lean()
     }
 
+    debugger
 
     let myList = await Promise.all(ticketList.map(async (singleTicket) => {
         const row: any = {...singleTicket};
@@ -49,7 +50,7 @@ export const defineTable = async ({req, conditionString, ticketUserId}: myObject
     if (conditionString === 'readTicketController') {
         myFilteredList = [...myList]
     } else if (conditionString === 'ReadSentTicketController') {
-        myFilteredList = myList.filter(singleTicket => singleTicket.userId === ticketUserId)
+        myFilteredList = myList.filter(singleTicket => singleTicket.userId?.toString() === ticketUserId?.toString())
     } else if (conditionString === 'readTicketController') {
 
     }
