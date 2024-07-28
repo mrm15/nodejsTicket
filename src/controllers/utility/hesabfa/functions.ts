@@ -13,7 +13,7 @@ export const hesabfaApiRequest = async (method: string, data: any) => {
     if (!API_KEY || !LOGIN_TOKEN) {
         return {
             message: "API_KEY Or LOGIN_TOKEN Not Found!",
-            response:undefined,
+            response: undefined,
         }
     }
     const postData = {
@@ -21,14 +21,14 @@ export const hesabfaApiRequest = async (method: string, data: any) => {
         loginToken: LOGIN_TOKEN,
         ...data
     }
-    const resultOfRequest =  await axios.post(hesabfaUrl, postData);
+    const resultOfRequest = await axios.post(hesabfaUrl, postData);
 
     return {
-        response : resultOfRequest,
+        response: resultOfRequest,
     }
 }
 
-export const getHeaderAndRows = (incomeData:any) => {
+export const getHeaderAndRows = (incomeData: any) => {
 
     const DateToEnglish = (inputText: any) => {
         let result = timestampToTimeFromHesabfa(inputText)
@@ -80,7 +80,7 @@ export const getHeaderAndRows = (incomeData:any) => {
                 mySeller,
                 myTicketNumber,
                 myTax: rowItem?.Tax,
-                myTotalAmount:rowItem?.TotalAmount, // اینحا ما جمع مربوط به همون آیتم رو فقط لازم داریم. نه جمع کل
+                myTotalAmount: rowItem?.TotalAmount, // اینحا ما جمع مربوط به همون آیتم رو فقط لازم داریم. نه جمع کل
                 myStatus: row.Status,
                 myCurrency: row.Currency,
             })
@@ -106,12 +106,11 @@ export const getHeaderAndRows = (incomeData:any) => {
         {title: "مالیات", key: "Tax"},
         {title: "مبلغ کل", key: "TotalAmount"},
         {title: "واحد پول", key: "myCurrency"},
-        {title: "وضعیت", key: "myStatus"},
+        {title: "وضعیت", key: "myStatus", task: changeTextTo},
     ]
 
 
-
-    const formattedDataSheet2 = dataSheet2.map((item:any) => {
+    const formattedDataSheet2 = dataSheet2.map((item: any) => {
         const newItem: { [key: string]: any } = {};
         headersSheet2.forEach((header) => {
             newItem[header.title] = header.task ? header.task((item)[header.key]) : (item)[header.key]
@@ -120,10 +119,40 @@ export const getHeaderAndRows = (incomeData:any) => {
     })
 
 
-
     return {
-        header:headersSheet2,
-        rows:formattedDataSheet2,
+        header: headersSheet2,
+        rows: formattedDataSheet2,
     }
+
+}
+
+export const filterResultDateStatus = (tempBillList = [], date: string) => {
+
+
+    const verifiedBillTotalSum = 0
+    const verifiedBillsNumber = 0
+    const data = {
+        submittedBillTotalSum: 0,
+        submittedBillsNumber: 0,
+        verifiedBillTotalSum: 0,
+        verifiedBillsNumber: 0,
+    }
+
+    tempBillList.forEach((row: any) => {
+
+        if (row.Date === date) {
+            if (row.Status === 0) {
+                data.submittedBillsNumber += 1;
+                data.submittedBillTotalSum += row.TotalSum;
+
+            } else if (row.Status === 0) {
+                data.verifiedBillTotalSum += 1;
+                data.verifiedBillsNumber += row.TotalSum;
+            }
+        }
+    })
+
+    return data
+
 
 }
