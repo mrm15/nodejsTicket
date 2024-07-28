@@ -89,6 +89,12 @@ interface IRole extends Document {
     editBillInChatList:Boolean;
     allContactsWhenSubmitBill:Boolean;
     sellBill:Boolean;
+    // widget
+    widgetUserStatus:Boolean;
+    widgetNumberOfBills7days:Boolean;
+    widgetAmountOfBills7days:Boolean;
+    widgetHowManyUsersThereAre:Boolean;
+    // ادامه دارد....
 
 
 }
@@ -186,6 +192,11 @@ const roleSchema: Schema<IRole> = new Schema({
     editBillInChatList:{type:Boolean , default:false , required:true},
     allContactsWhenSubmitBill:{type:Boolean , default:false , required:true},
     sellBill:{type:Boolean , default:false , required:true},
+    // مشاهده گزارش های داشبورد
+    widgetUserStatus:{type:Boolean , default:false , required:true}, //
+    widgetNumberOfBills7days:{type:Boolean , default:false , required:true}, //
+    widgetAmountOfBills7days:{type:Boolean , default:false , required:true}, //
+    widgetHowManyUsersThereAre:{type:Boolean , default:false , required:true}, //
 });
 
 roleSchema.virtual('id').get(function () {
