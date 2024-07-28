@@ -180,7 +180,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
 
         if(!secretMode){
             if (send_sms_method === "nikSMS") {
-                const isSend = await sendSms1(text, phoneNumber);
+                const isSend = await sendSms(text, phoneNumber);
                 // const isSend = await sendLoginSMS(phoneNumber, loginCode)
 
                 if (!isSend) {
