@@ -29,8 +29,8 @@ const runFunction = async () => {
         if (singleSMS.status === 'pending') {
 
             // try to send SMS
-            const resultOfSendSMS = await sendSms1(singleSMS.text, singleSMS.destinationNumber);
-            console.log(resultOfSendSMS)
+            const resultOfSendSMS = await sendSms(singleSMS.text, singleSMS.destinationNumber);
+            //console.log(resultOfSendSMS)
             if (resultOfSendSMS) {
                 try{
                     const currentTime = getCurrentTimeStamp()
@@ -41,7 +41,7 @@ const runFunction = async () => {
 
                     delete  row._id
                     await SmsArchive.create(row);
-                    //
+                    debugger
                     // // Remove from SmsPending table
                     await SmsPending.deleteOne({ _id: singleSMS._id });
                     return 1;
@@ -55,6 +55,9 @@ const runFunction = async () => {
                 row.counter = singleSMS.counter + 1;
                 row.updateAt = getCurrentTimeStamp();
                 // if tries more than 10   change status to "error"
+                if(row.counter>10){
+                    row.status = 'error'
+                }
 
                 await SmsPending.updateOne({ _id: singleSMS._id }, row);
                 return 0;
