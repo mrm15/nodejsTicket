@@ -1,16 +1,12 @@
-import {hesabfaApiRequest} from "../utility/hesabfa/functions";
+import {countFilterResultDateStatus, getHeaderAndRows, hesabfaApiRequest} from "../utility/hesabfa/functions";
+import {formatDateForBackend} from "../../utils/functions";
 
 export const fillOutReportData = async (accessList: string[]) => {
     debugger
-    const temp = []
+    const temp: any[] = []
     if (accessList.includes("widgetAmountOfBills7days")) {
         // Calculate the date three days before today
-        const formatDateForBackend = (date: Date) => {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}T00:00:00`;
-        };
+
 
         // Get today's date and set the time to the start of the day
         const today = new Date();
@@ -25,13 +21,13 @@ export const fillOutReportData = async (accessList: string[]) => {
         dayBeforeYesterday.setDate(today.getDate() - 2);
 
         const fourDaysAgo = new Date(today);
-        fourDaysAgo.setDate(today.getDate() - 2);
+        fourDaysAgo.setDate(today.getDate() - 3);
         const fiveDaysAgo = new Date(today);
-        fiveDaysAgo.setDate(today.getDate() - 2);
+        fiveDaysAgo.setDate(today.getDate() - 4);
         const sixDaysAgo = new Date(today);
-        sixDaysAgo.setDate(today.getDate() - 2);
+        sixDaysAgo.setDate(today.getDate() - 5);
         const sevenDaysAgo = new Date(today);
-        sevenDaysAgo.setDate(today.getDate() - 2);
+        sevenDaysAgo.setDate(today.getDate() - 6);
 
         const todayFormatted = formatDateForBackend(today);
         const yesterdayFormatted = formatDateForBackend(yesterday);
@@ -41,14 +37,20 @@ export const fillOutReportData = async (accessList: string[]) => {
         const sixDaysAgoFormatted = formatDateForBackend(sixDaysAgo);
         const sevenDaysAgoFormatted = formatDateForBackend(sevenDaysAgo);
 
-        const nowToday = todayForm
+        const nowTodayToShowFront = today.toLocaleDateString('fa-ir')
+        const yesterdayToShowFront = yesterday.toLocaleDateString('fa-ir')
+        const dayBeforeYesterdayToShowFront = dayBeforeYesterday.toLocaleDateString('fa-ir')
+        const fourDaysAgoToShowFront = fourDaysAgo.toLocaleDateString('fa-ir')
+        const fiveDaysAgoToShowFront = fiveDaysAgo.toLocaleDateString('fa-ir')
+        const sixDaysAgoToShowFront = sixDaysAgo.toLocaleDateString('fa-ir')
+        const sevenDaysAgoToShowFront = sevenDaysAgo.toLocaleDateString('fa-ir')
 
-
+        debugger
         const filterItems = [
             {
                 Property: 'Date',
                 Operator: '>=',
-                Value: dayBeforeYesterdayFormatted,
+                Value: sevenDaysAgoFormatted,
             },
         ];
 
@@ -65,22 +67,82 @@ export const fillOutReportData = async (accessList: string[]) => {
         }
         const myResult = await hesabfaApiRequest("invoice/getinvoices", myData)
 
+        if (!myResult?.response?.data?.Success) {
+            throw new Error("مشکل در دریافت اطلاعات از حسابفا")
+        }
+
+        let temp11: any = (getHeaderAndRows(myResult.response?.data.Result.List))
+        temp11 = temp11.rows
 
 
+        const todayData = countFilterResultDateStatus(temp11, todayFormatted)
+        const yesterdayData = countFilterResultDateStatus(temp11, yesterdayFormatted)
+        const dayBeforeYesterdayData = countFilterResultDateStatus(temp11, dayBeforeYesterdayFormatted)
+        const fourDaysAgoData = countFilterResultDateStatus(temp11, fourDaysAgoFormatted)
+        const fiveDaysAgoData = countFilterResultDateStatus(temp11, fiveDaysAgoFormatted)
+        const sixDaysAgoData = countFilterResultDateStatus(temp11, sixDaysAgoFormatted)
+        const sevenDaysAgoData = countFilterResultDateStatus(temp11, sevenDaysAgoFormatted)
 
+        const dt = {
+            todayData,
+            yesterdayData,
+            dayBeforeYesterdayData,
+            fourDaysAgoData,
+            fiveDaysAgoData,
+            sixDaysAgoData,
+            sevenDaysAgoData,
+        }
 
-
-        temp.push({
-            type: "text",
-            title: "تعداد فاکتور های سه روز گذشته",
+        const chartData = {
+            type: "reChart",
+            dataKey: "Date",
+            keyArray: ["تعداد فاکتور", "تایید شده", "جمع تایید شده"],
             data: [
-                {text: "21-09-1402", value: "123",},
-                {text: "20-09-1402", value: "456",},
-                {text: "19-09-1402", value: "789",},
-            ]
-        })
-    }
+                {
+                    Date: sevenDaysAgoToShowFront,
+                    "تعداد فاکتور": dt.sevenDaysAgoData.verifiedBillsNumber,
+                    "جمع تایید شده": dt.sevenDaysAgoData.submittedBillTotalSum,
+                    "تایید شده": dt.sevenDaysAgoData.verifiedBillsNumber
+                },
+                {
+                    Date: sixDaysAgoToShowFront,
+                    "تعداد فاکتور": dt.sixDaysAgoData.verifiedBillsNumber,
+                    "جمع تایید شده": dt.sixDaysAgoData.submittedBillTotalSum,
+                    "تایید شده": dt.sixDaysAgoData.verifiedBillsNumber
+                },
 
+                {
+                    Date: fiveDaysAgoToShowFront,
+                    "تعداد فاکتور": dt.fiveDaysAgoData.verifiedBillsNumber,
+                    "جمع تایید شده": dt.fiveDaysAgoData.submittedBillTotalSum,
+                    "تایید شده": dt.fiveDaysAgoData.verifiedBillsNumber
+                },
+
+                {
+                    Date: fourDaysAgoToShowFront,
+                    "تعداد فاکتور": dt.fourDaysAgoData.verifiedBillsNumber,
+                    "جمع تایید شده": dt.fourDaysAgoData.submittedBillTotalSum,
+                    "تایید شده": dt.fourDaysAgoData.verifiedBillsNumber
+                },
+
+                {
+                    Date: dayBeforeYesterdayToShowFront,
+                    "تعداد فاکتور": dt.dayBeforeYesterdayData.verifiedBillsNumber,
+                    "جمع تایید شده": dt.dayBeforeYesterdayData.submittedBillTotalSum,
+                    "تایید شده": dt.dayBeforeYesterdayData.verifiedBillsNumber
+                },
+
+                {
+                    Date: nowTodayToShowFront,
+                    "تعداد فاکتور": dt.todayData.verifiedBillsNumber,
+                    "جمع تایید شده": dt.todayData.submittedBillTotalSum,
+                    "تایید شده": dt.todayData.verifiedBillsNumber
+                },
+            ]
+        }
+        temp.push(chartData)
+    }
+    debugger
     return temp
 
 
