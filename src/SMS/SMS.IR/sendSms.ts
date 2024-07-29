@@ -109,7 +109,7 @@ export const sendSubmitBillSMS = async ({mobile, contactName, billLink}: any) =>
         ]
     })
 }
-export const sendVerifyBillSMS = async ({mobile, contactName, billLink , orderNumber}: any) => {
+export const sendVerifyBillSMS = async ({mobile, contactName, billLink, orderNumber}: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "808848", parameters: [
@@ -143,5 +143,73 @@ export const sendPackageSMS = async ({mobile, contactName, orderNumber}: any) =>
         ]
     })
 }
+
+export const sendSMSBoreshPlaxiShab = async ({
+                                                 mobile,
+                                                 ADMINNAME,
+                                                 plaksi2_8Value,
+                                                 simplePunchValue,
+                                                 proPunchValue,
+                                                 doubleValue,
+                                                 duqi10milValue,
+                                                 duqi5milValue,
+                                                 ESTILFELEZ,
+                                                 CHALANDSUEDI,
+                                                 NEONPLASTIC,
+                                                 NEONFELAXI,
+
+                                             }: any) => {
+    return await sendSmsFromSMSIR({
+        // توی تملیت آیدی براش متن تعریف شده
+        mobile: mobile, templateId: "593633", parameters: [
+            {
+                "name": "ADMINNAME",
+                "value": ADMINNAME
+            },
+            {
+                "name": "plaksi2_8Value",
+                "value": plaksi2_8Value
+            },
+            {
+                "name": "simplePunchValue",
+                "value": simplePunchValue
+            },
+            {
+                "name": "proPunchValue",
+                "value": proPunchValue
+            },
+            {
+                "name": "doubleValue",
+                "value": doubleValue
+            },
+            {
+                "name": "duqi10milValue",
+                "value": duqi10milValue
+            },
+
+            {
+                "name": "duqi5milValue",
+                "value": duqi5milValue
+            },
+            {
+                "name": "ESTILFELEZ",
+                "value": ESTILFELEZ
+            },
+            {
+                "name": "CHALANDSUEDI",
+                "value": CHALANDSUEDI
+            },
+            {
+                "name": "NEONPLASTIC",
+                "value": NEONPLASTIC
+            },
+            {
+                "name": "NEONFELAXI",
+                "value": NEONFELAXI
+            },
+        ]
+    })
+}
+
 
 
