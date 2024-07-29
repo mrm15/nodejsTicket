@@ -29,7 +29,7 @@ const verifyJWT = (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunc
                 return; // Return early to avoid further execution
             } //invalid token
             // Assign userInfo directly to req object
-            debugger
+
             req.myToken = decoded
             next();
         }
