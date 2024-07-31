@@ -5,7 +5,9 @@ const allowedOrigins: string[] = [
     'http://127.0.0.1',
     'http://localhost:3500',
     'http://localhost:3000',
-    'https://namarang-react.chbk.run/',
+    'https://namarang-react.chbk.run',
+    'http://namarang-react.chbk.run:80',
+    'namarang-react.chbk.run',
 ];
 
 export default allowedOrigins;
