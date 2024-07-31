@@ -11,6 +11,7 @@ import {corsOptions} from './config/corsOptions';
 import bodyParser from 'body-parser';
 import useragent from 'express-useragent';
 import myRouter from "./routes";
+import {initializeCronJobs} from "../cron/jobs";
 
 
 const app: Application = express();
@@ -66,5 +67,6 @@ mongoose.connection.once('open', () => {
 
     app.listen(PORT, () => {
         console.log('server is running on port ' + PORT);
+         initializeCronJobs()
     })
 });
