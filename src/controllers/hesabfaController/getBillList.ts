@@ -3,10 +3,6 @@ import {NextFunction, Response} from "express";
 import {IUser, User} from "../../models/User";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
-import {deleteOneBillFromTicketOrTicketReply} from "./functions";
-import {logEvents} from "../../middleware/logEvents";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
 
 const getBillList = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
