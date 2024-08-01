@@ -2,8 +2,8 @@ import axios from "axios";
 
 export type SendSmsMethodType = "smsIR" | "nikSMS";
 export const getSendSMSMethod = (): SendSmsMethodType => {
-    // return "smsIR"
-    return "nikSMS"
+    return "smsIR"
+    // return "nikSMS"
 }
 
 interface inputTypes {
