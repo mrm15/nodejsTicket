@@ -28,13 +28,13 @@ export const initializeCronJobs = () => {
     //     await myLovelyFunction();
     // });
     // Schedule the job to run at 5 PM from Saturday to Thursday
-    cron.schedule('0 17 * * 0-4,6', async () => {
-        console.log('Running task every day at 5 PM, except Fridays');
-        await sendReportDaySMSToSomeOfUsers();
-    });
+    // cron.schedule('0 17 * * 0-4,6', async () => {
+    //     console.log('Running task every day at 5 PM, except Fridays');
+    //     await sendReportDaySMSToSomeOfUsers();
+    // });
 
     // Schedule the job to run at 2 PM every Thursday
-    cron.schedule('0 13 * * 4', async () => {
+    cron.schedule('0 14 * * 4', async () => {
         await sendReportDaySMSToSomeOfUsers();
     });
 
