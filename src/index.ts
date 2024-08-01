@@ -11,7 +11,7 @@ import {corsOptions} from './config/corsOptions';
 import bodyParser from 'body-parser';
 import useragent from 'express-useragent';
 import myRouter from "./routes";
-import {initializeCronJobs} from "../cron/jobs";
+import {initializeCronJobs} from "./cron/jobs";
 
 
 const app: Application = express();
