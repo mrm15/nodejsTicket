@@ -41,7 +41,7 @@ export const sendReportDaySMSToSomeOfUsers = async () => {
     const res1 = await sendSMSTodayReport("09126970541", "جواد ", calculateTodayReportResult)
     const res2 = await sendSMSTodayReport("09384642159", "محمد ", calculateTodayReportResult)
     const re4 = await sendSMSTodayReport("09126544833", "ایمان  ", calculateTodayReportResult)
-    const re5 = await sendSMSTodayReport("09126544833", "ایمان  ", calculateTodayReportResult)
+    // const re5 = await sendSMSTodayReport("09126544833", "ایمان  ", calculateTodayReportResult)
 
 
     const message = `پیامک گزارش برای مخاطبین ارسال شد
