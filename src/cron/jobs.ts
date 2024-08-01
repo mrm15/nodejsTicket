@@ -1,7 +1,7 @@
 // cronJobs.ts
 import cron from 'node-cron';
-import { myLovelyFunction } from "../src/utils/myLovelyFunction";
-import {sendReportDaySMSToSomeOfUsers} from "../src/utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
+import { myLovelyFunction } from "../utils/myLovelyFunction";
+import {sendReportDaySMSToSomeOfUsers} from "../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
 
 // Function to initialize cron jobs
 export const initializeCronJobs = () => {
