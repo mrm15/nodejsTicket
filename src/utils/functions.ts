@@ -15,6 +15,7 @@ export const formatDateForBackend = (date: Date) => {
 };
 
 export const reportArray = [
+    //0
     {
         caption: "پلکسی 2.8",
         filterTextForPivot: [
@@ -24,6 +25,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
+    //1
     {
         caption: "پانچ ساده",
         filterTextForPivot: [
@@ -33,6 +35,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
+    //2
     {
         caption: "پانچ طرح دار",
         filterTextForPivot: [
@@ -42,6 +45,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
+    //3
     {
         caption: "دوبل",
         filterTextForPivot: [
@@ -51,7 +55,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
-
+    //4
     {
         caption: "دوغی 10 میل",
         filterTextForPivot: [
@@ -61,6 +65,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
+    //5
     {
         caption: "دوغی 5 میل",
         filterTextForPivot: [
@@ -70,6 +75,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
+    //6
     {
         caption: "استیل و فلز",
         filterTextForPivot: [
@@ -84,7 +90,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
-
+    //7
     {
         caption: "چلنیوم و سوئدی",
         filterTextForPivot: [
@@ -95,7 +101,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
-
+    //8
     {
         caption: " نئون پلاستیک",
         filterTextForPivot: [
@@ -108,7 +114,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
-
+    //9
     {
         caption: "نئون فلکسی",
         filterTextForPivot: [
@@ -122,10 +128,47 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
+    //10
+    {
+        caption: "SMD",
+        filterTextForPivot: [
+            "SMD آفتابی با سیم کشی و منگنه",
+            "SMD سفید با سیم کشی و منگنه",
+            "SMD قرمز با سیم کشی و منگنه",
+            "SMD انبه ای با سیم کشی و منگنه",
+            "اینجکشن آفتابی با سیم کشی و منگنه",
+            "اینجکشن سفید با سیم کشی و منگنه",
+            "اینجکشن قرمز با سیم کشی و منگنه",
+            "اینجکشن انبه ای با سیم کشی و منگنه",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
+    // 11 اجرت نصب استیکر11
+    {
+        caption: "اجرت استیکر",
+        filterTextForPivot: [
+            "استیکر آبی کاربنی همراه با اجرت نصب روی پلکسی",
+            "استیکر مشکی همراه با اجرت نصب روی پلکسی",
+            "استیکر قرمز با اجرت نصب روی پلکسی",
+            "استیکر سبز همراه با اجرت نصب روی پلکسی",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
 ]
 
 
-export const calculatePivot = ({filterTextForPivot, totalData, myKey, sumKey, countKey,giveMeTotalSum=false}: any) => {
+export const calculatePivot = ({
+                                   filterTextForPivot,
+                                   totalData,
+                                   myKey,
+                                   sumKey,
+                                   countKey,
+                                   giveMeTotalSum = false
+                               }: any) => {
     // Filter rows that contain any of the keywords in filterTextForPivot
 
     debugger
@@ -144,12 +187,12 @@ export const calculatePivot = ({filterTextForPivot, totalData, myKey, sumKey, co
     });
 
 
-
-
     let result = 0;
-    if(giveMeTotalSum){
-        result = rowsArrayWithSpecificWord.reduce((acc: any, row:any)=>{ return row[countKey] + acc },0)
-    }else {
+    if (giveMeTotalSum) {
+        result = rowsArrayWithSpecificWord.reduce((acc: any, row: any) => {
+            return row[countKey] + acc
+        }, 0)
+    } else {
         // Reduce the filtered rows to unique values with summed counts and sums
         result = rowsArrayWithSpecificWord.reduce((acc: any, row: any) => {
             const existingRow = acc.find((item: any) => item[myKey] === row[myKey])
