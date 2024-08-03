@@ -1,17 +1,7 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {getRoleAccessList} from "../LoginRegisterSms/getRoleAccessList";
-import {fillOutReportData} from "./fillOutReportData";
-import {calculatePivot, formatDateForBackend, reportArray} from "../../utils/functions";
-import {
-    getHeaderAndRowsDetails,
-    hesabfaApiRequest
-} from "../utility/hesabfa/functions";
-import {sendSms} from "../../utils/sendSms";
-import {getCurrentTimeStamp} from "../../utils/timing";
-import {sendSMSBoreshPlaxiShab} from "../../SMS/SMS.IR/sendSms";
 import {calculateTodayReport} from "../../utils/calculateTodayReport";
-import {sendSMSTodayReport} from "../../utils/sendSMSTodayReport";
+import {sendSMSBoreshPlaxiShab} from "../../SMS/SMS.IR/sendSms";
 
 
 const getTodayReportSms = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -27,12 +17,34 @@ const getTodayReportSms = async (req: CustomRequestMyTokenInJwt, res: Response, 
 
     try {
 
-        const calculateTodayReportResult = await calculateTodayReport()
-        const resultOfSendSMS = await sendSMSTodayReport("09300220117","علی ",calculateTodayReportResult)
-        const resultOfSendSMS1 = await sendSMSTodayReport("09908425653","زهرای ",calculateTodayReportResult)
+        const calculateTodayReportResult = await calculateTodayReport();
+        // const resultOfSendSMS = await sendSMSTodayReport("09300220117","علی ",calculateTodayReportResult)
+        // const resultOfSendSMS1 = await sendSMSTodayReport("09908425653","زهرای ",calculateTodayReportResult)
+        const resultAli  = await sendSMSBoreshPlaxiShab({
+            ...calculateTodayReportResult,
+            mobile:"09384642159",
+            ADMINNAME:"محمد",
+        })
 
-        if (resultOfSendSMS) {
+        // // ارسال پیامک به رضا سرایی فقط  چلنیوم و سوئدی ارسال میشه توی قالب خودش
+        // const res31 = await sendSMSAdminChaleniumSuedi({ ...calculateTodayReportResult, mobile: "09125662506" , ADMINNAME:"رضا سرایی  ", })
+        // const re99 = await sendSMSAdminLaserDouble({ ...calculateTodayReportResult, mobile: "09126544833" , ADMINNAME:"ایمان  ", })
+        // // ارسال پیامک به محمد شمس که فقط تعداد نور بهش پیامک میشه
+        // const res5 = await sendSMSAdminSMD({ ...calculateTodayReportResult, mobile: "09369576409" , ADMINNAME:"محمد شمس  ", })
+        // // ارسال پیامک به علی رجنی بخش پلاستیک که فقط طبق قالب خودش فقط آمار پلاستیک پیامک میشه
+        // const res6 = await sendSMSAdminPlastic({ ...calculateTodayReportResult, mobile: "09304774849" , ADMINNAME:"علی رجنی  ", })
+        // // ارسال پیامک به مهدی افتاده بخش نئون که فقط طبق قالب خودش فقط آمار نئون پیامک میشه
+        // const res7 = await sendSMSAdminNeon({ ...calculateTodayReportResult, mobile: "09304774849" , ADMINNAME:"مهدی افتاده  ", })
+
+
+
+
+
+
+
+        if (resultAli) {
             res.status(200).json({
+                calculateTodayReportResult,
                 message: 'تسک انجام شد.',
             })
             return;
