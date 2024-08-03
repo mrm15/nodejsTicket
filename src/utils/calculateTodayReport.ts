@@ -86,6 +86,8 @@ export const calculateTodayReport = async () => {
     const CHALANDSUEDI = getPivotValue(7);
     const NEONPLASTIC = getPivotValue(8);
     const NEONFELAXI = getPivotValue(9);
+    const SMD = getPivotValue(10);
+    const STICKER_OJRAT = getPivotValue(11);
 
     return {
         plaksi2_8Value,
@@ -98,6 +100,8 @@ export const calculateTodayReport = async () => {
         CHALANDSUEDI,
         NEONPLASTIC,
         NEONFELAXI,
+        SMD,
+        STICKER_OJRAT,
     }
 
 }
