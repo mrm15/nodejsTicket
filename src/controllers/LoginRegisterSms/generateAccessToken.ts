@@ -31,7 +31,7 @@ export const generateAccessToken = async (phoneNumber: string) => {
             phoneNumber,
             UserInfo: {userData, roleAccessList},
         },
-        ACCESS_TOKEN_SECRET, {expiresIn: '10s'}
+        ACCESS_TOKEN_SECRET, {expiresIn: '1000s'}
     );
 
     // const accessToken1 = jwt.sign(
