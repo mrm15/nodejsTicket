@@ -1,83 +1,77 @@
 import {Request, Response, NextFunction} from 'express';
 import {IUser, User} from "../../models/User";
-import {File, IFile} from "../../models/files";
-import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {addNewUserF} from "../LoginRegisterSms/addNewUserF";
-import {uuidGenerator} from "../../utils/uuidGenerator";
-import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-
+import {buildFilterObject} from "../utility/collectionsHandlers/filterUtils";
+import {fetchPaginatedResults, SortOptions} from "../utility/collectionsHandlers/queryUtils";
 
 const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
-
     const {myToken} = req;
     if (!myToken) {
-        const message = 'مقدار توکن توی ری کوئست موجود نیست'
+        const message = 'مقدار توکن توی ری کوئست موجود نیست';
         res.status(403).json({message});
-        return
+        return;
     }
 
-
-    // res.status(201).json({myToken})
-    //
-    // return
-
-
     try {
-        const arrayListToCheck = [ACCESS_LIST.USER_READ_ALL]
-        const hasAccessToReadAllUsers = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
+        const arrayListToCheck = [ACCESS_LIST.USER_READ_ALL];
+        const hasAccessToReadAllUsers = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck});
         if (!hasAccessToReadAllUsers) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
-            return
+            return;
         }
+        debugger
+        const {page = 1, pageSize = 2, filters = []} = req.body;
 
-        const userList = await User.find({}).exec();
-        // نکته ای که الان فهمیدم اینه که مقدار آی دی رو
-        // lean
-        // نمیده ولی
-        // exec
-        // میده
+        // Build the filter object
+        const filterObject = buildFilterObject(filters);
 
+        // Define sorting options
+        const sortOptions: SortOptions = {createdAt: 1};
 
-        const columnDefs = []
+        // Define pagination options
+        const paginationOptions = {page, pageSize};
+        debugger        // Fetch the users with pagination
+        const myFetchedData  = await fetchPaginatedResults(
+            User,
+            filterObject,
+            paginationOptions,
+            sortOptions,
+        )
 
+        const columnDefs = [
+            {minWidth: 150, headerName: "name", field: "name"},
+            {minWidth: 150, headerName: "شماره تماس", field: "phoneNumber"},
+            {minWidth: 150, headerName: "phoneNumber3", field: "phoneNumber3"},
+            {minWidth: 150, headerName: "postalCode", field: "postalCode"},
+            {minWidth: 150, headerName: "profilePictureUrl", field: "profilePictureUrl"},
+            {minWidth: 150, headerName: "province", field: "province"},
+            {minWidth: 150, headerName: "registerNumberCompany", field: "registerNumberCompany"},
+            {minWidth: 150, headerName: "tasks", field: "tasks"},
+            {minWidth: 150, headerName: "tickets", field: "tickets"},
+            {minWidth: 150, headerName: "title", field: "title"},
+            {minWidth: 150, headerName: "tokens", field: "tokens"},
+            {minWidth: 150, headerName: "updateAt", field: "updateAt"},
+            {minWidth: 150, headerName: "userName", field: "userName"},
+            {minWidth: 150, headerName: "website", field: "website"}
+        ];
 
-        columnDefs.push({minWidth: 150, headerName: "name", field: "name"})
-        columnDefs.push({minWidth: 150, headerName: "شماره تماس", field: "phoneNumber"})
-        columnDefs.push({minWidth: 150, headerName: "phoneNumber3", field: "phoneNumber3"})
-        columnDefs.push({minWidth: 150, headerName: "postalCode", field: "postalCode"})
-        columnDefs.push({minWidth: 150, headerName: "profilePictureUrl", field: "profilePictureUrl"})
-        columnDefs.push({minWidth: 150, headerName: "province", field: "province"})
-        columnDefs.push({minWidth: 150, headerName: "registerNumberCompany", field: "registerNumberCompany"})
-        columnDefs.push({minWidth: 150, headerName: "tasks", field: "tasks"})
-        columnDefs.push({minWidth: 150, headerName: "tickets", field: "tickets"})
-        columnDefs.push({minWidth: 150, headerName: "title", field: "title"})
-        columnDefs.push({minWidth: 150, headerName: "tokens", field: "tokens"})
-        columnDefs.push({minWidth: 150, headerName: "updateAt", field: "updateAt"})
-        columnDefs.push({minWidth: 150, headerName: "userName", field: "userName"})
-        columnDefs.push({minWidth: 150, headerName: "website", field: "website"})
+        const rowData = [...myFetchedData.results];
+        // rowData = rowData.map(r=>r.phoneNumber)
 
-
-        const rowData = [...userList.reverse()]
-
-        const list = {columnDefs, rowData}
+        const list = {columnDefs, rowData};
 
         res.status(200).json({
-            list, message: 'لیست بارگزاری شد.',
 
-            userList
+            ...myFetchedData
         });
         return;
 
     } catch (error) {
-
         res.status(500).json({error});
-        return
+        return;
     }
-
-
 };
 
 export {readUserController};
