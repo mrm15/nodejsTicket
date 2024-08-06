@@ -1,12 +1,13 @@
 // utils/queryUtils.ts
 
-import { Model } from 'mongoose';
+import {Model} from 'mongoose';
 
 interface PaginationOptions {
     page: number;
     pageSize: number;
 }
-const defaultSortOptions: SortOptions = { createdAt: -1 };
+
+const defaultSortOptions: SortOptions = {createdAt: -1};
 
 export interface SortOptions {
     [key: string]: 1 | -1;
@@ -19,7 +20,9 @@ export const fetchPaginatedResults = async (
     paginationOptions: PaginationOptions,
     sortOptions?: SortOptions, // Make sortOptions optional
 ) => {
-    const { page, pageSize } = paginationOptions;
+
+
+    const {page, pageSize} = paginationOptions;
     const skip = (page - 1) * pageSize;
     const limit = pageSize;
 
@@ -27,17 +30,28 @@ export const fetchPaginatedResults = async (
     const appliedSortOptions = sortOptions || defaultSortOptions;
 
     const totalDocuments = await model.countDocuments(filterObject).exec();
-    const results = await model.find(filterObject)
-        .sort(appliedSortOptions)
+    let results = await model.find(filterObject)
         .skip(skip)
         .limit(limit)
-        .exec();
+        .lean()
+
+    results = results.map((row, index) => {
+
+        const rowNumber = skip + index + 1
+        return {
+            rowNumber,
+            ...row
+        }
+    })
+
 
     return {
         results,
         totalDocuments,
         currentPage: page,
         pageSize
-    };
-};
+    }
+
+
+}
 
