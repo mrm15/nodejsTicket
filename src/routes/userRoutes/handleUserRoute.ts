@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.post('/create', createUserController);
 router.get('/read', readUserController);
+router.post('/read', readUserController);
 // router.post('/read:id', loginController.verifyLoginSMS);
 router.post('/update', updateUserController);
 router.delete('/delete/:id', deleteUserController);
