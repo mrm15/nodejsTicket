@@ -10,53 +10,53 @@ export const destinationPhoneNumberArray = [
     {
         name: " محمد",
         phoneNumber: "09384642159",
-        renderFunction: sendSMSBoreshPlaxiShab,
+        renderFunction: sendSMSAdminSMD,
     },
-    {
-        name: "جواد",
-        phoneNumber: "09126970541",
-        renderFunction: sendSMSBoreshPlaxiShab
-    },
-    {
-        name: "علی پسرخاله ",
-        phoneNumber: "09300220117",
-        renderFunction:sendSMSBoreshPlaxiShab
-    },
-    {
-        name: "ایمان ",
-        phoneNumber: "09126544833",
-        renderFunction: sendSMSBoreshPlaxiShab
-    },
-    {
-        name: " زهرای",
-        phoneNumber: "09908425653",
-        renderFunction: sendSMSBoreshPlaxiShab,
-    },
-    {
-        name: "رضا سرایی ",
-        phoneNumber: "09125662506",
-        renderFunction: sendSMSAdminChaleniumSuedi
-    },
-    {
-        name: "علی سمیعی ",
-        phoneNumber: "09392325775",
-        renderFunction: sendSMSAdminLaserDouble
-    },
-    {
-        name: " علی رجنی",
-        phoneNumber: "09304774849",
-        renderFunction: sendSMSAdminPlastic
-    },
-    {
-        name: " محمد شمس",
-        phoneNumber: "09369576409",
-        renderFunction: sendSMSAdminSMD
-    },
-    {
-        name: "مهدی افتاده ",
-        phoneNumber: "09015296569",
-        renderFunction:sendSMSAdminNeon
-    },
+    // {
+    //     name: "جواد",
+    //     phoneNumber: "09126970541",
+    //     renderFunction: sendSMSBoreshPlaxiShab
+    // },
+    // {
+    //     name: "علی پسرخاله ",
+    //     phoneNumber: "09300220117",
+    //     renderFunction:sendSMSBoreshPlaxiShab
+    // },
+    // {
+    //     name: "ایمان ",
+    //     phoneNumber: "09126544833",
+    //     renderFunction: sendSMSBoreshPlaxiShab
+    // },
+    // {
+    //     name: " زهرای",
+    //     phoneNumber: "09908425653",
+    //     renderFunction: sendSMSBoreshPlaxiShab,
+    // },
+    // {
+    //     name: "رضا سرایی ",
+    //     phoneNumber: "09125662506",
+    //     renderFunction: sendSMSAdminChaleniumSuedi
+    // },
+    // {
+    //     name: "علی سمیعی ",
+    //     phoneNumber: "09392325775",
+    //     renderFunction: sendSMSAdminLaserDouble
+    // },
+    // {
+    //     name: " علی رجنی",
+    //     phoneNumber: "09304774849",
+    //     renderFunction: sendSMSAdminPlastic
+    // },
+    // {
+    //     name: " محمد شمس",
+    //     phoneNumber: "09369576409",
+    //     renderFunction: sendSMSAdminSMD
+    // },
+    // {
+    //     name: "مهدی افتاده ",
+    //     phoneNumber: "09015296569",
+    //     renderFunction:sendSMSAdminNeon
+    // },
 
 
 
