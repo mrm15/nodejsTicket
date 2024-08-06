@@ -13,7 +13,7 @@ interface inputTypes {
 }
 
 // Define the return type interface
-interface SendSmsResponse {
+export interface SendSmsResponse {
     status: boolean;
     messageId: string;
     message?: string; // Optional because it might not always be present
