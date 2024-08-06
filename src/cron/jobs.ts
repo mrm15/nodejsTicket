@@ -5,6 +5,7 @@ import {sendReportDaySMSToSomeOfUsers} from "../utils/cronFunctions/sendReportDa
 
 // Function to initialize cron jobs
 export const initializeCronJobs = () => {
+    console.log("initializeCronJobs SET")
     // // Task to run every minute
     // cron.schedule('* * * * *', () => {
     //     console.log('Running a task every minute');
@@ -36,11 +37,14 @@ export const initializeCronJobs = () => {
     // Schedule the job to run at 2 PM every Thursday
     cron.schedule('0 14 * * 4', async () => {
         await sendReportDaySMSToSomeOfUsers();
+        console.log("schedule:'0 14 * * 4'")
     });
 
     // Schedule the job to run at 5 PM from Saturday to Wednesday
     cron.schedule('0 17 * * 0-3,6', async () => {
         await sendReportDaySMSToSomeOfUsers();
+        console.log("schedule:'0 17 * * 0-3,6'")
+
     });
 
 
