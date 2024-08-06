@@ -61,6 +61,11 @@ const createUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
         //
 
+        const result = await User.create({...newUserData});
+
+        res.status(500).json({message:"ثبت شد",});
+        return;
+
         const resultAddNewUser = await submitAddOrEditContactToHesabfa(newUserData)
 
 
