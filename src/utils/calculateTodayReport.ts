@@ -88,6 +88,8 @@ export const calculateTodayReport = async () => {
     const NEONFELAXI = getPivotValue(9);
     const SMD = getPivotValue(10);
     const STICKER_OJRAT = getPivotValue(11);
+    const AMAR_VARAQ = getPivotValue(12);
+    const AMAR_PVC = getPivotValue(13);
 
     return {
         plaksi2_8Value,
@@ -102,6 +104,8 @@ export const calculateTodayReport = async () => {
         NEONFELAXI,
         SMD,
         STICKER_OJRAT,
+        AMAR_VARAQ,
+        AMAR_PVC,
     }
 
 }
