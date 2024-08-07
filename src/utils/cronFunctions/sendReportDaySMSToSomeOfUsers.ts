@@ -1,12 +1,4 @@
 import {calculateTodayReport} from "../calculateTodayReport";
-import {
-    sendSMSAdminChaleniumSuedi,
-    sendSMSAdminEstilFelez, sendSMSAdminLaserDouble,
-    sendSMSAdminNeon,
-    sendSMSAdminPlastic,
-    sendSMSAdminSMD,
-    sendSMSBoreshPlaxiShab, SendSmsResponse
-} from "../../SMS/SMS.IR/sendSms";
 import {logEvents} from "../logEvents";
 import {destinationPhoneNumberArray} from "./destinationPhoneNumber";
 
@@ -19,7 +11,7 @@ export const sendReportDaySMSToSomeOfUsers = async () => {
 
         debugger
         const results = await Promise.all(destinationPhoneNumberArray.map(async ({ name, phoneNumber, renderFunction }) => {
-            debugger
+
              const responseSMS = await  renderFunction({ ...calculateTodayReportResult, mobile: phoneNumber, ADMINNAME: name });
             console.log(`sms ${name}  sended`)
             return responseSMS
