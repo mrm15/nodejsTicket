@@ -5,7 +5,7 @@ import {
     sendSMSAdminChaleniumSuedi,
     sendSMSAdminLaserDouble, sendSMSAdminNeon, sendSMSAdminPlastic,
     sendSMSAdminSMD,
-    sendSMSBoreshPlaxiShab
+
 } from "../../SMS/SMS.IR/sendSms";
 import {destinationPhoneNumberArray} from "../../utils/cronFunctions/destinationPhoneNumber";
 import {logEvents} from "../../utils/logEvents";
