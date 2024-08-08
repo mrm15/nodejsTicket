@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post('/create', createRoleController);
 router.get('/read', readRoleController);
+router.post('/read', readRoleController);
 router.post('/update', updateRoleController);
 router.delete('/delete/:id', deleteRoleController);
 router.get('/roleList', roleList);
