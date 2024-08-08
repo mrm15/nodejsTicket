@@ -3,6 +3,7 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {Role} from "../../models/roles";
+import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
 
 
 const readRoleController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -28,27 +29,8 @@ const readRoleController = async (req: CustomRequestMyTokenInJwt, res: Response,
             return
         }
 
-        const userList = await Role.find({}).exec();
-
-
-
-        const columnDefs = []
-
-
-        columnDefs.push({minWidth: 150, headerName: "name", field: "name"})
-        columnDefs.push({minWidth: 150, headerName: "description", field: "description"})
-
-
-
-        const rowData = [...userList]
-
-        const list = {columnDefs, rowData}
-
-        res.status(200).json({
-            list, message: 'لیست بارگزاری شد.',
-
-            userList
-        });
+        const myResult = await getDataCollection(req.body,Role)
+        res.status(200).json({...myResult});
         return;
 
     } catch (error) {
