@@ -199,9 +199,7 @@ const roleSchema: Schema<IRole> = new Schema({
     widgetHowManyUsersThereAre:{type:Boolean , default:false , required:true}, //
 });
 
-roleSchema.virtual('id').get(function () {
-    return this._id.toHexString();
-});
+
 
 // Ensure virtual fields are serialized
 roleSchema.set('toJSON', {
