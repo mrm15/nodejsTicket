@@ -3,6 +3,8 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {Department, IDepartment} from "../../models/department";
+import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
+import {Role} from "../../models/roles";
 
 
 const readDepartmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -28,44 +30,8 @@ const readDepartmentController = async (req: CustomRequestMyTokenInJwt, res: Res
             return
         }
 
-        let departmentList: IDepartment[] = await Department.find({}).lean()
-
-
-        const myList: any = departmentList.map((departmentData, index) => {
-            let row: any = {...departmentData}
-            for (const rowKey in row) {
-                const value = row[rowKey];
-                let temp = value
-                if (value === true) {
-                    temp = 'true'
-                } else if (value === false) {
-                    temp = 'false'
-                }
-                row[rowKey] = temp
-            }
-
-            row.id = row._id
-            return row
-        })
-
-
-
-        const columnDefs = []
-
-
-        columnDefs.push({minWidth: 150, headerName: "name", field: "name"})
-        columnDefs.push({minWidth: 150, headerName: "description", field: "description"})
-
-
-        const rowData = [...myList]
-
-        const list = {columnDefs, rowData}
-
-        res.status(200).json({
-            list, message: 'لیست بارگزاری شد.',
-
-
-        });
+        const myResult = await getDataCollection(req.body,Department)
+        res.status(200).json({...myResult});
         return;
 
     } catch (error) {
