@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.post('/create', createDepartmentController);
 router.get('/read', readDepartmentController);
+router.post('/read', readDepartmentController);
 router.get('/userList/:departmentId', getDepartmentUserList);
 router.post('/update', updateDepartmentController);
 router.delete('/delete/:id', deleteDepartmentController);
