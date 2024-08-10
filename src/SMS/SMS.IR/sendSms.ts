@@ -159,8 +159,10 @@ export const sendSMSBoreshPlaxiShab = async ({
                                                  NEONFELAXI,
                                                  SMD,
                                                  STICKER_OJRAT,
-                                                 AMAR_VARAQ,
+                                                 AMAR_VARAQ_Estil,
+                                                 PLAKSI_Varaq,
                                                  AMAR_PVC,
+
 
                                              }: any) => {
     return await sendSmsFromSMSIR({
@@ -220,8 +222,12 @@ export const sendSMSBoreshPlaxiShab = async ({
                 "value": STICKER_OJRAT
             },
             {
-                "name": "AMAR_VARAQ",
-                "value": AMAR_VARAQ
+                "name": "AMAR_VARAQ_Estil",
+                "value": AMAR_VARAQ_Estil
+            },
+            {
+                "name": "PLAKSI_Varaq",
+                "value": PLAKSI_Varaq
             },
             {
                 "name": "AMAR_PVC",
@@ -703,7 +709,7 @@ export const sendSMS_VARAQ_ANBAR = async ({
                                                   NEONFELAXI,
                                                   SMD,
                                                   STICKER_OJRAT,
-                                                  AMAR_VARAQ,
+                                                  AMAR_VARAQ_Estil,
                                                   AMAR_PVC,
 
                                               }: any) => {
