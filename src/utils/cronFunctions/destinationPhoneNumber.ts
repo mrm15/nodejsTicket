@@ -11,7 +11,7 @@ export const destinationPhoneNumberArray = [
     {
         name: " محمد",
         phoneNumber: "09384642159",
-        renderFunction: sendSMSAdminSMD,
+        renderFunction: sendSMSBoreshPlaxiShab,
     },
     {
         name: "جواد",
