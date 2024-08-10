@@ -46,7 +46,7 @@ export const getHeaderAndRows = (incomeData: any) => {
 
     const dataSheet2: any = []
 
-    incomeData.forEach((row: any) => {
+    incomeData?.forEach((row: any) => {
         let myTicketNumber = ""
         let mySeller = ""
         try {
