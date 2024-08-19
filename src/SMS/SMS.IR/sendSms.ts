@@ -622,8 +622,8 @@ export const sendSMSAdminChaleniumSuedi = async ({
                 "value": Only_soedi
             },
             {
-                "name": "Only_soedi",
-                "value": Only_soedi
+                "name": "Only_chalenium",
+                "value": Only_chalenium
             },
         ]
     })
