@@ -280,7 +280,27 @@ export const reportArray = [
         myKey: "myItemName",
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
-    }
+    },
+    // 15 only Chalenium
+    {
+        caption: " فقط چلنیوم ",
+        filterTextForPivot: [
+            "اجرت ساخت چلنیوم",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
+    // 16  only S o e d i
+    {
+        caption: " فقط سوئدی",
+        filterTextForPivot: [
+            "اجرت ساخت حروف سوئدی",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
 
 ]
 
