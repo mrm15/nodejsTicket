@@ -3,7 +3,7 @@ import {reportArray} from "../../../utils/functions";
 
 export const calculatePivotByTotalArray = ({totalData}: any) => {
 
-    return reportArray.map(myRowWithFilters => {
+    const pivotData = reportArray.map(myRowWithFilters => {
         // Filter rows that contain any of the keywords in filterTextForPivot
         const filteredRows = totalData.filter((row: { [x: string]: string | string[]; }) => {
             // Check if any of the keywords are included in the myKey field of the row
@@ -36,7 +36,6 @@ export const calculatePivotByTotalArray = ({totalData}: any) => {
         }, [])
 
 
-
         return {
             caption: myRowWithFilters.caption,
             myKey: myRowWithFilters.myKey,
@@ -45,4 +44,25 @@ export const calculatePivotByTotalArray = ({totalData}: any) => {
             pivotResult
         };
     });
+
+    const pivotAll = reportArray.map(myRowWithFilters => {
+        // Filter rows that contain any of the keywords in filterTextForPivot
+        const filteredRows = totalData.filter((row: { [x: string]: string | string[]; }) => {
+            // Check if any of the keywords are included in the myKey field of the row
+            return myRowWithFilters.filterTextForPivot.some(keyword => row[myRowWithFilters.myKey].includes(keyword));
+        });
+
+
+        const t = filteredRows.reduce((acc: any, row: any) => {
+            return row[myRowWithFilters.countKey] + acc
+        }, 0)
+        return {title: myRowWithFilters.caption, value: t?.toFixed(2)}
+
+    })
+
+
+    return {
+        pivotAll, pivotData
+    }
+
 };
