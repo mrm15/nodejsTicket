@@ -557,6 +557,8 @@ export const sendSMSAdminChaleniumSuedi = async ({
                                                  NEONFELAXI,
                                                  SMD,
                                                  STICKER_OJRAT,
+                                                     Only_chalenium,
+                                                     Only_soedi
 
                                              }: any) => {
     return await sendSmsFromSMSIR({
@@ -614,6 +616,14 @@ export const sendSMSAdminChaleniumSuedi = async ({
             {
                 "name": "STICKER_OJRAT",
                 "value": STICKER_OJRAT
+            },
+            {
+                "name": "Only_soedi",
+                "value": Only_soedi
+            },
+            {
+                "name": "Only_soedi",
+                "value": Only_soedi
             },
         ]
     })
