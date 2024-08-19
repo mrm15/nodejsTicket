@@ -31,47 +31,39 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
     try {
 
+        const {filterItems} = req.body;
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        const todayFormatted = formatDateForBackend(today);
-        const filterItems = [
-            {
-                Property: 'Date',
-                Operator: '=',
-                Value: todayFormatted,
-            },
-        ];
-        // get Data From Hesabfa
         const myData = {
             type: 0, // Only sales invoices (type 0)
             queryInfo: {
                 SortBy: 'Date',
                 SortDesc: true,
-                Take: 10000,
+                Take: 100000,
                 Skip: 0,
                 filters: filterItems
             },
         }
+        if (!myData.queryInfo.filters) {
+            res.status(500).json({message: "لطفا ورودی ها رو چک کنید"})
+            return
+        }
+
+
         const billsDataFromHesabfa = await getBillsDataFromHesabfa(myData)
 
         let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
         temp11 = temp11.rows;
         temp11 = temp11.filter((row: any) => row.myStatus === 1)
-        const myPivotData = calculatePivotByTotalArray({totalData:temp11})
-
-        const calculateTodayReportResult = await calculateTodayReport();
-
-
-        const titleData = makeTitleData(calculateTodayReportResult);
-        // const detailData = makeDetailData(temp11)
-
-
+        const myPivotDataObject = calculatePivotByTotalArray({totalData: temp11})
+        const detailsData = myPivotDataObject.pivotData
+        const pivotAll = myPivotDataObject.pivotAll
         if (true) {
             res.status(200).json({
-                titleData,
-                detailsData:myPivotData,
-                message: 'تسک انجام شد.',
+                titleData: pivotAll,
+                detailsData,
+                message: 'داده ها به روز شد.',
             })
             return;
         }
