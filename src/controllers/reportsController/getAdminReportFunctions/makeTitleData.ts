@@ -1,5 +1,6 @@
 export const makeTitleData = (inputData: any) => {
 
+
     const {
         plaksi2_8Value,
         simplePunchValue,
