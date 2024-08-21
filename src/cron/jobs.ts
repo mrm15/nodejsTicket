@@ -1,11 +1,10 @@
 // cronJobs.ts
 import cron from 'node-cron';
-import { myLovelyFunction } from "../utils/myLovelyFunction";
+import {myLovelyFunction} from "../utils/myLovelyFunction";
 import {sendReportDaySMSToSomeOfUsers} from "../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
 
 // Function to initialize cron jobs
 export const initializeCronJobs = () => {
-    console.log("initializeCronJobs SET")
     // // Task to run every minute
     // cron.schedule('* * * * *', () => {
     //     console.log('Running a task every minute');
@@ -34,18 +33,23 @@ export const initializeCronJobs = () => {
     //     await sendReportDaySMSToSomeOfUsers();
     // });
 
-    // Schedule the job to run at 2 PM every Thursday
-    cron.schedule('0 14 * * 4', async () => {
-        await sendReportDaySMSToSomeOfUsers();
-        console.log("schedule:'0 14 * * 4'")
-    });
+    const PROGRAM_MODE = process.env.PROGRAM_MODE;
+    if (PROGRAM_MODE !== "local") {
+        console.log("initializeCronJobs SET")
+        console.log("we Are On The server And CronJobs Active");
+        // Schedule the job to run at 2 PM every Thursday
+        cron.schedule('0 14 * * 4', async () => {
+            await sendReportDaySMSToSomeOfUsers();
+            console.log("schedule:'0 14 * * 4'")
+        });
 
-    // Schedule the job to run at 5 PM from Saturday to Wednesday
-    cron.schedule('0 17 * * 0-3,6', async () => {
-        await sendReportDaySMSToSomeOfUsers();
-        console.log("schedule:'0 17 * * 0-3,6'")
+        // Schedule the job to run at 5 PM from Saturday to Wednesday
+        cron.schedule('0 17 * * 0-3,6', async () => {
+            await sendReportDaySMSToSomeOfUsers();
+            console.log("schedule:'0 17 * * 0-3,6'")
 
-    });
+        });
+    }
 
 
 };
