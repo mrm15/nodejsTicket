@@ -74,8 +74,8 @@ interface IRole extends Document {
     howManyTicketsHasDoneStatus:Boolean;
     howManyTicketsHasDoneStatusIn12Month:Boolean;
     sendHiddenMessage:Boolean;
-    smsArchive:Boolean;
-    smsPending:Boolean;
+    // smsArchive:Boolean;
+    // smsPending:Boolean;
     smsSend:Boolean;
 
     showBillAccess:Boolean;
@@ -88,7 +88,10 @@ interface IRole extends Document {
     deleteBill:Boolean;
     editBillInChatList:Boolean;
     allContactsWhenSubmitBill:Boolean;
-    sellBill:Boolean;
+    showReportBillList:Boolean;
+    adminReport:Boolean;
+    basteBandi:Boolean;
+    ersal:Boolean;
     // widget
     widgetUserStatus:Boolean;
     widgetNumberOfBills7days:Boolean;
@@ -177,8 +180,8 @@ const roleSchema: Schema<IRole> = new Schema({
     howManyTicketsHasDoneStatus:{type:Boolean , default:false , required:true},
     howManyTicketsHasDoneStatusIn12Month:{type:Boolean , default:false , required:true},
     sendHiddenMessage:{type:Boolean , default:false , required:true},
-    smsArchive:{type:Boolean , default:false , required:true},
-    smsPending:{type:Boolean , default:false , required:true},
+    // smsArchive:{type:Boolean , default:false , required:true},
+    // smsPending:{type:Boolean , default:false , required:true},
     smsSend:{type:Boolean , default:false , required:true},
     // hesabfa
     showBillAccess:{type:Boolean , default:false , required:true},
@@ -192,6 +195,10 @@ const roleSchema: Schema<IRole> = new Schema({
     editBillInChatList:{type:Boolean , default:false , required:true},
     allContactsWhenSubmitBill:{type:Boolean , default:false , required:true},
     sellBill:{type:Boolean , default:false , required:true},
+    showReportBillList:{type:Boolean , default:false , required:true},
+    adminReport:{type:Boolean , default:false , required:true},
+    basteBandi:{type:Boolean , default:false , required:true},
+    ersal:{type:Boolean , default:false , required:true},
     // مشاهده گزارش های داشبورد
     widgetUserStatus:{type:Boolean , default:false , required:true}, //
     widgetNumberOfBills7days:{type:Boolean , default:false , required:true}, //
