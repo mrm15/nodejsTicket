@@ -80,7 +80,11 @@ export const myPermissionsArray = [
     "allContactsWhenSubmitBill",
     "editBillInChatList",
     ///////////
-    "sellBill", // درسترسی به لیست فاکتور فروش و فیلتر پیوت
+    "showReportBillList", // درسترسی به لیست فاکتور فروش و فیلتر پیوت
+    "adminReport",
+    "basteBandi",
+    "ersal",
+    ////////////////////////
     "widgetUserStatus",
     "widgetNumberOfBills7days",
     "widgetAmountOfBills7days",
