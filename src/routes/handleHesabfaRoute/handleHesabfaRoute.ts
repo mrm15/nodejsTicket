@@ -1,5 +1,4 @@
 import express from 'express';
-import {getAllProducts} from "../../controllers/hesabfaController/getAllProducts";
 import {getAllProjects} from "../../controllers/hesabfaController/getAllProjects";
 import {getBillData} from "../../controllers/hesabfaController/getBillData";
 import {getCustomerList} from "../../controllers/hesabfaController/getCustomerList";

@@ -1,13 +1,7 @@
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {NextFunction, Response} from "express";
-import {IUser, User} from "../../models/User";
-import axios from "axios";
-import {handleResponse} from "../utility/handleResponse";
-import {hesabfaApiRequest} from "../utility/hesabfa/functions";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
-import {Role} from "../../models/roles";
 import {getDataCollectionFromHesabfa} from "../utility/collectionsHandlers/getDataCollectionFromHesabfa";
 
 const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {

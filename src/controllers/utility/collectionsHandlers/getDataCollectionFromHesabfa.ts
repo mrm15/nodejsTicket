@@ -1,7 +1,5 @@
 import {buildFilterObject} from "./filterUtils";
-import {fetchPaginatedResults, SortOptions} from "./queryUtils";
-import {User} from "../../../models/User";
-import {Model} from "mongoose";
+import { SortOptions} from "./queryUtils";
 import {hesabfaApiRequest} from "../hesabfa/functions";
 import {openTagData} from "./openTagData";
 
