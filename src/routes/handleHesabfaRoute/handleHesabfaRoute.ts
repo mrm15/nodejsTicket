@@ -9,6 +9,7 @@ import {deleteBillInHesabfaController} from "../../controllers/hesabfaController
 import {saveProductsAsFile} from "../../controllers/hesabfaController/saveProductsAsFile";
 import {getAllProductsFromFile} from "../../controllers/hesabfaController/getAllProductsFromFile";
 import {getBillList} from "../../controllers/hesabfaController/getBillList";
+import {getBillListTableG} from "../../controllers/hesabfaController/getBillListTableG";
 
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.get('/getContactData/:contactCode', getContactData)
 router.post('/submitBill/', submitBillInHesabfa)
 router.get('/deleteBill/:billNumber/:type/:id', deleteBillInHesabfaController)
 router.post('/getBillList/', getBillList)
+router.post('/getBillListData/', getBillListTableG) // برای جدول بسته بندی و ارسال
 
 // router.get('/getArchive', getArchiveController)
 // router.get('/getPending', getPendingController)
