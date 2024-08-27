@@ -1,6 +1,8 @@
 export const ACCESS_LIST = {
 
 
+    ersal: "ersal",
+    basteBandi: "basteBandi",
     STATUS_LIST_CREATE: "statusListCreate",
     STATUS_LIST_READ: "statusListRead",
     STATUS_LIST_UPDATE: "statusListUpdate",
