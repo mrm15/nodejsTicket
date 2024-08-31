@@ -237,22 +237,22 @@ export const sendSMSBoreshPlaxiShab = async ({
     })
 }
 export const sendSMSAdminNeon = async ({
-                                                 mobile,
-                                                 ADMINNAME,
-                                                 plaksi2_8Value,
-                                                 simplePunchValue,
-                                                 proPunchValue,
-                                                 doubleValue,
-                                                 duqi10milValue,
-                                                 duqi5milValue,
-                                                 ESTILFELEZ,
-                                                 CHALANDSUEDI,
-                                                 NEONPLASTIC,
-                                                 NEONFELAXI,
-                                                 SMD,
-                                                 STICKER_OJRAT,
+                                           mobile,
+                                           ADMINNAME,
+                                           plaksi2_8Value,
+                                           simplePunchValue,
+                                           proPunchValue,
+                                           doubleValue,
+                                           duqi10milValue,
+                                           duqi5milValue,
+                                           ESTILFELEZ,
+                                           CHALANDSUEDI,
+                                           NEONPLASTIC,
+                                           NEONFELAXI,
+                                           SMD,
+                                           STICKER_OJRAT,
 
-                                             }: any) => {
+                                       }: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "573552", parameters: [
@@ -313,22 +313,22 @@ export const sendSMSAdminNeon = async ({
     })
 }
 export const sendSMSAdminPlastic = async ({
-                                                 mobile,
-                                                 ADMINNAME,
-                                                 plaksi2_8Value,
-                                                 simplePunchValue,
-                                                 proPunchValue,
-                                                 doubleValue,
-                                                 duqi10milValue,
-                                                 duqi5milValue,
-                                                 ESTILFELEZ,
-                                                 CHALANDSUEDI,
-                                                 NEONPLASTIC,
-                                                 NEONFELAXI,
-                                                 SMD,
-                                                 STICKER_OJRAT,
+                                              mobile,
+                                              ADMINNAME,
+                                              plaksi2_8Value,
+                                              simplePunchValue,
+                                              proPunchValue,
+                                              doubleValue,
+                                              duqi10milValue,
+                                              duqi5milValue,
+                                              ESTILFELEZ,
+                                              CHALANDSUEDI,
+                                              NEONPLASTIC,
+                                              NEONFELAXI,
+                                              SMD,
+                                              STICKER_OJRAT,
 
-                                             }: any) => {
+                                          }: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "310149", parameters: [
@@ -389,22 +389,22 @@ export const sendSMSAdminPlastic = async ({
     })
 }
 export const sendSMSAdminSMD = async ({
-                                                 mobile,
-                                                 ADMINNAME,
-                                                 plaksi2_8Value,
-                                                 simplePunchValue,
-                                                 proPunchValue,
-                                                 doubleValue,
-                                                 duqi10milValue,
-                                                 duqi5milValue,
-                                                 ESTILFELEZ,
-                                                 CHALANDSUEDI,
-                                                 NEONPLASTIC,
-                                                 NEONFELAXI,
-                                                 SMD,
-                                                 STICKER_OJRAT,
+                                          mobile,
+                                          ADMINNAME,
+                                          plaksi2_8Value,
+                                          simplePunchValue,
+                                          proPunchValue,
+                                          doubleValue,
+                                          duqi10milValue,
+                                          duqi5milValue,
+                                          ESTILFELEZ,
+                                          CHALANDSUEDI,
+                                          NEONPLASTIC,
+                                          NEONFELAXI,
+                                          SMD,
+                                          STICKER_OJRAT,
 
-                                             }: any) => {
+                                      }: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "368322", parameters: [
@@ -543,24 +543,24 @@ export const sendSMSAdminEstilFelez = async ({
 
 
 export const sendSMSAdminChaleniumSuedi = async ({
-                                                 mobile,
-                                                 ADMINNAME,
-                                                 plaksi2_8Value,
-                                                 simplePunchValue,
-                                                 proPunchValue,
-                                                 doubleValue,
-                                                 duqi10milValue,
-                                                 duqi5milValue,
-                                                 ESTILFELEZ,
-                                                 CHALANDSUEDI,
-                                                 NEONPLASTIC,
-                                                 NEONFELAXI,
-                                                 SMD,
-                                                 STICKER_OJRAT,
+                                                     mobile,
+                                                     ADMINNAME,
+                                                     plaksi2_8Value,
+                                                     simplePunchValue,
+                                                     proPunchValue,
+                                                     doubleValue,
+                                                     duqi10milValue,
+                                                     duqi5milValue,
+                                                     ESTILFELEZ,
+                                                     CHALANDSUEDI,
+                                                     NEONPLASTIC,
+                                                     NEONFELAXI,
+                                                     SMD,
+                                                     STICKER_OJRAT,
                                                      Only_chalenium,
                                                      Only_soedi
 
-                                             }: any) => {
+                                                 }: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "772234", parameters: [
@@ -629,22 +629,22 @@ export const sendSMSAdminChaleniumSuedi = async ({
     })
 }
 export const sendSMSAdminLaserDouble = async ({
-                                                 mobile,
-                                                 ADMINNAME,
-                                                 plaksi2_8Value,
-                                                 simplePunchValue,
-                                                 proPunchValue,
-                                                 doubleValue,
-                                                 duqi10milValue,
-                                                 duqi5milValue,
-                                                 ESTILFELEZ,
-                                                 CHALANDSUEDI,
-                                                 NEONPLASTIC,
-                                                 NEONFELAXI,
-                                                 SMD,
-                                                 STICKER_OJRAT,
+                                                  mobile,
+                                                  ADMINNAME,
+                                                  plaksi2_8Value,
+                                                  simplePunchValue,
+                                                  proPunchValue,
+                                                  doubleValue,
+                                                  duqi10milValue,
+                                                  duqi5milValue,
+                                                  ESTILFELEZ,
+                                                  CHALANDSUEDI,
+                                                  NEONPLASTIC,
+                                                  NEONFELAXI,
+                                                  SMD,
+                                                  STICKER_OJRAT,
 
-                                             }: any) => {
+                                              }: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "537609", parameters: [
@@ -705,24 +705,24 @@ export const sendSMSAdminLaserDouble = async ({
     })
 }
 export const sendSMS_VARAQ_ANBAR = async ({
-                                                  mobile,
-                                                  ADMINNAME,
-                                                  plaksi2_8Value,
-                                                  simplePunchValue,
-                                                  proPunchValue,
-                                                  doubleValue,
-                                                  duqi10milValue,
-                                                  duqi5milValue,
-                                                  ESTILFELEZ,
-                                                  CHALANDSUEDI,
-                                                  NEONPLASTIC,
-                                                  NEONFELAXI,
-                                                  SMD,
-                                                  STICKER_OJRAT,
-                                                  AMAR_VARAQ_Estil,
-                                                  AMAR_PVC,
+                                              mobile,
+                                              ADMINNAME,
+                                              plaksi2_8Value,
+                                              simplePunchValue,
+                                              proPunchValue,
+                                              doubleValue,
+                                              duqi10milValue,
+                                              duqi5milValue,
+                                              ESTILFELEZ,
+                                              CHALANDSUEDI,
+                                              NEONPLASTIC,
+                                              NEONFELAXI,
+                                              SMD,
+                                              STICKER_OJRAT,
+                                              AMAR_VARAQ_Estil,
+                                              AMAR_PVC,
 
-                                              }: any) => {
+                                          }: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "265359", parameters: [
@@ -779,6 +779,23 @@ export const sendSMS_VARAQ_ANBAR = async ({
                 "name": "STICKER_OJRAT",
                 "value": STICKER_OJRAT
             },
+        ]
+    })
+}
+
+export const sendSMSBasteBandi = async ({
+                                            mobile,
+                                            ORDERNAME,
+                                        }: any) => {
+    return await sendSmsFromSMSIR({
+        // توی تملیت آیدی براش متن تعریف شده
+        mobile: mobile, templateId: "636474", parameters: [
+            {
+                "name": "ORDERNAME",
+                "value": ORDERNAME
+            },
+
+
         ]
     })
 }
