@@ -92,6 +92,7 @@ interface IRole extends Document {
     adminReport:Boolean;
     basteBandi:Boolean;
     ersal:Boolean;
+    hasAccessToUnCheckedSendPackages:Boolean;
     // widget
     widgetUserStatus:Boolean;
     widgetNumberOfBills7days:Boolean;
@@ -199,6 +200,7 @@ const roleSchema: Schema<IRole> = new Schema({
     adminReport:{type:Boolean , default:false , required:true},
     basteBandi:{type:Boolean , default:false , required:true},
     ersal:{type:Boolean , default:false , required:true},
+    hasAccessToUnCheckedSendPackages:{type:Boolean , default:false , required:true},
     // مشاهده گزارش های داشبورد
     widgetUserStatus:{type:Boolean , default:false , required:true}, //
     widgetNumberOfBills7days:{type:Boolean , default:false , required:true}, //
