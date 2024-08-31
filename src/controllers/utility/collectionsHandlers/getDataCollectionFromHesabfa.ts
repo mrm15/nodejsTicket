@@ -16,7 +16,8 @@ export const getDataCollectionFromHesabfa = async (bodyData: any, url: string) =
 
     // Define pagination options
     // const paginationOptions = {page, pageSize};
-    debugger        // Fetch the users with pagination
+
+    // Fetch the users with pagination
     // {results,totalDocuments,currentPage: page,pageSize}
     // return await fetchPaginatedResults(
     //     collectionName,
