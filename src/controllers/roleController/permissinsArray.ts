@@ -84,6 +84,7 @@ export const myPermissionsArray = [
     "adminReport",
     "basteBandi",
     "ersal",
+    "hasAccessToUnCheckedSendPackages", // بسته هایی که ارسال شده رو بتونه از حالت ارسال شده تغییر بده به حالت ارسال نشده؟
     ////////////////////////
     "widgetUserStatus",
     "widgetNumberOfBills7days",
