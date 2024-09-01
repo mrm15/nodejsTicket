@@ -11,12 +11,16 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
             return res.status(200).json({message: 'Token not found in the request'});
         }
 
-        const arrayListToCheck = [ACCESS_LIST.ersal, ACCESS_LIST.basteBandi]
-        const hasAccessTo = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
-        if (!hasAccessTo) {
-            res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
-            return
-        }
+        // const arrayListToCheck = [ACCESS_LIST.ersal, ACCESS_LIST.basteBandi]
+        // const hasAccessTo = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
+        //
+        // const arrayListToCheck2 = [ ACCESS_LIST.basteBandi]
+        // const hasAccessTo2 = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck:arrayListToCheck2})
+        //
+        // if (!hasAccessTo &&  !hasAccessTo2) {
+        //     res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
+        //     return
+        // }
 
         const {page = 1, pageSize = 3, filters = []} = req.body;
 
