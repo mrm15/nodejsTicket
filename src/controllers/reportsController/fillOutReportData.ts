@@ -65,11 +65,13 @@ export const fillOutReportData = async (accessList: string[]) => {
                 filters: filterItems
             },
         }
-        const myResult = await hesabfaApiRequest("invoice/getinvoices", myData)
-
-        if (!myResult?.response?.data?.Success) {
+        let myResult
+        try {
+            myResult = await hesabfaApiRequest("invoice/getinvoices", myData)
+        } catch (error) {
             throw new Error("مشکل در دریافت اطلاعات از حسابفا")
         }
+
 
         let temp11: any = (getHeaderAndRows(myResult.response?.data.Result.List))
         temp11 = temp11.rows
@@ -142,7 +144,7 @@ export const fillOutReportData = async (accessList: string[]) => {
         }
         temp.push(chartData)
     }
-    debugger
+
     return temp
 
 
