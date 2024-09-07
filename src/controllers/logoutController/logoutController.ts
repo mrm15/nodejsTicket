@@ -2,6 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 import {IUser, User} from "../../models/User";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
+import {clearJwtCookie} from "../utility/cookieHelpers/cookieHelpers";
 
 const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -44,8 +45,8 @@ debugger
             let filteredTokenList = tokenArrayList?.filter(rt =>
                 rt?.refreshToken !== refreshTokenInCookieJwt)
 
-            // @ts-ignore
-            res.clearCookie('jwt', {httpOnly: true, sameSite: 'None', secure: true});
+            // res.clearCookie('jwt', {httpOnly: true, sameSite: 'none', secure: true});
+            clearJwtCookie(res)
 
 
             foundUser.tokens = [...filteredTokenList];
