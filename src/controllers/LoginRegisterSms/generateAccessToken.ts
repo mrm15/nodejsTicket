@@ -31,7 +31,7 @@ export const generateAccessToken = async (phoneNumber: string) => {
             phoneNumber,
             UserInfo: {userData, roleAccessList},
         },
-        ACCESS_TOKEN_SECRET, {expiresIn: '1000s'}
+        ACCESS_TOKEN_SECRET, {expiresIn: '10d'}
     );
 
     // const accessToken1 = jwt.sign(
@@ -43,7 +43,7 @@ export const generateAccessToken = async (phoneNumber: string) => {
     // )
     return accessToken
 }
-export const generateRefreshToken = async (phoneNumber: string) => {
+export const generateRefreshToken = async (phoneNumber: string): Promise<string> => {
 
 
     if (!REFRESH_TOKEN_SECRET) {
@@ -58,7 +58,7 @@ export const generateRefreshToken = async (phoneNumber: string) => {
             UserInfo: {phoneNumber}
         },
         REFRESH_TOKEN_SECRET,
-        {expiresIn: '1d'}
+        {expiresIn: '100d'}
     );
     return refreshToken
 }
