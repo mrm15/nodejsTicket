@@ -32,6 +32,7 @@ import {getUserInfoByPhoneNumber} from "./getUserInfoByPhoneNumber";
 import {sendSms, sendSms1} from "../../utils/sendSms";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {getSendSMSMethod, sendLoginSMS, sendSmsFromSMSIR, SendSmsMethodType} from "../../SMS/SMS.IR/sendSms";
+import {clearJwtCookie, setJwtCookie} from "../utility/cookieHelpers/cookieHelpers";
 
 
 interface LoginRequestBody {
@@ -291,7 +292,8 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
         }
 
         // @ts-ignore
-        res.clearCookie('jwt', {httpOnly: true, sameSite: 'None', secure: true});
+        // res.clearCookie('jwt', {httpOnly: true, sameSite: 'none', secure: true});
+        clearJwtCookie(res)
     }
 
 
@@ -307,7 +309,9 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
 
     try {
         await foundUser.save();
-        res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000});
+
+        // res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000});
+        setJwtCookie(res,refreshToken);
         const userInfo = await getUserInfoByPhoneNumber(phoneNumber)
         res.json({userInfo, accessToken});
         return;
