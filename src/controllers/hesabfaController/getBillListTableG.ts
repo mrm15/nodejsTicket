@@ -37,7 +37,7 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
                 "Skip": skip,
                 "filters": [
                     ...filters,
-                    {"property": "Status", "operator": "=", "value": 1},
+                    // {"property": "Status", "operator": "=", "value": 1},
                 ]
             }
         }
