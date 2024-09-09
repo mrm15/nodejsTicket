@@ -1,4 +1,5 @@
 import axios from "axios";
+import {cutTextForSmsIR} from "./cutTextForSms";
 
 export type SendSmsMethodType = "smsIR" | "nikSMS";
 export const getSendSMSMethod = (): SendSmsMethodType => {
@@ -86,12 +87,20 @@ export const sendSmsFromSMSIR = async ({mobile, templateId, parameters}: inputTy
     //     });
 }
 export const sendLoginSMS = async ({mobile, loginCode}: any) => {
+
+    const LOGINCODEWITHHASHTAG = `#${loginCode}`
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
-        mobile: mobile, templateId: "844695", parameters: [{
-            "name": "LOGINCODE",
-            "value": loginCode
-        }]
+        mobile: mobile, templateId: "844695", parameters: [
+            {
+                "name": "LOGINCODE",
+                "value": loginCode
+            },
+            {
+                "name": "LOGINCODEWITHHASHTAG",
+                "value": LOGINCODEWITHHASHTAG
+            },
+        ]
     })
 }
 export const sendSubmitBillSMS = async ({mobile, contactName, billLink}: any) => {
@@ -787,6 +796,8 @@ export const sendSMSBasteBandi = async ({
                                             mobile,
                                             ORDERNAME,
                                         }: any) => {
+
+    ORDERNAME = cutTextForSmsIR(ORDERNAME)
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "636474", parameters: [
@@ -801,4 +812,32 @@ export const sendSMSBasteBandi = async ({
 }
 
 
+export const sendSubmitBillSMS_NoTicketId = async ({
+                                                       mobile,
+                                                       ORDERNAME,
+                                                       ORDER_PRICE,
+                                                       DATE
+                                                   }: any) => {
+    ORDERNAME = cutTextForSmsIR(ORDERNAME)
+
+    return await sendSmsFromSMSIR({
+        // توی تملیت آیدی براش متن تعریف شده
+        mobile: mobile, templateId: "263952", parameters: [
+            {
+                "name": "ORDERNAME",
+                "value": ORDERNAME
+            },
+            {
+                "name": "ORDER_PRICE",
+                "value": ORDER_PRICE
+            },
+            {
+                "name": "DATE",
+                "value": DATE
+            },
+
+
+        ]
+    })
+}
 
