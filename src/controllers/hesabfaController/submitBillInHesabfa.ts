@@ -9,6 +9,11 @@ import {handleResponse} from "../utility/handleResponse";
 import {forwardTicketAfterVerify, saveFactorNumberAndStatus} from "./functions";
 import {sendAfterSavedBillSMS} from "./sendAfterSavedBillSMS";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
+import {hesabfaApiRequest} from "../utility/hesabfa/functions";
+import {sendSubmitBillSMS_NoTicketId} from "../../SMS/SMS.IR/sendSms";
+import {timestampToTimeFromHesabfa} from "../utility/timestampToTimeFromHesabfa";
+import {formatNumber} from "../../utils/number";
+import {p2e} from "../utility/NumericFunction";
 
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -64,48 +69,119 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
             res.status(500).json({message: 'کد مشتری برای این کاربر تعریف نشده است.'});
             return
         }
-        if (!invoice || !billData || !billData.billType || billData.ticketId === "") {
+        debugger
+        if (!invoice
+            // || !billData
+            // || !billData.billType
+            // || billData.ticketId === ""
+        ) {
             debugger
             res.status(500).json({message: 'مقدارهای مورد نیاز ورودی در بدنه درخواست وجود ندارد.'});
             return
         }
 
 
-        // دریافت تمام محصولات از حسابفا
         try {
-            const url = ' https://api.hesabfa.com/v1/invoice/save'
 
+            //
+            const url = '/invoice/save'
+            // const data = {
+            //     apiKey: API_KEY,
+            //     // userId: 'mail@example.com',
+            //     // password: '123456',
+            //     loginToken: LOGIN_TOKEN,
+            //     invoice
+            // }
+            //
+            // const result = await axios.post(url, data);
+            const apiRes = await hesabfaApiRequest(url, {invoice});
+            const result = apiRes?.response
 
-            const data = {
-                apiKey: API_KEY,
-                // userId: 'mail@example.com',
-                // password: '123456',
-                loginToken: LOGIN_TOKEN,
-                invoice
-            }
-
-            const result = await axios.post(url, data);
 
             // خب فاکتور توی حسابفا ثبت شد حالا ما باید اطلاعات فاکتور رو توی دیتا بیس خودمون ثبت کنیم.
 
-            if (result.data.Result) {
+            if (result?.data?.Success) {
                 try {
-                    const isSavedFactor = await saveFactorNumberAndStatus(result.data.Result, billData);
+                    //خب اینجا توی حسابفا تغییر وضعیت انجام شد
+                    // اینجا در صورتی که تیکت آیدی وجود داشت که ینی داریم یک سفارش رو که توی سایت ثبت شده تایید میکنیم
+                    // در صورتی که  تیکت آیدی نداشت ینی صرفا توی شبکه داخلی نمارنگ هست و فقط داریم فاکتور رو تایید یا پیش نویس میکنم. پس باید به مشتری اگه شماره داره پیامک بدم
+                    if (billData.ticketId) {
+                        /*
+                        این قسمت رو بعدا بازنویسی کن
+                                                // این قسمت رو باید دوباره بازنویسی کنم و دقیقتر چک کنم.
 
+                        */
 
-                    if (isSavedFactor) {
-                        const adminSettings: IAdminSettings | null = await AdminSettings.findOne({}).lean();
-                        if (!adminSettings) {
-                            return false;
+                        const isSavedFactor = await saveFactorNumberAndStatus(result.data.Result, billData);
+                        if (isSavedFactor) {
+                            const adminSettings: IAdminSettings | null = await AdminSettings.findOne({}).lean();
+                            if (!adminSettings) {
+                                return false;
+                            }
+                            const isSentSMS = await sendAfterSavedBillSMS(result.data.Result, adminSettings)
+                            // اگه فاکتور تایید شده بود. باید تیکت رو بفرستم به دپارتمان مربوط به نود گیری. این فرآیند خودکار انجام میشه
+                            // در واقع اگه دپارتمان مقصد تعریف شده بود و نال نبود باید تیکت رو بفرستیم بره به دپارتمان نود گیری
+                            debugger
+                            if ((adminSettings.forwardTicketsAfterVerify && invoice.Status === 1) || (adminSettings.forwardTicketsAfterVerify && invoice.Status === "1")) {
+                                await forwardTicketAfterVerify({
+                                    depId: adminSettings.forwardTicketsAfterVerify,
+                                    billData
+                                })
+                            }
+                            handleResponse(result, res)
                         }
-                        const isSentSMS = await sendAfterSavedBillSMS(result.data.Result, adminSettings)
-                        // اگه فاکتور تایید شده بود. باید تیکت رو بفرستم به دپارتمان مربوط به نود گیری. این فرآیند خودکار انجام میشه
-                        // در واقع اگه دپارتمان مقصد تعریف شده بود و نال نبود باید تیکت رو بفرستیم بره به دپارتمان نود گیری
+                    } else {
+                        // اگه مشتری شماره تماس داشت
+                        //  باید یه پیامک به مشتری بفرستم که فاکتور شما تایید یا پیش نویس شد
                         debugger
-                        if ((adminSettings.forwardTicketsAfterVerify && invoice.Status === 1)||(adminSettings.forwardTicketsAfterVerify && invoice.Status === "1")) {
-                            await forwardTicketAfterVerify({depId: adminSettings.forwardTicketsAfterVerify, billData})
+                        if (result?.data?.Result) {
+                            let message = "";
+                            const CustomerMobile = result?.data?.Result.Contact?.Mobile
+                            debugger
+                            const invoiceStatus = result?.data?.Result.Status
+                            const ORDERNAME = result?.data?.Result.ContactTitle
+                            const Sum = result?.data?.Result.Sum;
+                            const ORDER_PRICE = formatNumber(Sum)
+                            let date = result?.data?.Result?.Date
+                            date = timestampToTimeFromHesabfa(date)?.split(",")[0]
+                            date = p2e(date)
+
+                            if (CustomerMobile && invoiceStatus === 1) {
+
+                                message += "فاکتور تایید شد."
+                                // چون اینجا شماره تیکت نداریم قالب ارسال پیامکی بدون تیکت هست
+
+                                const smsRes = await sendSubmitBillSMS_NoTicketId({
+                                    // mobile: CustomerMobile,
+                                    mobile: "09384642159",
+                                    ORDERNAME,
+                                    ORDER_PRICE,
+                                    DATE:date,
+                                })
+                                if (smsRes.status) {
+                                    message += "پیامک ارسال شد"
+                                }
+
+                                res.status(200).json({message})
+                                return;
+
+
+                            } else if (CustomerMobile && invoiceStatus === 0) {
+
+                            } else {
+                                res.status(200).json({
+                                    message: "مقدار استاتوس 0 یا یک نیست",
+                                })
+                                return;
+                            }
+                        } else {
+                            res.status(500).json({
+                                message: "مقدار بازگشتی از حسابفا معتبر نیست",
+                            })
+                            return;
                         }
-                        handleResponse(result, res);
+
+
                     }
 
 
