@@ -110,9 +110,8 @@ const updatePackStatusTo8 = async (req: CustomRequestMyTokenInJwt, res: Response
                     const mobile = result.data.Result.Contact.Mobile
                     const ContactTitle = result.data.Result.ContactTitle
                     if(ContactTitle && statusNumber >= 8){
-                        let orderName = ContactTitle.length>25 ? ContactTitle.slice(0,25) : ContactTitle
                         if (mobile) {
-                            const result = await sendSMSBasteBandi({mobile,ORDERNAME:orderName});
+                            const result = await sendSMSBasteBandi({mobile,ORDERNAME:ContactTitle});
                             if(result.status){
                                 message += "پیامک ارسال شد";
                             }
