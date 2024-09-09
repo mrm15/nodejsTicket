@@ -11,6 +11,9 @@ import {getBillList} from "../../controllers/hesabfaController/getBillList";
 import {getBillListTableG} from "../../controllers/hesabfaController/getBillListTableG";
 import {updatePackStatusTo8} from "../../controllers/hesabfaController/updatePackStatusTo8";
 import {changeSentStatus} from "../../controllers/hesabfaController/changeSentStatus";
+import {
+    deleteBillInHesabfaControllerByNumber
+} from "../../controllers/hesabfaController/deleteBillInHesabfaControllerByNumber";
 
 
 const router = express.Router();
@@ -24,6 +27,7 @@ router.get('/getCustomerList/', getCustomerList)
 router.get('/getContactData/:contactCode', getContactData)
 router.post('/submitBill/', submitBillInHesabfa)
 router.get('/deleteBill/:billNumber/:type/:id', deleteBillInHesabfaController)
+router.get('/deleteBillFromHesabfa/:billNumber', deleteBillInHesabfaControllerByNumber)
 router.post('/getBillList/', getBillList)
 router.post('/getBillListData/', getBillListTableG) // برای جدول بسته بندی و ارسال
 router.post('/updatePackStatusTo8/', updatePackStatusTo8) // برای جدول بسته بندی و ارسال
