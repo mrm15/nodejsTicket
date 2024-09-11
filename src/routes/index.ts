@@ -53,7 +53,6 @@ const myRouter = Router();
 // Setup other routes
 myRouter.use('/handleSendPendingSms' , handleSendPendingSmsRoute)
 
-myRouter.use('/hesabfaOpen' , handleHesabfaOpenRoute);
 
 myRouter.use('/login',loginSMS)
 // myRouter.use('/admin',admin)
@@ -80,6 +79,7 @@ myRouter.use('/sms' , handleSmsRoute);
 myRouter.use('/reports' , handleReportsRoute);
 
 myRouter.use('/hesabfa' , handleHesabfaRoute);
+myRouter.use('/hesabfaOpen' , handleHesabfaOpenRoute);
 
 
 myRouter.use('/logout' , handleLogout);
