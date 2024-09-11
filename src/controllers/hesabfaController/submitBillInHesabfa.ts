@@ -81,6 +81,10 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
         }
 
 
+        const adminSettings = await AdminSettings.findOne({}).lean()!
+        const isSendSmsWhenVerifyBill = adminSettings?.sendSMSAfterVerifyBill
+
+
         try {
 
             //
@@ -140,34 +144,39 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                             debugger
                             const invoiceStatus = result?.data?.Result.Status
                             const ORDERNAME = result?.data?.Result.ContactTitle
-                            const Sum = result?.data?.Result.Sum;
+                            const Sum = result?.data?.Result.Sum
                             const ORDER_PRICE = formatNumber(Sum)
                             let date = result?.data?.Result?.Date
                             date = timestampToTimeFromHesabfa(date)?.split(",")[0]
                             date = p2e(date)
 
-                            if (CustomerMobile && invoiceStatus === 1) {
+                            if (invoiceStatus === 1) {
 
                                 message += "فاکتور تایید شد."
                                 // چون اینجا شماره تیکت نداریم قالب ارسال پیامکی بدون تیکت هست
 
-                                const smsRes = await sendSubmitBillSMS_NoTicketId({
-                                    // mobile: CustomerMobile,
-                                    mobile: "09384642159",
-                                    ORDERNAME,
-                                    ORDER_PRICE,
-                                    DATE:date,
-                                })
-                                if (smsRes.status) {
-                                    message += "پیامک ارسال شد"
+                                if (CustomerMobile !== "" && isSendSmsWhenVerifyBill) {
+                                    const smsRes = await sendSubmitBillSMS_NoTicketId({
+                                        // mobile: CustomerMobile,
+                                        mobile: "09384642159",
+                                        ORDERNAME,
+                                        ORDER_PRICE,
+                                        DATE: date,
+                                    })
+                                    if (smsRes.status) {
+                                        message += "پیامک ارسال شد"
+                                    }
                                 }
+
 
                                 res.status(200).json({message})
                                 return;
 
 
-                            } else if (CustomerMobile && invoiceStatus === 0) {
-
+                            } else if (invoiceStatus === 0) {
+                                message += "فاکتور پیش نویس شد."
+                                res.status(200).json({message})
+                                return;
                             } else {
                                 res.status(200).json({
                                     message: "مقدار استاتوس 0 یا یک نیست",
