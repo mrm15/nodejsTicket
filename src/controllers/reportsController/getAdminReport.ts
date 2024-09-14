@@ -16,6 +16,7 @@ import {formatDateForBackend} from "../../utils/functions";
 import {getHeaderAndRowsDetails} from "../utility/hesabfa/functions";
 import {makeDetailData} from "./getAdminReportFunctions/makeDetailData";
 import {calculatePivotByTotalArray} from "./getAdminReportFunctions/calculatePivotByTotalArray";
+import {basteBandiCounter} from "./getAdminReportFunctions/basteBandi";
 
 
 const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -50,23 +51,30 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
             return
         }
 
+        debugger
+        // تاریخی که توی مقدار فیلتر هست رو بگیرم.
+        // از حسابفا بپرسم کدوم تاریخا توی فاکتورها بخش تگ هستن؟
+        // بعدش چک کنم که اون تاریخ توی بسته بندی هست یا نه
+        // اگه بود تعداد آیتم بسته بندی شده اون روز رو اضافه میکنم
+
 
         const billsDataFromHesabfa = await getBillsDataFromHesabfa(myData)
 
+
+        const basteBandiCountObject = await basteBandiCounter(myData)
+        console.log(basteBandiCountObject)
         let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
         temp11 = temp11.rows;
         temp11 = temp11.filter((row: any) => row.myStatus === 1)
         const myPivotDataObject = calculatePivotByTotalArray({totalData: temp11})
         const detailsData = myPivotDataObject.pivotData
         const pivotAll = myPivotDataObject.pivotAll
-        if (true) {
-            res.status(200).json({
-                titleData: pivotAll,
-                detailsData,
-                message: 'داده ها به روز شد.',
-            })
-            return;
-        }
+        res.status(200).json({
+            titleData: [basteBandiCountObject, ...pivotAll],
+            detailsData: detailsData,
+            message: 'داده ها به روز شد.',
+        })
+        return;
         // else {
         //     res.status(500).json({message: "پیام ارسال نشد!!!"});
         //     return
