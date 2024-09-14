@@ -1,4 +1,6 @@
-export const timestampToTimeFromHesabfa = (TimeStampDate: number | Date | string | undefined): string => {
+import {p2e} from "./NumericFunction";
+
+export const timestampToTimeFromHesabfa = (TimeStampDate: number | Date | string | undefined , EnglishDigitsDate?: boolean): string => {
     try {
         // Check if the input is undefined
         if (TimeStampDate === undefined) {
@@ -29,7 +31,14 @@ export const timestampToTimeFromHesabfa = (TimeStampDate: number | Date | string
             timeZone: 'Asia/Tehran'
         });
 
-        return formatter.format(dateObject);
+
+        const dateTime = formatter.format(dateObject);
+        if(EnglishDigitsDate){
+            return  p2e(dateTime.split(",")[0])
+        }
+
+
+        return dateTime
     } catch (error) {
         return `Error: ${error?.toString()}`;
     }
