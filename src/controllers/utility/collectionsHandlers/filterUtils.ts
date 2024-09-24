@@ -1,51 +1,60 @@
 // utils/filterUtils.ts
 
-type Filter = { field: string, operator?: string, value: any };
+type Filter = { property: string, operator?: string, value: any };
 
 export const buildFilterObject = (filters: Filter[]): { [key: string]: any } => {
     const filterObject: { [key: string]: any } = {};
     filters.forEach((filter) => {
+        const filterField = filter.property
+
         if (filter.operator) {
-            if (!filterObject[filter.field]) {
-                filterObject[filter.field] = {};
+            if (!filterObject[filter.property]) {
+                filterObject[filter.property] = {};
             }
             switch (filter.operator) {
                 case '>=':
-                    filterObject[filter.field]['$gte'] = filter.value;
+                    filterObject[filterField]['$gte'] = filter.value;
                     break;
                 case '>':
-                    filterObject[filter.field]['$gt'] = filter.value;
+                    filterObject[filterField]['$gt'] = filter.value;
                     break;
                 case '<=':
-                    filterObject[filter.field]['$lte'] = filter.value;
+                    filterObject[filterField]['$lte'] = filter.value;
                     break;
                 case '<':
-                    filterObject[filter.field]['$lt'] = filter.value;
+                    filterObject[filterField]['$lt'] = filter.value;
                     break;
                 case '!=':
-                    filterObject[filter.field]['$ne'] = filter.value;
+                    filterObject[filterField]['$ne'] = filter.value;
                     break;
                 case 'in':
-                    filterObject[filter.field]['$in'] = filter.value;
+                    filterObject[filterField]['$in'] = filter.value;
                     break;
                 case 'nin':
-                    filterObject[filter.field]['$nin'] = filter.value;
+                    filterObject[filterField]['$nin'] = filter.value;
                     break;
                 case 'exists':
-                    filterObject[filter.field]['$exists'] = filter.value;
+                    filterObject[filterField]['$exists'] = filter.value;
                     break;
                 case 'type':
-                    filterObject[filter.field]['$type'] = filter.value;
+                    filterObject[filterField]['$type'] = filter.value;
                     break;
                 case 'regex':
+                    // بعدا باید اینو تکمیل کنم
+                    throw new Error(`Unsupported operator: ${filter.operator}`);
+
+
                 case 'includes':
-                    filterObject[filter.field] = { $regex: filter.value, $options: 'i' }; // Case-insensitive
+                    filterObject[filterField] = { $regex: filter.value, $options: 'i' }; // Case-insensitive
+                    break;
+                case '*':
+                    filterObject[filterField] = { $regex: filter.value, $options: 'i' }; // Case-insensitive
                     break;
                 default:
                     throw new Error(`Unsupported operator: ${filter.operator}`);
             }
         } else {
-            filterObject[filter.field] = filter.value;
+            filterObject[filterField] = filter.value;
         }
     });
 
