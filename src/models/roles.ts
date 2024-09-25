@@ -18,7 +18,6 @@ interface IRole extends Document {
     ticketChatList:Boolean; // مشاهده چت لیست
     ticketReadOwn:Boolean; // خواندن تیکت هایی که خودم باز کردم و ایجاد کردم برای مشتریان
     ticketReadOwnReceived:Boolean; // تمام تیکت هایی که من توی مدل کاربر  در بخش تیکت بهشون دسترسی دارم
-    ticketInput:Boolean; // تیکت های مشترک بین من و دپارتمان من
     ticketUpdate:Boolean;
     ticketDelete:Boolean;
     themeCreate:Boolean;
@@ -124,7 +123,6 @@ const roleSchema: Schema<IRole> = new Schema({
     ticketChatList:{type:Boolean , default:false , required:true},
     ticketReadOwn:{type:Boolean , default:false , required:true},
     ticketReadOwnReceived:{type:Boolean , default:false , required:true},
-    ticketInput:{type:Boolean , default:false , required:true},
     ticketUpdate:{type:Boolean , default:false , required:true},
     ticketDelete:{type:Boolean , default:false , required:true},
     themeCreate:{type:Boolean , default:false , required:true},

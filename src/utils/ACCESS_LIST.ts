@@ -12,7 +12,6 @@ export const ACCESS_LIST = {
     TICKET_CHAT_LIST: "ticketChatList",
     TICKET_READ_OWN: "ticketReadOwn",           //(access to tickets I sent - all users has in user list of ticket)
     TICKET_READ_OWN_RECEIVED: "ticketReadOwnReceived",           //(access to tickets I sent - all users has in user list of ticket)
-    TICKET_INPUT: "ticketInput",         // input
     TICKET_UPDATE: "ticketUpdate",                //(not Allowed to no one)
     TICKET_DELETE: "ticketDelete",                // - justAdmin(check has any replies)
     THEME_CREATE: "themeCreate",

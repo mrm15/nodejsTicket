@@ -7,7 +7,6 @@ export const myPermissionsArray = [
     "ticketReadAll",
     "ticketChatList",
     "ticketReadOwn",
-    "ticketInput",
     "readMyAllTickets",
     "ticketReadOwnReceived",
     "ticketUpdate",
