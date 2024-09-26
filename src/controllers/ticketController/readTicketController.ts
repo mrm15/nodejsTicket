@@ -2,19 +2,15 @@ import {Request, Response, NextFunction} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {defineTable} from "../../utils/defineTable";
+import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
+import {Ticket} from "../../models/ticket";
+import {convertIdsToName} from "../utility/convertTicketDataToName/convertIdsToName";
 
 
 const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
 
-    // اینجا باید چک کنم ببینم آیا پارامتر ست شده یا نه؟
-    // اگه پارامتر ست شده بود.
-    // باید چک کنم ببینم چه پارامتری ست شده؟
-    // طبق پارامتر باید فقط تیکت هایی رو نشون بدم که کاربر بهشون دسترسی داره؟
 
-    //اگه پارامتری نداشت باید کل تیکت ها رو نشون بدم و قبلش دسترسی رو هم چک کنم.
-    // یا کل تیکت ها رو نشون بدم؟
     const {myToken} = req;
     if (!myToken) {
         const message = 'مقدار توکن توی ری کوئست موجود نیست'
@@ -32,14 +28,11 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
 
         debugger
-        const list = await defineTable({
-            req, conditionString: 'readTicketController',
-            ticketUserId: '',
-        })
+        const myResult = await getDataCollection(req.body,Ticket);
 
-        res.status(200).json({
-            list, message: 'لیست بارگزاری شد.',
-        });
+        const myResultAfterChange =await convertIdsToName(myResult)
+
+        res.status(200).json(myResultAfterChange);
         return;
 
     } catch (error: any) {
