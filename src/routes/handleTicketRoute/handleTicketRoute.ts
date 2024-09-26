@@ -8,6 +8,7 @@ import {chatListTicketController} from "../../controllers/ticketController/chatL
 import {ReadSentTicketController} from "../../controllers/ticketController/readSentTicketController";
 import {readMyAllTicketsController} from "../../controllers/ticketController/readMyAllTicketsController";
 import {readDepartmentTicketsController} from "../../controllers/ticketController/readDepartmentTicketsController";
+import {filterMiddleware} from "../../middleware/filterForSearchTickets/filterMiddleware";
 
 const router = express.Router();
 
@@ -17,7 +18,6 @@ router.post('/create', createTicketController);
 router.post('/create', createTicketController);
 // خواندن کل تیکت های سیستم به صورت یکجا
 router.get('/read', readTicketController); // همه ی تیکت های سیستم رو یکجا میده
-router.post('/read', readTicketController); // باصفحه بندی و فیلتر
 
 // خواندن تیکت هایی که خودم ارسال کردم. نگاه میکنیم ببینیم توی جدول تیکت ها  فرستنده اگه خودم بودم لیست بشه
 router.get('/readSentTickets', ReadSentTicketController); // تیکت های ارسال من رو میره از توی کل تیکت ها میکشه بیرون و نشون میده
@@ -34,5 +34,11 @@ router.get('/chatList/:ticketId', chatListTicketController);
 router.post('/update', updateTicketController);
 router.delete('/delete/:id', deleteTicketController);
 router.get('/statusList', ticketList);
+
+// Apply the filter middleware to these routes
+router.post('/read', filterMiddleware,readTicketController) // read add tickets for admin
+router.post('/readSentTickets', filterMiddleware,ReadSentTicketController) // read sentTickets List
+router.post('/readMyAllTickets', filterMiddleware, readMyAllTicketsController) // read my tickets
+router.post('/readDepartmentTickets', filterMiddleware, readDepartmentTicketsController) // read department tickets
 
 export default router;
