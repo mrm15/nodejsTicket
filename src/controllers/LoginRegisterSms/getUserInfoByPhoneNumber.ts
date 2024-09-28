@@ -1,20 +1,22 @@
 import {Types} from "mongoose";
 import {getRoleAccessList} from "./getRoleAccessList";
 import {User} from "../../models/User";
-import {Department} from "../../models/department";
+import {Department, IDepartment} from "../../models/department";
+import {IRole, Role} from "../../models/roles";
 
 
 export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
-    const foundUser = await User.findOne({phoneNumber:userPhoneNumber}).exec();
+    const foundUser = await User.findOne({phoneNumber: userPhoneNumber}).exec();
     let userInfo = {}
 
     if (foundUser) {
 
         const roleAccessList = await getRoleAccessList(userPhoneNumber);
-        const isDepartmentAdmin = await Department.findOne({managerUserId:foundUser._id}).exec();
-        if(isDepartmentAdmin){
+        const isDepartmentAdmin = await Department.findOne({managerUserId: foundUser._id}).exec();
+        if (isDepartmentAdmin) {
             roleAccessList?.push('readDepartmentTickets')
         }
+
 
         const {
             departmentId,
@@ -45,14 +47,30 @@ export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
             province,
             city,
             profilePictureUrl,
-            id:userId,
+            id: userId,
             contactCode,
-        } = foundUser
+            role,
+        } = foundUser;
+
+
+        let roleName = ""
+        let departmentName = ""
+        if (departmentId) {
+            const dep: IDepartment = (await Department.findOne({_id: departmentId}).lean())!
+            departmentName = dep.name
+        }
+        if (role) {
+            const foundedRole: IRole = (await Role.findOne({_id: role}).lean())!
+            roleName = foundedRole.name
+        }
+
         userInfo = {
             roleAccessList,
             userData: {
                 userId,
                 departmentId,
+                departmentName,
+                roleName,
                 accountingCode,
                 company,
                 title,
