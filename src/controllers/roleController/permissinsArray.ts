@@ -89,4 +89,6 @@ export const myPermissionsArray = [
     "widgetNumberOfBills7days",
     "widgetAmountOfBills7days",
     "widgetHowManyUsersThereAre",
+    //////////////////////
+    "screenShotBills"
 ]
