@@ -9,6 +9,7 @@ import {ReadSentTicketController} from "../../controllers/ticketController/readS
 import {readMyAllTicketsController} from "../../controllers/ticketController/readMyAllTicketsController";
 import {readDepartmentTicketsController} from "../../controllers/ticketController/readDepartmentTicketsController";
 import {filterMiddleware} from "../../middleware/filterForSearchTickets/filterMiddleware";
+import {readMyAllTicketsControllerPost} from "../../controllers/ticketController/readMyAllTicketsControllerPost";
 
 const router = express.Router();
 
@@ -38,7 +39,7 @@ router.get('/statusList', ticketList);
 // Apply the filter middleware to these routes
 router.post('/read', filterMiddleware,readTicketController) // read all tickets for admin
 router.post('/readSentTickets', filterMiddleware,ReadSentTicketController) // read sentTickets List for example I sent a ticket
-router.post('/readMyAllTickets', filterMiddleware, readMyAllTicketsController) // read my tickets   from custom table With Read Status
+router.post('/readMyAllTickets', filterMiddleware, readMyAllTicketsControllerPost) // read my tickets   from custom table With Read Status
 router.post('/readDepartmentTickets', filterMiddleware, readDepartmentTicketsController) // read department tickets
 
 export default router;
