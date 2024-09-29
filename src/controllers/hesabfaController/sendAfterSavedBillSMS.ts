@@ -1,5 +1,4 @@
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
-import {setForSendMessage} from "../../utils/setForSendMessage";
 import {afterSubmitBillSmsText, afterVerifiedBillSmsText} from "../../SMS/template";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
 import {sendSubmitBillSMS, sendVerifyBillSMS} from "../../SMS/SMS.IR/sendSms";

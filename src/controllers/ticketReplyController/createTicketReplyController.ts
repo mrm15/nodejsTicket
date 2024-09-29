@@ -9,7 +9,6 @@ import {IUser, User} from "../../models/User";
 import {Department, IDepartment} from "../../models/department";
 import {generateRefreshToken} from "../LoginRegisterSms/generateAccessToken";
 import {uuidGenerator} from "../../utils/uuidGenerator";
-import {setForSendMessage} from "../../utils/setForSendMessage";
 import {logger} from "../../middleware/logEvents";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
 
@@ -125,13 +124,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
 
                 const customerPhoneNumber = customerDocument.phoneNumber
                 const depString = departmentId?.toString();
-                const resultSendSms = await setForSendMessage({
-                    senderUserId: userId, senderDepartmentId: depString, text: smsText, replyId: null,
-                    destinationNumber: customerPhoneNumber
-                });
-                if (resultSendSms.smsStatusCode === 200) {
-                    smsMsg = "پیامک درج شد."
-                }
+                // اینجا میتونم بعدا یه تایع بنویسم که اگه این دپارتمان توی لیست پیامک های ارسالی بود بعدش که براش جواب درج شد به مشتری پیامک بدم که آقا یک پیام برای شما درج شد
 
 
             } catch (error) {
@@ -177,7 +170,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
 
 
         const myDataForTicketNeedsBill: IInitialBillResponse = {
-            ticketNumber:ticketDoc.ticketNumber,
+            ticketNumber: ticketDoc.ticketNumber,
             contactName,
             contactCode,
             billNumber,

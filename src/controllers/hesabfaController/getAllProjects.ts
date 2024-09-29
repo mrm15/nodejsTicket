@@ -3,7 +3,6 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
-import {setForSendMessage} from "../../utils/setForSendMessage";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
 

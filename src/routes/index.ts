@@ -25,8 +25,6 @@ import handleTicketReplyRoute from "./handleTicketReplyRoute/handleTicketReplyRo
 import handleForwardRoute from "./handleForwardRoute/handleForwardRoute";
 import handleAdminSettingsRoute from "./handleAdminSettingsRoute/handleAdminSettingsRoute";
 import handleUserStatusRoute from "./handleUserStatusRoute/handleUserStatusRoute";
-import handleSmsRoute from "./handleSmsRoute/handleSmsRoute";
-import handleSendPendingSmsRoute from "./handleSendPendingSmsRoute/handleSendPendingSmsRoute";
 import handleHesabfaRoute from "./handleHesabfaRoute/handleHesabfaRoute";
 import handleHesabfaOpenRoute from "./handlehesabFaOpenRoute/handleHesabfaOpenRoute";
 import handleReportsRoute from "./handleReportsRoute/handleReportsRoute";
@@ -51,7 +49,7 @@ const myRouter = Router();
 // myRouter.use('/refresh', authRefreshRoutes);
 // myRouter.use('/upload', handleUploadRoutes);
 // Setup other routes
-myRouter.use('/handleSendPendingSms' , handleSendPendingSmsRoute)
+
 
 
 myRouter.use('/login',loginSMS)
@@ -75,7 +73,6 @@ myRouter.use('/ticketReply' , handleTicketReplyRoute);
 myRouter.use('/forward' , handleForwardRoute);
 myRouter.use('/adminSettings' , handleAdminSettingsRoute);
 myRouter.use('/userStatus' , handleUserStatusRoute);
-myRouter.use('/sms' , handleSmsRoute);
 myRouter.use('/reports' , handleReportsRoute);
 
 myRouter.use('/hesabfa' , handleHesabfaRoute);
