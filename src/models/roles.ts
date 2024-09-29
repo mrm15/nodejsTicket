@@ -98,6 +98,7 @@ interface IRole extends Document {
     widgetAmountOfBills7days:Boolean;
     widgetHowManyUsersThereAre:Boolean;
     // ادامه دارد....
+    screenShotBills:Boolean;
 
 
 }
@@ -204,6 +205,8 @@ const roleSchema: Schema<IRole> = new Schema({
     widgetNumberOfBills7days:{type:Boolean , default:false , required:true}, //
     widgetAmountOfBills7days:{type:Boolean , default:false , required:true}, //
     widgetHowManyUsersThereAre:{type:Boolean , default:false , required:true}, //
+    ///////
+    screenShotBills:{type:Boolean , default:false , required:true}, //
 });
 
 
