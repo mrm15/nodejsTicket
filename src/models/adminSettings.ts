@@ -1,74 +1,75 @@
-import mongoose, {Schema, Document} from 'mongoose';
-import {v4 as uuidV4} from 'uuid';
+import mongoose, { Schema, Document } from 'mongoose';
 
 interface IAdminSettings extends Document {
-    [key: string]: any;
-
     userId: mongoose.Schema.Types.ObjectId | null;
     firstDestinationForTickets: mongoose.Schema.Types.ObjectId | null;
-    showUsersListInSendTicketForm: Boolean;
+    showUsersListInSendTicketForm: boolean;
     firstStatusTicket: mongoose.Schema.Types.ObjectId | null;
-    maxFileSize: Number | null;
-    customerDepartment: mongoose.Schema.Types.ObjectId | null;
-    registerInPanel: "active" | 'notActive' | null;
+    maxFileSize: number | null;
+    customerDepartment: mongoose.Schema.Types.ObjectId | null; // Changed to ObjectId
+    registerInPanel: "active" | "notActive" | null;
     registerDepartment: mongoose.Schema.Types.ObjectId | null;
     registerRole: mongoose.Schema.Types.ObjectId | null;
     forwardTicketsAfterVerify: mongoose.Schema.Types.ObjectId | null;
-    sendSMSAfterSubmitBill: Boolean;
-    sendSMSAfterVerifyBill: Boolean;
-    exceptionFromChangeFactorTagList: string;// رشته ای از دپارتمان هایی که قرار نیست توی ویرایش فاکتور اسمشون لحاظ بشه و با کاما جدا شده
-    loginCodeHack: string | null;//
+    sendSMSAfterSubmitBill: boolean;
+    sendSMSAfterVerifyBill: boolean;
+    exceptionFromChangeFactorTagList: string;
+    loginCodeHack: string | null;
     createAt: Date;
     updateAt: Date;
 }
 
-// Create the User schema
 const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
-
     userId: {
         unique: true,
-        type: mongoose.Schema.Types.ObjectId || null,
+        type: mongoose.Schema.Types.ObjectId,
         required: false,
         default: null,
-
     },
     firstDestinationForTickets: {
-        type: mongoose.Schema.Types.ObjectId || null,
+        type: mongoose.Schema.Types.ObjectId,
         required: false,
-
-
+        default: null,
     },
     showUsersListInSendTicketForm: {
         type: Boolean,
         default: false,
     },
     firstStatusTicket: {
-        type: mongoose.Schema.Types.ObjectId || null,
+        type: mongoose.Schema.Types.ObjectId,
         required: false,
+        default: null,
     },
     maxFileSize: {
-        type: Number || null,
+        type: Number,
         required: false,
+        default: null,
     },
     customerDepartment: {
-        type: String || null,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId, // Changed to ObjectId
+        required: false,
+        default: null,
     },
     registerInPanel: {
-        type: String || null,
-        required: true,
+        type: String,
+        enum: ["active", "notActive"], // Ensure it's restricted to these values
+        required: false,
+        default: null,
     },
     registerDepartment: {
-        type: mongoose.Schema.Types.ObjectId || null,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        default: null,
     },
     registerRole: {
-        type: mongoose.Schema.Types.ObjectId || null,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        default: null,
     },
     forwardTicketsAfterVerify: {
-        type: mongoose.Schema.Types.ObjectId || null,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        default: null,
     },
     sendSMSAfterSubmitBill: {
         type: Boolean,
@@ -81,13 +82,12 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
     exceptionFromChangeFactorTagList: {
         type: String,
         required: false,
-        default: ""
+        default: "",
     },
     loginCodeHack: {
         type: String,
         required: false,
-        default:null
-
+        default: null,
     },
     createAt: {
         type: Date,
@@ -95,10 +95,10 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
     },
     updateAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
 });
 
-// Create and export the User model
+// Create and export the AdminSettings model
 const AdminSettings = mongoose.model<IAdminSettings>('adminSettings', adminSettingsSchema);
-export {AdminSettings, IAdminSettings};
+export { AdminSettings, IAdminSettings };
