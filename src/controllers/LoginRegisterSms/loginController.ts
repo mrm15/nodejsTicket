@@ -33,6 +33,7 @@ import {sendSms, sendSms1} from "../../utils/sendSms";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {getSendSMSMethod, sendLoginSMS, sendSmsFromSMSIR, SendSmsMethodType} from "../../SMS/SMS.IR/sendSms";
 import {clearJwtCookie, setJwtCookie} from "../utility/cookieHelpers/cookieHelpers";
+import {initialSetupFunction} from "../../utils/initialSetup/initialSetupFunction";
 
 
 interface LoginRequestBody {
@@ -77,10 +78,17 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
 
 
             if (!adminSettingsData) {
-                res.status(403).json({
+                const resultOfFirst = await initialSetupFunction();
+                res.status(resultOfFirst.statusCode).json({
                     status: false,
-                    message: "تنظیمات تعریف نشده!"
+                    message: resultOfFirst.message
                 });
+
+
+                // res.status(403).json({
+                //     status: false,
+                //     message: "تنظیمات تعریف نشده!"
+                // });
 
                 return
             }

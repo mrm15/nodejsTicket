@@ -27,10 +27,10 @@ interface IDepartment extends Document {
 
 const departmentSchema: Schema = new Schema({
     name: {type: String, required: true},
-    userId: {type: Schema.Types.ObjectId, ref: 'User'},
+    userId: {type: Schema.Types.ObjectId, ref: 'User', required:false},
     description: {type: String, required: false},
     managerUserId: {type: Schema.Types.ObjectId, ref: 'User' , index:true},
-    parentDepartmentId: {type: Schema.Types.ObjectId, ref: 'Department'},
+    parentDepartmentId: {type: Schema.Types.ObjectId, ref: 'Department', required:false},
     location: {type: String, required: false},
     address: {type: String, required: false},
     phoneNumber: {type: String, required: false},

@@ -12,6 +12,7 @@ import {IRole, Role} from "../../models/roles";
 import mongoose from "mongoose";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {IStatus, Status} from "../../models/status";
+import {registerRandomAdminSettings} from "../../utils/initialSetup/registerRandomAdminSettings";
 
 export interface IDataList {
     name: string;
@@ -68,60 +69,14 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
         const result: IAdminSettings | null = await AdminSettings.findOne({}).lean()
         if (!result) {
             // هیچ تنظیماتی نیست. بریم الکی ثبت کنیم
-
-            const randomUser: IUser | null = await User.findOne({}).lean();
-            if (!randomUser) {
-                res.status(406).json({
-                    message: 'لطفا یک کاربر تعریف کنید.',
-                });
-                return;
-            }
-
-
-            const randomDepartment: IDepartment | null = await Status.findOne({}).lean()
-            if (!randomDepartment) {
-                res.status(406).json({
-                    message: 'لطفا یک دپارتمان تعریف کنید.',
-                });
-                return;
-            }
-            const randomStatus: IStatus | null = await Department.findOne({}).lean()
-            if (!randomStatus) {
-                res.status(406).json({
-                    message: 'لطفا یک استاتوس تعریف کنید.',
-                });
-                return;
-            }
-
-
-            const currentTimeStamp = getCurrentTimeStamp()
-            const newAdminSettingData: IAdminSettings = new AdminSettings({
-
-                userId: randomUser._id,
-                firstDestinationForTickets: randomDepartment._id,
-                showUsersListInSendTicketForm: false,
-                firstStatusTicket: randomStatus._id,
-                maxFileSize: 5.0,
-                customerDepartment: null,
-                registerInPanel: "notActive",
-                registerDepartment: null,
-                registerRole: null,
-                forwardTicketsAfterVerify: null,
-                sendSMSAfterSubmitBill: false,
-                sendSMSAfterVerifyBill: false,
-                exceptionFromChangeFactorTagList: "",
-                loginCodeHack: null,
-                createAt: currentTimeStamp,
-                updateAt: currentTimeStamp,
-            })
-            await newAdminSettingData.save();
+            const resultOfRegisterNewAdminSettings = await registerRandomAdminSettings()
 
             const myAdminSettings = await AdminSettings.findOne({}).lean()
 
 
-            res.status(200).json({
+            res.status(resultOfRegisterNewAdminSettings.statusCode).json({
                 adminSettingData: myAdminSettings,
-                message: 'تنظیمات اولیه ثبت شد.',
+                message: resultOfRegisterNewAdminSettings.message,
             });
             return;
         }
