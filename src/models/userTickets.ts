@@ -1,61 +1,61 @@
-import mongoose, {Schema, Document} from 'mongoose';
-import {v4 as uuidV4} from 'uuid';
+import mongoose, { Document, Schema } from 'mongoose';
 
+// Define the UserTickets document interface
 interface IUserTickets extends Document {
-    [key: string]: any;
-
-    ticketId: mongoose.Schema.Types.ObjectId | null;
-    hesabfaBillNumber: number | null;
-    status: Boolean;
-    userSubmitFactor: mongoose.Schema.Types.ObjectId | null;
-    userVerifyFactor: mongoose.Schema.Types.ObjectId | null;
-    date: Date;
-    createAt: Date;
-    updateAt: Date;
+    ticketId: mongoose.Schema.Types.ObjectId; // Reference to the Ticket
+    userId: mongoose.Schema.Types.ObjectId; // Reference to the User assigned
+    assignDate: Date; // Date when the ticket was assigned
+    readTicket: boolean; // Indicates if the ticket has been read
+    readDate: Date | null; // Date when the ticket was read
+    numberOfAssign: number; // Number of times this ticket has been assigned to the user
+    lastUpdated: Date; // Last update date for tracking changes
+    createdAt: Date; // Timestamp of creation
+    updatedAt: Date; // Timestamp of last update
 }
 
-// Create the User schema
-const UserTickets: Schema<IUserTickets> = new Schema<IUserTickets>({
-
+// Define the UserTickets schema
+const userTicketsSchema: Schema<IUserTickets> = new mongoose.Schema({
     ticketId: {
-        type: mongoose.Schema.Types.ObjectId || null,
-        required: false,
-        default: null,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ticket',
+        required: true,
     },
-    hesabfaBillNumber: {
-        type: Number || null,
-        required: false,
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     },
-    status: {
-        type: String || null,
-        required: false,
-    },
-    userSubmitFactor: {
-        unique: false,
-        type: mongoose.Schema.Types.ObjectId || null,
-        required: false,
-        default: null,
-    },
-    userVerifyFactor: {
-        unique: false,
-        type: mongoose.Schema.Types.ObjectId || null,
-        required: false,
-        default: null,
-    },
-    date: {
+    assignDate: {
         type: Date,
         default: Date.now,
     },
-    createAt: {
+    readTicket: {
+        type: Boolean,
+        default: false,
+    },
+    readDate: {
+        type: Date,
+        default: null,
+    },
+    numberOfAssign: {
+        type: Number,
+        default: 1,
+    },
+    lastUpdated: {
         type: Date,
         default: Date.now,
     },
-    updateAt: {
+    createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
     },
 });
 
-// Create and export the User model
-const UserTicketsModel = mongoose.model<IUserTickets>('UserTickets', UserTickets);
-export {UserTicketsModel, IUserTickets};
+// Export the UserTickets model
+const UserTickets = mongoose.model<IUserTickets>('UserTickets', userTicketsSchema);
+
+export { UserTickets, IUserTickets };
