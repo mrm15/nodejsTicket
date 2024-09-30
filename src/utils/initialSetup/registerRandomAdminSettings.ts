@@ -1,7 +1,7 @@
 import {IUser, User} from "../../models/User";
 import {Department, IDepartment} from "../../models/department";
 import {IStatus, Status} from "../../models/status";
-import {getCurrentTimeStamp} from "../../utils/timing";
+import {getCurrentTimeStamp} from "../timing";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 
 

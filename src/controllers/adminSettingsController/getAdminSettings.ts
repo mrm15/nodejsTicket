@@ -12,7 +12,7 @@ import {IRole, Role} from "../../models/roles";
 import mongoose from "mongoose";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {IStatus, Status} from "../../models/status";
-import {registerRandomAdminSettings} from "./registerRandomAdminSettings";
+import {registerRandomAdminSettings} from "../../utils/initialSetup/registerRandomAdminSettings";
 
 export interface IDataList {
     name: string;

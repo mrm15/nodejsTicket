@@ -5,7 +5,7 @@ import {Role} from "../../models/roles";
 import {roleObject} from "./roleObject";
 import {IUser, User} from "../../models/User";
 import {userObject} from "./userObject";
-import {registerRandomAdminSettings} from "../../controllers/adminSettingsController/registerRandomAdminSettings";
+import {registerRandomAdminSettings} from "./registerRandomAdminSettings";
 import {Status} from "../../models/status";
 import {statusObject} from "./statusObject";
 
