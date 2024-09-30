@@ -29,6 +29,12 @@ const readMyAllTicketsControllerPost = async (req: CustomRequestMyTokenInJwt, re
         // که این تابع مقایدر رو میگیره
         //const myResult = await getDataCollection(req.body,MyTableName);
         // یه تابع میخوام که  بره توی جدول  تیکت ها سرچ کنه و مقدار خوانده شده و خوانده نشده رو تبدیل کنه واسه فرانت و بعدش بفرستمش سمت فرانت
+
+
+
+
+
+
         // میتونستم از روی شماره تلفن یوزرآیدی رو بگیرم اما اینجا ترجیح دادم اینطوری کنم و از توی توکن بردارم.
         const list = await userTicketTable({userId: myToken.UserInfo.userData.userData.userId})
 
