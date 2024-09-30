@@ -129,7 +129,6 @@ const getSafeAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Respons
         const {
             loginCodeHack,
             _id,
-            _v,
             createAt,
             updateAt,
             forwardTicketsAfterVerify,
