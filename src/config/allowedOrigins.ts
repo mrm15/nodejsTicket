@@ -11,6 +11,7 @@ const allowedOrigins: string[] = [
     'my.namarang.ir',
     "https://my.namarang.ir/",
     "https://my.namarang.ir",
+    "https://namarang-ticket-react.vercel.app",
 ];
 
 export default allowedOrigins;
