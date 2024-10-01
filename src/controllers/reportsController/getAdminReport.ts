@@ -67,12 +67,15 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         temp11 = temp11.rows;
         temp11 = temp11.filter((row: any) => row.myStatus === 1)
         const myPivotDataObject = calculatePivotByTotalArray({totalData: temp11})
-        const detailsData = myPivotDataObject.pivotData
-        const pivotAll = myPivotDataObject.pivotAll
+        const pivotAll = [...myPivotDataObject.pivotAll]
         res.status(200).json({
-            titleData: [basteBandiCountObject, ...pivotAll],
-            detailsData: detailsData,
+            titleData: [
+                basteBandiCountObject,
+                ...pivotAll
+            ],
+            detailsData: myPivotDataObject.pivotData,
             message: 'داده ها به روز شد.',
+            myPivotDataObject
         })
         return;
         // else {

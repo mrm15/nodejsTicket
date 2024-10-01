@@ -56,7 +56,12 @@ export const calculatePivotByTotalArray = ({totalData}: any) => {
         const t = filteredRows.reduce((acc: any, row: any) => {
             return row[myRowWithFilters.countKey] + acc
         }, 0)
-        return {title: myRowWithFilters.caption, value: t?.toFixed(2)}
+
+        const calcTotalPrice = filteredRows.reduce((acc: any, row: any) => {
+            return row[myRowWithFilters.sumKey] + acc
+        }, 0)
+
+        return {title: myRowWithFilters.caption, value: t?.toFixed(2), totalPrice: calcTotalPrice | 0, "dom":"dom"}
 
     })
 
