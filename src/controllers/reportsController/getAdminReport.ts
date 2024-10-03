@@ -61,8 +61,8 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         const billsDataFromHesabfa = await getBillsDataFromHesabfa(myData)
 
 
-        const basteBandiCountObject = await basteBandiCounter(myData)
-        console.log(basteBandiCountObject)
+        // const basteBandiCountObject = await basteBandiCounter(myData)
+        // console.log(basteBandiCountObject)
         let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
         temp11 = temp11.rows;
         temp11 = temp11.filter((row: any) => row.myStatus === 1)
@@ -70,7 +70,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         const pivotAll = [...myPivotDataObject.pivotAll]
         res.status(200).json({
             titleData: [
-                basteBandiCountObject,
+                // basteBandiCountObject,
                 ...pivotAll
             ],
             detailsData: myPivotDataObject.pivotData,
