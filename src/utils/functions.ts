@@ -14,10 +14,13 @@ export const formatDateForBackend = (date: Date) => {
     return `${year}-${month}-${day}T00:00:00`;
 };
 
+// اینجا من خودم به صورت دستی  آیدی اضافه میکنم که بهدا لازم دارم/
+// در حال حاضر دارم توی بخش  نمایش گزارش مدیرتی نشون میدم و میخوام جدا جدا جمع کنم و نشون بدم واسه همین  دارم اینجا آیدی اضافه میکنم
 export const reportArray = [
     //0
     {
         caption: "پلکسی 2.8",
+        id:0,
         filterTextForPivot: [
             "اجرت برش لیزر ورق 2.8 میل"
         ],
@@ -28,6 +31,7 @@ export const reportArray = [
     //1
     {
         caption: "پانچ ساده",
+        id:1,
         filterTextForPivot: [
             "اجرت پانچی کردن ( حالت ساده ) طلق 2.8 میل"
         ],
@@ -38,6 +42,7 @@ export const reportArray = [
     //2
     {
         caption: "پانچ طرح دار",
+        id:2,
         filterTextForPivot: [
             "اجرت پانچی کردن ( حالت طرحدار ) طلق 2.8 میل"
         ],
@@ -48,6 +53,7 @@ export const reportArray = [
     //3
     {
         caption: "دوبل",
+        id:3,
         filterTextForPivot: [
             "اجرت دوبل همراه با مبلغ کلر فرم"
         ],
@@ -58,6 +64,7 @@ export const reportArray = [
     //4
     {
         caption: "دوغی 10 میل",
+        id:4,
         filterTextForPivot: [
             "اجرت برش لیزر پلکسی 10 میل"
         ],
@@ -68,6 +75,7 @@ export const reportArray = [
     //5
     {
         caption: "دوغی 5 میل",
+        id:5,
         filterTextForPivot: [
             "اجرت برش لیزر پلکسی 5 میل"
         ],
@@ -78,6 +86,7 @@ export const reportArray = [
     //6
     {
         caption: "استیل و فلز",
+        id:6,
         filterTextForPivot: [
             // "استیل و فلز",
             "اجرت ساخت استیل حروف های سخت",
@@ -93,6 +102,7 @@ export const reportArray = [
     //7
     {
         caption: "چلنیوم و سوئدی",
+        id: 7,
         filterTextForPivot: [
             "اجرت ساخت چلنیوم",
             "اجرت ساخت حروف سوئدی",
@@ -104,6 +114,7 @@ export const reportArray = [
     //8
     {
         caption: " نئون پلاستیک",
+        id: 8,
         filterTextForPivot: [
             "اجرت ساخت نئون پلاستیک ( حروف استاندارد ) لبه ۳ تا ۸ سانت",
             "اجرت ساخت نئون پلاستیک ( حروف سخت) لبه ۳ تا ۸ سانت",
@@ -117,6 +128,7 @@ export const reportArray = [
     //9
     {
         caption: "نئون فلکسی",
+        id: 9,
         filterTextForPivot: [
             // "اجرت ساخت نئون فلکس ( حروف آسان )",
             // "اجرت ساخت نئون فلکس ( حروف سخت )",
@@ -131,6 +143,7 @@ export const reportArray = [
     //10
     {
         caption: "SMD",
+        id: 10,
         filterTextForPivot: [
             "SMD آفتابی با سیم کشی و منگنه",
             "SMD سفید با سیم کشی و منگنه",
@@ -148,6 +161,7 @@ export const reportArray = [
     // 11 اجرت نصب استیکر11
     {
         caption: "اجرت استیکر",
+        id: 11,
         filterTextForPivot: [
             "استیکر آبی کاربنی همراه با اجرت  نصب روی پلکسی",
             "استیکر مشکی همراه با اجرت نصب روی پلکسی",
@@ -162,6 +176,7 @@ export const reportArray = [
     // 12 ورق 12
     {
         caption: "ورق استیل",
+        id: 12,
         filterTextForPivot: [
             // "ورق استیل طلایی",
             // "ورق آهن",
@@ -228,6 +243,7 @@ export const reportArray = [
     // 13  پی وی سی   13
     {
         caption: "پی وی سی",
+        id: 13,
         filterTextForPivot: [
             "پی وی سی ده میل"
         ],
@@ -238,6 +254,7 @@ export const reportArray = [
     // 14
     {
         caption: "ورق پلکسی",
+        id: 14,
         filterTextForPivot: [
             "پلکسی قرمز  2.8 میل کد 136",
             "پلکسی آبی کاربنی 2.8 میل کد 327",
@@ -285,6 +302,7 @@ export const reportArray = [
     // 15 only Chalenium
     {
         caption: " فقط چلنیوم ",
+        id: 15,
         filterTextForPivot: [
             "اجرت ساخت چلنیوم",
         ],
@@ -295,6 +313,7 @@ export const reportArray = [
     // 16  only S o e d i
     {
         caption: " فقط سوئدی",
+        id: 16,
         filterTextForPivot: [
             "اجرت ساخت حروف سوئدی",
         ],
