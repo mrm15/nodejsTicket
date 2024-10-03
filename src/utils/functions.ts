@@ -321,6 +321,68 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
+///////////////////////////////////////////////////////////
+// از اینجا ب بعد رو باید آیتم ها رو بزرام
+///////////////////////////////////////////////////////////
+    // 17 faqat estil
+    {
+        caption: " فقط استیل- working",
+        id: 17,
+        filterTextForPivot: [
+            "استیل",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
+    // 18 faqat ahan
+    {
+        caption: " فقط آهنworking ",
+        id: 18,
+        filterTextForPivot: [
+            "آهن",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
+    // 19 faqat josh Fiber
+    {
+        caption: "جوش فایبر working ",
+        id: 19,
+        filterTextForPivot: [
+            "فایبر",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
+    // 20 faqat josh Fiber
+    {
+        caption: "جمع فلزات working ",
+        id: 20,
+        filterTextForPivot: [
+            "فایبر",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
+
+    // 21 جمع همه آیتم ها
+    // 19 faqat josh Fiber
+    {
+        caption: "متراژ ساخت کلی روز working ",
+        id: 21,
+        filterTextForPivot: [
+            "فایبر",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
+
+
 
 ]
 
