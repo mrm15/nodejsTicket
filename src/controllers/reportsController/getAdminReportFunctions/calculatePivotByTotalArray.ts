@@ -61,7 +61,7 @@ export const calculatePivotByTotalArray = ({totalData}: any) => {
             return row[myRowWithFilters.sumKey] + acc
         }, 0)
 
-        return {title: myRowWithFilters.caption, value: t?.toFixed(2), totalPrice: calcTotalPrice | 0, "dom":"dom"}
+        return {title: myRowWithFilters.caption, value: t?.toFixed(2), totalPrice: calcTotalPrice | 0, id:myRowWithFilters?.id}
 
     })
 
