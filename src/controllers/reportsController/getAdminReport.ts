@@ -1,12 +1,7 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {calculateTodayReport} from "../../utils/calculateTodayReport";
-import {
-    sendSMSAdminChaleniumSuedi,
-    sendSMSAdminLaserDouble, sendSMSAdminNeon, sendSMSAdminPlastic,
-    sendSMSAdminSMD,
 
-} from "../../SMS/SMS.IR/sendSms";
 import {destinationPhoneNumberArray} from "../../utils/cronFunctions/destinationPhoneNumber";
 import {logEvents} from "../../utils/logEvents";
 import {sendReportDaySMSToSomeOfUsers} from "../../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
@@ -17,6 +12,9 @@ import {getHeaderAndRowsDetails} from "../utility/hesabfa/functions";
 import {makeDetailData} from "./getAdminReportFunctions/makeDetailData";
 import {calculatePivotByTotalArray} from "./getAdminReportFunctions/calculatePivotByTotalArray";
 import {basteBandiCounter} from "./getAdminReportFunctions/basteBandi";
+import {calculatePivotById} from "../../utils/ReportsUtils/reportFunctions/calculatePivotById";
+import detailReportArray from "../../utils/ReportsUtils/AdminReportUtils/detailReportArray";
+import {makeTreeView} from "../../utils/ReportsUtils/AdminReportUtils/makeTreeView";
 
 
 const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -51,7 +49,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
             return
         }
 
-        debugger
+
         // تاریخی که توی مقدار فیلتر هست رو بگیرم.
         // از حسابفا بپرسم کدوم تاریخا توی فاکتورها بخش تگ هستن؟
         // بعدش چک کنم که اون تاریخ توی بسته بندی هست یا نه
@@ -66,25 +64,26 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
         temp11 = temp11.rows;
         temp11 = temp11.filter((row: any) => row.myStatus === 1)
-        const myPivotDataObject = calculatePivotByTotalArray({totalData: temp11})
-        const pivotAll = [...myPivotDataObject.pivotAll]
+
+        // const myPivotDataObject = calculatePivotById({totalData: temp11, myArray:detailReportArray })
+        // const pivotAll = [...myPivotDataObject.pivotAll]
+        // const tables = makeTables(pivotAll)
+        const TreeView = makeTreeView({totalData: temp11})
         res.status(200).json({
+            // tables,
+            TreeView,
             titleData: [
                 // basteBandiCountObject,
-                ...pivotAll
+                // ...pivotAll
             ],
-            detailsData: myPivotDataObject.pivotData,
+             // detailsData: myPivotDataObject.pivotData,
             message: 'داده ها به روز شد.',
-            myPivotDataObject
         })
         return;
-        // else {
-        //     res.status(500).json({message: "پیام ارسال نشد!!!"});
-        //     return
-        // }
-        /////////////////////////////////////////
+
 
     } catch (error: any) {
+        debugger
         res.status(500).json({error: error?.toString()});
         return
     }
