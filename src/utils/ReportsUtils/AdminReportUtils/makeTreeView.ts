@@ -156,7 +156,7 @@ export const makeTreeView = ({totalData}:any) => {
         {
             caption: 'پلکسی کلی',
             ...keys,
-            value: calculateSingleObject(totalData,this),
+            // value: calculateSingleObject(totalData,this),
             filterIdForPivot: [
                 "000004" ,
             ],

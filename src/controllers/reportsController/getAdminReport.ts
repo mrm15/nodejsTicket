@@ -15,6 +15,7 @@ import {basteBandiCounter} from "./getAdminReportFunctions/basteBandi";
 import {calculatePivotById} from "../../utils/ReportsUtils/reportFunctions/calculatePivotById";
 import detailReportArray from "../../utils/ReportsUtils/AdminReportUtils/detailReportArray";
 import {makeTreeView} from "../../utils/ReportsUtils/AdminReportUtils/makeTreeView";
+import makeDataObject from "../../utils/ReportsUtils/reportFunctions/makeDataObject";
 
 
 const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -68,15 +69,16 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         // const myPivotDataObject = calculatePivotById({totalData: temp11, myArray:detailReportArray })
         // const pivotAll = [...myPivotDataObject.pivotAll]
         // const tables = makeTables(pivotAll)
-        const TreeView = makeTreeView({totalData: temp11})
+        const dataWithObject = makeDataObject({totalData: temp11})
+        const dataObject = makeDataObject({totalData: temp11})
         res.status(200).json({
             // tables,
-            TreeView,
-            titleData: [
-                // basteBandiCountObject,
-                // ...pivotAll
-            ],
-             // detailsData: myPivotDataObject.pivotData,
+            treeView : dataObject.treeViewData,
+            tableView : dataObject.tableView,
+            // titleData: [
+            //     // basteBandiCountObject,
+            //     // ...pivotAll
+            // ],
             message: 'داده ها به روز شد.',
         })
         return;

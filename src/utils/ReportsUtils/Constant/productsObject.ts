@@ -10,4 +10,6 @@ productListArray.forEach(singleProductObject => {
 })
 
 
+
+
 export default productsObject

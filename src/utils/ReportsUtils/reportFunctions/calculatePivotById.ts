@@ -1,8 +1,8 @@
-export const findFilterRows = (totalData: any, myRowWithFilters: any) => {
+export const findFilterRows = (totalData: any, myRowWithFilters: { filterIdForPivot:string[] ;caption: any; id: any; bgColor?: any; textColor?: any; myKey:string; } ) => {
     return totalData.filter((row: any) => {
         // Check if any of the keywords are included in the myKey field of the row
-        const temp = myRowWithFilters.filterIdForPivot.some((keyword: string) => {
-            const ttt = row[myRowWithFilters.myKey].includes(keyword)
+        const temp = myRowWithFilters?.filterIdForPivot.some((keyword: string) => {
+            const ttt = row[myRowWithFilters?.myKey].includes(keyword)
             return ttt
         });
         return temp
@@ -32,19 +32,19 @@ export const calculateFilteredPrices = (filteredRows: any, myRowWithFilters: any
     }, 0)
 }
 
-export const calculateSingleObject = (totalData:any,myRowWithFilters:any)=>{
+export const calculateSingleObject = (totalData:any,myRowWithFilters:  { filterIdForPivot:string[] ;caption: any; id: any; bgColor?: any; textColor?: any; myKey:string; })=>{
     const filteredRows = findFilterRows(totalData, myRowWithFilters)
     const t = calculateFilteredRowsValues(filteredRows, myRowWithFilters)
 
     const calcTotalPrice = calculateFilteredPrices(filteredRows, myRowWithFilters);
 
     return {
-        title: myRowWithFilters.caption,
+        title: myRowWithFilters?.caption,
         value: t?.toFixed(2),
         totalPrice: calcTotalPrice || 0,
         id: myRowWithFilters?.id,
-        bgColor: myRowWithFilters.bgColor || "#fff",
-        textColor: myRowWithFilters.textColor || "#000"
+        bgColor: myRowWithFilters?.bgColor || "#fff",
+        textColor: myRowWithFilters?.textColor || "#000"
     }
 }
 
