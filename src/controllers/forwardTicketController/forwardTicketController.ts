@@ -86,20 +86,21 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
         if (!foundSenderUserIdLean) {
             res.status(500).json({
                 message: 'کاربر یافت نشد!',
-            });
+            })
             return
         }
+
         const senderUserId = foundSenderUserIdLean?._id
 
         const resultOfTask = await forwardTicket({
             ticketArray: tickets,
             departmentId: department,
             userId: user,
-            senderUserId
+            senderUserId,
         })
 
         res.status(200).json({
-            message: "ارجاع شد.",
+            message: resultOfTask.message
         });
         return
 
