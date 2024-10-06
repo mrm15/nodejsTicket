@@ -58,9 +58,6 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
         // همچنین باید توی خود تیکت بگم که آقا خود تیکت هم دپارتمان مقصدش عوض شده
 
 
-
-
-
         /////// قراره کد هایی پایین رو پاک کنم چون قدیمی هستن و اون موقع من جدول مربوط به تیکت های اختصاص داده شده رو نداشتم که وضعیت خواندن ور توش نگه دارم
 
         /*
@@ -83,127 +80,26 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
         // و بعدش توی تیکت های ارجاعی یه رکورد ثبت کنیم
         // پس باید یه کاری کنیم
         // کاربر و دپارتمان و آرایه ای از تیکت ها رو بدیم به تابع مون تا کارا رو برمون انجام بده و نتیجه رو بگه
-        const  resultOfTask = forwardTicket({ticketArray:tickets, departmentId:department, userId:user})
+        const senderUserIdTemp = myToken?.UserInfo?.userData?.userData?.userId;
+        const foundSenderUserIdLean: IUser | null = await User.findOne({_id: senderUserIdTemp}).lean();
 
-
-
-
-        let departmentTicketChange = false
-        let userTicketChange = false;
-        if (!department && !user) {
-            res.status(406).json({
-                message: 'باید حتما  نام  یا دپارتمان را انخاب کنید.',
+        if (!foundSenderUserIdLean) {
+            res.status(500).json({
+                message: 'کاربر یافت نشد!',
             });
             return
         }
+        const senderUserId = foundSenderUserIdLean?._id
 
-        if (department !== '') {
-            const departmentId = department
-            const myList = await Promise.all(tickets.map(async (singleTicket: ITicket) => {
+        const resultOfTask = await forwardTicket({
+            ticketArray: tickets,
+            departmentId: department,
+            userId: user,
+            senderUserId
+        })
 
-                const row: any = {...singleTicket};
-                const ticketFound: ITicket = (await Ticket.findOne({_id: row._id}).exec())!;
-                ticketFound.assignedToDepartmentId = departmentId
-                if (user !== '') {
-                    ticketFound.assignToUserId = user
-                }
-                return await ticketFound.save();
-            }));
-            departmentTicketChange = true;
-        }
-
-
-        if (user !== '') {
-
-
-            const foundUser: IUser | null = await User.findOne({_id: user}).exec();
-            // نکته مهم: توی یوزر  تیکت آیدی ها رو به صورت استرینگی ذخیره میکنم
-            if (foundUser) {
-                const currentTickets = foundUser.tickets || []; // Ensure there's an array to work with
-                const newTickets = req.body.tickets || []; // Assuming req.body.tickets contains the new tickets to add
-
-                const newTicketsForDataBase = newTickets.map((row: { _id: any; }) => {
-
-                    //const ticketId = typeof row._id === 'string' ? new mongoose.Types.ObjectId(row._id) : row._id;
-                    const ticketId = typeof row._id === 'string' ? row._id : row._id.toString();
-
-
-                    return {
-                        ticketId,
-                        readStatus: false,
-                    }
-                })
-
-
-                //const uniqueTickets = new Set([...currentTickets, ...newTickets]);
-
-                const allTickets = [...currentTickets, ...newTicketsForDataBase];
-
-
-                const uniqueTickets: {
-                    ticketId: string;
-                    readStatus: boolean;
-                }[] = [];
-
-                allTickets.forEach((row, index) => {
-                    const rowTicketId = row.ticketId?.toString()
-
-                    // یه تیکت از بین همه تیکت ها دارم.
-
-                    // اول نگاه میکنم اگه توی یونیک تیکت نبود باید بررسی کنم.
-                    //اگه توی  یونیک تیکت بود که نیاز به بررسی نداره چون قبلا واسش وقت گذاشتیم
-                    const isItInUniqueTickets = uniqueTickets.find(sr => sr?.ticketId?.toString === rowTicketId);
-
-
-                    // اگه توی یونیک تیکت نبود.
-                    if (!isItInUniqueTickets) {
-                        const isItInNewTickets = newTicketsForDataBase.find((sr: {
-                            ticketId: { toString: () => any; };
-                        }) => sr.ticketId?.toString() === rowTicketId)
-
-                        // میریم نگاه میکنیم آیا توی تیکت های  جدید هست؟
-                        // اگه توی تیکت های جدید بود ادد میکنم توی آرایه یونیک
-
-                        // make sure row._id  is an ObjectId
-                        //const rowId = typeof row._id === 'string' ? new mongoose.Types.ObjectId(row._id) : row._id;
-                        debugger
-                        const rowId = typeof row.ticketId === 'string' ? row.ticketId : row?.ticketId?.toString();
-                        if (!!isItInNewTickets) {
-                            uniqueTickets.push({
-                                ticketId: rowId,
-                                readStatus: false,
-                            })
-                        } else {
-                            //  اگه توی تیکت های جدید نبود. به صورت خوانده شده ادد میکنم توی آرایه یونیک
-                            uniqueTickets.push({
-                                ticketId: rowId,
-                                readStatus: true,
-                            })
-                        }
-                    }
-                })
-                debugger
-
-                // اینجا باید بردارم  براساس تیکت آ دی  و وضهیت خوانده شدن یونیک کنم
-
-
-                foundUser.tickets = Array.from(uniqueTickets)
-
-
-                const result = await foundUser.save(); // Save the updated user document
-            }
-            userTicketChange = true
-        }
-
-        const message = (userTicketChange && departmentTicketChange) ?
-            'سفارش های کاربر و دپارتمان ارجاع شد.' :
-            departmentTicketChange ?
-                'سفارش های دپارتمان ارجاع شد' :
-                userTicketChange ?
-                    'سفارش های کاربر ارجاع شد' :
-                    'هیچ تغییری انجام نشد!!!!!☹️';
         res.status(200).json({
-            message
+            message: "ارجاع شد.",
         });
         return
 
