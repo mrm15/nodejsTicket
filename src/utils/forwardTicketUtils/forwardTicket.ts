@@ -21,7 +21,7 @@ const forwardTicket = async ({ticketArray, departmentId, userId, senderUserId}: 
 
     return {
         status: true,
-        message: "تیکت ها با موفقیت ارجاع شدند"
+        message: "تیکت با موفقیت ارجاع شد"
     }
 }
 export default forwardTicket
