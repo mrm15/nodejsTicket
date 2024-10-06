@@ -2,8 +2,8 @@ import {ITicket, Ticket} from "../../models/ticket";
 
 interface IInput {
     ticketArray: ITicket[];
-    departmentId: string|null;
-    userId: string|null;
+    departmentId: string | null;
+    userId: string | null;
 }
 
 const changeTicketsDepartmentAndUser = async ({
@@ -18,10 +18,9 @@ const changeTicketsDepartmentAndUser = async ({
         const ticketFound: ITicket = (await Ticket.findOne({_id: row._id}).exec())!;
         // @ts-ignore
         ticketFound.assignedToDepartmentId = departmentId
-        if (userId !== '') {
-            // @ts-ignore
-            ticketFound.assignToUserId = userId
-        }
+        // @ts-ignore
+        ticketFound.assignToUserId = userId || null
+
         const resultTask = await ticketFound.save();
         return !!resultTask
     }))
