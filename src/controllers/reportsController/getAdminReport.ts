@@ -1,20 +1,7 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {calculateTodayReport} from "../../utils/calculateTodayReport";
-
-import {destinationPhoneNumberArray} from "../../utils/cronFunctions/destinationPhoneNumber";
-import {logEvents} from "../../utils/logEvents";
-import {sendReportDaySMSToSomeOfUsers} from "../../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
-import {makeTitleData} from "./getAdminReportFunctions/makeTitleData";
 import {getBillsDataFromHesabfa} from "./getAdminReportFunctions/getBillsDataFromHesabfa";
-import {formatDateForBackend} from "../../utils/functions";
 import {getHeaderAndRowsDetails} from "../utility/hesabfa/functions";
-import {makeDetailData} from "./getAdminReportFunctions/makeDetailData";
-import {calculatePivotByTotalArray} from "./getAdminReportFunctions/calculatePivotByTotalArray";
-import {basteBandiCounter} from "./getAdminReportFunctions/basteBandi";
-import {calculatePivotById} from "../../utils/ReportsUtils/reportFunctions/calculatePivotById";
-import detailReportArray from "../../utils/ReportsUtils/AdminReportUtils/detailReportArray";
-import {makeTreeView} from "../../utils/ReportsUtils/AdminReportUtils/makeTreeView";
 import makeDataObject from "../../utils/ReportsUtils/reportFunctions/makeDataObject";
 
 
