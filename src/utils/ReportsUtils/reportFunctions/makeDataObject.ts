@@ -1,7 +1,7 @@
 import {calculateSingleObject} from "./calculatePivotById";
 import productsObject from "../Constant/productsObject";
 
-const myKey = "myItemName"
+const myKey = "myItemCode"
 const sumKey = "myTotalAmount"
 const countKey = "myQuantity";
 
@@ -130,7 +130,8 @@ const makeDataObject = ({totalData}: any) => {
         id: "6",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000069",
+            "000156",
         ]
     })
     const PUNCH_SADE = calculateSingleObject(totalData, {
@@ -138,7 +139,8 @@ const makeDataObject = ({totalData}: any) => {
         id: "7",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000069",
+
         ]
     })
 
@@ -147,7 +149,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "8",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000156",
         ]
     })
     const VARAQ_ESTIL_KOLLI = calculateSingleObject(totalData, {
@@ -155,7 +157,23 @@ const makeDataObject = ({totalData}: any) => {
         id: "9",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000083",
+            "000084",
+            "000155",
+            "000160",
+            "000161",
+            "000162",
+            "000163",
+            "000164",
+            "000165",
+            "000166",
+            "000167",
+            "000168",
+            "000169",
+            "000170",
+            "000171",
+            "000172",
+
         ]
     })
     const VARAQ_ESTIL_TALAII_AYINEI = calculateSingleObject(totalData, {
@@ -163,7 +181,9 @@ const makeDataObject = ({totalData}: any) => {
         id: "10",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000083",
+            "000084",
+
 
         ]
     })
@@ -172,7 +192,9 @@ const makeDataObject = ({totalData}: any) => {
         id: "11",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000155",
+            "000160"
+
         ]
     })
     const VARAQ_ESTIL_NOQREI_AYINEI = calculateSingleObject(totalData, {
@@ -180,7 +202,9 @@ const makeDataObject = ({totalData}: any) => {
         id: "12",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000161",
+            "000162"
+
         ]
     })
     const VARAQ_ESTIL_NOQREI_KHASHDAR = calculateSingleObject(totalData, {
@@ -188,7 +212,9 @@ const makeDataObject = ({totalData}: any) => {
         id: "13",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000163",
+            "000164"
+
         ]
     })
 
@@ -197,7 +223,8 @@ const makeDataObject = ({totalData}: any) => {
         id: "14",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000169",
+            "000170",
         ]
     })
     const VARAQ_ESTIL_MESI_KHASHDAR = calculateSingleObject(totalData, {
@@ -205,24 +232,29 @@ const makeDataObject = ({totalData}: any) => {
         id: "15",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000171",
+            "000172",
         ]
     })
 
     const VARAQ_ESTIL_DOODI_AYINEI = calculateSingleObject(totalData, {
-        caption: "دوغی آیینه ای",
+        caption: "دودی آیینه ای",
         id: "16",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000165",
+            "000166"
+
         ]
     })
     const VARAQ_ESTIL_DOODI_KHASHDAR = calculateSingleObject(totalData, {
-        caption: "دوغی خشدار",
+        caption: "دودی خشدار",
         id: "17",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000167",
+            "000168",
+
         ]
     })
 
@@ -231,7 +263,13 @@ const makeDataObject = ({totalData}: any) => {
         id: "18",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000001",
+            "000250",
+            "000394",
+            "000432",
+            "000453",
+            "000471",
+            "000557",
         ]
     })
 
@@ -240,16 +278,56 @@ const makeDataObject = ({totalData}: any) => {
         id: "19",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000001",
         ]
     })
 
-    const VARAQ_AHAN_7MILL = calculateSingleObject(totalData, {
-        caption: "ورق آهن هفت میل",
+    const VARAQ_AHAN_1_5_MILL = calculateSingleObject(totalData, {
+        caption: "ورق آهن 1.5 میل",
         id: "20",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000250",
+        ]
+    })
+    const VARAQ_AHAN_0_8_MILL = calculateSingleObject(totalData, {
+        caption: "ورق آهن 0.8 میل",
+        id: "20",
+        ...keys,
+        filterIdForPivot: [
+            "000394",
+        ]
+    })
+    const VARAQ_AHAN_1_25_MILL = calculateSingleObject(totalData, {
+        caption: "ورق آهن 1.25 میل",
+        id: "20",
+        ...keys,
+        filterIdForPivot: [
+            "000432",
+        ]
+    })
+    const VARAQ_AHAN_1_25_MILL__BOLAND = calculateSingleObject(totalData, {
+        caption: "ورق آهن 1.25 میل بلند",
+        id: "20",
+        ...keys,
+        filterIdForPivot: [
+            "000453",
+        ]
+    })
+    const VARAQ_AHAN_2_MILL = calculateSingleObject(totalData, {
+        caption: "ورق آهن 2 میل",
+        id: "20",
+        ...keys,
+        filterIdForPivot: [
+            "000471",
+        ]
+    })
+    const VARAQ_AHAN_0_5_MILL = calculateSingleObject(totalData, {
+        caption: "ورق آهن 0.5 میل",
+        id: "20",
+        ...keys,
+        filterIdForPivot: [
+            "000557",
         ]
     })
 
@@ -258,7 +336,20 @@ const makeDataObject = ({totalData}: any) => {
         id: "21",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000479",
+            "000480",
+            "000481",
+            "000482",
+            "000483",
+            "000484",
+            "000485",
+            "000486",
+            "000487",
+            "000488",
+            "000489",
+            "000490",
+            "000491",
+            "000492",
         ]
     })
     const NEON_FELAX_SEFID_YAKHI = calculateSingleObject(totalData, {
@@ -266,15 +357,15 @@ const makeDataObject = ({totalData}: any) => {
         id: "22",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000479",
         ]
     })
     const NEON_FELAX_ABI_FIROOZEI_ZIMEMSI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس آبی فیروزه ای -زیمنسی",
+        caption: "نئون فلکس آبی فیروزه ای یا آسمانی",
         id: "23",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000485",
         ]
     })
     const NEON_FELAX_QERMEZ = calculateSingleObject(totalData, {
@@ -282,7 +373,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "24",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000481",
         ]
     })
     const NEON_FELAX_AFTABI = calculateSingleObject(totalData, {
@@ -290,23 +381,16 @@ const makeDataObject = ({totalData}: any) => {
         id: "25",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000480",
         ]
     })
-    const NEON_FELAX_ABI_ASEMANI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس آبی آسمانی",
-        id: "26",
-        ...keys,
-        filterIdForPivot: [
-            "=",
-        ]
-    })
+
     const NEON_FELAX_BANAFSH = calculateSingleObject(totalData, {
         caption: "نئون فلکس بنفش",
         id: "27",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000490",
         ]
     })
     const NEON_FELAX_ANBEI = calculateSingleObject(totalData, {
@@ -314,7 +398,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "27",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000483",
         ]
     })
     const NEON_FELAX_LIMOOI = calculateSingleObject(totalData, {
@@ -322,16 +406,24 @@ const makeDataObject = ({totalData}: any) => {
         id: "28",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000484",
         ]
     })
 
-    const NEON_FELAX_SABZ = calculateSingleObject(totalData, {
-        caption: "نئون فلکس سبز",
+    const NEON_FELAX_SABZ_ZIMENSI = calculateSingleObject(totalData, {
+        caption: "نئون فلکس سبز زیمنسی",
         id: "29",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000487",
+        ]
+    })
+    const NEON_FELAX_SABZ_CHAMANI = calculateSingleObject(totalData, {
+        caption: "نئون فلکس سبز چمنی",
+        id: "29",
+        ...keys,
+        filterIdForPivot: [
+            "000488",
         ]
     })
     const NEON_FELAX_SOORATI = calculateSingleObject(totalData, {
@@ -339,7 +431,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "30",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000482",
         ]
     })
     const NEON_FELAX_KARBONI = calculateSingleObject(totalData, {
@@ -347,7 +439,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "31",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000486",
         ]
     })
 
@@ -356,7 +448,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "32",
         ...keys,
         filterIdForPivot: [
-            "=",
+            "000489",
         ]
     })
 
@@ -370,19 +462,46 @@ const makeDataObject = ({totalData}: any) => {
             "000014",
             "000015",
             "000016",
-            "000017\n",
-            "000018\n",
-            "000019\n",
+            "000017",
+            "000018",
+            "000019",
+            "000020",
+            "000021",
+            "000022",
+            "000023",
+            "000024",
+            "000025",
+            "000026",
+            "000027",
+            "000028",
+            "000029",
+            "000030",
+            "000031",
+            "000129",
+            "000130",
+            "000364",
+            "000370",
+            "000387",
+            "000458",
+            "000619",
+            "000621",
+            //// فقط سوئدی ها
+            "000118",
+            "000119",
+            "000120",
+            "000121",
+            "000133",
+            "000134",
+            "000135",
+            "000136",
+            "000372",
+            "000376",
+            "000382",
 
-            "000020\n" ,
-            "000364\n",
 
-            "0000000000000",
-            "0000000000000",
-            "0000000000000",
-            "0000000000000",
-            "0000000000000",
-        ]
+        ],
+        bgColor:"#989898",
+        textColor:"black",
     })
 
     const CHALENIUM_ONLY = calculateSingleObject(totalData, {
@@ -390,7 +509,36 @@ const makeDataObject = ({totalData}: any) => {
         id: "34",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000011",
+            "000012",
+            "000014",
+            "000015",
+            "000016",
+            "000017",
+            "000018",
+            "000019",
+            "000020",
+            "000021",
+            "000022",
+            "000023",
+            "000024",
+            "000025",
+            "000026",
+            "000027",
+            "000028",
+            "000029",
+            "000030",
+            "000031",
+            "000129",
+            "000130",
+            "000364",
+            "000370",
+            "000387",
+            "000458",
+            "000619",
+            "000621",
+
+
         ]
     })
 
@@ -399,7 +547,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "35",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000011",
         ]
     })
     const CHALENIUM_LABE_NOQREI_9SANT_SADE = calculateSingleObject(totalData, {
@@ -407,7 +555,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "36",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000020",
         ]
     })
 
@@ -416,7 +564,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "37",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000012",
         ]
     })
     const CHALENIUM_LABE_NOQREI_9_SANT_PANCH = calculateSingleObject(totalData, {
@@ -424,7 +572,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "38",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000021",
         ]
     })
 
@@ -433,7 +581,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "39",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000019",
         ]
     })
 
@@ -442,7 +590,24 @@ const makeDataObject = ({totalData}: any) => {
         id: "40",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000022",
+        ]
+    })
+    const CHALENIUM_NOQREI_7_SANT_0_4 = calculateSingleObject(totalData, {
+        caption: "چلنیوم نقره ای چهاردهم 7سانت",
+        id: "46",
+        ...keys,
+        filterIdForPivot: [
+            "000129",
+        ]
+    })
+    const CHALENIUM_NOQREI_9_SANT_0_4 = calculateSingleObject(totalData, {
+        caption: "چلنیوم نقره ای چهاردهم 9سانت",
+        id: "46",
+        ...keys,
+        filterIdForPivot: [
+            "000130",
+            "000364"
         ]
     })
 
@@ -454,7 +619,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "41",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000025",
         ]
     })
     const CHALENIUM_LABE_TALAII_9SANT_SADE = calculateSingleObject(totalData, {
@@ -462,7 +627,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "42",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000024",
         ]
     })
 
@@ -471,7 +636,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "43",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000027",
         ]
     })
     const CHALENIUM_LABE_TALAII_9_SANT_PANCH = calculateSingleObject(totalData, {
@@ -479,7 +644,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "44",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000026",
         ]
     })
 
@@ -488,7 +653,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "45",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000023",
         ]
     })
 
@@ -497,9 +662,10 @@ const makeDataObject = ({totalData}: any) => {
         id: "46",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000028",
         ]
     })
+
 
     ///////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -509,7 +675,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "47",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000016",
         ]
     })
     const CHALENIUM_LABE_MESHKI_9SANT_SADE = calculateSingleObject(totalData, {
@@ -517,7 +683,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "48",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000015",
         ]
     })
 
@@ -526,7 +692,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "49",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000018",
         ]
     })
     const CHALENIUM_LABE_MESHKI_9_SANT_PANCH = calculateSingleObject(totalData, {
@@ -534,7 +700,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "50",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000017",
         ]
     })
 
@@ -543,7 +709,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "51",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000014",
         ]
     })
 
@@ -557,7 +723,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "47",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000030",
         ]
     })
     const CHALENIUM_LABE_SEFID_9SANT_SADE = calculateSingleObject(totalData, {
@@ -565,7 +731,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "48",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000029",
         ]
     })
 
@@ -574,7 +740,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "49",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000387",
         ]
     })
     const CHALENIUM_LABE_SEFID_9_SANT_PANCH = calculateSingleObject(totalData, {
@@ -582,7 +748,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "50",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000031",
         ]
     })
 
@@ -591,7 +757,23 @@ const makeDataObject = ({totalData}: any) => {
         id: "51",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000458",
+        ]
+    })
+    const CHALENIUM_QERMEZ_7_SANT_SADE = calculateSingleObject(totalData, {
+        caption: "چلنیوم قرمز 7 سانت ساده ",
+        id: "46",
+        ...keys,
+        filterIdForPivot: [
+            "000621",
+        ]
+    })
+    const CHALENIUM_QERMEZ_9_SANT_SADE = calculateSingleObject(totalData, {
+        caption: "چلنیوم قرمز 9 سانت ساده ",
+        id: "46",
+        ...keys,
+        filterIdForPivot: [
+            "000619",
         ]
     })
 
@@ -603,23 +785,33 @@ const makeDataObject = ({totalData}: any) => {
         id: "52",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000118",
+            "000119",
+            "000120",
+            "000121",
+            "000133",
+            "000134",
+            "000135",
+            "000136",
+            "000372",
+            "000376",
+            "000382",
         ]
     })
     const SUEDI_LABE_NOQREI_5_SANT_BARRAT = calculateSingleObject(totalData, {
-        caption: "سوئدی لبه نقره ای 5 سانت براق",
+        caption: "سوئدی لبه نقره ای 5 سانت آیینه ای",
         id: "53",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000576",
         ]
     })
     const SUEDI_LABE_NOQREI_7_SANT_BARRAT = calculateSingleObject(totalData, {
-        caption: "سوئدی لبه نقره ای 7 سانت براق",
+        caption: "سوئدی لبه نقره ای 7 سانت آیینه ای",
         id: "54",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000372",
         ]
     })
     const SUEDI_LABE_NOQREI_5_SANT_KHASHDAR = calculateSingleObject(totalData, {
@@ -627,7 +819,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "55",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000133",
         ]
     })
     const SUEDI_LABE_NOQREI_7_SANT_KHASHDAR = calculateSingleObject(totalData, {
@@ -635,24 +827,24 @@ const makeDataObject = ({totalData}: any) => {
         id: "56",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000134",
         ]
     })
     ////////////////////////
-    const SUEDI_LABE_TALAII_5_SANT_BARRAT = calculateSingleObject(totalData, {
-        caption: "سوئدی لبه طلایی 5 سانت براق",
-        id: "57",
-        ...keys,
-        filterIdForPivot: [
-            "",
-        ]
-    })
+    // const SUEDI_LABE_TALAII_5_SANT_BARRAT = calculateSingleObject(totalData, {
+    //     caption: "سوئدی لبه طلایی 5 سانت آیینه ای - تو حسابفا نیست",
+    //     id: "57",
+    //     ...keys,
+    //     filterIdForPivot: [
+    //         "فعلا نداریم موجود هم نمیشه",
+    //     ]
+    // })
     const SUEDI_LABE_TALAII_7_SANT_BARRAT = calculateSingleObject(totalData, {
-        caption: "سوئدی لبه طلایی 7 سانت براق",
+        caption: "سوئدی لبه طلایی 7 سانت آیینه ای",
         id: "58",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000382",
         ]
     })
     const SUEDI_LABE_TALAII_5_SANT_KHASHDAR = calculateSingleObject(totalData, {
@@ -660,7 +852,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "59",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000120",
         ]
     })
     const SUEDI_LABE_TALAII_7_SANT_KHASHDAR = calculateSingleObject(totalData, {
@@ -668,7 +860,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "60",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000121",
         ]
     })
     ////////////////////////////////////////////
@@ -677,7 +869,7 @@ const makeDataObject = ({totalData}: any) => {
         id: "61",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000118",
         ]
     })
     const SUEDI_LABE_MESHKI_7_SANT = calculateSingleObject(totalData, {
@@ -685,7 +877,105 @@ const makeDataObject = ({totalData}: any) => {
         id: "62",
         ...keys,
         filterIdForPivot: [
-            "",
+            "000119",
+        ]
+    })
+
+
+    const SUEDI_LABE_SEFID_5_SANT = calculateSingleObject(totalData, {
+        caption: "سوئدی لبه سفید 5 سانت ",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000135",
+        ]
+    })
+    const SUEDI_LABE_SEFID_7_SANT = calculateSingleObject(totalData, {
+        caption: "سوئدی لبه سفید 7 سانت ",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000136",
+        ]
+    })
+    const SUEDI_LABE_MAX = calculateSingleObject(totalData, {
+        caption: "سوئدی لبه مکس ",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000376",
+        ]
+    })
+
+
+
+    const NEON_PLASTIC = calculateSingleObject(totalData, {
+        caption: "نئون پلاستیک",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000105",
+            "000106",
+            "000107",
+            "000108",
+            "000109",
+            "000110",
+            "000111",
+            "000112",
+            "000113",
+            "000114",
+            "000115",
+
+        ]
+    })
+
+    const JOOSH_FIBER = calculateSingleObject(totalData, {
+        caption: "جوش فایبر",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000381" ,
+            "000435",
+        ]
+    })
+
+    const SUM_FELEZAT = calculateSingleObject(totalData, {
+        caption: "جمع فلزات",
+        id: "62",
+        ...keys,
+        bgColor:"#989898",
+        textColor:"black",
+        filterIdForPivot: [
+            // VARAQ_ESTIL_KOLLI.filterIdForPivot
+            "000083",
+            "000084",
+            "000155",
+            "000160",
+            "000161",
+            "000162",
+            "000163",
+            "000164",
+            "000165",
+            "000166",
+            "000167",
+            "000168",
+            "000169",
+            "000170",
+            "000171",
+            "000172",
+            // VARAQ_AHAN_KOLLI
+            "000001",
+            "000250",
+            "000394",
+            "000432",
+            "000453",
+            "000471",
+            "000557",
+        //
+
+
+
+
         ]
     })
 
@@ -699,19 +989,23 @@ const makeDataObject = ({totalData}: any) => {
                 ...SUEDI_KOLLI,
             },
             {
+                ...CHALENIUM_ONLY,
+            },
+            {
                 ...CHALENIUM_SUEDI_KOLI,
             },
 
         ],
         [
             {
-                title: "نئون پلاستیک ",
-                value: "نداریم",
+                // title: "نئون پلاستیک ",
+                // value: "نداریم",
+                ...NEON_PLASTIC
             }
         ],
         [
             {
-               ...NEON_FELAX_KOLLI
+                ...NEON_FELAX_KOLLI
             }
         ],
         [
@@ -722,13 +1016,11 @@ const makeDataObject = ({totalData}: any) => {
                 ...VARAQ_AHAN_KOLLI
             },
             {
-                title: "جوش فایبر",
-                value: "نداریم",
+                ...JOOSH_FIBER
             },
             {
-            title: "جمع کل فلزات ",
-            value: "نداریم",
-        },
+               ...SUM_FELEZAT
+            },
         ],
 
 
@@ -863,7 +1155,32 @@ const makeDataObject = ({totalData}: any) => {
                 {
                     // title: 'ورق آهن هفت میل',
                     // value: '120',
-                    ...VARAQ_AHAN_7MILL,
+                    ...VARAQ_AHAN_1_5_MILL,
+                },
+                {
+                    // title: 'ورق آهن 0.8 میل',
+                    // value: '120',
+                    ...VARAQ_AHAN_0_8_MILL,
+                },
+                {
+                    // title: 'ورق آهن 1.25 میل',
+                    // value: '120',
+                    ...VARAQ_AHAN_1_25_MILL,
+                },
+                {
+                    // title: 'ورق آهن 1.25 میل دراز و بلند',
+                    // value: '120',
+                    ...VARAQ_AHAN_1_25_MILL__BOLAND,
+                },
+                {
+                    // title: 'ورق آهن 2 میل',
+                    // value: '120',
+                    ...VARAQ_AHAN_2_MILL,
+                },
+                {
+                    // title: 'ورق آهن نیم میل',
+                    // value: '120',
+                    ...VARAQ_AHAN_0_5_MILL,
                 },
             ]
         },
@@ -901,9 +1218,9 @@ const makeDataObject = ({totalData}: any) => {
 
                 },
                 {
-                    // title: 'آبی آسمانی',
+                    // title: 'آبی فیروزه ای زیمنسی',
                     // value: '120',
-                    ...NEON_FELAX_ABI_ASEMANI
+                    ...NEON_FELAX_ABI_FIROOZEI_ZIMEMSI
 
 
                 },
@@ -929,7 +1246,13 @@ const makeDataObject = ({totalData}: any) => {
                 {
                     // title: 'سبز',
                     // value: '120',
-                    ...NEON_FELAX_SABZ
+                    ...NEON_FELAX_SABZ_ZIMENSI
+
+                },
+                {
+                    // title: 'سبز',
+                    // value: '120',
+                    ...NEON_FELAX_SABZ_CHAMANI
 
                 },
                 {
@@ -998,9 +1321,18 @@ const makeDataObject = ({totalData}: any) => {
 
                         },
                         {
-                            // title: "لبه نقره ای سنتی",
-                            // value: "120",
+
                             ...CHALENIUM_LABE_NOQREI_SONNATI,
+
+
+                        }, {
+
+                            ...CHALENIUM_NOQREI_7_SANT_0_4,
+
+
+                        }, {
+
+                            ...CHALENIUM_NOQREI_9_SANT_0_4,
 
 
                         },
@@ -1086,24 +1418,20 @@ const makeDataObject = ({totalData}: any) => {
 
                         },
                         {
-                            // title: "لبه سفید 7 سانت پانچ",
-                            // value: "120",
                             ...CHALENIUM_LABE_SEFID_7_SANT_PANCH,
-
-
                         },
                         {
-                            // title: "لبه سفید 9 سانت پانچ",
-                            // value: "120",
                             ...CHALENIUM_LABE_SEFID_9_SANT_PANCH
-
                         },
                         {
-                            // title: "لبه بنفش 9 سانت ساده",
-                            // value: "120",
                             ...CHALENIUM_LABE_BANAFSH_9SANT_SADE,
 
+                        }, {
+                            ...CHALENIUM_QERMEZ_7_SANT_SADE,
 
+
+                        }, {
+                            ...CHALENIUM_QERMEZ_9_SANT_SADE,
                         },
                     ]
                 },
@@ -1139,13 +1467,7 @@ const makeDataObject = ({totalData}: any) => {
 
 
                         },
-                        {
-                            // title: "لبه طلایی 5 سانت براق",
-                            // value: "120",
-                            ...SUEDI_LABE_TALAII_5_SANT_BARRAT,
 
-
-                        },
                         {
                             // title: "لبه طلایی ای 7 سانت براق",
                             // value: "120",
@@ -1176,9 +1498,11 @@ const makeDataObject = ({totalData}: any) => {
                             // title: "لبه مشکی 7 سانت",
                             // value: "120",
                             ...SUEDI_LABE_MESHKI_7_SANT,
-
-
                         },
+                        {...SUEDI_LABE_SEFID_5_SANT},
+                        {...SUEDI_LABE_SEFID_7_SANT},
+                        {...SUEDI_LABE_MAX},
+
 
                     ]
                 },
