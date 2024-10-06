@@ -8,14 +8,15 @@ interface ITicketAssignment extends Document {
     assignedToDepartmentId: mongoose.Schema.Types.ObjectId | null; // شناسه‌ی دپارتمانی که تیکت به آن تخصیص داده شده (اختیاری، اگر به کاربر تخصیص داده شود)
     assignedBy: mongoose.Schema.Types.ObjectId; // شناسه‌ی ادمینی که تیکت را تخصیص داده
     assignDate: Date; // تاریخ و زمان تخصیص تیکت
-    readTicket: boolean; // وضعیت خوانده یا نخوانده بودن تیکت
     readDate: Date | null; // تاریخی که تیکت توسط کاربر خوانده شده (یا null اگر هنوز خوانده نشده)
+    readStatus: boolean; // وضعیت خوانده یا نخوانده بودن تیکت
     numberOfAssign: number; // تعداد دفعاتی که این تیکت به کاربر تخصیص داده شده
     assignmentType: 'user' | 'department'; // نوع تخصیص (به کاربر یا دپارتمان)
-    readStatus: 'unread' | 'read'; // وضعیت خوانده یا نخوانده بودن تیکت
+    isDeletedForUser: boolean; // If user deleted it from their inbox
+    isDeletedForForwarder: boolean; // If forwarder deleted it from forwarded list
+
     createdAt: Date; // تاریخ ایجاد رکورد تخصیص
     updatedAt: Date; // تاریخ آخرین به‌روزرسانی رکورد
-    activityLog: Array<{ action: string; performedBy: mongoose.Schema.Types.ObjectId; timestamp: Date }>; // لاگ فعالیت‌ها که شامل تاریخچه اقدامات انجام شده روی تیکت است
 }
 
 // تعریف اسکیمای (schema) TicketAssignment
@@ -45,7 +46,7 @@ const ticketAssignmentSchema: Schema<ITicketAssignment> = new mongoose.Schema({
         type: Date,
         default: Date.now, // مقدار پیش‌فرض تاریخ و زمان تخصیص، زمان حال است
     },
-    readTicket: {
+    readStatus: {
         type: Boolean,
         default: false, // پیش‌فرض این است که تیکت خوانده نشده است
     },
@@ -62,11 +63,7 @@ const ticketAssignmentSchema: Schema<ITicketAssignment> = new mongoose.Schema({
         enum: ['user', 'department'], // تعیین نوع تخصیص (یا به کاربر یا به دپارتمان)
         required: true, // این فیلد الزامی است
     },
-    readStatus: {
-        type: String,
-        enum: ['unread', 'read'], // وضعیت خوانده یا نخوانده بودن تیکت
-        default: 'unread', // پیش‌فرض، وضعیت نخوانده است
-    },
+
     createdAt: {
         type: Date,
         default: Date.now, // تاریخ و زمان ایجاد رکورد (پیش‌فرض، زمان حال)
@@ -75,23 +72,6 @@ const ticketAssignmentSchema: Schema<ITicketAssignment> = new mongoose.Schema({
         type: Date,
         default: Date.now, // تاریخ و زمان آخرین به‌روزرسانی رکورد (پیش‌فرض، زمان حال)
     },
-    activityLog: [
-        {
-            action: {
-                type: String, // نوع اقدام انجام شده (مثل assigned, status_changed)
-                required: true, // این فیلد الزامی است
-            },
-            performedBy: {
-                type: mongoose.Schema.Types.ObjectId, // شناسه‌ی کسی که این اقدام را انجام داده (مثل ادمین یا کاربر)
-                // ref: 'Admin', // اشاره به مجموعه‌ی Admin
-                required: true, // این فیلد الزامی است
-            },
-            timestamp: {
-                type: Date, // تاریخ و زمان اقدام انجام شده
-                default: Date.now, // پیش‌فرض، زمان حال
-            },
-        },
-    ],
 });
 
 // ایندکس گذاری برای بهینه‌سازی کوئری‌ها
@@ -102,7 +82,6 @@ ticketAssignmentSchema.index({ assignedToUserId: 1 }); // ایندکس برای 
 ticketAssignmentSchema.index({ assignedToDepartmentId: 1 }); // ایندکس برای جستجو بر اساس شناسه دپارتمان تخصیص داده شده
 ticketAssignmentSchema.index({ readTicket: 1 }); // ایندکس برای جستجو بر اساس وضعیت خوانده شدن تیکت
 ticketAssignmentSchema.index({ assignDate: -1 }); // ایندکس برای مرتب‌سازی تیکت‌ها بر اساس تاریخ تخصیص (نزولی: جدیدترین تیکت‌ها اول نمایش داده می‌شوند)
-ticketAssignmentSchema.index({ 'activityLog.action': 1 }); // ایندکس برای جستجو در لاگ فعالیت‌ها بر اساس نوع اقدام انجام شده
 
 // ایجاد و اکسپورت مدل TicketAssignment
 const TicketAssignment = mongoose.model<ITicketAssignment>('TicketAssignment', ticketAssignmentSchema);
