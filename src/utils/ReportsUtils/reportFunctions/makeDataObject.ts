@@ -1,5 +1,4 @@
 import {calculateSingleObject} from "./calculatePivotById";
-import productsObject from "../Constant/productsObject";
 
 const myKey = "myItemCode"
 const sumKey = "myTotalAmount"
@@ -910,7 +909,7 @@ const makeDataObject = ({totalData}: any) => {
 
 
     const NEON_PLASTIC = calculateSingleObject(totalData, {
-        caption: "نئون پلاستیک",
+        caption: "نئون پلاستیک (لبه)",
         id: "62",
         ...keys,
         filterIdForPivot: [
@@ -928,6 +927,107 @@ const makeDataObject = ({totalData}: any) => {
 
         ]
     })
+
+    const LABEH_PLASTIC_2 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 2 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000105",
+        ]
+    })
+
+    const LABEH_PLASTIC_3 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 3 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000106",
+        ]
+    })
+
+    const LABEH_PLASTIC_4 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 4 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000107",
+        ]
+    })
+
+    const LABEH_PLASTIC_5 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 5 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000108",
+        ]
+    })
+
+    const LABEH_PLASTIC_6 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 6 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000109",
+        ]
+    })
+
+    const LABEH_PLASTIC_7 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 7 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000110",
+        ]
+    })
+
+    const LABEH_PLASTIC_8 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 8 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000111",
+        ]
+    })
+
+    const LABEH_PLASTIC_9 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 9 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000112",
+        ]
+    })
+
+    const LABEH_PLASTIC_10 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 10 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000113",
+        ]
+    })
+
+    const LABEH_PLASTIC_11 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 11 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000114",
+        ]
+    })
+
+    const LABEH_PLASTIC_12 = calculateSingleObject(totalData, {
+        caption: "لبه پلاستیک 12 سانت",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000115",
+        ]
+    })
+
+
 
     const JOOSH_FIBER = calculateSingleObject(totalData, {
         caption: "جوش فایبر",
@@ -1508,8 +1608,51 @@ const makeDataObject = ({totalData}: any) => {
                 },
 
             ]
-        }
+        },
         ///////
+        {
+            // title: "پلاستیک کلی ",
+            // value: "120",
+            ...NEON_PLASTIC,
+
+            subItems: [
+                {
+                    ...LABEH_PLASTIC_2,
+                },
+                {
+                    ...LABEH_PLASTIC_3,
+                },
+                {
+                    ...LABEH_PLASTIC_4,
+                },
+                {
+                    ...LABEH_PLASTIC_5,
+                },
+                {
+                    ...LABEH_PLASTIC_6,
+                },
+                {
+                    ...LABEH_PLASTIC_7,
+                },
+                {
+                    ...LABEH_PLASTIC_8,
+                },
+                {
+                    ...LABEH_PLASTIC_9,
+                },
+                {
+                    ...LABEH_PLASTIC_10,
+                },
+                {
+                    ...LABEH_PLASTIC_11,
+                },
+                {
+                    ...LABEH_PLASTIC_12,
+                },
+
+
+            ]
+        }
 
     ]
 

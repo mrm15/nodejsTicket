@@ -69,7 +69,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         // const myPivotDataObject = calculatePivotById({totalData: temp11, myArray:detailReportArray })
         // const pivotAll = [...myPivotDataObject.pivotAll]
         // const tables = makeTables(pivotAll)
-        const dataWithObject = makeDataObject({totalData: temp11})
+        // const dataWithObject = makeDataObject({totalData: temp11})
         const dataObject = makeDataObject({totalData: temp11})
         res.status(200).json({
             // tables,
