@@ -19,8 +19,8 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
     try {
 
         const {filterItems} = req.body;
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        // const today = new Date();
+        // today.setHours(0, 0, 0, 0);
 
         const myData = {
             type: 0, // Only sales invoices (type 0)
@@ -45,6 +45,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
 
         const billsDataFromHesabfa = await getBillsDataFromHesabfa(myData)
+        //
 
 
         // const basteBandiCountObject = await basteBandiCounter(myData)
