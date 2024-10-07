@@ -14,7 +14,7 @@ interface IRole extends Document {
     statusListUpdate:Boolean;
     statusListDelete:Boolean;
     ticketCreate:Boolean; // ایجاد تیکت جدید
-    ticketReadAll:Boolean; // خواند همه ی تیکت ها برای ادمین
+    readAllTicketsInSystem:Boolean; // خواند همه ی تیکت ها برای ادمین
     ticketChatList:Boolean; // مشاهده چت لیست
     ticketReadOwn:Boolean; // خواندن تیکت هایی که خودم باز کردم و ایجاد کردم برای مشتریان
     ticketReadOwnReceived:Boolean; // تمام تیکت هایی که من توی مدل کاربر  در بخش تیکت بهشون دسترسی دارم
@@ -120,7 +120,7 @@ const roleSchema: Schema<IRole> = new Schema({
     statusListUpdate:{type:Boolean , default:false , required:true},
     statusListDelete:{type:Boolean , default:false , required:true},
     ticketCreate:{type:Boolean , default:false , required:true},
-    ticketReadAll:{type:Boolean , default:false , required:true},
+    readAllTicketsInSystem:{type:Boolean , default:false , required:true},
     ticketChatList:{type:Boolean , default:false , required:true},
     ticketReadOwn:{type:Boolean , default:false , required:true},
     ticketReadOwnReceived:{type:Boolean , default:false , required:true},

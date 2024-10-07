@@ -285,7 +285,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     },
     isActive: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     userStatus: {
         type: String, //   online offline busy  away

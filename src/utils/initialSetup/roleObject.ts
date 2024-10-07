@@ -5,7 +5,7 @@ export const roleObject = {
         statusListUpdate:true,
         statusListDelete:true,
         ticketCreate:true, // ایجاد تیکت جدید
-        ticketReadAll:true, // خواند همه ی تیکت ها برای ادمین
+        readAllTicketsInSystem:true, // خواند همه ی تیکت ها برای ادمین
         ticketChatList:true, // مشاهده چت لیست
         ticketReadOwn:true, // خواندن تیکت هایی که خودم باز کردم و ایجاد کردم برای مشتریان
         ticketReadOwnReceived:true, // تمام تیکت هایی که من توی مدل کاربر  در بخش تیکت بهشون دسترسی دارم
