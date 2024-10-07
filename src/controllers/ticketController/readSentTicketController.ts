@@ -7,6 +7,8 @@ import {ITicket, Ticket} from "../../models/ticket";
 import {IUser, User} from "../../models/User";
 import {timestampToTime} from "../../utils/timestampToTime";
 import {defineTable} from "../../utils/defineTable";
+import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
+import {convertIdsToName} from "../utility/convertTicketDataToName/convertIdsToName";
 
 
 const ReadSentTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -20,30 +22,48 @@ const ReadSentTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
 
 
     // res.status(201).json({myToken})
-    //
     // return
 
-
     try {
-        // خب اینجا من باید بر اساس اون توکنی که فرستاده متوجه بشم که این کدوم کاربره
-        const {phoneNumber} = myToken;
-        const foundUser: IUser | null = await User.findOne({phoneNumber});
-        if (!foundUser) {
-            res.status(409).json({message: 'کاربری شما وجود ندارد!'});
-            return
-        }
-        const userId = foundUser._id;
-        const mySentTickets = await Ticket.find({userId: userId}).lean()
-
-
-
-
-        const arrayListToCheck = [ACCESS_LIST.TICKET_READ_OWN]
-        const hasAccessToReadOwnTicket = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
-        if (!hasAccessToReadOwnTicket) {
+        // اگه کاربری به صفحه ی ثبت سفارش دسترسی داشته باشه به اینحا هم دسترسی داره
+        const arrayListToCheck = [ACCESS_LIST.TICKET_CREATE]
+        const hasAccessToTicketCreate = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
+        if (!hasAccessToTicketCreate) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
             return
         }
+
+        debugger
+        const myResult = await getDataCollection(req.body,Ticket);
+
+        // #1001 search 1001
+        const myResultAfterChange =await convertIdsToName(myResult)
+
+        res.status(200).json(myResultAfterChange);
+        return;
+
+    } catch (error: any) {
+
+        res.status(500).json({error:  error.toString() +  ' موردی در  دریافت اطلاعات رخ داد.'});
+        return
+    }
+
+
+    // try {
+    //     // خب اینجا من باید بر اساس اون توکنی که فرستاده متوجه بشم که این کدوم کاربره
+    //     const {phoneNumber} = myToken;
+    //     const foundUser: IUser | null = await User.findOne({phoneNumber});
+    //     if (!foundUser) {
+    //         res.status(409).json({message: 'کاربری شما وجود ندارد!'});
+    //         return
+    //     }
+        // const userId = foundUser._id;
+        // const mySentTickets = await Ticket.find({userId: userId}).lean()
+
+
+
+
+
 
 
 
@@ -87,21 +107,21 @@ const ReadSentTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         //
         // const rowData = [...myList]
 
-        const list = await defineTable({
-            req, conditionString: 'ReadSentTicketController',// readTicketController
-            ticketUserId: userId,
-        })
-
-        res.status(200).json({
-            list, message: 'لیست بارگزاری شد.',
-        });
-        return;
-
-    } catch (error:any) {
-
-        res.status(500).json({error:error.toString()});
-        return
-    }
+    //     const list = await defineTable({
+    //         req, conditionString: 'ReadSentTicketController',// readTicketController
+    //         ticketUserId: userId,
+    //     })
+    //
+    //     res.status(200).json({
+    //         list, message: 'لیست بارگزاری شد.',
+    //     });
+    //     return;
+    //
+    // } catch (error:any) {
+    //
+    //     res.status(500).json({error:error.toString()});
+    //     return
+    // }
 
 
 };
