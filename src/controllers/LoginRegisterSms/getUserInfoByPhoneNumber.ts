@@ -13,9 +13,7 @@ export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
 
         const roleAccessList = await getRoleAccessList(userPhoneNumber);
         const isDepartmentAdmin = await Department.findOne({managerUserId: foundUser._id}).exec();
-        if (isDepartmentAdmin) {
-            roleAccessList?.push('readDepartmentTickets')
-        }
+
 
 
         const {
@@ -65,6 +63,7 @@ export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
         }
 
         userInfo = {
+            isDepartmentAdmin:!!isDepartmentAdmin,
             roleAccessList,
             userData: {
                 userId,
