@@ -39,6 +39,7 @@ router.get('/statusList', ticketList);
 // Apply the filter middleware to these routes
 router.post('/read', filterMiddleware,readTicketController) // read all tickets for admin
 router.post('/readSentTickets', filterMiddleware,ReadSentTicketController) // read sentTickets List for example I sent a ticket
+//--------------------------------------------------
 router.post('/readMyAllTickets', filterMiddleware, readMyAllTicketsControllerPost) // read my tickets   from custom table With Read Status
 router.post('/readDepartmentTickets', filterMiddleware, readDepartmentTicketsController) // read department tickets
 
