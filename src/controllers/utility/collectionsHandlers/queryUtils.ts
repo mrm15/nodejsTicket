@@ -13,13 +13,21 @@ export interface SortOptions {
     [key: string]: 1 | -1;
 }
 
+// Define an interface for the result structure
+interface IPaginatedResults<T> {
+    results: Array<T & { rowNumber: number }>; // Each result will include the rowNumber
+    totalDocuments: number;
+    currentPage: number;
+    pageSize: number;
+}
+
 // Define default sorting options
 export const fetchPaginatedResults = async (
     model: Model<any>,
     filterObject: { [key: string]: any },
     paginationOptions: PaginationOptions,
     sortOptions?: SortOptions, // Make sortOptions optional
-) => {
+) : Promise<IPaginatedResults<any>> => {
 
 
     const {page, pageSize} = paginationOptions;
