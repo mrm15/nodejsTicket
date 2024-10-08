@@ -6,10 +6,10 @@ import {deleteTicketController} from "../../controllers/ticketController/deleteT
 import {ticketList} from "../../controllers/ticketController/ticketList";
 import {chatListTicketController} from "../../controllers/ticketController/chatListTicketController";
 import {ReadSentTicketController} from "../../controllers/ticketController/readSentTicketController";
-import {readMyAllTicketsController} from "../../controllers/ticketController/readMyAllTicketsController";
 import {readDepartmentTicketsController} from "../../controllers/ticketController/readDepartmentTicketsController";
 import {filterMiddleware} from "../../middleware/filterForSearchTickets/filterMiddleware";
 import {readMyAllTicketsControllerPost} from "../../controllers/ticketController/readMyAllTicketsControllerPost";
+import {readOutBoxAssignmentController} from "../../controllers/ticketController/readOutBoxAssignmentController";
 
 const router = express.Router();
 
@@ -42,8 +42,11 @@ router.post('/read', filterMiddleware,readTicketController) // read all tickets 
 router.post('/readSentTickets', filterMiddleware,ReadSentTicketController) // read sentTickets List for example I sent a ticket
 //--------------------------------------------------
 // router.post('/readMyAllTickets', filterMiddleware, readMyAllTicketsControllerPost) // read my tickets   from custom table With Read Status
-// ورودی دپارتمان
+// ورودی دپارتمان // read department tickets
+router.post('/readDepartmentTickets', filterMiddleware, readDepartmentTicketsController)
+// ارسالی ها
+router.post('/readDepartmentTickets', filterMiddleware, readOutBoxAssignmentController)
+// صندوق ورودی من
 
-router.post('/readDepartmentTickets', filterMiddleware, readDepartmentTicketsController) // read department tickets
 
 export default router;
