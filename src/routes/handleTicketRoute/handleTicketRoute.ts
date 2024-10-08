@@ -10,6 +10,8 @@ import {readDepartmentTicketsController} from "../../controllers/ticketControlle
 import {filterMiddleware} from "../../middleware/filterForSearchTickets/filterMiddleware";
 import {readMyAllTicketsControllerPost} from "../../controllers/ticketController/readMyAllTicketsControllerPost";
 import {readOutBoxAssignmentController} from "../../controllers/ticketController/readOutBoxAssignmentController";
+import {readInBoxAssignmentController} from "../../controllers/ticketController/readInBoxAssignmentController";
+import {readAllAssignmentController} from "../../controllers/ticketController/readAllAssignmentController";
 
 const router = express.Router();
 
@@ -45,8 +47,11 @@ router.post('/readSentTickets', filterMiddleware,ReadSentTicketController) // re
 // ورودی دپارتمان // read department tickets
 router.post('/readDepartmentTickets', filterMiddleware, readDepartmentTicketsController)
 // ارسالی ها
-router.post('/readDepartmentTickets', filterMiddleware, readOutBoxAssignmentController)
+router.post('/readMyForwardedTickets', filterMiddleware, readOutBoxAssignmentController)
 // صندوق ورودی من
+router.post('/readForwardedToMeTickets', filterMiddleware, readInBoxAssignmentController)
+// همه ی تیکت های ارجاعی برای مدیر
+router.post('/readAllAssignments', filterMiddleware, readAllAssignmentController)
 
 
 export default router;
