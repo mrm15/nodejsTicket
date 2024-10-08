@@ -3,9 +3,10 @@ export const myPermissionsArray = [
     "statusListRead",
     "statusListUpdate",
     "statusListDelete",
-    "ticketCreate",
-    "readAllTicketsInSystem",
-    "ticketChatList",
+
+    "ticketCreate", // دسترسی ایجاد تیکت
+    "readAllTicketsInSystem", // خواندن کل تیکت های سیتم
+    "ticketChatList", // مشاهده ی چت لیست بعد از کلیک روی گزینه ی مشاهده
     "ticketReadOwn",
     "readMyAllTickets",
     "ticketReadOwnReceived",
@@ -60,12 +61,15 @@ export const myPermissionsArray = [
     "howManyTicketsHasDoneStatus",
     "howManyTicketsHasDoneStatusIn12Month",
     "UnlimitedForward",
-    "forwardTickets",
+    "forwardTickets", // قابلیت ارجاع تیکت ها
+    "assignTicketsInbox", // مشاهده صندوق ورودی از توی جدول ارجاعات
+    "assignTicketsInboxCanDelete", // قابلیت حذف از توی جدول ارجاع های من توی صندوق ورودی
+    "assignTicketsOutBox", //  مشاهده ی صندوق خروجی - ارسالی هایی که من به دیگران ارجاع دادم
+    "assignTicketsOutBoxCanDelete", // قابلیت حذف از توی جدول ارجاع های من توی صندوق خروجی
+    "assignTicketsShowAll", // مشاهده ی کل جدول ارجاعات برای مدیر که بتونه کل تیکت های ارجاعی رو ببینه
     "adminSettings",
     "userStatusInDashboard",
     "sendHiddenMessage",
-    "smsArchive",
-    "smsPending",
     "smsSend",
     // حسابفا
     "showBillAccess",
