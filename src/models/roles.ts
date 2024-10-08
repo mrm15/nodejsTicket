@@ -52,6 +52,12 @@ interface IRole extends Document {
     ticketChangeHistoryRepliesUpdate:Boolean;
     ticketChangeHistoryDelete:Boolean;
     forwardTickets:Boolean;
+    assignTicketsInbox:Boolean;
+    assignTicketsInboxCanDelete:Boolean;
+    assignTicketsOutBox:Boolean;
+    assignTicketsOutBoxCanDelete:Boolean;
+    assignTicketsShowAll:Boolean;
+
     UnlimitedForward:Boolean;
     userCreate:Boolean;
     userReadAll:Boolean;
@@ -73,8 +79,6 @@ interface IRole extends Document {
     howManyTicketsHasDoneStatus:Boolean;
     howManyTicketsHasDoneStatusIn12Month:Boolean;
     sendHiddenMessage:Boolean;
-    // smsArchive:Boolean;
-    // smsPending:Boolean;
     smsSend:Boolean;
 
     showBillAccess:Boolean;
@@ -122,8 +126,6 @@ const roleSchema: Schema<IRole> = new Schema({
     ticketCreate:{type:Boolean , default:false , required:true},
     readAllTicketsInSystem:{type:Boolean , default:false , required:true},
     ticketChatList:{type:Boolean , default:false , required:true},
-    ticketReadOwn:{type:Boolean , default:false , required:true},
-    ticketReadOwnReceived:{type:Boolean , default:false , required:true},
     ticketUpdate:{type:Boolean , default:false , required:true},
     ticketDelete:{type:Boolean , default:false , required:true},
     themeCreate:{type:Boolean , default:false , required:true},
@@ -158,6 +160,11 @@ const roleSchema: Schema<IRole> = new Schema({
     ticketChangeHistoryRepliesUpdate:{type:Boolean , default:false , required:true},
     ticketChangeHistoryDelete:{type:Boolean , default:false , required:true},
     forwardTickets:{type:Boolean , default:false , required:true},
+    assignTicketsInbox:{type:Boolean , default:false , required:true},
+    assignTicketsInboxCanDelete:{type:Boolean , default:false , required:true},
+    assignTicketsOutBox:{type:Boolean , default:false , required:true},
+    assignTicketsOutBoxCanDelete:{type:Boolean , default:false , required:true},
+    assignTicketsShowAll:{type:Boolean , default:false , required:true},
     UnlimitedForward:{type:Boolean , default:false , required:true},
     userCreate:{type:Boolean , default:false , required:true},
     userReadAll:{type:Boolean , default:false , required:true},
