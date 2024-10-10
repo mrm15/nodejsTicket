@@ -38,9 +38,9 @@ export const initializeCronJobs = () => {
         console.log("initializeCronJobs SET")
         console.log("we Are On The server And CronJobs Active");
         // Schedule the job to run at 2 PM every Thursday
-        cron.schedule('0 14 * * 4', async () => {
+        cron.schedule('35 14 * * 4', async () => {
             await sendReportDaySMSToSomeOfUsers();
-            console.log("schedule:'0 14 * * 4'")
+            console.log("schedule:'30 14 * * 4'")
         });
 
         // Schedule the job to run at 5 PM from Saturday to Wednesday

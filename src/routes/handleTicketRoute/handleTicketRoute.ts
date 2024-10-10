@@ -8,7 +8,6 @@ import {chatListTicketController} from "../../controllers/ticketController/chatL
 import {ReadSentTicketController} from "../../controllers/ticketController/readSentTicketController";
 import {readDepartmentTicketsController} from "../../controllers/ticketController/readDepartmentTicketsController";
 import {filterMiddleware} from "../../middleware/filterForSearchTickets/filterMiddleware";
-import {readMyAllTicketsControllerPost} from "../../controllers/ticketController/readMyAllTicketsControllerPost";
 import {readOutBoxAssignmentController} from "../../controllers/ticketController/readOutBoxAssignmentController";
 import {readInBoxAssignmentController} from "../../controllers/ticketController/readInBoxAssignmentController";
 import {readAllAssignmentController} from "../../controllers/ticketController/readAllAssignmentController";
