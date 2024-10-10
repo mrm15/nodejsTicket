@@ -499,8 +499,8 @@ const makeDataObject = ({totalData}: any) => {
 
 
         ],
-        bgColor:"#989898",
-        textColor:"black",
+        bgColor: "#989898",
+        textColor: "black",
     })
 
     const CHALENIUM_ONLY = calculateSingleObject(totalData, {
@@ -907,7 +907,6 @@ const makeDataObject = ({totalData}: any) => {
     })
 
 
-
     const NEON_PLASTIC = calculateSingleObject(totalData, {
         caption: "نئون پلاستیک (لبه)",
         id: "62",
@@ -1028,62 +1027,224 @@ const makeDataObject = ({totalData}: any) => {
     })
 
 
-
     const JOOSH_FIBER = calculateSingleObject(totalData, {
         caption: "جوش فایبر",
         id: "62",
         ...keys,
         filterIdForPivot: [
-            "000381" ,
+            "000381",
             "000435",
         ]
     })
 
-    const SUM_FELEZAT = calculateSingleObject(totalData, {
-        caption: "جمع فلزات",
+
+    const SUM_OJRAT_SAKHT_ESTIL = calculateSingleObject(totalData, {
+        caption: "متراژ استیل",
         id: "62",
         ...keys,
-        bgColor:"#989898",
-        textColor:"black",
+        // bgColor:"#989898",
+        // textColor:"black",
         filterIdForPivot: [
-            // VARAQ_ESTIL_KOLLI.filterIdForPivot
-            "000083",
-            "000084",
-            "000155",
-            "000160",
-            "000161",
-            "000162",
-            "000163",
-            "000164",
-            "000165",
-            "000166",
-            "000167",
-            "000168",
-            "000169",
-            "000170",
-            "000171",
-            "000172",
-            // VARAQ_AHAN_KOLLI
-            "000001",
-            "000250",
-            "000394",
-            "000432",
-            "000453",
-            "000471",
-            "000557",
-        //
+            "000080",
+            "00235",
+        ]
+    })
+    const SUM_OJRAT_SAKHT_AHAN = calculateSingleObject(totalData, {
+        caption: "متراژ آهن",
+        id: "62",
+        ...keys,
+        // bgColor:"#989898",
+        // textColor:"black",
+        filterIdForPivot: [
+            "000252",
+            "000253",
+        ]
+    })
+
+    const SUM_FELEZAT = calculateSingleObject(totalData, {
+        caption: "جمع متراژ فلزات",
+        id: "62",
+        ...keys,
+        bgColor: "#989898",
+        textColor: "black",
+        filterIdForPivot: [
+            // استیل
+            "000080",
+            "00235",
+            // اجرت ساخت آهن
+            "000252",
+            "000253",
+            // جوش فایبراا
+            "000381",
+            "000435",
+        ]
+    })
+
+    const SUM_METRAJ_ALL = calculateSingleObject(totalData, {
+        caption: "متراژ کلی",
+        id: "62",
+        ...keys,
+        bgColor: "black",
+        textColor: "white",
+        filterIdForPivot: [
+            //// فقط چلنیوم ها
+            "000011",
+            "000012",
+            "000014",
+            "000015",
+            "000016",
+            "000017",
+            "000018",
+            "000019",
+            "000020",
+            "000021",
+            "000022",
+            "000023",
+            "000024",
+            "000025",
+            "000026",
+            "000027",
+            "000028",
+            "000029",
+            "000030",
+            "000031",
+            "000129",
+            "000130",
+            "000364",
+            "000370",
+            "000387",
+            "000458",
+            "000619",
+            "000621",
+            //// فقط سوئدی ها
+            "000118",
+            "000119",
+            "000120",
+            "000121",
+            "000133",
+            "000134",
+            "000135",
+            "000136",
+            "000372",
+            "000376",
+            "000382",
+
+            //////// نئون پلاستیک (لبه)
+            "000105",
+            "000106",
+            "000107",
+            "000108",
+            "000109",
+            "000110",
+            "000111",
+            "000112",
+            "000113",
+            "000114",
+            "000115",
+            //نئون فلکس کلی
+            "000479",
+            "000480",
+            "000481",
+            "000482",
+            "000483",
+            "000484",
+            "000485",
+            "000486",
+            "000487",
+            "000488",
+            "000489",
+            "000490",
+            "000491",
+            "000492",
+            //
 
 
 
+             // جمع متراژ فلزات
+
+            ///////////
+            // استیل
+            "000080",
+            "00235",
+            // اجرت ساخت آهن
+            "000252",
+            "000253",
+            // جوش فایبراا
+            "000381",
+            "000435",
+        ]
+    })
+
+    const OJRAT_DOUBLE = calculateSingleObject(totalData, {
+        caption: "اجرت دوبل",
+        id: "62",
+        ...keys,
+        bgColor: "black",
+        textColor: "white",
+        filterIdForPivot: [
+//اجرت دوبل همراه با مبلغ کلر فرم
+            "000131",
+        ]
+    })
+
+    const OJRAT_sticker = calculateSingleObject(totalData, {
+        caption: "اجرت چسباندن استیکر - در حال کار...",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000122",
+            "000132",
+            "000138",
+            "000157",
+            "000375",
+            "000393",
+            "000395",
+            "000423",
+            "000631",
 
         ]
     })
+
+    const OJRAT_sticker_meshki = calculateSingleObject(totalData, {
+        caption: "اجرت چسباندن استیکر مشکی",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000132",
+        ]
+    })
+
+    const OJRAT_sticker_abi = calculateSingleObject(totalData, {
+        caption: "اجرت چسباندن استیکر آبی",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000122",
+        ]
+    })
+    const OJRAT_sticker_qermez = calculateSingleObject(totalData, {
+        caption: "اجرت چسباندن استیکر قرمز",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000138",
+        ]
+    })
+    const OJRAT_sticker_sabz = calculateSingleObject(totalData, {
+        caption: "اجرت چسباندن استیکر سبز",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000375",
+        ]
+    })
+
 
 
     const tableView = [
         [
             {
-                ...PLAXI_KOLLI,
+                ...SUM_METRAJ_ALL,
             },
             {
                 ...SUEDI_KOLLI,
@@ -1110,16 +1271,16 @@ const makeDataObject = ({totalData}: any) => {
         ],
         [
             {
-                ...VARAQ_ESTIL_KOLLI
+                ...SUM_OJRAT_SAKHT_ESTIL
             },
             {
-                ...VARAQ_AHAN_KOLLI
+                ...SUM_OJRAT_SAKHT_AHAN
             },
             {
                 ...JOOSH_FIBER
             },
             {
-               ...SUM_FELEZAT
+                ...SUM_FELEZAT
             },
         ],
 
@@ -1651,6 +1812,19 @@ const makeDataObject = ({totalData}: any) => {
                 },
 
 
+            ]
+        },
+
+        {
+            ...OJRAT_DOUBLE
+        },
+        {
+            ...OJRAT_sticker,
+            subItems: [
+                {...OJRAT_sticker_sabz},
+                {...OJRAT_sticker_qermez},
+                {...OJRAT_sticker_abi},
+                {...OJRAT_sticker_meshki},
             ]
         }
 
