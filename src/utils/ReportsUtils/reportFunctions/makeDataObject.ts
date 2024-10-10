@@ -1188,7 +1188,7 @@ const makeDataObject = ({totalData}: any) => {
     })
 
     const OJRAT_sticker = calculateSingleObject(totalData, {
-        caption: "اجرت چسباندن استیکر - در حال کار...",
+        caption: "اجرت چسباندن استیکر ",
         id: "62",
         ...keys,
         filterIdForPivot: [
@@ -1235,6 +1235,22 @@ const makeDataObject = ({totalData}: any) => {
     })
 
 
+    const chap_sticket_khali = calculateSingleObject(totalData, {
+        caption: "چاپ استیکر شفاف",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000157",
+        ]
+    })
+    const chap_flat_khali = calculateSingleObject(totalData, {
+        caption: "چاپ فلت ",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000144",
+        ]
+    })
 
     const tableView = [
         [
@@ -1821,7 +1837,9 @@ const makeDataObject = ({totalData}: any) => {
                 {...OJRAT_sticker_abi},
                 {...OJRAT_sticker_meshki},
             ]
-        }
+        },
+        {...chap_sticket_khali},
+        {...chap_flat_khali},
 
     ]
 
