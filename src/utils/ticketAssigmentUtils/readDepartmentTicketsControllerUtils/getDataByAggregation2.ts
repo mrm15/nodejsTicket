@@ -22,14 +22,16 @@ const getDataByAggregation2 = async ({filters, currentPage = 1, pageSize = 5}: a
     debugger
 
     // Extract results and total document count
-    const results = result[0].results;
-    const totalDocuments = result[0].totalDocuments.length > 0 ? result[0].totalDocuments[0].total : 0;
+    const results = result[0]?.results;
+    const totalDocuments = result[0]?.totalDocuments?.length > 0 ? result[0]?.totalDocuments[0]?.total : 0;
 
     return {
         results,           // Paginated results from aggregation
         totalDocuments,    // Total count from facet pipeline
         currentPage,       // The current page number
-        pageSize           // The page size used for pagination
+        pageSize   ,        // The page size used for pagination
+
+        allResultData :result
     };
 };
 
