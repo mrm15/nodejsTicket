@@ -1,19 +1,8 @@
-import {Request, Response, NextFunction} from 'express';
+import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
-import {userTicketTable} from "../../utils/userTicketTable";
-import {inboxTicketList} from "../../utils/inboxTicketList";
-import {Department, IDepartment} from "../../models/department";
-import {departmentTickets} from "../../utils/getDepartmentTicketList";
-import mongoose from "mongoose";
-import getDepartmentByPhoneNumber from "../../utils/functions/getDepartmentByPhoneNumber";
-import {ITicketAssignment, TicketAssignment} from "../../models/ticketAssignment ";
-import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
-import {ITicket, Ticket} from "../../models/ticket";
-import {convertIdsToName} from "../utility/convertTicketDataToName/convertIdsToName";
-import getUserByPhoneNumber from "../../utils/functions/getUserByPhoneNumber";
-import {IUser} from "../../models/User";
+import sleep from "../../utils/sleep";
+import getDataByAggregation2
+    from "../../utils/ticketAssigmentUtils/readDepartmentTicketsControllerUtils/getDataByAggregation2";
 
 const readAllAssignmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -30,17 +19,22 @@ const readAllAssignmentController = async (req: CustomRequestMyTokenInJwt, res: 
 
 
         // Fetch tickets
-        const myTicketAssignment = await getDataCollection(req.body, TicketAssignment)
+        // const myTicketAssignment = await getDataCollection(req.body, TicketAssignment)
 
 
-        myTicketAssignment.results = await Promise.all(myTicketAssignment.results.map(async (singleAssignment: ITicketAssignment) => {
-            const ticketFound: ITicket = (await Ticket.findOne({_id: singleAssignment.ticketId}).lean())!;
-            return {
-                ...singleAssignment,
-                ...ticketFound
-            }
-        }));
-        const updatedTickets = await convertIdsToName(myTicketAssignment)
+        // myTicketAssignment.results = await Promise.all(myTicketAssignment.results.map(async (singleAssignment: ITicketAssignment) => {
+        //     const ticketFound: ITicket = (await Ticket.findOne({_id: singleAssignment.ticketId}).lean())!;
+        //     return {
+        //         ...singleAssignment,
+        //         ...ticketFound
+        //     }
+        // }));
+        // const updatedTickets = await convertIdsToName(myTicketAssignment)
+
+        // just want to know how delay works in front end Handle waiting
+
+        const updatedTickets = await getDataByAggregation2({...req.body})
+        await sleep(2000)
         return res.status(200).json(updatedTickets);
     } catch (error: any) {
 

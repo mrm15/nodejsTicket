@@ -3,7 +3,7 @@
 type Filter = { property: string, operator?: string, value: any };
 
 export const buildFilterObject = (filters: Filter[]): { [key: string]: any } => {
-    debugger
+    
     const filterObject: { [key: string]: any } = {};
     filters.forEach((filter) => {
         const filterField = filter.property

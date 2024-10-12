@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from 'express';
+import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
@@ -8,7 +8,6 @@ import {convertIdsToName} from "../utility/convertTicketDataToName/convertIdsToN
 
 
 const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
-
 
 
     const {myToken} = req;
@@ -27,18 +26,17 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
             return
         }
 
-        debugger
-        const myResult = await getDataCollection(req.body,Ticket);
+        const myResult = await getDataCollection(req.body, Ticket);
 
         // #1001 search 1001
-        const myResultAfterChange =await convertIdsToName(myResult)
+        const myResultAfterChange = await convertIdsToName(myResult)
 
         res.status(200).json(myResultAfterChange);
         return;
 
     } catch (error: any) {
 
-        res.status(500).json({error:  error.toString() +  ' موردی در  دریافت اطلاعات رخ داد.'});
+        res.status(500).json({error: error.toString() + ' موردی در  دریافت اطلاعات رخ داد.'});
         return
     }
 

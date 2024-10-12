@@ -1,9 +1,7 @@
 import {NextFunction, Response} from 'express';
 
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {ITicket, Ticket} from "../../models/ticket";
 import {IUser, User} from "../../models/User";
-import mongoose from "mongoose";
 import forwardTicket from "../../utils/forwardTicketUtils/forwardTicket";
 
 
@@ -91,7 +89,8 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
         }
 
         const senderUserId = foundSenderUserIdLean?._id
-
+        console.log("user:")
+        console.log(user)
         const resultOfTask = await forwardTicket({
             ticketArray: tickets,
             departmentId: department,
