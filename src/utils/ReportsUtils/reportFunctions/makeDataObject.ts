@@ -1,4 +1,5 @@
 import {calculateSingleObject} from "./calculatePivotById";
+import sortInnerRecursive from "../../sortInnerRecursive";
 
 const myKey = "myItemCode"
 const sumKey = "myTotalAmount"
@@ -1842,11 +1843,12 @@ const makeDataObject = ({totalData}: any) => {
         {...chap_flat_khali},
 
     ]
-
+    // const treeViewDataSorted =sortInnerRecursive({arrayOfData:treeViewData ,subItemKey:"subItems", valueToSortedKey:"value"})
+    const treeViewDataSorted =sortInnerRecursive(treeViewData)
 
     return {
         tableView,
-        treeViewData,
+        treeViewData:treeViewDataSorted,
     }
 }
 
