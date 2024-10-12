@@ -6,6 +6,7 @@ interface ICreateAggregationPipeline {
     pageSize: number
 }
 
+
 // Define the pipeline stages
 export const createAggregationPipeline = ({
                                               matchConditions,
@@ -14,75 +15,99 @@ export const createAggregationPipeline = ({
                                           }: ICreateAggregationPipeline): PipelineStage[] => {
 
 
-    return [
-        // Lookup for assignedToUserId and assignedBy from users
+    let myPipLine = []
+
+
+    // اول میخوایم که توی خود تیکت اساینمنت بره این دو مورد رو تبدیل کنه
+    //assignedToUserId
+    //assignedBy
+
+    myPipLine.push(
         {
             $lookup: {
                 from: "users",
                 localField: "assignedToUserId",
                 foreignField: "_id",
-                as: "assignedToUserDetails"
+                as: "z_assignedToUserDetails"
             }
         },
+    )
 
+
+    myPipLine.push(
         {
             $lookup: {
                 from: "users",
                 localField: "assignedBy",
                 foreignField: "_id",
-                as: "assignedByDetails"
+                as: "z_assignedByDetails"
             }
         },
+    )
 
-        // Lookup for assignedToDepartmentId from departments
+    myPipLine.push(        // Lookup for assignedToDepartmentId from departments
         {
             $lookup: {
                 from: "departments",
                 localField: "assignedToDepartmentId",
                 foreignField: "_id",
-                as: "assignedToDepartmentDetails"
+                as: "z_assignedToDepartmentDetails"
             }
         },
+    )
 
-        // Lookup for ticketId from tickets and further lookups within tickets
+
+    myPipLine.push(
         {
             $lookup: {
                 from: "tickets",
                 localField: "ticketId",
                 foreignField: "_id",
-                as: "ticketDetails"
+                as: "z_ticketDetails"
             }
-        },
-        {$unwind: "$ticketDetails"},
-        {
-            $lookup: {
-                from: "users",
-                localField: "ticketDetails.userId",
-                foreignField: "_id",
-                as: "ticketUserDetails"
-            }
-        },
-        {$unwind: "$ticketUserDetails"},
-        {
-            $lookup: {
-                from: "users",
-                localField: "ticketDetails.assignedToUserId",
-                foreignField: "_id",
-                as: "ticketAssignedToUserDetails"
-            }
-        },
-        {$unwind: "$ticketAssignedToUserDetails"},
-        {
-            $lookup: {
-                from: "departments",
-                localField: "ticketDetails.assignedToDepartmentId",
-                foreignField: "_id",
-                as: "ticketAssignedDepartmentDetails"
-            }
-        },
-        {$unwind: "$ticketAssignedDepartmentDetails"},
+        }
+    )
 
-        // Projecting fields
+    myPipLine.push({$unwind: "$z_ticketDetails"})
+
+    myPipLine.push(
+        {
+            $lookup: {
+                from: "users",
+                localField: "z_ticketDetails.userId",
+                foreignField: "_id",
+                as: "z_ticketUserIdDetails"
+            }
+        },
+    )
+
+
+    myPipLine.push({$unwind: "$z_ticketUserIdDetails"},)
+
+    // اینجا احتیاجی نمیبینم که بخوام assignedToUserId رو باز کنم. چون توی همون تیکت اساینمنت هست
+    // myPipLine.push(
+    //     {
+    //         $lookup: {
+    //             from: "users",
+    //             localField: "ticketDetails.assignedToUserId",
+    //             foreignField: "_id",
+    //             as: "ticketAssignedToUserDetails",
+    //         }
+    //     },
+    // )
+    // myPipLine.push({$unwind: "$ticketAssignedToUserDetails"},)
+    // myPipLine.push(
+    //     {
+    //         $lookup: {
+    //             from: "departments",
+    //             localField: "ticketDetails.assignedToDepartmentId",
+    //             foreignField: "_id",
+    //             as: "z_ticketAssignedDepartmentDetails"
+    //         }
+    //     },
+    // )
+    // myPipLine.push({$unwind: "$z_ticketAssignedDepartmentDetails"},)
+    myPipLine.push(
         {
             $project: {
                 assignedToUserId: 1,
@@ -91,9 +116,9 @@ export const createAggregationPipeline = ({
                 ticketId: 1,
 
                 // User details
-                assignedToUserName: "$assignedToUserDetails.name",
-                assignedByName: "$assignedByDetails.name",
-                assignedToDepartmentName: "$assignedToDepartmentDetails.name",
+                assignedToUserName: "$z_assignedToUserDetails.name",
+                assignedByName: "$z_assignedByDetails.name",
+                assignedToDepartmentName: "$z_assignedToDepartmentDetails?.name",
 
                 // Ticket details
                 ticketNumber: "$ticketDetails.ticketNumber",
@@ -102,36 +127,45 @@ export const createAggregationPipeline = ({
                 ticketAssignedToDepartmentName: "$ticketAssignedDepartmentDetails.name"
             }
         },
-        // 4. Use $facet to run two pipelines: one for total count, one for results
-        {
-            $facet: {
-                results: [
-                    // Apply match conditions before pagination
-                    // {
-                    //     $match: {
-                    //         $and: matchConditions
-                    //     }
-                    // },
-                    // Pagination: Skip and Limit for the current page
-                    {
-                        $skip: (currentPage - 1) * pageSize
-                    },
-                    {
-                        $limit: pageSize
-                    }
-                ],
-                totalDocuments: [
-                    // Apply match conditions for total count
-                    // {
-                    //     $match: {
-                    //         $and: matchConditions
-                    //     }
-                    // },
-                    {
-                        $count: "total"
-                    }
-                ]
+    )
+
+    if (pageSize === 900) {
+
+
+
+        myPipLine.push(
+            {
+                $facet: {
+                    results: [
+                        // Apply match conditions before pagination
+                        // {
+                        //     $match: {
+                        //         $and: matchConditions
+                        //     }
+                        // },
+                        // Pagination: Skip and Limit for the current page
+                        {
+                            $skip: (currentPage - 1) * pageSize
+                        },
+                        {
+                            $limit: pageSize
+                        }
+                    ],
+                    totalDocuments: [
+                        // Apply match conditions for total count
+                        // {
+                        //     $match: {
+                        //         $and: matchConditions
+                        //     }
+                        // },
+                        {
+                            $count: "total"
+                        }
+                    ]
+                }
             }
-        }
-    ]
+        )
+    }
+
+    return myPipLine
 }
