@@ -33,9 +33,28 @@ const readAllAssignmentController = async (req: CustomRequestMyTokenInJwt, res: 
 
         // just want to know how delay works in front end Handle waiting
 
-        const updatedTickets = await getDataByAggregation2({...req.body})
-        await sleep(2000)
-        return res.status(200).json(updatedTickets);
+        /*
+        {
+            "page": 1,
+            "pageSize": 5,
+            "filters": []
+        }
+         */
+
+        const updatedTickets = await getDataByAggregation2({
+            filters:req.body.filters,
+            currentPage:req.body.page,
+            pageSize:req.body.pageSize
+        })
+
+        console.log(updatedTickets)
+        const resultData = {
+            currentPage:updatedTickets.page,
+            pageSize:updatedTickets.pageSize,
+            results:updatedTickets.results,
+            totalDocuments:updatedTickets.totalDocuments,
+        }
+        return res.status(200).json(resultData);
     } catch (error: any) {
 
         res.status(500).json({error: error.toString()});
