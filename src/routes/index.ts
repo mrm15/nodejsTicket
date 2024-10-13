@@ -55,6 +55,7 @@ const myRouter = Router();
 myRouter.use('/login',loginSMS)
 // myRouter.use('/admin',admin)
 myRouter.use('/download' , handleDownloadRoute)
+myRouter.use('/hesabfaOpen' , handleHesabfaOpenRoute);
 // myRouter.use('/register', require('./routes/auth/register'));
 // myRouter.use('/auth', require('./routes/auth/auth'));
 // myRouter.use('/users', require('./routes/')
@@ -76,7 +77,6 @@ myRouter.use('/userStatus' , handleUserStatusRoute);
 myRouter.use('/reports' , handleReportsRoute);
 
 myRouter.use('/hesabfa' , handleHesabfaRoute);
-myRouter.use('/hesabfaOpen' , handleHesabfaOpenRoute);
 
 
 myRouter.use('/logout' , handleLogout);
