@@ -10,7 +10,7 @@ interface inputObjectGetDataByAggregation2 {
 
 const getDataByAggregation2 = async ({filters, page, pageSize}: inputObjectGetDataByAggregation2) => {
 
-    const matchConditions =[]
+    const matchConditions:any =[]
     // Apply filters dynamically (if any exist in the payload)
     if (filters && filters.length > 0) {
         filters.forEach((filter: any) => {
@@ -18,8 +18,9 @@ const getDataByAggregation2 = async ({filters, page, pageSize}: inputObjectGetDa
         });
     }
 
+    console.log(matchConditions)
     // Create the pipeline using match conditions and pagination details
-    const myPipeline = createAggregationPipeline({matchConditions: filters, page, pageSize});
+    const myPipeline = createAggregationPipeline({matchConditions, page, pageSize});
 
     const result = await TicketAssignment.aggregate(myPipeline);
 
