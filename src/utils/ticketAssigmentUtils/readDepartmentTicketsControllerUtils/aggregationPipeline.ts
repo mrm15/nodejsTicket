@@ -18,6 +18,7 @@ export const createAggregationPipeline = ({
     let myPipLine = []
 
 
+    debugger
     // اول میخوایم که توی خود تیکت اساینمنت بره این دو مورد رو تبدیل کنه
     //assignedToUserId
     //assignedBy
@@ -211,6 +212,17 @@ export const createAggregationPipeline = ({
             }
         },
     )
+
+    if (matchConditions.length>0){
+        myPipLine.push({
+            $match: {
+                $and: [
+                    { title: { $regex: "تست", $options: "i" } },  // Wildcard match for title
+                    { ticketNumber: "12" }  // Exact match for ticketNumber
+                ]
+            }
+        },)
+    }
 
 
     myPipLine.push(
