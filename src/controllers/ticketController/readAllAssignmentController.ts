@@ -41,13 +41,13 @@ const readAllAssignmentController = async (req: CustomRequestMyTokenInJwt, res: 
         }
          */
 
+
         const updatedTickets = await getDataByAggregation2({
             filters:req.body.filters,
-            currentPage:req.body.page,
+            page:req.body.page,
             pageSize:req.body.pageSize
         })
 
-        console.log(updatedTickets)
         const resultData = {
             currentPage:updatedTickets.page,
             pageSize:updatedTickets.pageSize,
