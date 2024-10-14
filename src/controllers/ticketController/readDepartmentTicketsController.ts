@@ -48,9 +48,11 @@ const readDepartmentTicketsController = async (req: CustomRequestMyTokenInJwt, r
         // }))
         // updatedTickets = await convertIdsToName(myTicketAssignment)
         // updatedTickets = await convertIdsToName(myTicketAssignment)
-        const inpuut = {userDepartment: foundDepartment._id, filters: req.body.filters, currentPage: 1, pageSize: 5}
-        let updatedTickets = await getDataByAggregation2({...inpuut})
-        return res.status(200).json(updatedTickets);
+        // const inpuut = {userDepartment: foundDepartment._id, filters: req.body.filters, currentPage: 1, pageSize: 5}
+        // let updatedTickets = await getDataByAggregation2({...inpuut})
+        return res.status(200).json({
+            data:"",
+        });
     } catch (error: any) {
 
         
