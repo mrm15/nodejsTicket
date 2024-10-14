@@ -1,26 +1,28 @@
 import {createAggregationPipeline} from "./aggregationPipeline";
 import {TicketAssignment} from "../../../models/ticketAssignment ";
+import processFilterOperators from "./processFilterOperators";
 
-const getDataByAggregation2 = async ({filters, page = 1, pageSize = 5}: any) => {
+interface inputObjectGetDataByAggregation2 {
+    filters: any[],
+    page: number,
+    pageSize: number
+}
 
-    // const matchConditions: any[] = [
-    //     {isDeleteDestination: false},  // Only assignments that are not deleted
-    //     {readStatus: false},           // Only unread assignments
-    //     {assignedToDepartmentId: userDepartment}  // Only assignments for the department
-    // ];
-    //
-    // // Apply filters dynamically (if any exist in the payload)
-    // if (filters && filters.length > 0) {
-    //     filters.forEach((filter: any) => {
-    //         matchConditions.push(processFilterOperators(filter));
-    //     });
-    // }
+const getDataByAggregation2 = async ({filters, page, pageSize}: inputObjectGetDataByAggregation2) => {
+
+    const matchConditions =[]
+    // Apply filters dynamically (if any exist in the payload)
+    if (filters && filters.length > 0) {
+        filters.forEach((filter: any) => {
+            matchConditions.push(processFilterOperators(filter));
+        });
+    }
 
     // Create the pipeline using match conditions and pagination details
-    const myPipeline = createAggregationPipeline({matchConditions: [], page, pageSize});
+    const myPipeline = createAggregationPipeline({matchConditions: filters, page, pageSize});
 
     const result = await TicketAssignment.aggregate(myPipeline);
-    debugger
+
 
     // Extract results and total document count
     const results = result[0]?.results;
@@ -30,9 +32,9 @@ const getDataByAggregation2 = async ({filters, page = 1, pageSize = 5}: any) => 
         results,           // Paginated results from aggregation
         totalDocuments,    // Total count from facet pipeline
         page,       // The current page number
-        pageSize   ,        // The page size used for pagination
+        pageSize,        // The page size used for pagination
 
-        allResultData :result
+        allResultData: result
     };
 };
 
