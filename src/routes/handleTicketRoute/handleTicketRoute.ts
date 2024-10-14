@@ -50,7 +50,7 @@ router.post('/readMyForwardedTickets', filterMiddleware, readOutBoxAssignmentCon
 // صندوق ورودی من
 router.post('/readForwardedToMeTickets', filterMiddleware, readInBoxAssignmentController)
 // همه ی تیکت های ارجاعی برای مدیر
-router.post('/readAllAssignments', filterMiddleware, readAllAssignmentController)
+router.post('/readAllAssignments', readAllAssignmentController)
 
 
 export default router;
