@@ -191,6 +191,7 @@ export const createAggregationPipeline = ({
                 readDate: 1, //تاریخ باز کردن تیکت
                 numberOfAssign: 1, //تعداد ارجاع
                 assignmentType: 1, //نوع ارجاع
+                assignDate:1,
 
 
                 //
@@ -212,14 +213,11 @@ export const createAggregationPipeline = ({
             }
         },
     )
-
+    console.log(matchConditions)
     if (matchConditions.length>0){
         myPipLine.push({
             $match: {
-                $and: [
-                    { title: { $regex: "تست", $options: "i" } },  // Wildcard match for title
-                    { ticketNumber: "12" }  // Exact match for ticketNumber
-                ]
+                $and: matchConditions
             }
         },)
     }
