@@ -43,12 +43,14 @@ router.post('/read', filterMiddleware,readTicketController) // read all tickets 
 router.post('/readSentTickets', filterMiddleware,ReadSentTicketController) // read sentTickets List for example I sent a ticket
 //--------------------------------------------------
 // router.post('/readMyAllTickets', filterMiddleware, readMyAllTicketsControllerPost) // read my tickets   from custom table With Read Status
-// ورودی دپارتمان // read department tickets
-router.post('/readDepartmentTickets', filterMiddleware, readDepartmentTicketsController)
+
 // ارسالی ها
-router.post('/readMyForwardedTickets', filterMiddleware, readOutBoxAssignmentController)
+router.post('/readMyForwardedTickets', readOutBoxAssignmentController)
 // صندوق ورودی من
-router.post('/readForwardedToMeTickets', filterMiddleware, readInBoxAssignmentController)
+router.post('/readForwardedToMeTickets', readInBoxAssignmentController)
+
+// ورودی دپارتمان // read department tickets
+router.post('/readDepartmentTickets', readDepartmentTicketsController)
 // همه ی تیکت های ارجاعی برای مدیر
 router.post('/readAllAssignments', readAllAssignmentController)
 
