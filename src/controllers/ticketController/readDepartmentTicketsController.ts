@@ -20,39 +20,26 @@ const readDepartmentTicketsController = async (req: CustomRequestMyTokenInJwt, r
 
         // اینجا میتونم چک کنم آیا این کاربر ادمین یک دپارتمان هست یا خیر؟
         // بعدش میتونم چک کنم ادمین هر دپارتمانی هست همون دپارتمان تیکت هاشو از ارجاعات بگیرم بفرستم واسه فرانت
-
         // ولی اینجا فقط به دپارتمان کاربر نگاه میکنم و تیکت های اون دپارتمانی که کاربر درخواست داده بود میفرستم سمت فرانت
         // توی فرانت این صفحه فقط در صورتی نمایش داده میشه که کاربر ادمین دپارتمان باشه.
         const foundDepartment: IDepartment = await getDepartmentByPhoneNumber(myToken.phoneNumber)
-        // const filters = req.body.filters || [];
-        // filters.push({
-        //     property: 'assignedToDepartmentId',
-        //     value: foundDepartment._id,
-        // });
-        // filters.push({
-        //     property: 'isDeleteDestination',
-        //     value: false,
-        // });
-        // req.body.filters = filters;
-
-        // Fetch tickets
-        // const myTicketAssignment = await getDataCollection(req.body, TicketAssignment)
-
-
-        // myTicketAssignment.results = await Promise.all(myTicketAssignment.results.map(async (singleAssignment: ITicketAssignment) => {
-        //     const ticketFound: ITicket = (await Ticket.findOne({_id: singleAssignment.ticketId}).lean())!;
-        //     return {
-        //         ...singleAssignment,
-        //         ...ticketFound
-        //     }
-        // }))
-        // updatedTickets = await convertIdsToName(myTicketAssignment)
-        // updatedTickets = await convertIdsToName(myTicketAssignment)
-        // const inpuut = {userDepartment: foundDepartment._id, filters: req.body.filters, currentPage: 1, pageSize: 5}
-        // let updatedTickets = await getDataByAggregation2({...inpuut})
-        return res.status(200).json({
-            data:"",
+        const filters = req.body.filters || [];
+        filters.push({
+            property: 'assignedToDepartmentIdText',
+            value: foundDepartment.name,
+        })
+        filters.push({
+            property: 'isDeleteDestination',
+            value: false,
         });
+
+        const updatedTickets = await getDataByAggregation2({
+            filters:filters,
+            page:req.body.page,
+            pageSize:req.body.pageSize
+        })
+
+        return res.status(200).json(updatedTickets);
     } catch (error: any) {
 
         
