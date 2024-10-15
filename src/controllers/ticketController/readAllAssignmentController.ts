@@ -49,7 +49,7 @@ const readAllAssignmentController = async (req: CustomRequestMyTokenInJwt, res: 
         })
 
         const resultData = {
-            currentPage:updatedTickets.page,
+            currentPage:updatedTickets.currentPage,
             pageSize:updatedTickets.pageSize,
             results:updatedTickets.results,
             totalDocuments:updatedTickets.totalDocuments,
