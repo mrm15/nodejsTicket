@@ -163,8 +163,13 @@ export const createAggregationPipeline = ({
                 _id: 1, // id  of ticket assignment
                 rowNumber: "",//  میخوام اینو دستی اضافه کنم ببینم میشه؟ اگه نشد توی خط بعدش حساب میکنم
 
+                ticketId : 1 ,
                 title: "$z_ticketDetails.title", // عنوان تیکت - عنوان سفارش
-                userCreateThisOrder: "$z_ticketUserIdDetails.name",//
+                userCreateThisOrder: //"$z_ticketUserIdDetails.name",//
+                    {
+                        $concat: ["$z_ticketUserIdDetails.name", " ", "$z_ticketUserIdDetails.familyName" , "", "$z_assignedToUserDetails.phoneNumber" ]
+
+                    },
                 ticketNumber: "$z_ticketDetails.ticketNumber",
                 assignedToDepartmentIdText: "$z_assignedToDepartmentDetails.name", // از توی تیکت اساین
                 assignToUserIdText: { // از توی تیکت اساین
