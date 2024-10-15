@@ -32,11 +32,11 @@ const getDataByAggregation2 = async ({filters, page, pageSize}: inputObjectGetDa
     return {
         results,           // Paginated results from aggregation
         totalDocuments,    // Total count from facet pipeline
-        page,       // The current page number
+        currentPage:page,       // The current page number
         pageSize,        // The page size used for pagination
 
-        allResultData: result
-    };
+        // allResultData: result
+    }
 };
 
 export default getDataByAggregation2;
