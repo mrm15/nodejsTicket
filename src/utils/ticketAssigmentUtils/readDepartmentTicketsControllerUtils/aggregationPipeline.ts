@@ -163,11 +163,11 @@ export const createAggregationPipeline = ({
                 _id: 1, // id  of ticket assignment
                 rowNumber: "",//  میخوام اینو دستی اضافه کنم ببینم میشه؟ اگه نشد توی خط بعدش حساب میکنم
 
-                ticketId : 1 ,
+                ticketId: 1,
                 title: "$z_ticketDetails.title", // عنوان تیکت - عنوان سفارش
                 userCreateThisOrder: //"$z_ticketUserIdDetails.name",//
                     {
-                        $concat: ["$z_ticketUserIdDetails.name", " ", "$z_ticketUserIdDetails.familyName" , "", "$z_assignedToUserDetails.phoneNumber" ]
+                        $concat: ["$z_ticketUserIdDetails.name", " ", "$z_ticketUserIdDetails.familyName", "", "$z_assignedToUserDetails.phoneNumber"]
 
                     },
                 ticketNumber: "$z_ticketDetails.ticketNumber",
@@ -190,13 +190,16 @@ export const createAggregationPipeline = ({
                 },
                 // assignedToDepartmentIdText:"", // دپارتمانی که این تیکت الان بهش ارجاع شده
                 isDeleteDestination: 1, // آیا مقصد دپارتمان یا کاربر  اینو پاک کرده؟
-                assignedByText: "", // فرستنده ی این تیکت کیه؟
+                assignedByText: //  "$z_assignedByDetails.name", // فرستنده ی این تیکت کیه؟
+                    {
+                        $concat: ["$z_assignedByDetails.name", " ", "$z_assignedByDetails.familyName" /*, "$z_assignedToUserDetails.phoneNumber" */]
+                    },
                 isDeleteFromAssignedBy: 1, // فرستنده اینو پاک کرده؟
                 readStatus: 1, //وضعیت خواندن توی مقصد (دپارتمان یا کاربر)
                 readDate: 1, //تاریخ باز کردن تیکت
                 numberOfAssign: 1, //تعداد ارجاع
                 assignmentType: 1, //نوع ارجاع
-                assignDate:1,
+                assignDate: 1,
 
 
                 //
@@ -219,7 +222,7 @@ export const createAggregationPipeline = ({
         },
     )
     console.log(matchConditions)
-    if (matchConditions.length>0){
+    if (matchConditions.length > 0) {
         myPipLine.push({
             $match: {
                 $and: matchConditions
