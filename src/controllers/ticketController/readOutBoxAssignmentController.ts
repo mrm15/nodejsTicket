@@ -14,6 +14,8 @@ import {ITicket, Ticket} from "../../models/ticket";
 import {convertIdsToName} from "../utility/convertTicketDataToName/convertIdsToName";
 import getUserByPhoneNumber from "../../utils/functions/getUserByPhoneNumber";
 import {IUser} from "../../models/User";
+import getDataByAggregation2
+    from "../../utils/ticketAssigmentUtils/readDepartmentTicketsControllerUtils/getDataByAggregation2";
 
 const readOutBoxAssignmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -27,39 +29,29 @@ const readOutBoxAssignmentController = async (req: CustomRequestMyTokenInJwt, re
 
 
     try {
-
-        // اینجا میتونم چک کنم آیا این کاربر ادمین یک دپارتمان هست یا خیر؟
-        // بعدش میتونم چک کنم ادمین هر دپارتمانی هست همون دپارتمان تیکت هاشو از ارجاعات بگیرم بفرستم واسه فرانت
-
-        // ولی اینجا فقط به دپارتمان کاربر نگاه میکنم و تیکت های اون دپارتمانی که کاربر درخواست داده بود میفرستم سمت فرانت
-        // توی فرانت این صفحه فقط در صورتی نمایش داده میشه که کاربر ادمین دپارتمان باشه.
+        /***/
         const foundUser: IUser = await getUserByPhoneNumber(myToken.phoneNumber)
         const filters = req.body.filters || [];
         filters.push({
-            property: 'assignedBy',
-            value: foundUser._id,
-        });
+            property: 'assignedByText',
+            operator:"=",
+            value: foundUser.name + " " + foundUser.familyName, //  توی خروجی داریم نام و نام خانوداگی زو میکس میکنم میفرستیم و اینحا هم باید  میکس کنیم که دقیقا مساوی رو بتونیم بگیریم.
+        })
+        // باید تیکت هایی رو بدیم که فرستنده خودش پاک نکرده باشه
         filters.push({
             property: 'isDeleteFromAssignedBy',
             value: false,
         });
 
-        req.body.filters = filters;
+        const updatedTickets = await getDataByAggregation2({
+            filters:filters,
+            page:req.body.page,
+            pageSize:req.body.pageSize
+        })
 
-        // Fetch tickets
-        const myTicketAssignment = await getDataCollection(req.body, TicketAssignment)
-
-        let updatedTickets = myTicketAssignment
-
-        myTicketAssignment.results = await Promise.all(myTicketAssignment.results.map(async (singleAssignment: ITicketAssignment) => {
-            const ticketFound: ITicket = (await Ticket.findOne({_id: singleAssignment.ticketId}).lean())!;
-            return {
-                ...singleAssignment,
-                ...ticketFound
-            }
-        }));
-        updatedTickets = await convertIdsToName(myTicketAssignment)
         return res.status(200).json(updatedTickets);
+
+        /*********************************************/
     } catch (error: any) {
 
         res.status(500).json({error: error.toString()});
