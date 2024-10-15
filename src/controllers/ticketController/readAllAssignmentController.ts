@@ -48,13 +48,8 @@ const readAllAssignmentController = async (req: CustomRequestMyTokenInJwt, res: 
             pageSize:req.body.pageSize
         })
 
-        const resultData = {
-            currentPage:updatedTickets.currentPage,
-            pageSize:updatedTickets.pageSize,
-            results:updatedTickets.results,
-            totalDocuments:updatedTickets.totalDocuments,
-        }
-        return res.status(200).json(resultData);
+
+        return res.status(200).json(updatedTickets);
     } catch (error: any) {
 
         res.status(500).json({error: error.toString()});
