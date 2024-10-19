@@ -1,7 +1,5 @@
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {NextFunction, Response} from "express";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
 import {getDataCollectionFromHesabfa} from "../utility/collectionsHandlers/getDataCollectionFromHesabfa";
 
 const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -22,9 +20,15 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
         //     return
         // }
 
-        const {page = 1, pageSize = 3, filters = []} = req.body;
+        let {page = 1, pageSize = 3, filters = []} = req.body;
 
         const skip = (page - 1) * pageSize;
+
+        filters = filters.map((row: { property: any; operator: any; value: any; }) => ({
+            property: row.property,
+            operator: row.operator,
+            value: row.value,
+        }))
         const ttt = {
             type: 0,
             "queryInfo": {
@@ -41,6 +45,7 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
                 ]
             }
         }
+        debugger
         const ttt1 = {
             type: 0, // فقط فاکتور فروش
             queryInfo: {
@@ -80,3 +85,4 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
 };
 
 export {getBillListTableG};
+
