@@ -822,7 +822,7 @@ export const sendSubmitBillSMS_NoTicketId = async ({
 
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
-        mobile: mobile, templateId: "263952", parameters: [
+        mobile: mobile, templateId: "354225", parameters: [
             {
                 "name": "ORDERNAME",
                 "value": ORDERNAME
