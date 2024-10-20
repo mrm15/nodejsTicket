@@ -156,8 +156,8 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
 
                                 if (CustomerMobile !== "" && isSendSmsWhenVerifyBill) {
                                     const smsRes = await sendSubmitBillSMS_NoTicketId({
-                                        // mobile: CustomerMobile,
-                                        mobile: "09384642159",
+                                        mobile: CustomerMobile,
+                                        // mobile: "09384642159",
                                         ORDERNAME,
                                         ORDER_PRICE,
                                         DATE: date,
