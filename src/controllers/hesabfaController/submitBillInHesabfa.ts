@@ -178,7 +178,7 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                                 return;
                             } else {
                                 res.status(200).json({
-                                    message: "مقدار استاتوس 0 یا یک نیست",
+                                    message: " تایید شد.", // اما مقدار استاتوس 0 یا یک نیست
                                 })
                                 return;
                             }
