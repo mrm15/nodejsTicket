@@ -5,6 +5,7 @@ import {updateUserController} from "../../controllers/userController/updateUserC
 import {deleteUserController} from "../../controllers/userController/deleteUserController";
 import {departmentList} from "../../controllers/departmentController/departmentList";
 import {userList} from "../../controllers/userController/userList";
+import {getUserInfo} from "../../controllers/userController/getUserInfo";
 
 const router = express.Router();
 
@@ -15,6 +16,8 @@ router.post('/read', readUserController);
 router.post('/update', updateUserController);
 router.delete('/delete/:id', deleteUserController);
 router.get('/userList', userList);
+router.get('/info', getUserInfo);
+
 
 
 export default router;
