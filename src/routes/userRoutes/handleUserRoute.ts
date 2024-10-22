@@ -17,7 +17,7 @@ router.post('/update', updateUserController);
 router.delete('/delete/:id', deleteUserController);
 router.get('/userList', userList);
 router.get('/info', getUserInfo);
-router.get('/updateInfo', updateHisInfo); // update by id in token  user is changing his info
+router.post('/updateInfo', updateHisInfo); // update by id in token  user is changing his info
 
 
 export default router;
