@@ -83,7 +83,10 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
             return res.status(500).json({message: err.message});
         } else if (err) {
             // Handle other errors
-            return res.status(500).json({message: "An error occurred during the file upload."});
+            return res.status(500).json({message: "An error occurred during the file upload.",
+                err:err.toString(),
+                err1:err,
+            });
         }
         const fileDetails = req.file;
         if (fileDetails?.originalname) {
