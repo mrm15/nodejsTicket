@@ -13,21 +13,16 @@ const updateHisInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next
             return
         }
 
-
+        debugger
         try {
             // const {id} = req.body
             const _id = myToken.UserInfo.userData.userData.userId;
 
-            debugger
-            res.status(200).json({
-                _id: _id,
-                message: "کاربر با موفقیت به روز شد."
-            });
-            return
+
             const foundUser: IUser = (await User.findOne({_id}).exec())!;
-            debugger
+
             const newData = {...req.body}
-            newData._id = _id
+            // newData._id = _id
             // delete newData._id;
             for (const key in newData) {
                 foundUser[key] = newData[key]
