@@ -3,6 +3,7 @@ import {getRoleAccessList} from "./getRoleAccessList";
 import {User} from "../../models/User";
 import {Department, IDepartment} from "../../models/department";
 import {IRole, Role} from "../../models/roles";
+import {File, IFile} from "../../models/files";
 
 
 export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
@@ -13,7 +14,6 @@ export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
 
         const roleAccessList = await getRoleAccessList(userPhoneNumber);
         const isDepartmentAdmin = await Department.findOne({managerUserId: foundUser._id}).exec();
-
 
 
         const {
@@ -44,11 +44,21 @@ export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
             country,
             province,
             city,
-            profilePictureUrl,
             id: userId,
             contactCode,
             role,
         } = foundUser;
+
+        let {
+            profilePictureUrl,
+        } = foundUser;
+
+        if (profilePictureUrl) {
+            const temp: IFile | null = await File.findOne({_id: profilePictureUrl})
+            if (temp) {
+                profilePictureUrl = temp.filePath
+            }
+        }
 
 
         let roleName = ""
@@ -63,7 +73,7 @@ export const getUserInfoByPhoneNumber = async (userPhoneNumber: string) => {
         }
 
         userInfo = {
-            isDepartmentAdmin:!!isDepartmentAdmin,
+            isDepartmentAdmin: !!isDepartmentAdmin,
             roleAccessList,
             userData: {
                 userId,
