@@ -19,15 +19,23 @@ const getUserInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
 
         const userInfo = await getUserByPhoneNumber(phoneNumber)
 
-        // const {
-        //     tokens, createAt, id, accountingCode, departmentId, role, ...rest
-        // } = userInfo
+        const {
+            tokens,
+            createAt,
+            id,
+            accountingCode,
+            departmentId,
+            role,
+            tasks,
+            tickets,
+            isActive,
+            loginCode,
+            loginCodeSendDate,
+            updateAt,
+            __v,
+            ...rest
+        } = userInfo
 
-        const rest = {
-            name: userInfo.name,
-            familyName: userInfo.familyName,
-            userName: userInfo.userName,
-        }
 
         res.status(200).json({
             data: rest, message: 'لیست بارگزاری شد.',
