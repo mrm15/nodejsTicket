@@ -1,7 +1,6 @@
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {NextFunction, Response} from "express";
 import {IUser, User} from "../../models/User";
-import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
 
@@ -14,7 +13,7 @@ const getBillList = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
         }
 
         const {userId} = myToken?.UserInfo?.userData?.userData;
-        const foundUser: IUser | null = await User.findOne({_id: userId}).lean();
+        const foundUser: IUser | null = await User.findOne({_id: userId})
 
         if (!foundUser) {
             return res.status(401).json({message: 'User not found'});
