@@ -1,6 +1,6 @@
 export const ACCESS_LIST = {
 
-
+    fatherAccess: "fatherAccess",
     ersal: "ersal",
     basteBandi: "basteBandi",
     STATUS_LIST_CREATE: "statusListCreate",
@@ -67,15 +67,15 @@ export const ACCESS_LIST = {
     SMS_PENDING: 'smsPending',
     SMS_SEND: 'smsSend',
     // حسابفا
-    SHOW_BILL_ACCESS:"showBillAccess",
-    DOWNLOAD_BILL_ACCESS:"downloadBillAsPdf",
-    DOWNLOAD_BILL_AS_CSV:"downloadBillAsCsv",
-    SUBMIT_BILL_IN_SUBMIT_ORDER_FORM:"submitBillInSubmitOrderForm",
-    SUBMIT_BILL_IN_CHAT_LIST:"submitBillInChatList",
-    SAVE_BILL_AS_DRAFT:"saveBillAsDraft",
-    SAVE_BILL_AS_DONE:"saveBillAsDone",
-    DELETE_BILL:"deleteBill",
-    ALL_CONTACTS_WHEN_SUBMIT_BILL:"allContactsWhenSubmitBill",
+    SHOW_BILL_ACCESS: "showBillAccess",
+    DOWNLOAD_BILL_ACCESS: "downloadBillAsPdf",
+    DOWNLOAD_BILL_AS_CSV: "downloadBillAsCsv",
+    SUBMIT_BILL_IN_SUBMIT_ORDER_FORM: "submitBillInSubmitOrderForm",
+    SUBMIT_BILL_IN_CHAT_LIST: "submitBillInChatList",
+    SAVE_BILL_AS_DRAFT: "saveBillAsDraft",
+    SAVE_BILL_AS_DONE: "saveBillAsDone",
+    DELETE_BILL: "deleteBill",
+    ALL_CONTACTS_WHEN_SUBMIT_BILL: "allContactsWhenSubmitBill",
 
 
 }
