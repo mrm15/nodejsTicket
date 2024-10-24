@@ -95,5 +95,7 @@ export const myPermissionsArray = [
     "widgetHowManyUsersThereAre",
     //////////////////////
     "screenShotBills",
-    "fatherAccess"
+    "fatherAccess",
+    "showMyBillListForCustomer",
+
 ]
