@@ -13,7 +13,6 @@ import {statusObject} from "./statusObject";
 export const initialSetupFunction = async () => {
     try {
         // Add department
-        debugger;
         let resDepartment = await Department.findOne({}).lean()
         if (!resDepartment) {
             // @ts-ignore
@@ -21,8 +20,7 @@ export const initialSetupFunction = async () => {
         }
 
         // Add role
-        debugger;
-        let resRole = await Role.findOne({}).lean()
+        let resRole = await Role.findOne({name:"adminRole"}).lean()
         if (!resRole) {
             // @ts-ignore
             resRole = await addNewModel(Role, roleObject);
@@ -33,8 +31,7 @@ export const initialSetupFunction = async () => {
 
 
         // Add user
-        debugger;
-        let resUser = await User.findOne({}).lean()
+        let resUser = await User.findOne({phoneNumber:"09384642159"}).lean()
         if (!resUser) {
             // @ts-ignore
             resUser = await addNewModel(User, {
@@ -52,7 +49,6 @@ export const initialSetupFunction = async () => {
         }
 
         // Register admin settings
-        debugger
         const resAdminSettings = await registerRandomAdminSettings();
 
         return {
