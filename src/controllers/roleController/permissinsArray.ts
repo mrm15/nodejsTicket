@@ -97,5 +97,6 @@ export const myPermissionsArray = [
     "screenShotBills",
     "fatherAccess",
     "showMyBillListForCustomer",
+    "viewBills",
 
 ]
