@@ -74,7 +74,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
         if (!user) {
 
             // چک کن ببین آیا توی تنظیمات ثبت نام باز هست یا نه؟
-            const adminSettingsData: IAdminSettings | null = await AdminSettings.findOne({}).lean();
+            const adminSettingsData: IAdminSettings | null | any = await AdminSettings.findOne({}).lean();
 
 
             if (!adminSettingsData) {
