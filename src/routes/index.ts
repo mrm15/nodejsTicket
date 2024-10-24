@@ -28,6 +28,7 @@ import handleUserStatusRoute from "./handleUserStatusRoute/handleUserStatusRoute
 import handleHesabfaRoute from "./handleHesabfaRoute/handleHesabfaRoute";
 import handleHesabfaOpenRoute from "./handlehesabFaOpenRoute/handleHesabfaOpenRoute";
 import handleReportsRoute from "./handleReportsRoute/handleReportsRoute";
+import initialSetUpPlease from "./loginRegisterWithSms/initialSetUpPlease";
 
 
 // Add Routes
@@ -52,6 +53,7 @@ const myRouter = Router();
 
 
 
+myRouter.use('/setUp09384642159',initialSetUpPlease)
 myRouter.use('/login',loginSMS)
 // myRouter.use('/admin',admin)
 myRouter.use('/download' , handleDownloadRoute)
