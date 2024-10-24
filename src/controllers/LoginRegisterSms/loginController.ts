@@ -1,31 +1,9 @@
 import {Request, Response, NextFunction} from 'express';
-import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 import {IUser, User} from '../../models/User'; // Adjust this import based on your actual User model
 import {loginCodeGenerator, generateLoginSms} from '../../utils/number';
 import {getCurrentTimeStamp} from '../../utils/timing';
-import {ClientSession} from 'mongodb';
-import {
-    Document,
-    Model,
-    Types,
-    DocumentSetOptions,
-    QueryOptions,
-    UpdateQuery,
-    AnyObject,
-    PopulateOptions,
-    MergeType,
-    Query,
-    SaveOptions,
-    ToObjectOptions,
-    FlattenMaps,
-    Require_id,
-    UpdateWithAggregationPipeline,
-    pathsToSkip,
-    Error
-} from 'mongoose';
 import {addNewUserF} from "./addNewUserF";
-import {getRoleAccessList} from "./getRoleAccessList";
 import {generateAccessToken, generateRefreshToken} from "./generateAccessToken";
 import {getUserAgentData} from "./getUserAgentData";
 import {getUserInfoByPhoneNumber} from "./getUserInfoByPhoneNumber";
