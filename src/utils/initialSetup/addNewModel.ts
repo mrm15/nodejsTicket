@@ -1,13 +1,7 @@
 import { Model, Document } from "mongoose";
 
-/**
- * Adds a new document to the provided Mongoose model (collection).
- *
- * @param collectionModel - The Mongoose model representing the collection.
- * @param inputObject - The object to insert into the collection.
- * @returns The newly created document or throws an error.
- */
-export const addNewModel = async <T extends Document>(collectionModel: Model<T>, inputObject: Partial<T>): Promise<T | null> => {
+
+export const addNewModel = async (collectionModel:any, inputObject:any) => {
     try {
         // Create a new document using the provided model and input object
         const newDocument = new collectionModel(inputObject);
