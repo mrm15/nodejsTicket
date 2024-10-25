@@ -16,7 +16,6 @@ const updateBillsFileFunction = async (startDate: Date, endDate: Date) => {
     const directoryUrl = "../../pool/bills";
     const fileName = "bills";
     let currentDate = startDate
-    await ensureDataFolderExists(directoryUrl);
 
     while (currentDate <= endDate) {
         try {
@@ -45,8 +44,6 @@ const updateBillsFileFunction = async (startDate: Date, endDate: Date) => {
                 const hesabfaResult = myResult.response.data.Result
                 if (hesabfaResult) {
                     if (hesabfaResult.List.length > 0) {
-                        console.log(hesabfaResult.List)
-                        debugger
                         await saveDataToFile({directoryUrl, date: (currentDate + ""), fileName, data: hesabfaResult.List})
                     }
                 }
