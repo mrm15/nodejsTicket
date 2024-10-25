@@ -50,9 +50,7 @@ const updateBillsFileController = async (req: CustomRequestMyTokenInJwt, res: Re
 
         const resultMessage = await updateBillsFileFunction(startDate, endDate) // میخوام کل فاکتور ها رو بگیرم تا گزارش تعداد تایید نشده ها رو هم بتونم بعدا بگیرم
         res.status(200).json({
-
                 message: resultMessage
-
         });
 
     } catch (error) {
