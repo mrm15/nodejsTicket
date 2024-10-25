@@ -9,6 +9,7 @@ import {getBillsDataFromPoolBill} from "../../utils/getBillsDataFromPoolBill/get
 const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
 
+
     const {myToken} = req;
     if (!myToken) {
         const message = 'مقدار توکن توی ری کوئست موجود نیست'
@@ -18,7 +19,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
 
     try {
-
+        const startTime = Date.now();
         const {filterItems} = req.body;
         // const today = new Date();
         // today.setHours(0, 0, 0, 0);
@@ -63,6 +64,9 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         // const tables = makeTables(pivotAll)
         // const dataWithObject = makeDataObject({totalData: temp11})
         const dataObject = makeDataObject({totalData: temp11})
+        const endTime = Date.now();
+        const timeCalculationInSeconds = ((endTime - startTime) / 1000).toFixed(2); // Convert to seconds and format
+
         res.status(200).json({
             // tables,
             treeView : dataObject.treeViewData,
@@ -71,7 +75,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
             //     // basteBandiCountObject,
             //     // ...pivotAll
             // ],
-            message: 'داده ها به روز شد.',
+            message: '  data Updated! ' + timeCalculationInSeconds + "s",
         })
         return;
 
