@@ -8,7 +8,7 @@ const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, n
 
     const {myToken} = req;
 
-debugger
+
     // res.status(201).json({myToken})
     //
     // return
@@ -35,7 +35,7 @@ debugger
 
         let tokenArrayList = foundUser.tokens.slice();
 
-        debugger
+
 
 
         // get RefreshToken

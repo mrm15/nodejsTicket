@@ -8,7 +8,7 @@ import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 export const registerRandomAdminSettings = async () => {
     // هیچ تنظیماتی نیست. بریم الکی ثبت کنیم
 
-    debugger
+
     const randomUser: IUser | null = (await User.findOne({}).lean())!;
     if (!randomUser) {
         return {

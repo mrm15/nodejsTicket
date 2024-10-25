@@ -1,6 +1,6 @@
 const evaluateConditionFilters = (row: any, filter: any) => {
     let { property, operator, value } = filter;
-    debugger
+
     // Fallbacks for inconsistent casing
     if (!property) {
         property = filter.Property;

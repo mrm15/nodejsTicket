@@ -12,7 +12,7 @@ const getContactData = async (req: CustomRequestMyTokenInJwt, res: Response, nex
     const {contactCode} =  req.params;
 
     console.log(contactCode)
-    debugger
+
     const API_KEY = process.env.HESABFA_API_KEY
     if(!API_KEY){
         res.status(500).json({message:'api key یافت نشد'});
@@ -75,7 +75,7 @@ const getContactData = async (req: CustomRequestMyTokenInJwt, res: Response, nex
                 code: contactCode + "",
             }
             const result = await axios.post(url, data);
-            debugger
+
             console.log(result)
             handleResponse(result,res)
         } catch (error:any) {

@@ -11,7 +11,7 @@ import {IInitialBillResponse} from "../utility/initialBillResponse";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
-    debugger
+
     const {myToken} = req;
     const ticketData = req.body;
 
@@ -172,7 +172,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         // افزودن تیکت به تیکت های کاربر
         // if (!isSendTicketToAdmin) {
-        //     debugger
+        //
         //     const foundUser: IUser = (await User.findOne({_id: userId}).exec())!
         //     foundUser.tickets = [...foundUser.tickets,
         //         {ticketId: result._id?.toString(), readStatus: false,}
@@ -186,7 +186,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
             // Find the user and update tickets array
             const foundUser = (await User.findById({_id:assignToUserId}).exec())!;
-            debugger
+
             if (foundUser) {
                 foundUser.tickets.push({
                     ticketId: result._id,

@@ -9,7 +9,7 @@ interface myObject {
 
 export const userTicketTable = async ({userId}: myObject) => {
 
-    debugger
+
     // get userTicket List from user Model
     const foundUser: IUser | null = await User.findOne({_id: userId}).lean()
     let userTicketArray: ITicketInfo[] | undefined | [] = foundUser?.tickets

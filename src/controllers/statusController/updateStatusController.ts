@@ -46,7 +46,7 @@ const updateStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
             // check if this phone number is uniq
             let foundStatus: IStatus = (await Status.findOne({_id: id}).exec())!
-            debugger
+
 
             if (!foundStatus) {
                 res.status(500).json({message: "وضعیتی  با این نام یافت نشد."});

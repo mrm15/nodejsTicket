@@ -13,7 +13,7 @@ const updateHisInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next
             return
         }
 
-        debugger
+
         try {
             // const {id} = req.body
             const _id = myToken.UserInfo.userData.userData.userId;

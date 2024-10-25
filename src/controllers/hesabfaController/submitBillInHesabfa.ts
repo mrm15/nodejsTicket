@@ -17,7 +17,7 @@ import {p2e} from "../utility/NumericFunction";
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
-    debugger
+
     const API_KEY = process.env.HESABFA_API_KEY
     if (!API_KEY) {
         res.status(500).json({message: 'api key یافت نشد'});
@@ -68,13 +68,13 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
             res.status(500).json({message: 'کد مشتری برای این کاربر تعریف نشده است.'});
             return
         }
-        debugger
+
         if (!invoice
             // || !billData
             // || !billData.billType
             // || billData.ticketId === ""
         ) {
-            debugger
+
             res.status(500).json({message: 'مقدارهای مورد نیاز ورودی در بدنه درخواست وجود ندارد.'});
             return
         }
@@ -124,7 +124,7 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                             const isSentSMS = await sendAfterSavedBillSMS(result.data.Result, adminSettings)
                             // اگه فاکتور تایید شده بود. باید تیکت رو بفرستم به دپارتمان مربوط به نود گیری. این فرآیند خودکار انجام میشه
                             // در واقع اگه دپارتمان مقصد تعریف شده بود و نال نبود باید تیکت رو بفرستیم بره به دپارتمان نود گیری
-                            debugger
+
                             if ((adminSettings.forwardTicketsAfterVerify && invoice.Status === 1) || (adminSettings.forwardTicketsAfterVerify && invoice.Status === "1")) {
                                 await forwardTicketAfterVerify({
                                     depId: adminSettings.forwardTicketsAfterVerify,
@@ -136,11 +136,11 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                     } else {
                         // اگه مشتری شماره تماس داشت
                         //  باید یه پیامک به مشتری بفرستم که فاکتور شما تایید یا پیش نویس شد
-                        debugger
+
                         if (result?.data?.Result) {
                             let message = "";
                             const CustomerMobile = result?.data?.Result.Contact?.Mobile
-                            debugger
+
                             const invoiceStatus = result?.data?.Result.Status
                             const ORDERNAME = result?.data?.Result.ContactTitle
                             const Sum = result?.data?.Result.Sum

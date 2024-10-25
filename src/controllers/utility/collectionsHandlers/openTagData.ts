@@ -32,7 +32,7 @@ export const openTagData = (row: any): myTagObjectType => {
         if (row.Tag && row.Tag.trim() !== "") {
             const parsedTag = JSON.parse(row.Tag)
 
-            debugger
+
             // Populate tagObject with parsed data, ensuring fallback to empty strings
             tagObject = {
                 n: parsedTag.n || "",

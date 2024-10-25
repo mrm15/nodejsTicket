@@ -29,7 +29,7 @@ const getTodayReportSms = async (req: CustomRequestMyTokenInJwt, res: Response, 
           await sendReportDaySMSToSomeOfUsers()
 
 
-        // debugger
+        //
         // const smsPromises = destinationPhoneNumberArray.map(({name, phoneNumber, renderFunction}) => {
         //     return renderFunction({...calculateTodayReportResult, mobile: phoneNumber, ADMINNAME: name});
         // });

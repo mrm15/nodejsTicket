@@ -22,7 +22,7 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
         const billLink = itemLink
         let orderNumber = billData?.ticketNumber;
         let sendSmsResult;
-        debugger
+
         if (typeOfSendMessage === "submitBill") {
             sendSmsResult = await sendSubmitBillSMS(
                 {mobile: destinationNumber, contactName, billLink}

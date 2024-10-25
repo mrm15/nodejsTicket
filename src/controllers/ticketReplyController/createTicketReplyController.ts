@@ -104,7 +104,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
     }
 
 
-    debugger
+
     // برای قطعی شدن اسراسل اس ام اس باید حتما بدونیم که پیام مخفی نیست
 
     if (visibleToUser) {
@@ -157,7 +157,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         // اینجا باید اطلاعات اون تیکت رو ببینیم و از روی اون ببینم نام کاربر و کد کاربر چیه که بفرستیم سمت فرانت
 
 
-        debugger
+
 
         const contactName = customerDocument.name; // اسم مشتری رو میخوایم که میتونیم از اینجا که  داکیومنت مشتری هست پیدا کنیم و بفرستیم
         const contactCode = customerDocument.contactCode; // کد مشتری هست که از روی داکیومنت مستری میگیریم

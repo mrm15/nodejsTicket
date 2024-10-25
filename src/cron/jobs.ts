@@ -25,7 +25,7 @@ export const initializeCronJobs = () => {
     // Task to run every 10 seconds
     // cron.schedule('*/10 * * * * *', async () => {
     //     console.log('Running a task every 10 seconds');
-    //     debugger
+    //
     //     await myLovelyFunction();
     // });
     // Schedule the job to run at 5 PM from Saturday to Thursday

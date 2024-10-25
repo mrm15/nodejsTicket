@@ -2,7 +2,7 @@ import {countFilterResultDateStatus, getHeaderAndRows, hesabfaApiRequest} from "
 import {formatDateForBackend} from "../../utils/functions";
 
 export const fillOutReportData = async (accessList: string[]) => {
-    debugger
+
     const temp: any[] = []
     if (accessList.includes("widgetAmountOfBills7days")) {
         // Calculate the date three days before today
@@ -45,7 +45,7 @@ export const fillOutReportData = async (accessList: string[]) => {
         const sixDaysAgoToShowFront = sixDaysAgo.toLocaleDateString('fa-ir')
         const sevenDaysAgoToShowFront = sevenDaysAgo.toLocaleDateString('fa-ir')
 
-        debugger
+
         const filterItems = [
             {
                 Property: 'Date',

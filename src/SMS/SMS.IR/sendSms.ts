@@ -45,17 +45,17 @@ export const sendSmsFromSMSIR = async ({mobile, templateId, parameters}: inputTy
     };
 
     try {
-        debugger
+
         const response = await axios(config);
         if (response.status === 200) {
-            debugger
+
             return {
                 status: true,
                 messageId: response.data.data.messageId,
                 message: response.data.message
             }
         } else {
-            debugger
+
             return {
                 status: false,
                 messageId: "",

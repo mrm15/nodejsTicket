@@ -19,7 +19,7 @@ const updateBillsFileFunction = async (startDate: Date, endDate: Date) => {
 
     while (currentDate <= endDate) {
         try {
-            debugger
+
             const myData = {
                 take: 1000,
                 skip: 0,
@@ -40,7 +40,7 @@ const updateBillsFileFunction = async (startDate: Date, endDate: Date) => {
             }
             const myResult: any = await hesabfaApiRequest("invoice/getinvoices", myData);
             if (myResult.response.status === 200) {
-                debugger
+
                 const hesabfaResult = myResult.response.data.Result
                 if (hesabfaResult) {
                     if (hesabfaResult.List.length > 0) {

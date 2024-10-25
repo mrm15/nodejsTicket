@@ -10,7 +10,7 @@ import {handleResponse} from "../utility/handleResponse";
 const getCustomerList = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
 
-    debugger
+
     const API_KEY = process.env.HESABFA_API_KEY
     if(!API_KEY){
         res.status(500).json({message:'api key یافت نشد'});
@@ -73,7 +73,7 @@ const getCustomerList = async (req: CustomRequestMyTokenInJwt, res: Response, ne
                 }
             }
             const result = await axios.post(url, data);
-            debugger
+
             console.log(result)
             handleResponse(result,res)
         } catch (error:any) {

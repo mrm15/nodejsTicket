@@ -45,7 +45,7 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
                 ]
             }
         }
-        debugger
+
         const ttt1 = {
             type: 0, // فقط فاکتور فروش
             queryInfo: {
@@ -63,7 +63,7 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
 
             }
         }
-        debugger
+
         const url = "invoice/getinvoices";
         const myResult = await getDataCollectionFromHesabfa(ttt, url);
 

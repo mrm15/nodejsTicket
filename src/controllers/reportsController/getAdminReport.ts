@@ -53,7 +53,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         // const basteBandiCountObject = await basteBandiCounter(myData)
         // console.log(basteBandiCountObject)
         const allBills =await getBillsDataFromPoolBill({filters: filterItems})
-        debugger
+
         // let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
         let temp11: any = (getHeaderAndRowsDetails(allBills))
         temp11 = temp11.rows;
@@ -81,7 +81,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
 
     } catch (error: any) {
-        debugger
+
         res.status(500).json({error: error?.toString()});
         return
     }

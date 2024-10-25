@@ -259,6 +259,6 @@ export const countFilterResultDateStatus = (tempBillList = [], date: string) => 
         verifiedBillTotalSum: 0,
     });
 
-    debugger
+
     return data;
 }

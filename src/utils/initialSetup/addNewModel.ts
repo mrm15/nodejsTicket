@@ -7,9 +7,9 @@ export const addNewModel = async (collectionModel:any, inputObject:any) => {
         const newDocument = new collectionModel(inputObject);
 
         // Save the new document to the database
-        debugger
+
         const tttt = await newDocument.save();
-        debugger
+
         return tttt
     } catch (error) {
         console.error(`Error creating document in collection ${collectionModel.modelName}:`, error);

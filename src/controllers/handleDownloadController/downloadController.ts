@@ -12,7 +12,7 @@ import {timestampToTime} from "../../utils/timestampToTime";
 
 const downloadController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
-    debugger
+
     const {myToken} = req;
 
 

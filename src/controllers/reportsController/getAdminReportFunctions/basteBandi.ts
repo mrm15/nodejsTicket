@@ -10,7 +10,7 @@ export const basteBandiCounter = async (myData: any) => {
     const persianDateDash = persianDate.replaceAll("/" , "-")
 
 
-    debugger
+
     const myData1 = {
         type: 0, // Only sales invoices (type 0)
         queryInfo: {
@@ -31,7 +31,7 @@ export const basteBandiCounter = async (myData: any) => {
     if (allData) {
         const allFilteredData = allData.filter(row => row.Tag.includes(`db\":\"${persianDateDash}`))
         const lengthOfData = allFilteredData.length
-        debugger
+
         return {
             title: "تعداد بسته بندی",
             value: lengthOfData

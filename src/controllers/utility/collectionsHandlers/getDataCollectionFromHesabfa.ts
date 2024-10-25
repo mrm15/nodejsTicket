@@ -3,7 +3,7 @@ import {openTagData} from "./openTagData";
 
 export const getDataCollectionFromHesabfa = async (bodyData: any, url: string) => {
     const {page = 1, pageSize = 2, filters = []} = bodyData;
-    debugger
+
 
 
     // Build the filter object
@@ -40,7 +40,7 @@ export const getDataCollectionFromHesabfa = async (bodyData: any, url: string) =
                     ...newRow
                 }
             })
-            debugger
+
         }
         return resData
     } catch (error) {

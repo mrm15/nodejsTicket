@@ -73,7 +73,7 @@ const createUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
         // این بخش بخاطر همگامسازی با حسابفا میزنم.
         // در صورتی که کاربری رو توی سایت خودمون ایجاد کردیم حالا باید بریم براش توی سایت حسابفا اکانت بسازیم
         //بعدش که کاربر رو ایجاد کردیمک باید کد مکشتری که حسابفا داده رو بگیریم و بزاریم توی کد مشتری همین کاربر
-        debugger
+
         if (resultAddNewUser.Success) {
             // اینجا باید کد مشتری رو بگیرم و توی دیتا بیس خودم ذخیره کنم.
             const code = resultAddNewUser.Result.Code;

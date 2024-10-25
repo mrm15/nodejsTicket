@@ -11,7 +11,7 @@ interface myInterface {
 export const inboxTicketList = async ({ userId }: myInterface) => {
     const list = await userTicketTable({ userId });
     const rowDataTemp: ITicket[] = list.rowData;
-    debugger
+
     const foundUser: IUser | null = await User.findOne({ _id: userId });
 
     let departmentTicketList: ITicket[] | null | [] = [];

@@ -13,7 +13,7 @@ export const getDataCollection = async (bodyData: any, collectionName: Model<any
 
     // Define pagination options
     const paginationOptions = {page, pageSize};
-    debugger        // Fetch the users with pagination
+             // Fetch the users with pagination
     return await fetchPaginatedResults(
         collectionName,
         filterObject,

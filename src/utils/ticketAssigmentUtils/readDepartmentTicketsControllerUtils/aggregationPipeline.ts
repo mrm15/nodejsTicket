@@ -18,7 +18,7 @@ export const createAggregationPipeline = ({
     let myPipLine = []
 
 
-    debugger
+
     // اول میخوایم که توی خود تیکت اساینمنت بره این دو مورد رو تبدیل کنه
     //assignedToUserId
     //assignedBy

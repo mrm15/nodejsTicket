@@ -51,7 +51,7 @@ export const calculateSingleObject = (totalData:any,myRowWithFilters:  { filterI
 
 export const calculatePivotById = ({totalData, myArray}: any) => {
 
-    debugger
+
     const pivotData = myArray.map((myRowWithFilters: any) => {
         // Filter rows that contain any of the keywords in filterTextForPivot
         const filteredRows = totalData.filter((row: any) => {

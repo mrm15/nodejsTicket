@@ -56,9 +56,9 @@ export const submitAddOrEditContactToHesabfa = async (myContact:any) => {
                 loginToken: LOGIN_TOKEN,
                 contact
             }
-            debugger
+
             const result = await axios.post(url, data);
-            debugger
+
             return result?.data
 
 

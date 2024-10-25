@@ -260,7 +260,7 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
 
     let tokenArrayList = foundUser.tokens.slice();
 
-    debugger
+
 
     // for first time   there is no jwt so don't need to do any thong
     if (req?.cookies?.jwt) {

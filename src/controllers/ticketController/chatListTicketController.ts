@@ -158,7 +158,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             const row: any = {};
             const foundUser: IUser = (await User.findOne({_id: singleTicketReply.userId}).lean())!;
             const foundDepartment: IDepartment = (await Department.findOne({_id: singleTicketReply.departmentId}).lean())!;
-            debugger
+
             let filesPropertiesArray: { fileName: string; fileSize: number; filePath: string; fileType: string; }[] = []
             if (singleTicketReply.attachments) {
                 filesPropertiesArray = await filesToFileData(singleTicketReply.attachments)

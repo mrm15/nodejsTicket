@@ -27,7 +27,7 @@ export const defineTable = async ({req, conditionString, ticketUserId}: myObject
         ticketList = await Ticket.find({}).lean()
     }
 
-    debugger
+
 
     let myList = await Promise.all(ticketList.map(async (singleTicket) => {
         const row: any = {...singleTicket};

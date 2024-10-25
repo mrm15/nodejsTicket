@@ -51,7 +51,7 @@ export const forwardTicketAfterVerify = async ({depId, billData}: {
     depId: any,
     billData: IInitialBillResponse
 }) => {
-    debugger
+
     if (!depId) {
 
     }
@@ -60,7 +60,7 @@ export const forwardTicketAfterVerify = async ({depId, billData}: {
     }
     if (depId && billData) {
 
-        debugger
+
         const ticketFound: ITicket = (await Ticket.findOne({_id: billData.ticketId}).exec())!;
         ticketFound.assignedToDepartmentId = depId;
         await ticketFound.save();

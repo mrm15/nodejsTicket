@@ -66,7 +66,7 @@ export const buildFilterObject = (filters: Filter[]): { [key: string]: any } => 
         }
     });
 
-    debugger
+
     // console.log(filterObject)
     return filterObject;
 };

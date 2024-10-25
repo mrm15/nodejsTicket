@@ -83,7 +83,7 @@ const updatePackStatusTo8 = async (req: CustomRequestMyTokenInJwt, res: Response
                 Tag: newTag
             }
 
-            debugger
+
             const data = {
                 apiKey: API_KEY,
                 // userId: 'mail@example.com',
