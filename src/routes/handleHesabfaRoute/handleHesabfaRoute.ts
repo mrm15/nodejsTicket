@@ -14,6 +14,7 @@ import {changeSentStatus} from "../../controllers/hesabfaController/changeSentSt
 import {
     deleteBillInHesabfaControllerByNumber
 } from "../../controllers/hesabfaController/deleteBillInHesabfaControllerByNumber";
+import {updateBillsFileController} from "../../controllers/hesabfaController/updateBillsFileController";
 
 
 const router = express.Router();
@@ -35,6 +36,8 @@ router.post('/changeSentStatus/', changeSentStatus) // برای جدول بست�
 
 // router.get('/getArchive', getArchiveController)
 // router.get('/getPending', getPendingController)
+router.post('/updateBillsFile/', updateBillsFileController) // به روز رسانی فایل های  فاکتور bills
+
 
 
 export default router;
