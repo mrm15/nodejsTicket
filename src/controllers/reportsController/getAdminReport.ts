@@ -3,6 +3,7 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {getBillsDataFromHesabfa} from "./getAdminReportFunctions/getBillsDataFromHesabfa";
 import {getHeaderAndRowsDetails} from "../utility/hesabfa/functions";
 import makeDataObject from "../../utils/ReportsUtils/reportFunctions/makeDataObject";
+import {getBillsDataFromPoolBill} from "../../utils/getBillsDataFromPoolBill/getBillsDataFromPoolBill";
 
 
 const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -44,13 +45,16 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         // اگه بود تعداد آیتم بسته بندی شده اون روز رو اضافه میکنم
 
 
-        const billsDataFromHesabfa = await getBillsDataFromHesabfa(myData)
+        // const billsDataFromHesabfa = await getBillsDataFromHesabfa(myData)
         //
 
 
         // const basteBandiCountObject = await basteBandiCounter(myData)
         // console.log(basteBandiCountObject)
-        let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
+        const allBills =await getBillsDataFromPoolBill({filters: filterItems})
+        debugger
+        // let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
+        let temp11: any = (getHeaderAndRowsDetails(allBills))
         temp11 = temp11.rows;
         temp11 = temp11.filter((row: any) => row.myStatus === 1)
 
