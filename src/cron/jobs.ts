@@ -2,6 +2,7 @@
 import cron from 'node-cron';
 import {myLovelyFunction} from "../utils/myLovelyFunction";
 import {sendReportDaySMSToSomeOfUsers} from "../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
+import updateBillsFileFunction from "../utils/updateBillsFileFunction/updateBillsFileFunction";
 
 // Function to initialize cron jobs
 export const initializeCronJobs = () => {
@@ -41,13 +42,20 @@ export const initializeCronJobs = () => {
         cron.schedule('35 14 * * 4', async () => {
             await sendReportDaySMSToSomeOfUsers();
             console.log("schedule:'30 14 * * 4'")
-        });
+        })
 
         // Schedule the job to run at 5 PM from Saturday to Wednesday
         cron.schedule('0 17 * * 0-3,6', async () => {
             await sendReportDaySMSToSomeOfUsers();
             console.log("schedule:'0 17 * * 0-3,6'")
 
+        })
+        // Schedule a new job to run every 15 minutes between 7 AM and 7 PM
+        cron.schedule('*/15 7-19 * * *', async () => {
+            console.log('Running a task every 15 minutes between 7 AM and 7 PM');
+            const rightNowDate = new Date();
+            const resultMessage = await updateBillsFileFunction(rightNowDate, rightNowDate)
+            console.log(resultMessage , rightNowDate)
         });
     }
 
