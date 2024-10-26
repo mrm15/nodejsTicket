@@ -1,21 +1,20 @@
 import {ITicket, Ticket} from "../../models/ticket";
 
 interface IInput {
-    ticketArray: ITicket[];
+    ticketIdsArray: ITicket[];
     departmentId: string | null;
     userId: string | null;
 }
 
 const changeTicketsDepartmentAndUser = async ({
-                                                  ticketArray,
+                                                  ticketIdsArray,
                                                   departmentId,
                                                   userId
                                               }: IInput) => {
 
 
-    const myList = await Promise.all(ticketArray.map(async (singleTicket: ITicket) => {
-        const row: any = {...singleTicket};
-        const ticketFound: ITicket = (await Ticket.findOne({_id: row._id}).exec())!;
+    const myList = await Promise.all(ticketIdsArray.map(async (singleTicketId: any) => {
+        const ticketFound: ITicket = (await Ticket.findOne({_id: singleTicketId}).exec())!;
         // @ts-ignore
         ticketFound.assignedToDepartmentId = departmentId
         // @ts-ignore

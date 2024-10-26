@@ -30,12 +30,12 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
 
 
     let {
-        tickets,
+        ticketIdsArray,
         department,
         user,
     } = req.body;
 
-    if (tickets.length === 0) {
+    if (ticketIdsArray.length === 0) {
         res.status(406).json({
             message: 'لطفا یک تیکت انتخاب کنید.',
         });
@@ -92,7 +92,7 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
         console.log("user:")
         console.log(user)
         const resultOfTask = await forwardTicket({
-            ticketArray: tickets,
+            ticketIdsArray: ticketIdsArray,
             departmentId: department,
             userId: user,
             senderUserId,

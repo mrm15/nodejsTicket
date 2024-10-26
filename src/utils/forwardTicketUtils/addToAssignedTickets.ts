@@ -3,17 +3,17 @@ import {ITicketAssignment, TicketAssignment} from "../../models/ticketAssignment
 import {Department} from "../../models/department";
 
 interface IInput {
-    ticketArray: ITicket[];
+    ticketIdsArray: ITicket[];
     departmentId: string | null;
     userId: string | null;
     senderUserId:string;
 }
 
-const addToAssignedTickets = async ({ticketArray, departmentId, userId,senderUserId}: IInput) => {
+const addToAssignedTickets = async ({ticketIdsArray, departmentId, userId,senderUserId}: IInput) => {
 
-    const myList = await Promise.all(ticketArray.map(async (singleTicket: ITicket) => {
+    const myList = await Promise.all(ticketIdsArray.map(async (singleTicketId: any) => {
         // آیدی اون تیکت رو میگیریم
-        const ticketFound: ITicket = (await Ticket.findOne({_id: singleTicket._id}).exec())!;
+        const ticketFound: ITicket = (await Ticket.findOne({_id: singleTicketId}).exec())!;
         const newRow: any = {};
         newRow.ticketId = ticketFound._id
         newRow.assignedBy=senderUserId
