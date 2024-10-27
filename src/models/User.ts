@@ -8,10 +8,6 @@ interface IUserTask {
     visible: boolean;
 }
 
-export interface ITicketInfo {
-    ticketId: string;
-    readStatus: boolean;
-}
 
 interface IUser extends Document {
     [key: string]: any;
@@ -51,7 +47,6 @@ interface IUser extends Document {
     loginCode: number;
     loginCodeSendDate: Date | null;
     isActive: Boolean;
-    tickets: ITicketInfo[];
     createAt: Date;
     updateAt: Date;
     tokens: {
@@ -299,10 +294,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     },
 
 
-    tickets: [{
-        ticketId: {type: mongoose.Schema.Types.ObjectId, required: false, index: true, ref: 'Ticket'},
-        readStatus: {type: Boolean, default: false, index: true,}
-    }],
+
 
     createAt: {
         type: Date,
