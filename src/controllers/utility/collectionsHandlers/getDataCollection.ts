@@ -9,7 +9,7 @@ export const getDataCollection = async (bodyData: any, collectionName: Model<any
     const filterObject = buildFilterObject(filters);
 
     // Define sorting options
-    const sortOptions: SortOptions = {createdAt: 1};
+    // const sortOptions: SortOptions = {createdAt: -1};
 
     // Define pagination options
     const paginationOptions = {page, pageSize};
@@ -18,6 +18,6 @@ export const getDataCollection = async (bodyData: any, collectionName: Model<any
         collectionName,
         filterObject,
         paginationOptions,
-        sortOptions,
+        // sortOptions,
     )
 }
