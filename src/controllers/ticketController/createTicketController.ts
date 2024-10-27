@@ -8,6 +8,7 @@ import {getNextSequenceValue, ITicket, Ticket} from "../../models/ticket";
 import {getSettings} from "../../utils/getFirstStatus";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
+import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -75,7 +76,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             return
         }
 
-        const userId = userFound?._id
+        const senderUserId = userFound?._id
         const ticketNumber = await getNextSequenceValue('ticketNumber')
 
 
@@ -141,7 +142,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         const newTicket: any = {
             ticketNumber,
-            userId,
+            userId:senderUserId,
             title: ticketData.title,
             description: ticketData.description,
             priority: 'زیاد',
@@ -161,28 +162,9 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const result: ITicket = await Ticket.create(newTicket);
 
         let msg1 = ""
-        if (!isSendTicketToAdmin) {
-
-            // Find the user and update tickets array
-            const foundUser = (await User.findById({_id:assignToUserId}).exec())!;
-
-            if (foundUser) {
-                foundUser.tickets.push({
-                    ticketId: result._id,
-                    readStatus: false,
-                });
-
-                // Mark the tickets array as modified
-                foundUser.markModified('tickets');
-
-                // Save the updated user document
-                await foundUser.save();
-                msg1 = 'و به کاربر ارجاع شد '
-            }
-        }
-
-
-        const msg0 = 'سفارش با موفقیت ایجاد شد.';
+        await addToAssignedTickets({ticketIdsArray: [result._id], departmentId:assignedToDepartmentId, userId:result.assignToUserId, senderUserId:senderUserId})
+        msg1+="تیکت ارجاع شد ";
+        msg1+= 'سفارش با موفقیت ایجاد شد.';
 
         const contactName = myToken.UserInfo.userData.userData.name; // اینجا جاییه که همون کاربری که دکمه ی ثبت رو زده میخواد فاکتور ثبت کنه پس اسم مشتری همون اسم کسیه که لاگین شده
         const contactCode = myToken.UserInfo.userData.userData.contactCode || 'Error'; // کد کسیه که الان لاگین شده و باید اینو توی جدول کد ها برابر با دیتای حسابفا بزارم.
@@ -213,7 +195,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         res.status(200).json({
 
-                message: msg0 + msg1,
+                message: msg1,
                 data: myDataForTicketNeedsBill
             }
         );
