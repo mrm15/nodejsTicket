@@ -23,7 +23,9 @@ export const createAggregationPipeline = ({
     //assignedToUserId
     //assignedBy
 
-
+    myPipLine.unshift({
+        $sort: { _id: -1 as 1 | -1 } // Explicitly type the sort direction as `1 | -1`
+    });
     //assignedToUserId
     myPipLine.push(
         {
@@ -160,10 +162,10 @@ export const createAggregationPipeline = ({
         {
             $project: {
 
-                _id: 1, // id  of ticket assignment
+                _id: "$ticketId",// id  of ticket assignment
+                ticketAssignedId :  "$_id",
                 rowNumber: "",//  میخوام اینو دستی اضافه کنم ببینم میشه؟ اگه نشد توی خط بعدش حساب میکنم
 
-                ticketId: 1,
                 title: "$z_ticketDetails.title", // عنوان تیکت - عنوان سفارش
                 userCreateThisOrder: //"$z_ticketUserIdDetails.name",//
                     {
