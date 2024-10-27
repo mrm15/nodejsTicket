@@ -159,28 +159,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
 
         const result: ITicket = await Ticket.create(newTicket);
-        console.log(result)
 
-        // اینجا من توی جواب این درخواست میخوام این اطلاعات رو بفرستم:
-        // ticketId:"",         // result._id
-        // type: "" ,           // ticket , ticketReply
-        // billNumber :"",      // empty  because t need to submit First bill
-        // contactCode:"",      // contact Code hesabfa needs To submit bill
-        // title: ""            // title Of The bill
-        // tag:
-        // const myTag = myToken
-
-        // افزودن تیکت به تیکت های کاربر
-        // if (!isSendTicketToAdmin) {
-        //
-        //     const foundUser: IUser = (await User.findOne({_id: userId}).exec())!
-        //     foundUser.tickets = [...foundUser.tickets,
-        //         {ticketId: result._id?.toString(), readStatus: false,}
-        //     ]
-        //
-        //     await foundUser.save()
-        //
-        // }
         let msg1 = ""
         if (!isSendTicketToAdmin) {
 
