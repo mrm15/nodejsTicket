@@ -11,6 +11,7 @@ import {filterMiddleware} from "../../middleware/filterForSearchTickets/filterMi
 import {readOutBoxAssignmentController} from "../../controllers/ticketController/readOutBoxAssignmentController";
 import {readInBoxAssignmentController} from "../../controllers/ticketController/readInBoxAssignmentController";
 import {readAllAssignmentController} from "../../controllers/ticketController/readAllAssignmentController";
+import {markAsReadTicketAssignments} from "../../controllers/ticketController/markAsReadTicketAssignments";
 
 const router = express.Router();
 
@@ -53,6 +54,7 @@ router.post('/readForwardedToMeTickets', readInBoxAssignmentController)
 router.post('/readDepartmentTickets', readDepartmentTicketsController)
 // همه ی تیکت های ارجاعی برای مدیر
 router.post('/readAllAssignments', readAllAssignmentController)
+router.post('/markAsReadTicketAssignments', markAsReadTicketAssignments)
 
 
 export default router;
