@@ -1,11 +1,12 @@
 import {ITicket, Ticket} from "../../models/ticket";
 import {ITicketAssignment, TicketAssignment} from "../../models/ticketAssignment ";
 import {Department} from "../../models/department";
+import mongoose from "mongoose";
 
 interface IInput {
     ticketIdsArray: ITicket[];
-    departmentId: string | null;
-    userId: string | null;
+    departmentId: string | null| mongoose.Schema.Types.ObjectId;
+    userId: string | null | mongoose.Schema.Types.ObjectId;
     senderUserId:string;
 }
 
@@ -31,6 +32,7 @@ const addToAssignedTickets = async ({ticketIdsArray, departmentId, userId,sender
         const result = await TicketAssignment.create(newRow)
         return !!result;
     }))
-    return myList.find(row => !row)
+    debugger
+    return myList.find(row => row===true)
 }
 export default addToAssignedTickets
