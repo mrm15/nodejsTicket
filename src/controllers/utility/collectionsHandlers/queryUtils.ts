@@ -7,7 +7,7 @@ interface PaginationOptions {
     pageSize: number;
 }
 
-const defaultSortOptions: SortOptions = {createdAt: -1};
+const defaultSortOptions: SortOptions = {createAt: -1};
 
 export interface SortOptions {
     [key: string]: 1 | -1;
@@ -39,6 +39,7 @@ export const fetchPaginatedResults = async (
 
     const totalDocuments = await model.countDocuments(filterObject).exec();
     let results = await model.find(filterObject)
+        .sort(appliedSortOptions) // Apply sorting here
         .skip(skip)
         .limit(limit)
         .lean()
