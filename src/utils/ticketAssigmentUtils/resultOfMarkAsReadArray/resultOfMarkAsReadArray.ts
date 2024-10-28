@@ -1,14 +1,14 @@
 import {ITicketAssignment, TicketAssignment} from "../../../models/ticketAssignment ";
 
 interface inputType {
-    ticketAssignmentIdsArray: any[];
+    idArray: any[];
     readStatus: boolean;
 }
 
-const resultOfMarkAsReadArray = async ({ticketAssignmentIdsArray, readStatus}: inputType) => {
+const resultOfMarkAsReadArray = async ({idArray, readStatus}: inputType) => {
 
 
-    await Promise.all(ticketAssignmentIdsArray.map(async (singleTicketAssignmentId) => {
+    await Promise.all(idArray.map(async (singleTicketAssignmentId) => {
         const ticketAssignmentFound: ITicketAssignment = (await TicketAssignment.findOne({_id: singleTicketAssignmentId}).exec())!;
 
         ticketAssignmentFound.readStatus = readStatus
