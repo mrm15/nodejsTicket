@@ -18,6 +18,8 @@ const resultOfMarkAsReadArray = async ({idArray, readStatus}: inputType) => {
     }));
 
 
-    return "تغییر وضعیت انجام شد";
+    return {
+        message: "تغییر وضعیت انجام شد"
+    }
 }
 export default resultOfMarkAsReadArray
