@@ -18,13 +18,14 @@ const markAsReadTicketAssignments = async (req: CustomRequestMyTokenInJwt, res: 
 
     try {
 
+        debugger
         const {ticketAssignmentIdsArray, readStatus} = req.body;
         if (!ticketAssignmentIdsArray || ticketAssignmentIdsArray.length === 0 || !readStatus) {
             res.status(500).json({message: "ورودی نامعتبر"});
             return
         }
 
-        const resultOfMarkAsRead = await resultOfMarkAsReadArray({ticketAssignmentIdsArray: [], readStatus: true})
+        const resultOfMarkAsRead = await resultOfMarkAsReadArray({ticketAssignmentIdsArray, readStatus})
         return res.status(200).json(resultOfMarkAsRead);
     } catch (error: any) {
 
