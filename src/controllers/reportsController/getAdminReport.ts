@@ -4,6 +4,7 @@ import {getBillsDataFromHesabfa} from "./getAdminReportFunctions/getBillsDataFro
 import {getHeaderAndRowsDetails} from "../utility/hesabfa/functions";
 import makeDataObject from "../../utils/ReportsUtils/reportFunctions/makeDataObject";
 import {getBillsDataFromPoolBill} from "../../utils/getBillsDataFromPoolBill/getBillsDataFromPoolBill";
+import getRowsOfInvoiceItemsFromBills from "./getAdminReportFunctions/getRowsOfBills";
 
 
 const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -55,10 +56,13 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         const allBills =await getBillsDataFromPoolBill({filters: filterItems})
 
         // let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
-        let temp11: any = (getHeaderAndRowsDetails(allBills))
-        temp11 = temp11.rows;
-        temp11 = temp11.filter((row: any) => row.myStatus === 1)
+        // let temp11: any = (getHeaderAndRowsDetails(allBills))
+        let temp11: any = getRowsOfInvoiceItemsFromBills(allBills)
 
+        debugger
+        // temp11 = temp11.rows;
+        temp11 = temp11.filter((row: any) => row.myStatus === 1)
+        debugger
         // const myPivotDataObject = calculatePivotById({totalData: temp11, myArray:detailReportArray })
         // const pivotAll = [...myPivotDataObject.pivotAll]
         // const tables = makeTables(pivotAll)
@@ -71,6 +75,13 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
             // tables,
             treeView : dataObject.treeViewData,
             tableView : dataObject.tableView,
+            billUsers: [
+                {
+                    name : "",
+
+                }
+            ],
+            basteBandi:"",
             // titleData: [
             //     // basteBandiCountObject,
             //     // ...pivotAll
