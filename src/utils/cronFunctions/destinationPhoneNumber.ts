@@ -38,11 +38,11 @@ export const destinationPhoneNumberArray = [
         phoneNumber: "09125662506",
         renderFunction: sendSMSAdminChaleniumSuedi
     },
-    {
-        name: "علی سمیعی ",
-        phoneNumber: "09392325775",
-        renderFunction: sendSMSAdminLaserDouble
-    },
+    // {
+    //     name: "علی سمیعی ",
+    //     phoneNumber: "09392325775",
+    //     renderFunction: sendSMSAdminLaserDouble
+    // },
     {
         name: " علی رجنی",
         phoneNumber: "09304774849",
