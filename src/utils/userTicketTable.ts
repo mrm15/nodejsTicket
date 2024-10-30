@@ -1,4 +1,4 @@
-import {ITicketInfo, IUser, User} from "../models/User";
+import {IUser, User} from "../models/User";
 import {ITicket, Ticket} from "../models/ticket";
 import mongoose from "mongoose";
 import {Department, IDepartment} from "../models/department";
@@ -12,7 +12,7 @@ export const userTicketTable = async ({userId}: myObject) => {
 
     // get userTicket List from user Model
     const foundUser: IUser | null = await User.findOne({_id: userId}).lean()
-    let userTicketArray: ITicketInfo[] | undefined | [] = foundUser?.tickets
+    let userTicketArray: any | undefined | [] = foundUser?.tickets
     if (!userTicketArray) {
         userTicketArray = []
     }
@@ -20,7 +20,7 @@ export const userTicketTable = async ({userId}: myObject) => {
 
     console.log("userTicketArray:", userTicketArray);
 
-    const myList = await Promise.all(userTicketArray.map(async (singleRow: ITicketInfo) => {
+    const myList = await Promise.all(userTicketArray.map(async (singleRow: any) => {
         try {
             const foundTicket: ITicket | null = await Ticket.findOne({_id: singleRow.ticketId}).lean();
 
