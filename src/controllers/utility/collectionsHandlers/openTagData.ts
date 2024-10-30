@@ -1,7 +1,7 @@
 import {getCurrentTimeStamp} from "../../../utils/timing";
 
 export type myTagObjectType = {
-    n: string; // نام مشتری
+    n: string; // نام کسی که فاکتور میزنه
     tn: string;// شماره تیکت مشتری
     bs: string;// وضعیت بسته بندی
     db: Date | string; // تاریخ بسته بندی
@@ -24,6 +24,33 @@ export const makeEmptyTagObject = () => {
     };
     return tagObject
 }
+export const openTagDataByRowReturnTagData = (row: any): myTagObjectType => {
+    let tagObject: myTagObjectType = makeEmptyTagObject();
+
+    try {
+        // Check if the tag exists and is not an empty string
+        if (row.Tag && row.Tag.trim() !== "") {
+            const parsedTag = JSON.parse(row.Tag)
+
+
+            // Populate tagObject with parsed data, ensuring fallback to empty strings
+            tagObject = {
+                n: parsedTag.n || "",
+                tn: parsedTag.tn || "",
+                bs: parsedTag.bs || "",
+                db: parsedTag.db || "",
+                ss: parsedTag.ss || "",
+                ds: parsedTag.ds || "",
+                des: parsedTag.des || "",
+            };
+        }
+    } catch (error) {
+        // If there's an error in parsing, return the empty tagObject
+        console.error("Error parsing tag data:", error);
+    }
+
+    return tagObject
+};
 export const openTagData = (row: any): myTagObjectType => {
     let tagObject: myTagObjectType = makeEmptyTagObject();
 
