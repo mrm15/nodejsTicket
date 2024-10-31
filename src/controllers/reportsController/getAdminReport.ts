@@ -58,16 +58,17 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         // let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
         // let temp11: any = (getHeaderAndRowsDetails(allBills))
         let temp11: any = getRowsOfInvoiceItemsFromBills(allBills)
-
-        debugger
         // temp11 = temp11.rows;
-        temp11 = temp11.filter((row: any) => row.myStatus === 1)
+        const temp11Status1 = temp11.filter((row: any) => row.myStatus === 1)
         debugger
         // const myPivotDataObject = calculatePivotById({totalData: temp11, myArray:detailReportArray })
         // const pivotAll = [...myPivotDataObject.pivotAll]
         // const tables = makeTables(pivotAll)
         // const dataWithObject = makeDataObject({totalData: temp11})
-        const dataObject = makeDataObject({totalData: temp11})
+        const dataObject = makeDataObject({totalData: temp11Status1});
+
+
+
         const endTime = Date.now();
         const timeCalculationInSeconds = ((endTime - startTime) / 1000).toFixed(2); // Convert to seconds and format
 
