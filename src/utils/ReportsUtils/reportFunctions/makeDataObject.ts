@@ -1295,8 +1295,6 @@ const makeDataObject = ({totalData}: any) => {
                 ...SUM_FELEZAT
             },
         ],
-
-
     ]
 
     const treeViewData = [
@@ -1848,7 +1846,7 @@ const makeDataObject = ({totalData}: any) => {
 
     return {
         tableView,
-        treeViewData:treeViewDataSorted,
+        treeView:treeViewDataSorted,
     }
 }
 

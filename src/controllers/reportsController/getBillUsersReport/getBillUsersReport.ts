@@ -37,7 +37,7 @@ const getBillUsersReport = async (req: CustomRequestMyTokenInJwt, res: Response,
         // const basteBandiCountObject = await basteBandiCounter(myData)
         // console.log(basteBandiCountObject)
         const allBills = await getBillsDataFromPoolBill({filters: filterItems})
-
+        debugger
         // let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
         // let temp11: any = (getHeaderAndRowsDetails(allBills))
         let temp11: any = getRowsOfInvoiceItemsFromBills(allBills)
@@ -60,6 +60,7 @@ const getBillUsersReport = async (req: CustomRequestMyTokenInJwt, res: Response,
         const timeCalculationInSeconds = ((endTime - startTime) / 1000).toFixed(2); // Convert to seconds and format
 
         res.status(200).json({
+            allBills:allBills.length,
             data: result,
             message: '  data Updated! ' + timeCalculationInSeconds + "s",
         })
