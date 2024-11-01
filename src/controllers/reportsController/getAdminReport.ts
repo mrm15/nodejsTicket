@@ -74,7 +74,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
         res.status(200).json({
             // tables,
-            treeView : dataObject.treeViewData,
+            treeView : dataObject.treeView,
             tableView : dataObject.tableView,
             billUsers: [
                 {
