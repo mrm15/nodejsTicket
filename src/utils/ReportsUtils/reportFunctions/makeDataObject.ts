@@ -1253,6 +1253,59 @@ const makeDataObject = ({totalData}: any) => {
         ]
     })
 
+    // چیزایی که توی بخش فاکتور زدن لازمه
+    const OJRAT_BORESH_LEISER_2_8MILL = calculateSingleObject(totalData, {
+        caption: "اجرت برش لیزر ورق 2.8 میل",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000004",
+        ]
+    })
+    const OJRAT_BORESH_PVC_CNC = calculateSingleObject(totalData, {
+        caption: "اجرت برش پی وی سی - سی ان سی",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000067",
+        ]
+    })
+    const OJRAT_BORESH_LEISER_ESTIL = calculateSingleObject(totalData, {
+        caption: "اجرت برش لیزر استیل",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000082",
+        ]
+    })
+    const OJRAT_BORESH_LEISER_PLAXI_5MILL = calculateSingleObject(totalData, {
+        caption: "اجرت برش لیزر پلکسی 5 میل",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000238",
+        ]
+    })
+    const OJRAT_BORESH_LEISER_AHAN = calculateSingleObject(totalData, {
+        caption: "اجرت برش لیزر آهن",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000254",
+        ]
+    })
+    const OJRAT_BORESH_PLAXI_10MILL = calculateSingleObject(totalData, {
+        caption: "اجرت برش لیزر پلکسی 10 میل",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000374",
+        ]
+    })
+
+
+
+
     const tableView = [
         [
             {
@@ -1294,6 +1347,28 @@ const makeDataObject = ({totalData}: any) => {
             {
                 ...SUM_FELEZAT
             },
+        ],
+        [
+            {
+                ...OJRAT_BORESH_PLAXI_10MILL
+            },
+            {
+                ...OJRAT_BORESH_LEISER_AHAN
+            },
+            {
+                ...OJRAT_BORESH_LEISER_PLAXI_5MILL
+            },
+            {
+                ...OJRAT_BORESH_LEISER_ESTIL
+            },
+            {
+                ...OJRAT_BORESH_PVC_CNC
+            },
+            {
+                ...OJRAT_BORESH_LEISER_2_8MILL
+            },
+
+
         ],
     ]
 
