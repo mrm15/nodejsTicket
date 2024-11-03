@@ -13,6 +13,7 @@ interface IUser extends Document {
     [key: string]: any;
 
     userName?: string;
+    nationalCode?: string;
     departmentId?: mongoose.Schema.Types.ObjectId;
     role?: mongoose.Types.ObjectId;
     tasks: IUserTask[];
@@ -35,7 +36,6 @@ interface IUser extends Document {
     cardNumber: string;
     SHABA_Number: string;
     economicCodeCompany: string;
-    nationalCodeCompany: string;
     registerNumberCompany: string;
     description: string;
     address: string;
@@ -206,7 +206,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
         default: "",
 
     },
-    nationalCodeCompany: {
+    nationalCode: {
         type: String,
         required: false,
         default: "",
