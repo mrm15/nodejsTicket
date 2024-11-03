@@ -32,7 +32,7 @@ export const converthesabfaToSiteObject = ({contact, departmentId, role}: any) =
         middleName: "",
         mobile: "",
         name: contact.FirstName,
-        nationalCodeCompany: contact.NationalCode,
+        nationalCode: contact.NationalCode,
         phoneNumber: contact.Mobile,
         phoneNumber1: "",
         phoneNumber2: "",

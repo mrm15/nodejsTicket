@@ -30,7 +30,7 @@ export const addNewUserF = async ({phoneNumber,departmentId,roleId}:myInput) => 
         middleName: "",
         mobile: "",
         name: "",
-        nationalCodeCompany: "",
+        nationalCode: "",
         phoneNumber1: "",
         phoneNumber2: "",
         phoneNumber3: "",
