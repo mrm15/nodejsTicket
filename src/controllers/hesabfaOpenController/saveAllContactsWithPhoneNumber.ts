@@ -62,7 +62,7 @@ const saveAllContactsWithPhoneNumber = async (req: CustomRequestMyTokenInJwt, re
                     const isThereSameContact: IUser | null = await User.findOne({phoneNumber: row.phoneNumber}).exec()
 
 
-                    if(row.nationalCode){
+                    if(row.nationalCode===""){
                         return "no nationalCode!!!";
                     }
 
