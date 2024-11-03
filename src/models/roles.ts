@@ -220,6 +220,12 @@ const roleSchema: Schema<IRole> = new Schema({
     fatherAccess: {type: Boolean, default: false, required: true}, //
     showMyBillListForCustomer: {type: Boolean, default: false, required: true}, //
     viewBills: {type: Boolean, default: false, required: true}, //
+    /// dashboard access
+    customerDashboard: {type: Boolean, default: false, required: true}, //
+    organizationDashboard: {type: Boolean, default: false, required: true}, //
+    departmentAdminDashboard: {type: Boolean, default: false, required: true}, //
+    fullAdminDashboard: {type: Boolean, default: false, required: true}, //
+
 });
 
 

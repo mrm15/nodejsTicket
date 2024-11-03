@@ -98,5 +98,10 @@ export const myPermissionsArray = [
     "fatherAccess",
     "showMyBillListForCustomer",
     "viewBills",
+    //////////////////////////// Dashboard Access
+    "customerDashboard",
+    "organizationDashboard",
+    "departmentAdminDashboard",
+    "fullAdminDashboard",
 
 ]
