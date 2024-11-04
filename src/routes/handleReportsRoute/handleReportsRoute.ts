@@ -7,8 +7,8 @@ import getBillUsersReport from "../../controllers/reportsController/getBillUsers
 
 
 const router = express.Router();
-
-router.get('/dashboard', getDashboardController)
+// اینو از فرانت برداشتم
+// router.get('/dashboard', getDashboardController)
 router.get('/todayReportSms', getTodayReportSms)
 router.post('/adminReport', getAdminReport)
 router.post('/billUsers', getBillUsersReport)
