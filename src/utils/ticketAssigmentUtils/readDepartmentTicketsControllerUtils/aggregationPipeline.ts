@@ -169,7 +169,7 @@ export const createAggregationPipeline = ({
                 title: "$z_ticketDetails.title", // عنوان تیکت - عنوان سفارش
                 userCreateThisOrder: //"$z_ticketUserIdDetails.name",//
                     {
-                        $concat: ["$z_ticketUserIdDetails.name", " ", "$z_ticketUserIdDetails.familyName", "", "$z_assignedToUserDetails.phoneNumber"]
+                        $concat: ["$z_ticketUserIdDetails.name", " ", "$z_ticketUserIdDetails.familyName", " ", "$z_ticketUserIdDetails.phoneNumber"]
 
                     },
                 ticketNumber: "$z_ticketDetails.ticketNumber",
