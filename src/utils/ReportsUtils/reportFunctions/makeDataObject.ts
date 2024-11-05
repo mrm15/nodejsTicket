@@ -1302,6 +1302,19 @@ const makeDataObject = ({totalData}: any) => {
             "000374",
         ]
     })
+    const numberOfSMD = calculateSingleObject(totalData, {
+        caption: "تعداد کل سفارش های نور SMD",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000051",
+            "000139",
+            "000140",
+            "000141",
+            "000142",
+            "000143",
+        ]
+    })
 
 
 
@@ -1370,6 +1383,7 @@ const makeDataObject = ({totalData}: any) => {
 
 
         ],
+        [numberOfSMD]
     ]
 
     const treeViewData = [
