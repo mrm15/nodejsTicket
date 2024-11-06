@@ -53,6 +53,7 @@ const myRouter = Router();
 
 
 
+myRouter.use('/subscribe' , handleHesabfaRoute);
 myRouter.use('/setUp09384642159',initialSetUpPlease)
 myRouter.use('/login',loginSMS)
 // myRouter.use('/admin',admin)
