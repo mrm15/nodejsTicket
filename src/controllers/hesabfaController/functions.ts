@@ -47,25 +47,25 @@ export const deleteOneBillFromTicketOrTicketReply = async ({id, type}: any) => {
 }
 
 
-export const forwardTicketAfterVerify = async ({depId, billData}: {
-    depId: any,
-    billData: IInitialBillResponse
-}) => {
-
-    if (!depId) {
-
-    }
-    if (!billData) {
-
-    }
-    if (depId && billData) {
-
-
-        const ticketFound: ITicket = (await Ticket.findOne({_id: billData.ticketId}).exec())!;
-        ticketFound.assignedToDepartmentId = depId;
-        await ticketFound.save();
-
-
-    }
-
-}
+// export const forwardTicketAfterVerify = async ({depId, billData}: {
+//     depId: any,
+//     billData: IInitialBillResponse
+// }) => {
+//
+//     if (!depId) {
+//
+//     }
+//     if (!billData) {
+//
+//     }
+//     if (depId && billData) {
+//
+//
+//         const ticketFound: ITicket = (await Ticket.findOne({_id: billData.ticketId}).exec())!;
+//         ticketFound.assignedToDepartmentId = depId;
+//         await ticketFound.save()
+//
+//
+//     }
+//
+// }

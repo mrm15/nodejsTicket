@@ -91,7 +91,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         chatList.createAt = timestampToTime(foundTicket.createAt) // تاریخ ایجاد تیکت
         chatList.lastChangeTimeStamp = timestampToTime(foundTicket.lastChangeTimeStamp) // تاریخ آخرین اقدام روی تیکت
 
-        const department: IDepartment = (await Department.findOne({_id: foundTicket.assignedToDepartmentId}))!; // دپارتمان تیکت
+        const department: IDepartment = (await Department.findOne({_id: foundTicket.firstDepartmentId}))!; // اولین دپارتمان تیکت
 
         chatList.lastDepartment = department?.name;
 

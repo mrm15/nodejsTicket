@@ -13,16 +13,22 @@ const changeTicketsDepartmentAndUser = async ({
                                               }: IInput) => {
 
 
+    debugger
     const myList = await Promise.all(ticketIdsArray.map(async (singleTicketId: any) => {
-        const ticketFound: ITicket = (await Ticket.findOne({_id: singleTicketId}).exec())!;
-        // @ts-ignore
-        ticketFound.assignedToDepartmentId = departmentId
-        // @ts-ignore
-        ticketFound.assignToUserId = userId || null
+        try{const ticketFound: ITicket = (await Ticket.findOne({_id: singleTicketId}).exec())!;
+            // @ts-ignore
+            ticketFound.assignedToDepartmentId = departmentId
+            // @ts-ignore
+            ticketFound.assignToUserId = userId || null
 
-        const resultTask = await ticketFound.save();
-        return !!resultTask
+            const resultTask = await ticketFound.save();
+            return !!resultTask
+        }catch (error){
+            debugger
+            return  false;
+        }
     }))
+    debugger
 
     return myList.find((row: boolean) => !row)
 

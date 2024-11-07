@@ -5,7 +5,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
-import {forwardTicketAfterVerify, saveFactorNumberAndStatus} from "./functions";
+import { saveFactorNumberAndStatus} from "./functions";
 import {sendAfterSavedBillSMS} from "./sendAfterSavedBillSMS";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
@@ -13,6 +13,7 @@ import {sendSubmitBillSMS_NoTicketId} from "../../SMS/SMS.IR/sendSms";
 import {timestampToTimeFromHesabfa} from "../utility/timestampToTimeFromHesabfa";
 import {formatNumber} from "../../utils/number";
 import {p2e} from "../utility/NumericFunction";
+import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
 
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -126,10 +127,11 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                             // در واقع اگه دپارتمان مقصد تعریف شده بود و نال نبود باید تیکت رو بفرستیم بره به دپارتمان نود گیری
 
                             if ((adminSettings.forwardTicketsAfterVerify && invoice.Status === 1) || (adminSettings.forwardTicketsAfterVerify && invoice.Status === "1")) {
-                                await forwardTicketAfterVerify({
-                                    depId: adminSettings.forwardTicketsAfterVerify,
-                                    billData
-                                })
+                                await addToAssignedTickets({ticketIdsArray: [billData.ticketId], departmentId:adminSettings.forwardTicketsAfterVerify, userId, senderUserId:foundUser._id})
+                                // await forwardTicketAfterVerify({
+                                //     depId: adminSettings.forwardTicketsAfterVerify,
+                                //     billData
+                                // })
                             }
                             handleResponse(result, res)
                         }

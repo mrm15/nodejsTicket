@@ -5,7 +5,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
-import {forwardTicketAfterVerify, saveFactorNumberAndStatus} from "./functions";
+import {saveFactorNumberAndStatus} from "./functions";
 import {sendAfterSavedBillSMS} from "./sendAfterSavedBillSMS";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {openTagDataForBasteBandi} from "../utility/collectionsHandlers/openTagData";

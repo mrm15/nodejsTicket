@@ -147,8 +147,8 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             description: ticketData.description,
             priority: 'زیاد',
             status,
-            assignedToDepartmentId,
-            assignToUserId,
+            firstDepartmentId:assignedToDepartmentId,
+            firstUserId:assignToUserId,
             attachments: ticketData.files,
             lastChangeTimeStamp: getCurrentTimeStamp(),
             returnStatus: null,
@@ -162,7 +162,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const result: ITicket = await Ticket.create(newTicket);
 
         let msg1 = ""
-        await addToAssignedTickets({ticketIdsArray: [result._id], departmentId:assignedToDepartmentId, userId:result.assignToUserId, senderUserId:senderUserId})
+        await addToAssignedTickets({ticketIdsArray: [result._id], departmentId:assignedToDepartmentId, userId:result.firstUserId, senderUserId:senderUserId})
         msg1+="تیکت ارجاع شد ";
         msg1+= 'سفارش با موفقیت ایجاد شد.';
 
