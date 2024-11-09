@@ -23,7 +23,7 @@ export const getDepartmentTicketList = async ({id}: myInterface) => {
         myList = await Promise.all(ticketList.map(async (singleTicket) => {
             const row: any = {...singleTicket}
             row['lastDepartmentAssigned'] = lastDepartmentAssigned
-            const lastUserAssigned: IUser | null = await User.findOne({_id: singleTicket.assignToUserId})
+            const lastUserAssigned: IUser | null = await User.findOne({_id: singleTicket.firstUserId})
             row['lastUserAssigned'] = lastUserAssigned ? lastUserAssigned.name : ''
             return row
         }));

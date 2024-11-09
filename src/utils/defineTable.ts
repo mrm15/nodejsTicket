@@ -34,10 +34,10 @@ export const defineTable = async ({req, conditionString, ticketUserId}: myObject
         const userFound: IUser = (await User.findOne({_id: row.userId}).lean())!;
         row['userCreateThisOrder'] = userFound?.name || 'یافت نشد'
 
-        const lastDepartmentAssigned: IDepartment | null = await Department.findOne({_id: singleTicket.assignedToDepartmentId})
+        const lastDepartmentAssigned: IDepartment | null = await Department.findOne({_id: singleTicket.firstDepartmentId})
         row['lastDepartmentAssigned'] = lastDepartmentAssigned ? lastDepartmentAssigned?.name : ''
 
-        const lastUserAssigned: IDepartment | null = await User.findOne({_id: singleTicket.assignToUserId})
+        const lastUserAssigned: IDepartment | null = await User.findOne({_id: singleTicket.firstUserId})
         row['lastUserAssigned'] = lastUserAssigned ? lastUserAssigned.name : ''
 
         row['numberOfAttachments'] = row.attachments.length
