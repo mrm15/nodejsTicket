@@ -29,10 +29,16 @@ const getDataByAggregation2 = async ({filters, page, pageSize}: inputObjectGetDa
     const results = result[0]?.results;
     const totalDocuments = result[0]?.totalDocuments?.length > 0 ? result[0]?.totalDocuments[0]?.total : 0;
 
+
+    const startIndex =( page - 1) * pageSize;
+    results.forEach((row: any, index: number) => {
+        row.rowNumber = startIndex + index + 1;
+    })
+
     return {
         results,           // Paginated results from aggregation
         totalDocuments,    // Total count from facet pipeline
-        currentPage:page,       // The current page number
+        currentPage: page,       // The current page number
         pageSize,        // The page size used for pagination
 
         // allResultData: result
