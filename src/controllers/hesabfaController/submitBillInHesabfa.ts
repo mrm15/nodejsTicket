@@ -43,7 +43,7 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
 
 
         const arrayListToCheck = [
-            ACCESS_LIST.SUBMIT_BILL_IN_SUBMIT_ORDER_FORM
+            ACCESS_LIST.SAVE_BILL_AS_DONE
         ]
         const hasAccessTo11 = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
 
