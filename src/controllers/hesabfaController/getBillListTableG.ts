@@ -46,23 +46,6 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
             }
         }
 
-        const ttt1 = {
-            type: 0, // فقط فاکتور فروش
-            queryInfo: {
-                SortBy: "Date",
-                // "SortBy": "Id",
-                // "SortBy": "Number",
-                SortDesc: true,
-                Take: pageSize,
-                Skip: skip,
-                filters: [
-
-                    {Property: "Status", Operator: "=", Value: 1}, // فقط تایید شده ها رو میخوایم
-                    // ...filters
-                ],
-
-            }
-        }
 
         const url = "invoice/getinvoices";
         const myResult = await getDataCollectionFromHesabfa(ttt, url);
