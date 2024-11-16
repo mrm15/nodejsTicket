@@ -2,9 +2,9 @@ import {hesabfaApiRequest} from "../hesabfa/functions";
 import {openTagData} from "./openTagData";
 
 export const getDataCollectionFromHesabfa = async (bodyData: any, url: string) => {
-    const {page = 1, pageSize = 2, filters = []} = bodyData;
+    const {Skip: page, Take: pageSize, filters = []} = bodyData.queryInfo;
 
-
+    debugger
 
     // Build the filter object
 
@@ -26,22 +26,36 @@ export const getDataCollectionFromHesabfa = async (bodyData: any, url: string) =
         if (!resData?.response?.data?.Success) {
             throw new Error("مشکل در دریافت اطلاعات از حسابفا")
         }
-        const skip = (page - 1) * pageSize;
 
         if (resData?.response?.data?.Result?.List) {
-            resData.response.data.Result.List = resData?.response?.data?.Result?.List?.map((row: any, index: any) => {
-
-                const rowNumber = skip + index + 1;
-                // اینجا میخوام مقدار موجود توی تگ رو باز کنم و بفرستم سمت فرانت
+            //     resData.response.data.Result.List = resData?.response?.data?.Result?.List?.map((row: any, index: any) => {
+            //
+            //         const rowNumber = startIndex + index + 1;
+            //         // اینجا میخوام مقدار موجود توی تگ رو باز کنم و بفرستم سمت فرانت
+            //         const newRow = openTagData(row)
+            //
+            //         return {
+            //             rowNumber,
+            //             ...newRow
+            //         }
+            //     })
+            //
+            resData.response.data.Result.List = resData?.response?.data?.Result?.List.map((row: any, index: number) => {
+                const rowNumber = page + index + 1
+                debugger
+                //         // اینجا میخوام مقدار موجود توی تگ رو باز کنم و بفرستم سمت فرانت
                 const newRow = openTagData(row)
-
-                return {
+                const row12 = {
                     rowNumber,
                     ...newRow
-                }
-            })
 
+                }
+                return row12
+
+            })
         }
+
+
         return resData
     } catch (error) {
 
