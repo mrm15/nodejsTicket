@@ -28,7 +28,7 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
         const myResult = await getDataCollection(req.body, Ticket);
 
-        // #1001 search 1001
+        // #10001 search #10001
         const myResultAfterChange = await convertIdsToName(myResult)
 
         res.status(200).json(myResultAfterChange);
