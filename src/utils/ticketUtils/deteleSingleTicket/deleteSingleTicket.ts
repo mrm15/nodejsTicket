@@ -3,6 +3,7 @@ import { Ticket } from "../../../models/ticket";
 import { File } from "../../../models/files";
 import fs from "fs/promises";
 import mongoose from "mongoose";
+import path from "path";
 
 interface TaskResult {
     status: boolean;
@@ -15,7 +16,9 @@ const deleteFile = async (fileId: mongoose.Schema.Types.ObjectId, resultTask: Ta
         const file = await File.findById(fileId);
         if (file) {
             // Delete the file from the server
-            await fs.unlink(file.filePath);
+            const absoluteFilePath = path.join(__dirname, '../../../uploads', file.filePath);
+            debugger
+            await fs.unlink(absoluteFilePath);
             // Delete the file from the database
             await File.deleteOne({ _id: fileId });
             resultTask.message += `فایل ${file.fileName} حذف شد. 🙌 `;
