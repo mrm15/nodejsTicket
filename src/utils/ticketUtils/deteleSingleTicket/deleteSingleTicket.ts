@@ -16,11 +16,11 @@ const deleteFile = async (fileId: mongoose.Schema.Types.ObjectId, resultTask: Ta
         const file = await File.findById(fileId);
         if (file) {
             // Delete the file from the server
-            const absoluteFilePath = path.join(__dirname, '../../../uploads', file.filePath);
-            debugger
+            const absoluteFilePath = path.join(__dirname, '../../../../uploads', file.filePath);
+
+            await File.deleteOne({ _id: fileId });
             await fs.unlink(absoluteFilePath);
             // Delete the file from the database
-            await File.deleteOne({ _id: fileId });
             resultTask.message += `فایل ${file.fileName} حذف شد. 🙌 `;
         } else {
             resultTask.message += `فایل با شناسه ${fileId} پیدا نشد. ❌ `;
