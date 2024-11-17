@@ -25,7 +25,7 @@ interface ITicket extends Document {
     status: string;
     firstDepartmentId: mongoose.Schema.Types.ObjectId;
     firstUserId: mongoose.Schema.Types.ObjectId | null;
-    attachments: string[]; // Assuming attachments are an array of string URLs
+    attachments: mongoose.Schema.Types.ObjectId[]; // Assuming attachments are an array of string URLs
     lastChangeTimeStamp: Date;
     returnStatus: boolean;
     returnUserId: mongoose.Schema.Types.ObjectId;
@@ -77,7 +77,7 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
         ref: 'User', // Reference to the User collection
         required: false,
     },
-    attachments: [String],
+    attachments: [mongoose.Schema.Types.ObjectId],
     lastChangeTimeStamp: {
         type: Date,
         default: Date.now,
