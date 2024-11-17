@@ -26,6 +26,7 @@ export const convertIdsToName = async (dt: {
 
             // #10001
             row['userCreateThisOrder'] = userFound?.name || '_'
+            row['userPhoneNumber'] = userFound?.phoneNumber || '_'
             row['numberOfAttachments'] = row.attachments.length
             row['dateCreate'] = timestampToTime(row.createAt)
             row['lastChangeTime'] = timestampToTime(row.lastChangeTimeStamp)
