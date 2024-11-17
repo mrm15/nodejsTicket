@@ -54,11 +54,6 @@ export const destinationPhoneNumberArray = [
         renderFunction: sendSMSAdminSMD
     },
     {
-        name: "مهدی افتاده ",
-        phoneNumber: "09015296569",
-        renderFunction:sendSMSAdminNeon
-    },
-    {
         name: "امیر ",
         phoneNumber: "09164566794",
         renderFunction:sendSMS_VARAQ_ANBAR
