@@ -730,7 +730,6 @@ export const sendSMS_VARAQ_ANBAR = async ({
                                               STICKER_OJRAT,
                                               AMAR_VARAQ_Estil,
                                               AMAR_PVC,
-
                                           }: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
@@ -740,53 +739,12 @@ export const sendSMS_VARAQ_ANBAR = async ({
                 "value": ADMINNAME
             },
             {
-                "name": "plaksi2_8Value",
-                "value": plaksi2_8Value
+                "name": "AMAR_VARAQ",
+                "value": AMAR_VARAQ_Estil
             },
             {
-                "name": "simplePunchValue",
-                "value": simplePunchValue
-            },
-            {
-                "name": "proPunchValue",
-                "value": proPunchValue
-            },
-            {
-                "name": "doubleValue",
-                "value": doubleValue
-            },
-            {
-                "name": "duqi10milValue",
-                "value": duqi10milValue
-            },
-
-            {
-                "name": "duqi5milValue",
-                "value": duqi5milValue
-            },
-            {
-                "name": "ESTILFELEZ",
-                "value": ESTILFELEZ
-            },
-            {
-                "name": "CHALANDSUEDI",
-                "value": CHALANDSUEDI
-            },
-            {
-                "name": "NEONPLASTIC",
-                "value": NEONPLASTIC
-            },
-            {
-                "name": "NEONFELAXI",
-                "value": NEONFELAXI
-            },
-            {
-                "name": "SMD",
-                "value": SMD
-            },
-            {
-                "name": "STICKER_OJRAT",
-                "value": STICKER_OJRAT
+                "name": "AMAR_PVC",
+                "value": AMAR_PVC
             },
         ]
     })
