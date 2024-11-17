@@ -76,7 +76,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         const foundTicket: ITicket | null = await Ticket.findOne({_id: ticketId});
         if (!foundTicket) {
             res.status(409).json({
-                message: 'هیچ سفارشی با کد سفترش مورد نظر یافت نشد!.',
+                message: 'هیچ سفارشی با کد سفارش مورد نظر یافت نشد!',
             })
             return;
         }
