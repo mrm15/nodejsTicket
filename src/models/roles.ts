@@ -106,6 +106,7 @@ interface IRole extends Document {
     // مشتری بتونه لیست فاکتورهاشو هم ببینه
     showMyBillListForCustomer: Boolean;
     viewBills: Boolean;
+    testBillCalculatePrice: Boolean;
 
 
 }
@@ -220,6 +221,7 @@ const roleSchema: Schema<IRole> = new Schema({
     fatherAccess: {type: Boolean, default: false, required: true}, //
     showMyBillListForCustomer: {type: Boolean, default: false, required: true}, //
     viewBills: {type: Boolean, default: false, required: true}, //
+    testBillCalculatePrice: {type: Boolean, default: false, required: true}, //
     /// dashboard access
     customerDashboard: {type: Boolean, default: false, required: true}, //
     organizationDashboard: {type: Boolean, default: false, required: true}, //
