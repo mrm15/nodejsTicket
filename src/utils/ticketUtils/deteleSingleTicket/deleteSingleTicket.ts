@@ -4,6 +4,7 @@ import { File } from "../../../models/files";
 import fs from "fs/promises";
 import mongoose from "mongoose";
 import path from "path";
+import {TicketAssignment} from "../../../models/ticketAssignment ";
 
 interface TaskResult {
     status: boolean;
@@ -18,9 +19,9 @@ const deleteFile = async (fileId: mongoose.Schema.Types.ObjectId, resultTask: Ta
             // Delete the file from the server
             const absoluteFilePath = path.join(__dirname, '../../../../uploads', file.filePath);
 
-            await File.deleteOne({ _id: fileId });
             await fs.unlink(absoluteFilePath);
             // Delete the file from the database
+            await File.deleteOne({ _id: fileId });
             resultTask.message += `فایل ${file.fileName} حذف شد. 🙌 `;
         } else {
             resultTask.message += `فایل با شناسه ${fileId} پیدا نشد. ❌ `;
@@ -68,9 +69,13 @@ const deleteSingleTicket = async (id: any): Promise<TaskResult> => {
         const replyDeletionResult = await TicketReply.deleteMany({ ticketId: id });
         resultTask.message += `${replyDeletionResult.deletedCount} پاسخ مرتبط با تیکت حذف شدند. 💬 `;
 
-        // Step 4: Delete the ticket
+        // Step 4: Delete ticket assignments
+        const assignmentDeletionResult = await TicketAssignment.deleteMany({ ticketId: id });
+        resultTask.message += `${assignmentDeletionResult.deletedCount} تخصیص مرتبط با تیکت حذف شدند. 🗂 `;
+
+        // Step 5: Delete the ticket
         await Ticket.deleteOne({ _id: id });
-        resultTask.message += `تیکت و تمام پاسخ‌ها با موفقیت حذف شدند! 🎉 `;
+        resultTask.message += `تیکت و تمام پاسخ‌ها و تخصیص‌ها با موفقیت حذف شدند! 🎉 `;
         resultTask.status = true;
     } catch (error: unknown) {
         if (error instanceof Error) {
