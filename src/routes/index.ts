@@ -29,6 +29,7 @@ import handleHesabfaRoute from "./handleHesabfaRoute/handleHesabfaRoute";
 import handleHesabfaOpenRoute from "./handlehesabFaOpenRoute/handleHesabfaOpenRoute";
 import handleReportsRoute from "./handleReportsRoute/handleReportsRoute";
 import initialSetUpPlease from "./loginRegisterWithSms/initialSetUpPlease";
+import handleBankingRoute from "./handleBankingRoute/handleBankingRoute";
 
 
 // Add Routes
@@ -80,6 +81,7 @@ myRouter.use('/userStatus' , handleUserStatusRoute);
 myRouter.use('/reports' , handleReportsRoute);
 
 myRouter.use('/hesabfa' , handleHesabfaRoute);
+myRouter.use('/banking' , handleBankingRoute);
 
 
 myRouter.use('/logout' , handleLogout);
