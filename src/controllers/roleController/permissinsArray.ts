@@ -99,6 +99,9 @@ export const myPermissionsArray = [
     "showMyBillListForCustomer",
     "viewBills",
     "testBillCalculatePrice",
+    "myBankFirstUserId",
+    "allBanksFirstUserId",
+    "myBankDepartment",
     //////////////////////////// Dashboard Access
     "customerDashboard",
     "organizationDashboard",

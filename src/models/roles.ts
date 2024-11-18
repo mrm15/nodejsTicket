@@ -222,6 +222,9 @@ const roleSchema: Schema<IRole> = new Schema({
     showMyBillListForCustomer: {type: Boolean, default: false, required: true}, //
     viewBills: {type: Boolean, default: false, required: true}, //
     testBillCalculatePrice: {type: Boolean, default: false, required: true}, //
+    myBankFirstUserId: {type: Boolean, default: false, required: true}, //
+    allBanksFirstUserId: {type: Boolean, default: false, required: true}, //
+    myBankDepartment: {type: Boolean, default: false, required: true}, //
     /// dashboard access
     customerDashboard: {type: Boolean, default: false, required: true}, //
     organizationDashboard: {type: Boolean, default: false, required: true}, //
