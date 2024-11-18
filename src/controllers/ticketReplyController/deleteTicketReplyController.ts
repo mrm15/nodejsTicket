@@ -5,6 +5,9 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 
 import {IRole, Role} from "../../models/roles";
 import {Department} from "../../models/department";
+import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
+import {checkAccessList} from "../../utils/checkAccessList";
+import {TicketReply} from "../../models/ticketReply";
 
 
 const deleteTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -16,35 +19,30 @@ const deleteTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         return
     }
     try {
+        const arrayListToCheck = [
+            ACCESS_LIST.fatherAccess
+        ]
+        const hasAccessTo = await checkAccessList({phoneNumber:myToken.phoneNumber, arrayListToCheck})
+        if (!hasAccessTo) {
+            res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
+            return
+        }
 
         const {id} = req.params;
-        try {
-            const foundUser: IUser | null = await User.findOne({departmentId: id}).exec()
-            if (foundUser) {
-                res.status(409).json({
-                    message: `برای حذف این دپارتمان ابتدا کاربرانی که عضو این دپارتمان هستند را حذف کنید!!!.🙄`
-                });
-                return
-            }
 
-        } catch (error: any) {
-            res.status(500).json({message: 'Error deleting department', error: error?.message});
-            return
-        }
 
         // Attempt to find and delete the user by ID
-        const deletedDepartment = await Department.findByIdAndDelete(id);
+        const deletedTicketReply = await TicketReply.findByIdAndDelete(id);
 
         // Check if a user was found and deleted
-        if (!deletedDepartment) {
-            res.status(404).json({message: 'Department not found'});
+        if (!deletedTicketReply) {
+            res.status(404).json({message: 'TicketReply not found'});
             return
         }
 
 
-        const message = 'باید حتما اینجا چک کنم که  قبل از پاک کردن استاتوس هیچ تیکتی  این استاتوس رو نداشته باشه.';
         // Successfully deleted the user
-        res.status(200).json({message: `وضعیت با نام ${deletedDepartment.name} برای همیشه حذف شد.` + message,});
+        res.status(200).json({message: `پیام حذف شد`,});
         return
     } catch (error: any) {
         // Handle potential errors, such as invalid ObjectId format
