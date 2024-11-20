@@ -12,8 +12,8 @@ interface inputType {
 const getBankingData = async ({type, filters, myToken}: inputType) => {
     debugger
     // Step 1: Validate input
-    validateType(type);
-    validateFilters(filters);
+    validateType(type)
+    validateFilters(filters)
 
     // Step 2: Parse token to extract phoneNumber
     const {phoneNumber} = myToken
@@ -28,7 +28,7 @@ const getBankingData = async ({type, filters, myToken}: inputType) => {
     let result;
     switch (type) {
         case "user":
-            result = await getUserTickets(phoneNumber, queryFilters);
+            result = await getUserTickets(phoneNumber, queryFilters)
             break;
         case "department":
             result = await getDepartmentTickets(queryFilters);
@@ -52,6 +52,7 @@ const getBankingData = async ({type, filters, myToken}: inputType) => {
     debugger
     // اینجا باید کل دیتای فاکتور ها رو بگیرم
     const allBills = await getBillsDataFromPoolBill({filters: filterArray})
+    debugger
     // روی آرایه ای از آبجکت هایی که اومده باید لوپ بزنم
     // و اجرت ها رو جدا کنم
 

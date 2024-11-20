@@ -23,13 +23,13 @@ export const getUserTickets = async (phoneNumber: string, filters: any) => {
     const replies = await TicketReply.find({
         ticketId: {$in: ticketIds},
         ...filters,
-    }).lean()
+    }).exec();
     debugger
     // .populate("userId", "name familyName")
     // .exec();
     const temp = [{
         data: aggregateTicketData(tickets, replies),
-        name: user.name + " "+ user.familyName
+        name: user.name + " " + user.familyName
     }]
 
 
@@ -65,18 +65,18 @@ export const getAllTickets = async (filters: any) => {
 // Aggregate data from tickets and replies
 const aggregateTicketData = (tickets: any[], replies: any[]) => {
     const aggregatedData = tickets.map(ticket => ({
-        ticketId: ticket._id,
-        title: ticket.title,
-        description: ticket.description,
+        id: ticket._id,
+        status: ticket.status,
+        billNumber: ticket.billNumber,
+        billStatus: ticket.billStatus,
+    }))
+    const aggregatedDataReply = replies.map(ticket => ({
+        id: ticket._id,
         status: ticket.status,
         billNumber: ticket.billNumber,
         billStatus: ticket.billStatus,
     }))
 
-    return {
-        data: aggregatedData,
-        ticketCount: tickets.length,
-        replyCount: replies.length,
-    };
+    return [...aggregatedData, ...aggregatedDataReply]
 };
 
