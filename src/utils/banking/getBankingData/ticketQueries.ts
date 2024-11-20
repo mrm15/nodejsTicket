@@ -5,35 +5,67 @@ import {User} from "../../../models/User";
 
 // Fetch tickets for a specific user
 export const getUserTickets = async (phoneNumber: string, filters: any) => {
-    debugger
-    const user = await User.findOne({phoneNumber});
-    if (!user) {
-        throw new Error("User not found.")
+    // Map filters to query fields
+    const queryFilters: any = {};
+
+    if (filters.Date) {
+        queryFilters.createAt = {};
+        if (filters.Date.$gte) {
+            queryFilters.createAt.$gte = new Date(filters.Date.$gte); // Convert $gte to Date
+        }
+        if (filters.Date.$lt) {
+            queryFilters.createAt.$lt = new Date(filters.Date.$lt); // Convert $lt to Date
+        }
+    }
+    if (filters.Status) {
+        queryFilters.billStatus = filters.Status; // Add bill status filter
     }
 
+    // Find the user by phone number
+    const user = await User.findOne({ phoneNumber });
+    if (!user) {
+        throw new Error("User not found.");
+    }
 
-    debugger
-    // Query tickets and populate user information
-    const tickets = await Ticket.find({firstUserId: user._id})
-        // .populate("userId", "name familyName") // Only select name and familyName
-        .exec();
+    // Fetch tickets with `_id`, `billNumber`, and `billStatus`
+    const tickets = await Ticket.find(
+        { firstUserId: user._id, ...queryFilters }, // Match user and apply filters
+        "_id billNumber billStatus createAt" // Select specific fields
+    ).lean(); // Use `.lean()` for better performance
 
-    // Query ticket replies and populate user information
+    // Extract ticket IDs for the next query
     const ticketIds = tickets.map(ticket => ticket._id);
-    const replies = await TicketReply.find({
-        ticketId: {$in: ticketIds},
-        ...filters,
-    }).exec();
-    debugger
-    // .populate("userId", "name familyName")
-    // .exec();
+
+    // Fetch replies with only `_id`, `billNumber`, and `billStatus`
+    const replies = await TicketReply.find(
+        {
+            ticketId: { $in: ticketIds }, // Match ticket IDs
+            ...queryFilters, // Apply filters here as well
+        },
+        "billNumber billStatus createAt" // Select specific fields
+    ).lean();
+
+    // Extract only `billNumber` from tickets if they are valid strings (non-empty)
+    const ticketBillNumbers = tickets
+        .filter(ticket => typeof ticket.billNumber === "string" && ticket.billNumber.trim() !== "")
+        .map(ticket => ticket.billNumber);
+
+// Extract only `billNumber` from replies if they are valid strings (non-empty)
+    const replyBillNumbers = replies
+        .filter(reply => typeof reply.billNumber === "string" && reply.billNumber.trim() !== "")
+        .map(reply => reply.billNumber);
+
+// Combine all `billNumber` values into a single array
+    const allBillNumbers = [...ticketBillNumbers, ...replyBillNumbers];
+
+
+    // Return the result
     const temp = [{
-        data: aggregateTicketData(tickets, replies),
-        name: user.name + " " + user.familyName
-    }]
+        data: allBillNumbers, // Only billNumber values
+        name: `${user.name} ${user.familyName}` // Combine user name and family name
+    }];
 
-
-    return temp
+    return temp;
 };
 
 // Fetch tickets for a specific department
@@ -58,7 +90,6 @@ export const getAllTickets = async (filters: any) => {
         ticketId: {$in: ticketIds},
         ...filters,
     });
-    debugger
     return aggregateTicketData(tickets, replies);
 };
 
@@ -66,13 +97,11 @@ export const getAllTickets = async (filters: any) => {
 const aggregateTicketData = (tickets: any[], replies: any[]) => {
     const aggregatedData = tickets.map(ticket => ({
         id: ticket._id,
-        status: ticket.status,
         billNumber: ticket.billNumber,
         billStatus: ticket.billStatus,
     }))
     const aggregatedDataReply = replies.map(ticket => ({
         id: ticket._id,
-        status: ticket.status,
         billNumber: ticket.billNumber,
         billStatus: ticket.billStatus,
     }))
