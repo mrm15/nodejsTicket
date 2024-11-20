@@ -1,14 +1,5 @@
-import {Request, Response, NextFunction} from 'express';
-import {IUser, User} from "../../models/User";
-import {getCurrentTimeStamp} from "../../utils/timing";
+import { Response, NextFunction} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {addNewUserF} from "../LoginRegisterSms/addNewUserF";
-import {uuidGenerator} from "../../utils/uuidGenerator";
-import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
-import {IRole, Role} from "../../models/roles";
-import {myPermissionsArray} from "../roleController/permissinsArray";
 import getBankingData from "../../utils/banking/getBankingData/getBankingData";
 
 
