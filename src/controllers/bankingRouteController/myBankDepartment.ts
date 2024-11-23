@@ -31,74 +31,10 @@ const myBankDepartment = async (req: CustomRequestMyTokenInJwt, res: Response, n
 
         const {phoneNumber} = myToken
 
-
-        const newRoleData = req.body
-
-        // آیا کاربر اجازه داره   کابری رو ثبت کنه؟
-        const arrayListToCheck = [
-            ACCESS_LIST.ROLES_CREATE
-        ]
-        const hasAccessToAddRole = await checkAccessList({phoneNumber, arrayListToCheck})
-
-        if (!hasAccessToAddRole) {
-            res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
-            return
-        }
-
-        // check if this role name is uniq
-        const isThereAnyRoleWithThatName: IRole[] | null = await Role.findOne({name: newRoleData.name}).lean()
-
-        if (!!isThereAnyRoleWithThatName && isThereAnyRoleWithThatName?.length !== 0) {
-            res.status(409).json({
-                message: 'نام نقش تکراری',
-            });
-            return
-        }
-
-
-        // احتمال اینکه همون موقع یه نیروی ادمینی با ادمین اصلی لج کرده باشه ممکنه که اینجا بخواد مثلا مثلا نقش بیاد تعریف کنه که باید بگم شرمند
-        // البته کاربری توی توکن چک میشه
-        const userWantToAdd: { [key: string]: any; } = (await getUserInfoByPhoneNumber(myToken.phoneNumber))!;
-        if (!userWantToAdd) {
-            res.status(500).json({
-                message: 'کاربری  شما مورد تایید نیست!',
-            });
-            return
-        }
-
-
-        const userFound: IUser | null = await User.findOne({phoneNumber: myToken.phoneNumber})
-
-        if (!userFound) {
-            res.status(500).json({message: "کاربری تایید نشد."});
-            return
-        }
-
-        const userId = userFound?.id
-
-
-        const permissionsArray = [...myPermissionsArray]
-
-
-        const newRoleObject: any = {
-
-            name: newRoleData?.name || "بدون نام",
-            description: newRoleData?.description || " بدون توضیحات",
-            createAt: getCurrentTimeStamp(),
-            updateAt: getCurrentTimeStamp(),
-            userId,
-        }
-
-
-        permissionsArray.forEach(item => {
-            newRoleData.statusListCreate.forEach((frontItem: string) => {
-                newRoleObject[item] = (item === frontItem);
-            })
+        res.status(500).json({
+            phoneNumber,
+            message: 'نیازمند توسعه کد',
         })
-
-
-        const result = await Role.create(newRoleObject);
-        res.status(200).json({result, message: ' اینم از نقش  جدید',});
         return;
 
     } catch (error) {
