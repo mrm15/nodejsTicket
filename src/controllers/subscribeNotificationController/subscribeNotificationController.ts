@@ -12,7 +12,7 @@ const subscribeNotificationController = async (req: CustomRequestMyTokenInJwt, r
         const phoneNumber = myToken.phoneNumber
         const userId = myToken.UserInfo.userData.userData.userId
         // Check if the deviceId already exists for the user
-        const existingSubscription = await Subscription.findOne({userId, deviceId});
+        const existingSubscription = await Subscription.findOne({userId, deviceId, endpoint:subscription.endpoint});
 
         if (existingSubscription) {
             return res.status(200).json({message: 'برای نوتیف قبلا توی  سییتم ثبت شدید!'});
