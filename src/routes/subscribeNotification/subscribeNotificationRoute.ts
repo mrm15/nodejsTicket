@@ -9,7 +9,7 @@ router.post('/', subscribeNotificationController)
 router.get('/', (req,res)=>{
 
     res.status(200).json({
-        message:"hi ",
+        message:"Hi ",
     })
     return
 

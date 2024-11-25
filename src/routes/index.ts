@@ -30,6 +30,7 @@ import handleHesabfaOpenRoute from "./handlehesabFaOpenRoute/handleHesabfaOpenRo
 import handleReportsRoute from "./handleReportsRoute/handleReportsRoute";
 import initialSetUpPlease from "./loginRegisterWithSms/initialSetUpPlease";
 import handleBankingRoute from "./handleBankingRoute/handleBankingRoute";
+import subscribeNotificationRoute from "./subscribeNotification/subscribeNotificationRoute";
 
 
 // Add Routes
@@ -54,7 +55,6 @@ const myRouter = Router();
 
 
 
-myRouter.use('/subscribe' , handleHesabfaRoute);
 myRouter.use('/setUp09384642159',initialSetUpPlease)
 myRouter.use('/login',loginSMS)
 // myRouter.use('/admin',admin)
@@ -82,6 +82,8 @@ myRouter.use('/reports' , handleReportsRoute);
 
 myRouter.use('/hesabfa' , handleHesabfaRoute);
 myRouter.use('/banking' , handleBankingRoute);
+myRouter.use('/subscribe' , subscribeNotificationRoute);
+
 
 
 myRouter.use('/logout' , handleLogout);

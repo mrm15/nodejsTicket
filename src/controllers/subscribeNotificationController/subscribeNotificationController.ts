@@ -1,56 +1,43 @@
+// controllers/notificationController.ts
 import {Request, Response, NextFunction} from 'express';
-import {IUser, User} from "../../models/User";
-import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
-import {Department} from "../../models/department";
-import {stringToBoolean} from "../../utils/stringBoolean";
-import {Status, IStatus} from "../../models/status";
+import {Subscription} from "../../models/subscription";
 
-
-const subscriptions: PushSubscription[] = [];
 
 const subscribeNotificationController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
-
-    // const {myToken} = req;
-
-    // res.status(201).json({myToken})
-    //
-    // return
-
-    // if (!myToken) {
-    //     const message = 'مقدار توکن توی ری کوئست موجود نیست'
-    //     res.status(403).json({message});
-    //     return
-    // }
-
     try {
+        const {deviceId, subscription} = req.body;
 
+        const {myToken} = req;
+        const phoneNumber = myToken.phoneNumber
+        const userId = myToken.UserInfo.userData.userData.userId
+        // Check if the deviceId already exists for the user
+        const existingSubscription = await Subscription.findOne({userId, deviceId});
 
-        const subscription = req.body;
-
-        // Check if subscription already exists
-        const isSubscribed = subscriptions.some(
-            (sub) => JSON.stringify(sub) === JSON.stringify(subscription)
-        );
-
-        if (!isSubscribed) {
-            subscriptions.push(subscription);
-            console.log('New subscription added:', subscription);
+        if (existingSubscription) {
+            return res.status(200).json({message: 'User already subscribed with this device'});
         }
 
-        res.status(201).json({ message: 'Subscription added' });
-        return;
+        // Save the new subscription to MongoDB
+        const newSubscription = new Subscription({
+            userId,
+            phoneNumber,
+            deviceId, // Unique for each device
+            endpoint: subscription.endpoint,
+            expirationTime: subscription.expirationTime,
+            keys: {
+                p256dh: subscription.keys.p256dh,
+                auth: subscription.keys.auth,
+            }
+        })
+        await newSubscription.save()
+        res.status(201).json({message: 'Subscription added successfully'});
 
-    } catch (error) {
-
-        res.status(500).json({
-            error: error?.toString(),
-        });
         return
+    } catch (error: any) {
+        console.error('Error storing subscription:', error);
+        res.status(500).json({error: error.toString()});
     }
-
 };
 
 export {subscribeNotificationController};
