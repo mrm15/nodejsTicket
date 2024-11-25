@@ -15,7 +15,7 @@ const subscribeNotificationController = async (req: CustomRequestMyTokenInJwt, r
         const existingSubscription = await Subscription.findOne({userId, deviceId});
 
         if (existingSubscription) {
-            return res.status(200).json({message: 'User already subscribed with this device'});
+            return res.status(200).json({message: 'برای نوتیف قبلا توی  سییتم ثبت شدید!'});
         }
 
         // Save the new subscription to MongoDB
@@ -31,7 +31,7 @@ const subscribeNotificationController = async (req: CustomRequestMyTokenInJwt, r
             }
         })
         await newSubscription.save()
-        res.status(201).json({message: 'Subscription added successfully'});
+        res.status(201).json({message: 'درخواست نوتیف براتون ثبت شد از این ب بعد نوتیف میاد. هوراااا!'});
 
         return
     } catch (error: any) {
