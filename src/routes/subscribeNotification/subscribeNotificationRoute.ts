@@ -17,8 +17,7 @@ router.get('/', (req, res) => {
 
 })
 
-router.get('/test', async (req: CustomRequestMyTokenInJwt, res) => {
-
+router.post('/test', async (req: CustomRequestMyTokenInJwt, res) => {
     const phoneNumber = req.myToken.phoneNumber
     await sendNotificationToUser({
         userId: undefined,
@@ -27,7 +26,7 @@ router.get('/test', async (req: CustomRequestMyTokenInJwt, res) => {
             title: "از روی سرور واقعی میاد",
             body: "  آخ جون بالاخره کار کرد.هورااااا این نوتیفیکیشن از روی سرور واقعی میاد 💖",
             icon: "",
-            clickAction: "/",
+            click_action: "/",
         }
     })
     res.status(200).json({
