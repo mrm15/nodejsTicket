@@ -15,7 +15,7 @@ const subscribeNotificationController = async (req: CustomRequestMyTokenInJwt, r
         const existingSubscription = await Subscription.findOne({userId, deviceId, endpoint:subscription.endpoint});
 
         if (existingSubscription) {
-            return res.status(200).json({message: 'برای نوتیف قبلا توی  سییتم ثبت شدید!'});
+            return res.status(200).json({message: 'برای نوتیف قبلا توی  سیستم ثبت شدید!'});
         }
 
         // Save the new subscription to MongoDB
