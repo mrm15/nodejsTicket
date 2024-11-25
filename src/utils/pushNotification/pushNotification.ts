@@ -1,5 +1,5 @@
 import { Subscription } from "../../models/subscription";
-import webPush from "web-push";
+import webPush from "../../config/notifications";
 
 interface NotificationPayload {
     userId?: string;
