@@ -38,6 +38,14 @@ SubscriptionSchema.index(
     { unique: true }
 );
 
+SubscriptionSchema.virtual('id').get(function (this: ISubscription) {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialized
+SubscriptionSchema.set('toJSON', {
+    virtuals: true
+});
 // Other helpful indexes
 SubscriptionSchema.index({ userId: 1 }); // Optimize queries by userId
 SubscriptionSchema.index({ deviceId: 1 }); // Optimize queries by deviceId
