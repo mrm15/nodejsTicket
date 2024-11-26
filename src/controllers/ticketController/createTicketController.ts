@@ -9,6 +9,7 @@ import {getSettings} from "../../utils/getFirstStatus";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
 import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
+import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -179,6 +180,29 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             n:myToken.UserInfo.userData.userData.name
         }); // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه
 
+        // اینجا میخوام یه نوتیف بدم به کاربر
+        const notificationArray=[{
+            userId: assignToUserId,
+            phoneNumber:undefined,
+            notification: {
+                title: "سفارش جدید داری",
+                body: ticketData.title,
+                icon: "",
+                click_action: "/inbox",
+            }
+        },
+            {
+                userId: senderUserId,
+                phoneNumber:undefined,
+                notification: {
+                    title: "سفارش ثبت شد.",
+                    body: ticketData.title,
+                    icon: "",
+                    click_action: "/",
+                }
+            },
+        ]
+        await sendNotificationToUser(notificationArray)
 
         const myDataForTicketNeedsBill: IInitialBillResponse = {
             ticketNumber : result.ticketNumber,
