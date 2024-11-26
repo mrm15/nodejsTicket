@@ -1,7 +1,7 @@
 import { Subscription } from "../../models/subscription";
 import webPush from "../../config/notifications";
 
-interface NotificationPayload {
+export interface NotificationPayload {
     userId?: string;
     phoneNumber?: string;
     notification: {
