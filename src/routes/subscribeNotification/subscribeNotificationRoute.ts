@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 router.post('/test', async (req: CustomRequestMyTokenInJwt, res) => {
     const phoneNumber = req.myToken.phoneNumber
-    await sendNotificationToUser({
+    await sendNotificationToUser([{
         userId: undefined,
         phoneNumber,
         notification: {
@@ -28,7 +28,7 @@ router.post('/test', async (req: CustomRequestMyTokenInJwt, res) => {
             icon: "",
             click_action: "/",
         }
-    })
+    }])
     res.status(200).json({
         message: "Hi ",
     })
