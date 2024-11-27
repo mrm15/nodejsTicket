@@ -1,4 +1,5 @@
 import {
+    sendSMS_OJRAT_BORESH_CNC,
     sendSMS_VARAQ_ANBAR,
     sendSMSAdminChaleniumSuedi,
     sendSMSAdminLaserDouble, sendSMSAdminNeon,
@@ -58,6 +59,11 @@ export const destinationPhoneNumberArray = [
         phoneNumber: "09190394755",
         // phoneNumber: "09164566794",
         renderFunction:sendSMS_VARAQ_ANBAR
+    },
+    {
+        name: "شاهین  ",
+        phoneNumber: "09363789227",
+        renderFunction:sendSMS_OJRAT_BORESH_CNC
     },
 
 
