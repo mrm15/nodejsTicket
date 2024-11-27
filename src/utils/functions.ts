@@ -370,7 +370,6 @@ export const reportArray = [
     },
 
     // 21 جمع همه آیتم ها
-    // 19 faqat josh Fiber
     {
         caption: "متراژ ساخت کلی روز working ",
         id: 21,
@@ -381,7 +380,7 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
-    // 20
+    // 22
     {
         caption: "اجرت برش پی وی سی - سی ان سی",
         id: 21,
