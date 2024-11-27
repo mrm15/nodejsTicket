@@ -76,6 +76,7 @@ export const calculateTodayReport = async (resultType: "all" | "detail" = "all")
         const PLAKSI_Varaq = getPivotValue(14);
         const Only_chalenium = getPivotValue(15);
         const Only_soedi = getPivotValue(16);
+        const OJRAT_BORESH_CNC = getPivotValue(20);
 
         return {
             plaksi2_8Value,
@@ -94,7 +95,8 @@ export const calculateTodayReport = async (resultType: "all" | "detail" = "all")
             AMAR_PVC,
             PLAKSI_Varaq,
             Only_chalenium,
-            Only_soedi
+            Only_soedi,
+            OJRAT_BORESH_CNC
 
         }
     } else if (resultType === "detail") {
