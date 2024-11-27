@@ -11,6 +11,9 @@ import {generateRefreshToken} from "../LoginRegisterSms/generateAccessToken";
 import {uuidGenerator} from "../../utils/uuidGenerator";
 import {logger} from "../../middleware/logEvents";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
+import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
+import {TicketAssignment} from "../../models/ticketAssignment ";
+import mongoose from "mongoose";
 
 
 const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -61,6 +64,8 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
     const ticketId = ticketDoc['_id'];
 
     const userId = myToken?.UserInfo?.userData?.userData?.userId
+    const theUserName = myToken?.UserInfo?.userData?.userData?.name + myToken?.UserInfo?.userData?.userData.familyName
+
     // maye user that create this ticket  has been deleted or deactive
     const customerUserId = ticketDoc.userId;
     const customerDocument: IUser | null = await User.findOne({_id: customerUserId.toString()});
@@ -102,7 +107,6 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
             message: 'کاربر در هیچ دپارتمانی نیست.',
         });
     }
-
 
 
     // برای قطعی شدن اسراسل اس ام اس باید حتما بدونیم که پیام مخفی نیست
@@ -157,9 +161,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         // اینجا باید اطلاعات اون تیکت رو ببینیم و از روی اون ببینم نام کاربر و کد کاربر چیه که بفرستیم سمت فرانت
 
 
-
-
-        const contactName = customerDocument.name; // اسم مشتری رو میخوایم که میتونیم از اینجا که  داکیومنت مشتری هست پیدا کنیم و بفرستیم
+        const contactName = customerDocument.name; // اسم مشتری رو میخوایم که میتونیم از اینجا که داکیومنت مشتری هست پیدا کنیم و بفرستیم
         const contactCode = customerDocument.contactCode; // کد مشتری هست که از روی داکیومنت مستری میگیریم
         const billNumber = ""; // این باید خالی باشه. چون من دارم تازه یه دونه جدید ثبت میکنم
         const billType = "ticketReply";
@@ -181,6 +183,43 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
             title,
             tag,
         }
+        // اینجا یه نوتیف بدم بچه هایی که به این دسترسی دارن متوجه بشن
+        //
+        setTimeout(async () => {
+            //
+            // ticketId
+            // برو توی جدول تیکت های ارجاعی نگاه کن
+            // ببین کجاها ticketId هست
+            // بعدش همه ی assignedToUserId ها رو بگیر بهشون نوتیف بده
+            // باید مقدار isDeleteDestination هم فالز باشه
+            // البته میتونم به حالت خوانده نشده هم تغییرش بدم باید با جواد سرایی مشورت کنم
+            // اینجا میخوام یه نوتیف بدم به کاربر
+
+            const uniqueUserIds: any = await TicketAssignment.distinct('assignedToUserId', {
+                ticketId,
+                isDeleteDestination: false
+            });
+            debugger
+            const notificationArray = uniqueUserIds.map((singleUserId: any) => {
+
+                const newResponseText = "پاسخ جدید:"
+                return {
+                    userId: singleUserId.toString(),
+                    phoneNumber: undefined,
+                    notification: {
+                        title: `${newResponseText}  ${title} (${ticketDoc.ticketNumber})` ,
+                        body: `${theUserName} : ${description.slice(0, 60)} `,
+                        icon: "",
+                        click_action: "/inbox"
+                    }
+                }
+            });
+            await sendNotificationToUser(notificationArray)
+
+
+            debugger
+        }, 3000)
+
 
         res.status(200).json({
             message,
