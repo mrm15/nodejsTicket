@@ -3,6 +3,8 @@ import {afterSubmitBillSmsText, afterVerifiedBillSmsText} from "../../SMS/templa
 import {IInitialBillResponse} from "../utility/initialBillResponse";
 import {sendSubmitBillSMS, sendVerifyBillSMS} from "../../SMS/SMS.IR/sendSms";
 import {formatNumber} from "../../utils/number";
+import {timestampToTimeFromHesabfa} from "../utility/timestampToTimeFromHesabfa";
+import {p2e} from "../utility/NumericFunction";
 
 export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdminSettings) => {
     debugger
@@ -28,7 +30,9 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
         const orderName =billData.ContactTitle
         const Sum =billData.Sum
         const orderPrice = formatNumber(Sum)
-        let billDate =billData?.Date
+
+        let billDate = timestampToTimeFromHesabfa(billData?.Date)?.split(",")[0]
+        billDate = p2e(billDate)
         let the_user_name =billData.Contact.Name;
 
 
