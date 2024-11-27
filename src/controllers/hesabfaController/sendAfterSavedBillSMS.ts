@@ -43,6 +43,7 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
                 {mobile: destinationNumber, contactName, billLink}
             )
         } else {
+            debugger
             sendSmsResult = await sendVerifyBillSMS(
                 // {mobile: destinationNumber, contactName, billLink, orderNumber}
             {mobile:destinationNumber, contactName:the_user_name, orderName:orderName,orderPrice,DATE:billDate, orderNumber}
