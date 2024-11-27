@@ -2,9 +2,10 @@ import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {afterSubmitBillSmsText, afterVerifiedBillSmsText} from "../../SMS/template";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
 import {sendSubmitBillSMS, sendVerifyBillSMS} from "../../SMS/SMS.IR/sendSms";
+import {formatNumber} from "../../utils/number";
 
 export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdminSettings) => {
-
+    debugger
 
     // Determine if the bill is verified
     const isBillVerified = (billData.Status === "1" || billData.Status === 1);
@@ -22,6 +23,12 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
         const billLink = itemLink
         let orderNumber = billData?.ticketNumber;
         let sendSmsResult;
+        ////////////////////////////////////////
+        const orderName =billData.ContactTitle
+        const Sum =billData.Sum
+        const orderPrice = formatNumber(Sum)
+        let billDate =billData?.Date
+        ////////////////////////////////////////
 
         if (typeOfSendMessage === "submitBill") {
             sendSmsResult = await sendSubmitBillSMS(
@@ -29,13 +36,15 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
             )
         } else {
             sendSmsResult = await sendVerifyBillSMS(
-                {mobile: destinationNumber, contactName, billLink, orderNumber}
+                // {mobile: destinationNumber, contactName, billLink, orderNumber}
+            {mobile:destinationNumber, contactName:contactName, orderName:orderName,orderPrice,DATE:billDate, orderNumber}
             )
         }
 
         sendSmsResult.status
     };
 
+    debugger
     // Send SMS based on the bill status and settings
     if (isBillVerified && adminSettings.sendSMSAfterSubmitBill) {
         return await sendSMS("verifyBill");

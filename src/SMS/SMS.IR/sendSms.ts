@@ -118,7 +118,7 @@ export const sendSubmitBillSMS = async ({mobile, contactName, billLink}: any) =>
         ]
     })
 }
-export const sendVerifyBillSMS = async ({mobile, contactName, billLink, orderNumber}: any) => {
+export const sendVerifyBillSMS = async ({mobile, contactName, orderName,orderPrice,DATE, orderNumber}: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "808848", parameters: [
@@ -127,13 +127,22 @@ export const sendVerifyBillSMS = async ({mobile, contactName, billLink, orderNum
                 "value": contactName
             },
             {
-                "name": "BILLNUMBER",
+                "name": "OrderNumber",
                 "value": orderNumber
             },
             {
-                "name": "BILLLINK",
-                "value": billLink
-            }
+                "name": "ORDERNAME",
+                "value": orderName
+            },
+            {
+                "name": "ORDER_PRICE",
+                "value": orderPrice
+            },
+            {
+                "name": "DATE",
+                "value": DATE
+            },
+
         ]
     })
 }
