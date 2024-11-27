@@ -381,6 +381,17 @@ export const reportArray = [
         sumKey: "myTotalAmount",
         countKey: "myQuantity",
     },
+    // 20
+    {
+        caption: "اجرت برش پی وی سی - سی ان سی",
+        id: 21,
+        filterTextForPivot: [
+            "اجرت برش پی وی سی - سی ان سی",
+        ],
+        myKey: "myItemName",
+        sumKey: "myTotalAmount",
+        countKey: "myQuantity",
+    },
 
 
 
