@@ -21,6 +21,7 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
         const destinationNumber = billData.Contact.Mobile;
         const contactName = billData.ContactTitle;
         const billLink = itemLink
+        // اینجا باید از توی تگ اطلاعات بیل نامبر رو بگیرم
         let orderNumber = billData?.ticketNumber;
         let sendSmsResult;
         ////////////////////////////////////////
@@ -28,6 +29,11 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
         const Sum =billData.Sum
         const orderPrice = formatNumber(Sum)
         let billDate =billData?.Date
+        let the_user_name =billData.Contact.Name;
+
+        if(the_user_name){
+            throw new Error("dfdf")
+        }
         ////////////////////////////////////////
 
         if (typeOfSendMessage === "submitBill") {
@@ -37,7 +43,7 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
         } else {
             sendSmsResult = await sendVerifyBillSMS(
                 // {mobile: destinationNumber, contactName, billLink, orderNumber}
-            {mobile:destinationNumber, contactName:contactName, orderName:orderName,orderPrice,DATE:billDate, orderNumber}
+            {mobile:destinationNumber, contactName:the_user_name, orderName:orderName,orderPrice,DATE:billDate, orderNumber}
             )
         }
 
