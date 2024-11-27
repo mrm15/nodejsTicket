@@ -4,10 +4,6 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
 import axios from "axios";
-import {handleResponse} from "../utility/handleResponse";
-import {saveFactorNumberAndStatus} from "./functions";
-import {sendAfterSavedBillSMS} from "./sendAfterSavedBillSMS";
-import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {openTagDataForBasteBandi} from "../utility/collectionsHandlers/openTagData";
 import {sendSMSBasteBandi} from "../../SMS/SMS.IR/sendSms";
 
