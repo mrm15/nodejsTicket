@@ -99,6 +99,7 @@ const ticketAssignmentSchema: Schema<ITicketAssignment> = new mongoose.Schema({
 
 ticketAssignmentSchema.index({ticketId: 1}); // ایندکس برای جستجو بر اساس شناسه تیکت
 ticketAssignmentSchema.index({assignedToUserId: 1}); // ایندکس برای جستجو بر اساس شناسه کاربر تخصیص داده شده
+ticketAssignmentSchema.index({isDeleteDestination: 1}); // ایندکس برای جستجو بر اساس حذفی
 ticketAssignmentSchema.index({assignedToDepartmentId: 1}); // ایندکس برای جستجو بر اساس شناسه دپارتمان تخصیص داده شده
 ticketAssignmentSchema.index({readTicket: 1}); // ایندکس برای جستجو بر اساس وضعیت خوانده شدن تیکت
 ticketAssignmentSchema.index({assignDate: -1}); // ایندکس برای مرتب‌سازی تیکت‌ها بر اساس تاریخ تخصیص (نزولی: جدیدترین تیکت‌ها اول نمایش داده می‌شوند)
