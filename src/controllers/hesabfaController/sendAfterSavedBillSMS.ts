@@ -31,9 +31,7 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
         let billDate =billData?.Date
         let the_user_name =billData.Contact.Name;
 
-        if(the_user_name){
-            throw new Error("dfdf")
-        }
+
         ////////////////////////////////////////
 
         if (typeOfSendMessage === "submitBill") {
