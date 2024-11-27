@@ -807,4 +807,38 @@ export const sendSubmitBillSMS_NoTicketId = async ({
         ]
     })
 }
+export const sendSMS_OJRAT_BORESH_CNC = async ({
+                                              mobile,
+                                              ADMINNAME,
+                                              plaksi2_8Value,
+                                              simplePunchValue,
+                                              proPunchValue,
+                                              doubleValue,
+                                              duqi10milValue,
+                                              duqi5milValue,
+                                              ESTILFELEZ,
+                                              CHALANDSUEDI,
+                                              NEONPLASTIC,
+                                              NEONFELAXI,
+                                              SMD,
+                                              STICKER_OJRAT,
+                                              AMAR_VARAQ_Estil,
+                                              AMAR_PVC,
+                                                   OJRAT_BORESH_CNC,
+
+                                          }: any) => {
+    return await sendSmsFromSMSIR({
+        // توی تملیت آیدی براش متن تعریف شده
+        mobile: mobile, templateId: "286617", parameters: [
+            {
+                "name": "ADMINNAME",
+                "value": ADMINNAME
+            },
+            {
+                "name": "OJRAT_BORESH_CNC",
+                "value": OJRAT_BORESH_CNC
+            },
+        ]
+    })
+}
 
