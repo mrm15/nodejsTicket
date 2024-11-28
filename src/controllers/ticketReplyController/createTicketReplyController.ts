@@ -11,7 +11,7 @@ import {generateRefreshToken} from "../LoginRegisterSms/generateAccessToken";
 import {uuidGenerator} from "../../utils/uuidGenerator";
 import {logger} from "../../middleware/logEvents";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
-import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
+import {NotificationPayload, sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
 import {TicketAssignment} from "../../models/ticketAssignment ";
 import mongoose from "mongoose";
 
@@ -200,20 +200,31 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
                 isDeleteDestination: false
             });
             debugger
-            const notificationArray = uniqueUserIds.map((singleUserId: any) => {
 
-                const newResponseText = "پاسخ جدید:"
-                return {
-                    userId: singleUserId.toString(),
-                    phoneNumber: undefined,
-                    notification: {
-                        title: `${newResponseText}  ${title} (${ticketDoc.ticketNumber})` ,
-                        body: `${theUserName} : ${description.slice(0, 60)} `,
-                        icon: "",
-                        click_action: "/inbox"
+
+            const notificationArray = uniqueUserIds
+                .filter((singleUserId: any) => !!singleUserId)
+                .map((singleUserId: any): NotificationPayload | null => {
+                    try {
+                        const userIdString = singleUserId.toString();
+                        const newResponseText = "پاسخ جدید:";
+                        return {
+                            userId: userIdString,
+                            phoneNumber: undefined,
+                            notification: {
+                                title: `${newResponseText} ${title} (${ticketDoc.ticketNumber})`,
+                                body: `${theUserName} : ${description.slice(0, 60)}`,
+                                icon: "",
+                                click_action: "/inbox"
+                            }
+                        };
+                    } catch (error) {
+                        console.warn('Failed to convert userId to string:', singleUserId, error);
+                        return null;
                     }
-                }
-            });
+                })
+                .filter((notification: NotificationPayload | null): notification is NotificationPayload => notification !== null);
+
             await sendNotificationToUser(notificationArray)
 
 
