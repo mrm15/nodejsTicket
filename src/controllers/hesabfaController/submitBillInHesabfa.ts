@@ -127,7 +127,8 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
                             // در واقع اگه دپارتمان مقصد تعریف شده بود و نال نبود باید تیکت رو بفرستیم بره به دپارتمان نود گیری
 
                             if ((adminSettings.forwardTicketsAfterVerify && invoice.Status === 1) || (adminSettings.forwardTicketsAfterVerify && invoice.Status === "1")) {
-                                await addToAssignedTickets({ticketIdsArray: [billData.ticketId], departmentId:adminSettings.forwardTicketsAfterVerify, userId, senderUserId:foundUser._id})
+                                                                // اینجا قراره ببینم آیا بعد از تایید فاکتور باید اینو به مدیر دپارتمان نود گیری
+                                await addToAssignedTickets({ticketIdsArray: [billData.ticketId], departmentId:adminSettings.forwardTicketsAfterVerify, userId:null, senderUserId:foundUser._id})
                                 // await forwardTicketAfterVerify({
                                 //     depId: adminSettings.forwardTicketsAfterVerify,
                                 //     billData
