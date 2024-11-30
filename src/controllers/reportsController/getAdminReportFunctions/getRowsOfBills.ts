@@ -3,7 +3,7 @@ import {
     openTagDataByRowReturnTagData
 } from "../../utility/collectionsHandlers/openTagData";
 
-interface INeededObject {
+export interface INeededObject {
     "myNumber": string,
     "myDate": string,
     "myContactCode": string,

@@ -9,6 +9,7 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {IRole, Role} from "../../models/roles";
 import {myPermissionsArray} from "../roleController/permissinsArray";
+import getBankingDataByCode from "../../utils/banking/getBankingDataByCode/getBankingDataByCode";
 
 
 const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -32,13 +33,21 @@ const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response
         const {phoneNumber} = myToken
 
 
+        const usersAndCodes = [
+            {id: 100, name: "امیر حسین بای", codes: ["1313", ], sumOfItems: 0},
+            {id: 101, name: "زهره پور محمد", codes: ["1111", ], sumOfItems: 0},
+            {id: 102, name: "نیما احمدی", codes: ["3333", ], sumOfItems: 0},
+            {id: 103, name: "مهدی ساری", codes: ["4444", ], sumOfItems: 0},
+        ]
+        const result = await getBankingDataByCode({filters: []},usersAndCodes)
 
-       // const result = getBankingDataByCode({filters})
 
-
-        res.status(500).json({
+        debugger
+        res.status(200).json({
+            data: result,
             phoneNumber,
-            message: 'نیازمند توسعه کد',});
+            message: 'اطلاعات به روز شد.',
+        });
         return;
 
     } catch (error) {
