@@ -33,6 +33,8 @@ const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response
 
 
 
+       // const result = getBankingDataByCode({filters})
+
 
         res.status(500).json({
             phoneNumber,
