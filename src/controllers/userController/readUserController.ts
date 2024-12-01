@@ -3,7 +3,9 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
-import {User} from "../../models/User";
+import {IUser, User} from "../../models/User";
+import {timestampToTime} from "../../utils/timestampToTime";
+import {Role} from "../../models/roles";
 
 const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     const {myToken} = req;
@@ -21,6 +23,19 @@ const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response,
             return;
         }
         const myFetchedData = await getDataCollection(req.body, User)
+
+
+        if (myFetchedData?.results) {
+            const myList = await Promise.all(myFetchedData.results.map(async (singleUserInfo) => {
+                const row: any = {...singleUserInfo};
+                const userFound: IUser = (await Role.findOne({_id: row.role}).lean())!;
+                row['roleName'] = userFound.name
+                return row;
+            }));
+            myFetchedData.results = myList
+        }
+
+
         res.status(200).json({
 
             ...myFetchedData
