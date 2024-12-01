@@ -39,10 +39,12 @@ const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response
             {id: 102, name: "نیما احمدی", codes: ["3333", ], sumOfItems: 0},
             {id: 103, name: "مهدی ساری", codes: ["4444", ], sumOfItems: 0},
         ]
-        const result = await getBankingDataByCode({filters: []},usersAndCodes)
-
-
         debugger
+        const filetrs = req.body.filterItems
+        const result = await getBankingDataByCode({filters: filetrs||[]},usersAndCodes)
+
+
+
         res.status(200).json({
             data: result,
             phoneNumber,
