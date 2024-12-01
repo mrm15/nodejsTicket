@@ -25,11 +25,20 @@ const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response,
         const myFetchedData = await getDataCollection(req.body, User)
 
 
-        if (myFetchedData?.results) {
+        if (myFetchedData?.results.length > 0) {
             const myList = await Promise.all(myFetchedData.results.map(async (singleUserInfo) => {
                 const row: any = {...singleUserInfo};
-                const userFound: IUser = (await Role.findOne({_id: row.role}).lean())!;
-                row['roleName'] = userFound.name
+                try {
+
+                    if(row.role){
+                        const userFound: IUser = (await Role.findOne({_id: row.role}).lean())!;
+                        row['roleName'] = userFound.name
+                    }else {
+                        row['roleName'] = ' ندارد '
+                    }
+                } catch (error: any) {
+                    //
+                }
                 return row;
             }));
             myFetchedData.results = myList
