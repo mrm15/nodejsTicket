@@ -119,18 +119,18 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
 
 ticketSchema.pre('save', async function (next) {
     if (this.isNew && !this.ticketNumber) {
-        console.log("Generating ticket number...");
+        // console.log("Generating ticket number...");
         try {
             const seqValue = await getNextSequenceValue('ticketNumber');
             this.ticketNumber = seqValue; // Set the ticketNumber if it's not already set
-            console.log("Generated ticket number:", this.ticketNumber);
+            // console.log("Generated ticket number:", this.ticketNumber);
             next();
         } catch (error: any) {
             console.error("Error generating ticket number:", error);
             next(error); // Pass any errors to the next middleware
         }
     } else {
-        console.log("Ticket already has a number or is not new. Skipping generation.");
+        // console.log("Ticket already has a number or is not new. Skipping generation.");
         next(); // If the  is already set or it's not a new document, proceed to the next middleware
     }
 });

@@ -10,7 +10,7 @@ function sortInnerRecursive(node: any) {
         if (row.subItems && row.subItems.length > 0) {
             // console.log(row.subItems)
             row.subItems = sortInnerRecursive(row.subItems)
-            console.log(row.subItems)
+            // console.log(row.subItems)
         }
     })
 

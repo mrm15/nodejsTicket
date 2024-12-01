@@ -132,7 +132,7 @@ const updatePackStatusTo8 = async (req: CustomRequestMyTokenInJwt, res: Response
 
 
             } else {
-                console.log(result?.data)
+                // console.log(result?.data)
                 res.status(500).json({
                     message: result?.data?.ErrorMessage
                 })

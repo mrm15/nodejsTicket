@@ -11,7 +11,7 @@ const getContactData = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
     const {contactCode} =  req.params;
 
-    console.log(contactCode)
+    // console.log(contactCode)
 
     const API_KEY = process.env.HESABFA_API_KEY
     if(!API_KEY){
@@ -76,7 +76,7 @@ const getContactData = async (req: CustomRequestMyTokenInJwt, res: Response, nex
             }
             const result = await axios.post(url, data);
 
-            console.log(result)
+            // console.log(result)
             handleResponse(result,res)
         } catch (error:any) {
             const statusCode = error?.status || 500

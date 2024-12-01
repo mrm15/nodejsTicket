@@ -18,7 +18,7 @@ export const addFirstUser = async ({departmentId, role}: any) => {
         });
 
         const savedUser = await newUser.save();
-        console.log('User added successfully:', savedUser);
+        // console.log('User added successfully:', savedUser);
     } catch (error) {
         console.error('Error adding user:', error);
     }

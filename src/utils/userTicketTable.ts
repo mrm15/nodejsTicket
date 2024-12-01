@@ -18,7 +18,7 @@ export const userTicketTable = async ({userId}: myObject) => {
     }
 
 
-    console.log("userTicketArray:", userTicketArray);
+    // console.log("userTicketArray:", userTicketArray);
 
     const myList = await Promise.all(userTicketArray.map(async (singleRow: any) => {
         try {

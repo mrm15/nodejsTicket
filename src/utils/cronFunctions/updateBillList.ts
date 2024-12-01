@@ -34,14 +34,14 @@ export const updateBillList = async () => {
 
             // Write new data to the file
             fs.writeFileSync(filePath, JSON.stringify(bills, null, 2));
-            console.log("task Done! ")
+            // console.log("task Done! ")
         } else {
-            console.log("😭  unable Get Data ans Save ")
-            console.log("result Rsponse is Undefiend")
+            // console.log("😭  unable Get Data ans Save ")
+            // console.log("result Rsponse is Undefiend")
         }
     } catch (error: any) {
-        console.log("😭  unable Get Data ans Save ")
-        console.log(error?.toString())
+        // console.log("😭  unable Get Data ans Save ")
+        // console.log(error?.toString())
     }
 
 }

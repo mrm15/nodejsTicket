@@ -62,7 +62,7 @@ const sendNotificationToUser = async (payloads: NotificationPayload[]) => {
                         },
                         pushPayload
                     );
-                    console.log(`Notification sent to user (Phone: ${sub.phoneNumber})`);
+                    // console.log(`Notification sent to user (Phone: ${sub.phoneNumber})`);
                 } catch (error: any) {
                     if (error.statusCode === 410 || error.statusCode === 404) {
                         // Subscription is no longer valid, remove it from the database

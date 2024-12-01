@@ -18,7 +18,7 @@ const getDataByAggregation2 = async ({filters, page, pageSize}: inputObjectGetDa
         });
     }
 
-    console.log(matchConditions)
+    // console.log(matchConditions)
     // Create the pipeline using match conditions and pagination details
     const myPipeline = createAggregationPipeline({matchConditions, page, pageSize});
 

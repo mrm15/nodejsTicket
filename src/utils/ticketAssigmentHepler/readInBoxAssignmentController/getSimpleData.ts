@@ -73,7 +73,7 @@ const getSimpleData = async ({
     const result = await TicketAssignment.aggregate(myPipline)
 
 
-    console.log(result)
+    //console.log(result)
     return result
 
 }

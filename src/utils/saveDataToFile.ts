@@ -29,7 +29,7 @@ const saveDataToFile = async ({ directoryUrl, date, fileName, data }: inputType)
 
         // Convert data to JSON format and write it to the file asynchronously
         await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
-        console.log(`Data for ${formattedDate} saved successfully.`);
+        // console.log(`Data for ${formattedDate} saved successfully.`);
     } catch (error) {
         console.error('Error while saving data to file:', error);
     }

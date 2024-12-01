@@ -49,7 +49,7 @@ const updateBillsFileFunction = async (startDate: Date, endDate: Date) => {
                 }
 
             }
-            console.log(`Data for ${currentDate.toISOString().split('T')[0]} fetched successfully.`);
+            // console.log(`Data for ${currentDate.toISOString().split('T')[0]} fetched successfully.`);
             currentDate = incrementDateByOneDay(currentDate);
             await sleep(1000); // Sleep for 1 second between requests
         } catch (error) {

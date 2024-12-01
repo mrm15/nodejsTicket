@@ -74,7 +74,7 @@ const getCustomerList = async (req: CustomRequestMyTokenInJwt, res: Response, ne
             }
             const result = await axios.post(url, data);
 
-            console.log(result)
+            // console.log(result)
             handleResponse(result,res)
         } catch (error:any) {
             const statusCode = error?.status || 500

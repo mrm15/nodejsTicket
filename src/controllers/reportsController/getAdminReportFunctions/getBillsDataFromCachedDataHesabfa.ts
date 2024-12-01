@@ -28,7 +28,7 @@ const applyFilter = (item: { [x: string]: any; }, filter: { Property: any; Opera
 
     // Get the value of the property in the current item
     const itemValue = item[Property];
-    console.log(itemValue)
+    // console.log(itemValue)
     switch (Operator) {
         case '=':
             return itemValue === Value;

@@ -12,7 +12,7 @@ const getBillData = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
 
     const {billNumber} = req.params;
 
-    console.log(billNumber)
+    // console.log(billNumber)
 
     const API_KEY = process.env.HESABFA_API_KEY
     if (!API_KEY) {

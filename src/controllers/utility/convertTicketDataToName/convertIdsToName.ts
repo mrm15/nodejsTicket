@@ -12,7 +12,7 @@ export const convertIdsToName = async (dt: {
     pageSize: number
 }) => {
 
-    console.log(dt.results);
+    // console.log(dt.results);
     const ticketList = dt.results
 
     try {

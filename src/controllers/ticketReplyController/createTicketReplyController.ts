@@ -132,7 +132,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
 
 
             } catch (error) {
-                console.log(error)
+                // console.log(error)
             }
 
 

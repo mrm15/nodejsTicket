@@ -9,9 +9,9 @@ const ensureDataFolderExists = (directoryUrl: string) => {
         if (!fs.existsSync(dataFolderPath)) {
             // If not, create the 'data' folder
             fs.mkdirSync(dataFolderPath);
-            console.log('Data folder created successfully.');
+            // console.log('Data folder created successfully.');
         } else {
-            console.log('Data folder already exists.');
+            // console.log('Data folder already exists.');
         }
     } catch (error) {
         console.error('Error while ensuring data folder exists:', error);

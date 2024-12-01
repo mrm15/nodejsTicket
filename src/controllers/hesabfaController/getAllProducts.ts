@@ -86,7 +86,7 @@ const getAllProducts = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
             const result = await axios.post(url, data);
 
-            console.log(result)
+            // console.log(result)
             handleResponse(result,res)
 
         } catch (error:any) {

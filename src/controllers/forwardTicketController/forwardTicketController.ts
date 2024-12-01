@@ -90,7 +90,7 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
 
         const senderUserId = foundSenderUserIdLean?._id
         console.log("user:")
-        console.log(user)
+        // console.log(user)
         const resultOfTask = await forwardTicket({
             ticketIdsArray: ticketIdsArray,
             departmentId: department,

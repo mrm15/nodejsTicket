@@ -107,7 +107,7 @@ const changeSentStatus = async (req: CustomRequestMyTokenInJwt, res: Response, n
                     return;
                 }
             } else {
-                console.log(result?.data)
+                // console.log(result?.data)
                 res.status(500).json({
                     message: result?.data?.ErrorMessage
                 })

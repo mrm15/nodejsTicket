@@ -11,11 +11,11 @@ const getCachedBillsData = async (): Promise<any[]> => {
     const now = Date.now();
 
     if (!billsCache || !lastCacheUpdate || now - lastCacheUpdate > CACHE_TTL) {
-        console.log("Cache expired or not available. Reading data from file system.");
+        // console.log("Cache expired or not available. Reading data from file system.");
         billsCache = await readBillsData();
         lastCacheUpdate = now; // به‌روزرسانی زمان کش
     } else {
-        console.log("Using cached data.");
+        // console.log("Using cached data.");
     }
 
     return billsCache;

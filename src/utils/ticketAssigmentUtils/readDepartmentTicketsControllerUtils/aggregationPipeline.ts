@@ -223,7 +223,7 @@ export const createAggregationPipeline = ({
             }
         },
     )
-    console.log(matchConditions)
+    // console.log(matchConditions)
     if (matchConditions.length > 0) {
         myPipLine.push({
             $match: {
