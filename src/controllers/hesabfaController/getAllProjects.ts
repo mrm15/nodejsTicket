@@ -64,7 +64,6 @@ const getAllProjects = async (req: CustomRequestMyTokenInJwt, res: Response, nex
                 loginToken: LOGIN_TOKEN,
             }
             const result = await axios.post(url, data);
-            console.log(result)
             handleResponse(result,res)
         } catch (error:any) {
             const statusCode = error?.status || 500
