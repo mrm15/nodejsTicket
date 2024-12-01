@@ -10,7 +10,6 @@ import {userListAndCodes} from "../../utils/banking/getBankingDataByCode/userLis
 const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
     const {myToken} = req;
-    const newRoleData = req.body;
 
     // res.status(201).json({myToken})
     //
@@ -25,7 +24,7 @@ const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response
     try {
 
 
-        const userListToCalculate = userListAndCodes;
+        const userListToCalculate = [...userListAndCodes];
         const filters11 = req.body.filterItems
 
         const result = await getBankingDataByCode({filters: filters11 || []}, userListToCalculate)
