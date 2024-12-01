@@ -9,13 +9,14 @@ const sumKey = "myTotalAmount"
 const countKey = "myQuantity";
 const getBankingDataByCode = async ({filters}: any ,usersAndCodes:any[]) => {
     const keys = {myKey, sumKey, countKey,}
-    debugger
+
 
 
     // مرحله ی دوم برو از توی کل تیکت ها اونایی که شماره تیکتشون با اون شماره تیکت ها یکی رو پیدا کن بیار واسم
 
 
     const allBills = await getBillsDataFromPoolBill({filters});
+
     const allRowsWithItems: INeededObject[] = getRowsOfInvoiceItemsFromBills(allBills)
 
 
@@ -28,7 +29,7 @@ const getBankingDataByCode = async ({filters}: any ,usersAndCodes:any[]) => {
         const totalData: INeededObject[] = []
         allRowsWithItems.forEach(singleRowOfItem => {
             const didFind = singleUser.codes.some((code: string | number) => singleRowOfItem.myContactTitle.includes(code + ""));
-            debugger
+
             if (didFind) {
 
                 totalData.push(singleRowOfItem)
@@ -41,7 +42,7 @@ const getBankingDataByCode = async ({filters}: any ,usersAndCodes:any[]) => {
             bgColor: "black",
             textColor: "white",
             ...keys,
-            // متراژ ساخت که از مهندس امانزاده گرفتم
+            // متراژ ساخت که از مهندس امانزاده کد هاشو گرفتم
             filterIdForPivot: [
                 "000068",
                 "000080",
