@@ -2,14 +2,9 @@ import {Request, Response, NextFunction} from 'express';
 import {IUser, User} from "../../models/User";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {addNewUserF} from "../LoginRegisterSms/addNewUserF";
-import {uuidGenerator} from "../../utils/uuidGenerator";
-import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
-import {IRole, Role} from "../../models/roles";
-import {myPermissionsArray} from "../roleController/permissinsArray";
+
 import getBankingDataByCode from "../../utils/banking/getBankingDataByCode/getBankingDataByCode";
+import {userListAndCodes} from "../../utils/banking/getBankingDataByCode/userListAndCodes";
 
 
 const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -30,24 +25,14 @@ const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response
     try {
 
 
-        const {phoneNumber} = myToken
+        const userListToCalculate = userListAndCodes;
+        const filters11 = req.body.filterItems
 
-
-        const usersAndCodes = [
-            {id: 100, name: "امیر حسین بای", codes: ["1313", ], sumOfItems: 0},
-            {id: 101, name: "زهره پور محمد", codes: ["1111", ], sumOfItems: 0},
-            {id: 102, name: "نیما احمدی", codes: ["3333", ], sumOfItems: 0},
-            {id: 103, name: "مهدی ساری", codes: ["4444", ], sumOfItems: 0},
-        ]
-        debugger
-        const filetrs = req.body.filterItems
-        const result = await getBankingDataByCode({filters: filetrs||[]},usersAndCodes)
-
+        const result = await getBankingDataByCode({filters: filters11 || []}, userListToCalculate)
 
 
         res.status(200).json({
             data: result,
-            phoneNumber,
             message: 'اطلاعات به روز شد.',
         });
         return;
