@@ -186,24 +186,17 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         // اینجا یه نوتیف بدم بچه هایی که به این دسترسی دارن متوجه بشن
         //
         setTimeout(async () => {
-            //
-            // ticketId
-            // برو توی جدول تیکت های ارجاعی نگاه کن
-            // ببین کجاها ticketId هست
-            // بعدش همه ی assignedToUserId ها رو بگیر بهشون نوتیف بده
-            // باید مقدار isDeleteDestination هم فالز باشه
-            // البته میتونم به حالت خوانده نشده هم تغییرش بدم باید با جواد سرایی مشورت کنم
-            // اینجا میخوام یه نوتیف بدم به کاربر
+            const currentUserId = myToken?.UserInfo?.userData?.userData?.userId;
 
             const uniqueUserIds: any = await TicketAssignment.distinct('assignedToUserId', {
                 ticketId,
                 isDeleteDestination: false
             });
-            debugger
+
 
 
             const notificationArray = uniqueUserIds
-                .filter((singleUserId: any) => !!singleUserId)
+                .filter((singleUserId: any) => !!singleUserId && singleUserId.toString() !== currentUserId.toString()) // Filter out the current user ID
                 .map((singleUserId: any): NotificationPayload | null => {
                     try {
                         const userIdString = singleUserId.toString();
