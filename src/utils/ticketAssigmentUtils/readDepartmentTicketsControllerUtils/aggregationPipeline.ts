@@ -161,66 +161,58 @@ export const createAggregationPipeline = ({
     myPipLine.push(
         {
             $project: {
-
-                _id: "$ticketId",// id  of ticket assignment
-                ticketAssignedId :  "$_id",
-                rowNumber: "",//  میخوام اینو دستی اضافه کنم ببینم میشه؟ اگه نشد توی خط بعدش حساب میکنم
+                _id: "$ticketId", // id of ticket assignment
+                ticketAssignedId: "$_id",
+                rowNumber: "",
 
                 title: "$z_ticketDetails.title", // عنوان تیکت - عنوان سفارش
-                userCreateThisOrder: //"$z_ticketUserIdDetails.name",//
-                    {
-                        $concat: ["$z_ticketUserIdDetails.name", " ", "$z_ticketUserIdDetails.familyName", " ", "$z_ticketUserIdDetails.phoneNumber"]
-
-                    },
+                userCreateThisOrder: {
+                    $concat: [
+                        { $ifNull: ["$z_ticketUserIdDetails.name", ""] }, " ",
+                        { $ifNull: ["$z_ticketUserIdDetails.familyName", ""] }, " ",
+                        { $ifNull: ["$z_ticketUserIdDetails.phoneNumber", ""] }, " ",
+                        { $ifNull: ["$z_ticketUserIdDetails.city", ""] }, " ",
+                        { $ifNull: ["$z_ticketUserIdDetails.province", ""] }
+                    ]
+                },
                 ticketNumber: "$z_ticketDetails.ticketNumber",
-                assignedToDepartmentIdText: "$z_assignedToDepartmentDetails.name", // از توی تیکت اساین
-                assignToUserIdText: { // از توی تیکت اساین
-                    $concat: ["$z_assignedToUserDetails.name", " ", "$z_assignedToUserDetails.familyName" /*, "$z_assignedToUserDetails.phoneNumber" */]
+                assignedToDepartmentIdText: "$z_assignedToDepartmentDetails.name",
+                assignToUserIdText: {
+                    $concat: [
+                        { $ifNull: ["$z_assignedToUserDetails.name", ""] }, " ",
+                        { $ifNull: ["$z_assignedToUserDetails.familyName", ""] }
+                    ]
                 },
-                dateCreate: "$z_ticketDetails.createAt", // تاریخ ثبت سفارش
-                lastChangeTimeStamp: "$z_ticketDetails.lastChangeTimeStamp", // تارخ آخرین تغییر
-                priority: "$z_ticketDetails.priority", // الویت تیکت
+                dateCreate: "$z_ticketDetails.createAt",
+                lastChangeTimeStamp: "$z_ticketDetails.lastChangeTimeStamp",
+                priority: "$z_ticketDetails.priority",
 
-                statusText: "در حال کار", // وضعیت تیکت
-                numberOfAttachments: "$z_ticketDetails.attachments.length", // تعداد فایل ضمیمه
+                statusText: "در حال کار",
+                numberOfAttachments: { $size: { $ifNull: ["$z_ticketDetails.attachments", []] } },
 
-                description: "$z_ticketDetails.description", // توضیحات تیکت
+                description: "$z_ticketDetails.description",
 
-                // این آیتم تکراریه ولی میاریم شاید
-                assignedToUserIdText: { // از توی تیکت اساین // کاربری که این تیکت الان بهش ارجاع شده
-                    $concat: ["$z_assignedToUserDetails.name", " ", "$z_assignedToUserDetails.familyName" /*, "$z_assignedToUserDetails.phoneNumber" */]
+                assignedToUserIdText: {
+                    $concat: [
+                        { $ifNull: ["$z_assignedToUserDetails.name", ""] }, " ",
+                        { $ifNull: ["$z_assignedToUserDetails.familyName", ""] }
+                    ]
                 },
-                // assignedToDepartmentIdText:"", // دپارتمانی که این تیکت الان بهش ارجاع شده
-                isDeleteDestination: 1, // آیا مقصد دپارتمان یا کاربر  اینو پاک کرده؟
-                assignedByText: //  "$z_assignedByDetails.name", // فرستنده ی این تیکت کیه؟
-                    {
-                        $concat: ["$z_assignedByDetails.name", " ", "$z_assignedByDetails.familyName" /*, "$z_assignedToUserDetails.phoneNumber" */]
-                    },
-                isDeleteFromAssignedBy: 1, // فرستنده اینو پاک کرده؟
-                readStatus: 1, //وضعیت خواندن توی مقصد (دپارتمان یا کاربر)
-                readDate: 1, //تاریخ باز کردن تیکت
-                numberOfAssign: 1, //تعداد ارجاع
-                assignmentType: 1, //نوع ارجاع
-                assignDate: 1,
-
-
-                //
-                // assignedToUserId: 1,
-                // assignedBy: 1,
-                // assignedToDepartmentId: 1,
-                // ticketId: 1,
-                //
-                // // User details
-                // assignedToUserName: "$z_assignedToUserDetails.name",
-                // assignedByName: "$z_assignedByDetails.name",
-                // assignedToDepartmentName: "$z_assignedToDepartmentDetails?.name",
-                //
-                // // Ticket details
-                // ticketNumber: "$ticketDetails.ticketNumber",
-                // ticketUserName: "$ticketUserDetails.name",
-                // ticketAssignedToUserName: "$ticketAssignedToUserDetails.name",
-                // ticketAssignedToDepartmentName: "$ticketAssignedDepartmentDetails.name"
+                isDeleteDestination: 1,
+                assignedByText: {
+                    $concat: [
+                        { $ifNull: ["$z_assignedByDetails.name", ""] }, " ",
+                        { $ifNull: ["$z_assignedByDetails.familyName", ""] }
+                    ]
+                },
+                isDeleteFromAssignedBy: 1,
+                readStatus: 1,
+                readDate: 1,
+                numberOfAssign: 1,
+                assignmentType: 1,
+                assignDate: 1
             }
+
         },
     )
     // console.log(matchConditions)
