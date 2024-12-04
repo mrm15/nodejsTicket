@@ -118,7 +118,7 @@ export const sendSubmitBillSMS = async ({mobile, contactName, billLink}: any) =>
         ]
     })
 }
-export const sendVerifyBillSMS = async ({mobile, contactName, orderName,orderPrice,DATE, orderNumber}: any) => {
+export const sendVerifyBillSMS = async ({mobile, contactName, orderName, orderPrice, DATE, orderNumber}: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "808848", parameters: [
@@ -808,25 +808,25 @@ export const sendSubmitBillSMS_NoTicketId = async ({
     })
 }
 export const sendSMS_OJRAT_BORESH_CNC = async ({
-                                              mobile,
-                                              ADMINNAME,
-                                              plaksi2_8Value,
-                                              simplePunchValue,
-                                              proPunchValue,
-                                              doubleValue,
-                                              duqi10milValue,
-                                              duqi5milValue,
-                                              ESTILFELEZ,
-                                              CHALANDSUEDI,
-                                              NEONPLASTIC,
-                                              NEONFELAXI,
-                                              SMD,
-                                              STICKER_OJRAT,
-                                              AMAR_VARAQ_Estil,
-                                              AMAR_PVC,
+                                                   mobile,
+                                                   ADMINNAME,
+                                                   plaksi2_8Value,
+                                                   simplePunchValue,
+                                                   proPunchValue,
+                                                   doubleValue,
+                                                   duqi10milValue,
+                                                   duqi5milValue,
+                                                   ESTILFELEZ,
+                                                   CHALANDSUEDI,
+                                                   NEONPLASTIC,
+                                                   NEONFELAXI,
+                                                   SMD,
+                                                   STICKER_OJRAT,
+                                                   AMAR_VARAQ_Estil,
+                                                   AMAR_PVC,
                                                    OJRAT_BORESH_CNC,
 
-                                          }: any) => {
+                                               }: any) => {
     return await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "286617", parameters: [
@@ -837,6 +837,31 @@ export const sendSMS_OJRAT_BORESH_CNC = async ({
             {
                 "name": "OJRAT_BORESH_CNC",
                 "value": OJRAT_BORESH_CNC
+            },
+        ]
+    })
+}
+export const sendSmsAfterSubmitOrder = async ({
+                                                  mobile,
+                                                  customerName,
+                                                  orderTitle,
+                                                  orderNumber
+
+                                              }: any) => {
+    return await sendSmsFromSMSIR({
+        // توی تملیت آیدی براش متن تعریف شده
+        mobile: mobile, templateId: "322874", parameters: [
+            {
+                "name": "customerName",
+                "value": customerName
+            },
+            {
+                "name": "orderTitle",
+                "value": orderTitle
+            },
+            {
+                "name": "orderNumber",
+                "value": orderNumber
             },
         ]
     })
