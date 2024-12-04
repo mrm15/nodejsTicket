@@ -10,6 +10,7 @@ import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
 import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
 import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
+import {sendSmsAfterSubmitOrder} from "../../SMS/SMS.IR/sendSms";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -163,9 +164,14 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const result: ITicket = await Ticket.create(newTicket);
 
         let msg1 = ""
-        await addToAssignedTickets({ticketIdsArray: [result._id], departmentId:assignedToDepartmentId, userId:result.firstUserId, senderUserId:senderUserId})
-        msg1+="تیکت ارجاع شد ";
-        msg1+= 'سفارش با موفقیت ایجاد شد.';
+        await addToAssignedTickets({
+            ticketIdsArray: [result._id],
+            departmentId: assignedToDepartmentId,
+            userId: result.firstUserId,
+            senderUserId: senderUserId
+        })
+        msg1 += "تیکت ارجاع شد ";
+        msg1 += 'سفارش با موفقیت ایجاد شد.';
 
         const contactName = myToken.UserInfo.userData.userData.name; // اینجا جاییه که همون کاربری که دکمه ی ثبت رو زده میخواد فاکتور ثبت کنه پس اسم مشتری همون اسم کسیه که لاگین شده
         const contactCode = myToken.UserInfo.userData.userData.contactCode || 'Error'; // کد کسیه که الان لاگین شده و باید اینو توی جدول کد ها برابر با دیتای حسابفا بزارم.
@@ -180,17 +186,29 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             n:myToken.UserInfo.userData.userData.name
         }); // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه
 
+        // اینجا یه پیامک بدم به مشتری بگم سفارش شما اینجاد شد.
+
+        setTimeout(async () => {
+
+            const sendSmsAfterSubmitOrder11 = await sendSmsAfterSubmitOrder({
+                mobile: phoneNumber,
+                customerName: contactName,
+                orderTitle: result.title,
+                orderNumber: result.ticketNumber
+            })
+        }, 60000)
         // اینجا میخوام یه نوتیف بدم به کاربر
-        const notificationArray=[{
-            userId: assignToUserId,
-            phoneNumber:undefined,
-            notification: {
-                title: "سفارش جدید داری",
-                body: ticketData.title,
-                icon: "",
-                click_action: "/inbox",
-            }
-        },
+        const notificationArray = [
+            {
+                userId: assignToUserId,
+                phoneNumber: undefined,
+                notification: {
+                    title: "سفارش جدید داری",
+                    body: ticketData.title,
+                    icon: "",
+                    click_action: "/inbox",
+                }
+            },
             {
                 userId: senderUserId,
                 phoneNumber:undefined,
