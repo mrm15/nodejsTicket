@@ -30,7 +30,38 @@ const addToAssignedTickets = async ({ticketIdsArray, departmentId, userId, sende
             newRow.assignedToDepartmentId = departmentId
             newRow.assignedToUserId = null
         }
-        const result = await TicketAssignment.create(newRow)
+        const isThereSameAssignment: ITicketAssignment | null = await TicketAssignment.findOne({
+            ticketId: ticketFound._id,
+            assignedBy: senderUserId,
+            assignedToUserId: userId ? userId : null,
+            assignedToDepartmentId: (departmentId && !userId) ? departmentId : null,
+        }).lean()
+        newRow.assignedBy = senderUserId
+        newRow.createdAt = new Date();
+
+        let result
+        if (!!isThereSameAssignment) {
+            result = await TicketAssignment.findOneAndUpdate(
+                {_id: isThereSameAssignment._id},
+                {
+                    $set: {
+                        isDeleteDestination: false,
+                        isDeleteFromAssignedBy: false,
+                        assignDate: new Date(),          // Updating the assign date
+                        readDate: null,             // Setting readDate to current date
+                        readStatus: false,                 // Updating the read status
+                        numberOfAssign: isThereSameAssignment.numberOfAssign + 1,
+                        updatedAt: new Date(),            // Updating the updatedAt field
+                    }
+                },
+                {new: true} // Option to return the updated document
+            );
+        } else {
+            result = await TicketAssignment.create(newRow)
+
+        }
+
+
         const ticketTitle = (await Ticket.findOne({_id: singleTicketId}).lean())!
 
         // اینجا میخوام یه نوتیف بدم به کاربر
@@ -67,7 +98,7 @@ const addToAssignedTickets = async ({ticketIdsArray, departmentId, userId, sende
 
         return !!result;
     }))
-    debugger
+
     return myList.find(row => row === true)
 }
 export default addToAssignedTickets
