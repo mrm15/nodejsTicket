@@ -107,6 +107,7 @@ interface IRole extends Document {
     showMyBillListForCustomer: Boolean;
     viewBills: Boolean;
     testBillCalculatePrice: Boolean;
+    showMyTicketList: Boolean;
 
 
 }
@@ -230,6 +231,7 @@ const roleSchema: Schema<IRole> = new Schema({
     organizationDashboard: {type: Boolean, default: false, required: true}, //
     departmentAdminDashboard: {type: Boolean, default: false, required: true}, //
     fullAdminDashboard: {type: Boolean, default: false, required: true}, //
+    showMyTicketList: {type: Boolean, default: false, required: true}, //
 
 });
 

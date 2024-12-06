@@ -102,6 +102,7 @@ export const myPermissionsArray = [
     "myBankFirstUserId",
     "allBanksFirstUserId",
     "myBankDepartment",
+    "showMyTicketList",
     //////////////////////////// Dashboard Access
     "customerDashboard",
     "organizationDashboard",
