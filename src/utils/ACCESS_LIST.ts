@@ -76,6 +76,7 @@ export const ACCESS_LIST = {
     SAVE_BILL_AS_DONE: "saveBillAsDone",
     DELETE_BILL: "deleteBill",
     ALL_CONTACTS_WHEN_SUBMIT_BILL: "allContactsWhenSubmitBill",
+    showMyTicketList: "showMyTicketList",
 
 
 }
