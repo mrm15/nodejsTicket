@@ -158,6 +158,14 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         const message = 'پاسخ شما با موفقیت ثبت شد.' + " " + smsMsg
         const result = await TicketReply.create(dataToInsertInTicketReplyCollection);
 
+
+        // اینجا میخوام اگه طرف مشتری بود ینی توی دپارتمان مشتری هام بود.
+        // برم توی جدول تیکت آساینمنت ها چک کنم اگه یه اسایمنت بود که یا دپارتمانش و یا کاربرش به ثبت سفارش رفته بود مقدارش رو  خوانده نشده کنم تا ببینند
+        // بعدا هم باید یه رکورد توی جدول تیکت هیستوری بزارم
+        // توی تیکت هیستوری هم میخوام که کلا فرآیند تیکت رو تِرَک کنم.
+        //await addUnreadForFirstOrderDepartmet()
+
+
         // اینجا باید اطلاعات اون تیکت رو ببینیم و از روی اون ببینم نام کاربر و کد کاربر چیه که بفرستیم سمت فرانت
 
 
@@ -192,7 +200,6 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
                 ticketId,
                 isDeleteDestination: false
             });
-
 
 
             const notificationArray = uniqueUserIds
