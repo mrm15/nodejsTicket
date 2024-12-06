@@ -32,6 +32,8 @@ interface ITicket extends Document {
     returnTime: string;
     billNumber: string | null;
     billStatus: number | null; // (0=> draft )   (1=> verify)
+    organizationReadStatus:boolean;
+    customerReadStatus:boolean;
     createAt: Date;
     updateAt: Date;
 }
@@ -86,6 +88,8 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
         type: Boolean,
         required: false,
     },
+    organizationReadStatus: {type: Boolean,required: false,default:false},
+    customerReadStatus: {type: Boolean,required: false,default:true},
     returnUserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User collection
