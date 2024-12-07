@@ -14,6 +14,7 @@ import {IInitialBillResponse} from "../utility/initialBillResponse";
 import {NotificationPayload, sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
 import {TicketAssignment} from "../../models/ticketAssignment ";
 import mongoose from "mongoose";
+import {addUnreadForFirstOrderDepartment} from "./addUnreadForFirstOrderDepartment";
 
 
 const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -163,7 +164,13 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         // برم توی جدول تیکت آساینمنت ها چک کنم اگه یه اسایمنت بود که یا دپارتمانش و یا کاربرش به ثبت سفارش رفته بود مقدارش رو  خوانده نشده کنم تا ببینند
         // بعدا هم باید یه رکورد توی جدول تیکت هیستوری بزارم
         // توی تیکت هیستوری هم میخوام که کلا فرآیند تیکت رو تِرَک کنم.
-        //await addUnreadForFirstOrderDepartmet()
+        await addUnreadForFirstOrderDepartment({
+            senderDepartmentId: departmentId,
+            senderUserId: foundUser._id,
+            ticketFoundId: ticketId,
+            assignedToUserId: ticketDoc.firstUserId,
+            assignedToDepartmentId: ticketDoc.firstDepartmentId ,
+        })
 
 
         // اینجا باید اطلاعات اون تیکت رو ببینیم و از روی اون ببینم نام کاربر و کد کاربر چیه که بفرستیم سمت فرانت
