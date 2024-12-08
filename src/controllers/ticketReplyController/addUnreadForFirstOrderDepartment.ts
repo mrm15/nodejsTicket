@@ -34,7 +34,7 @@ export const addUnreadForFirstOrderDepartment = async ({
 
             if (existingAssignment) {
                 // Update the existing assignment
-                await TicketAssignment.findOneAndUpdate(
+                const  rrr = await TicketAssignment.findOneAndUpdate(
                     { _id: existingAssignment._id },
                     {
                         $set: {
