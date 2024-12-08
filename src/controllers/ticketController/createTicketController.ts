@@ -11,6 +11,7 @@ import {IInitialBillResponse} from "../utility/initialBillResponse";
 import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
 import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
 import {sendSmsAfterSubmitOrder} from "../../SMS/SMS.IR/sendSms";
+import mongoose from "mongoose";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -120,37 +121,39 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         let assignedToDepartmentId = null;
         let assignToUserId = null;
 
-
+        debugger
         // اگه قرار بود سفارشات ثبت شده به ادمنی دپارتمان
         if (isSendTicketToAdmin) {
             assignedToDepartmentId = adminSettingsResult.firstDestinationForTickets;
         } else {
+
+            assignToUserId = new mongoose.Types.ObjectId(ticketData.destinationUserId)
             // اول مطمین بشیم که کاربری که از فرانت آیدیش به عنوان دریافت کننده تیکت
             // میاد دقیقا توی همون دپارتمان وجود داره.
             // چون ممکنه یه درصد یه نفر بخواد هکی رو بکار ببره و اطلاعات اشتباه ثبت کنه
-            const isValidUser: IUser | null = await User.findOne({_id: ticketData.destinationUserId});
-            if (!isValidUser || !isValidUser.isActive) {
-                res.status(404).json({
-                    message: 'کاربر مورد نظر در دپارتمان یافت نشد'
-                })
-                return
-            }
-
-            assignToUserId = ticketData.destinationUserId
-            assignedToDepartmentId = adminSettingsResult.firstDestinationForTickets;
+            // const isValidUser: IUser | null = await User.findOne({_id: ticketData.destinationUserId});
+            // if (!isValidUser || !isValidUser.isActive) {
+            //     res.status(404).json({
+            //         message: 'کاربر مورد نظر در دپارتمان یافت نشد'
+            //     })
+            //     return
+            // }
+            //
+            // assignToUserId = ticketData.destinationUserId
+            // assignedToDepartmentId = adminSettingsResult.firstDestinationForTickets;
 
         }
 
 
         const newTicket: any = {
             ticketNumber,
-            userId:senderUserId,
+            userId: senderUserId,
             title: ticketData.title,
             description: ticketData.description,
             priority: 'زیاد',
             status,
-            firstDepartmentId:assignedToDepartmentId,
-            firstUserId:assignToUserId,
+            firstDepartmentId: assignedToDepartmentId,
+            firstUserId: assignToUserId,
             attachments: ticketData.files,
             lastChangeTimeStamp: getCurrentTimeStamp(),
             returnStatus: null,
@@ -182,8 +185,8 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const note = "سفارش دهنده";
         const title = result.title;
         const tag = JSON.stringify({
-            tn:result.ticketNumber,
-            n:myToken.UserInfo.userData.userData.name
+            tn: result.ticketNumber,
+            n: myToken.UserInfo.userData.userData.name
         }); // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه
 
         // اینجا یه پیامک بدم به مشتری بگم سفارش شما اینجاد شد.
@@ -211,7 +214,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             },
             {
                 userId: senderUserId,
-                phoneNumber:undefined,
+                phoneNumber: undefined,
                 notification: {
                     title: "سفارش ثبت شد.",
                     body: ticketData.title,
@@ -223,7 +226,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         await sendNotificationToUser(notificationArray)
 
         const myDataForTicketNeedsBill: IInitialBillResponse = {
-            ticketNumber : result.ticketNumber,
+            ticketNumber: result.ticketNumber,
             contactName,
             contactCode,
             billNumber,
