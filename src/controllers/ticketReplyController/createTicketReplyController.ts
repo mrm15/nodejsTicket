@@ -164,12 +164,13 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         // برم توی جدول تیکت آساینمنت ها چک کنم اگه یه اسایمنت بود که یا دپارتمانش و یا کاربرش به ثبت سفارش رفته بود مقدارش رو  خوانده نشده کنم تا ببینند
         // بعدا هم باید یه رکورد توی جدول تیکت هیستوری بزارم
         // توی تیکت هیستوری هم میخوام که کلا فرآیند تیکت رو تِرَک کنم.
+        debugger
         await addUnreadForFirstOrderDepartment({
             senderDepartmentId: departmentId,
             senderUserId: foundUser._id,
             ticketFoundId: ticketId,
             assignedToUserId: ticketDoc.firstUserId,
-            assignedToDepartmentId: ticketDoc.firstDepartmentId ,
+            assignedToDepartmentId: ticketDoc.firstDepartmentId,
         })
 
 
