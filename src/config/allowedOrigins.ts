@@ -9,6 +9,7 @@ const allowedOrigins: string[] = [
     'http://namarang-react.chbk.run:80',
     'namarang-react.chbk.run',
     'my.namarang.ir',
+    'http://my.namarang.ir',
     "https://my.namarang.ir/",
     "https://my.namarang.ir",
     "https://namarang-ticket-react.vercel.app",
