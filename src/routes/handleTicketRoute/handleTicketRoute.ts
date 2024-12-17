@@ -13,10 +13,12 @@ import {readInBoxAssignmentController} from "../../controllers/ticketController/
 import {readAllAssignmentController} from "../../controllers/ticketController/readAllAssignmentController";
 import {markAsReadTicketAssignments} from "../../controllers/ticketController/markAsReadTicketAssignments";
 import {myTicketListController} from "../../controllers/ticketController/myTicketListController";
+import {createTicketAdvancedController} from "../../controllers/ticketController/createTicketAdvancedController";
 
 const router = express.Router();
 
 router.post('/create', createTicketController);
+router.post('/createAdvanced', createTicketAdvancedController);
 
 /**  get Ticket List   */
 // router.post('/create', createTicketController);

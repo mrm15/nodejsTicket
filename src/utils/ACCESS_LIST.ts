@@ -8,6 +8,7 @@ export const ACCESS_LIST = {
     STATUS_LIST_UPDATE: "statusListUpdate",
     STATUS_LIST_DELETE: "statusListDelete",
     TICKET_CREATE: "ticketCreate",
+    TICKET_CREATE_ADVANCED: "ticketCreateAdvanced",
     readAllTicketsInSystem: "readAllTicketsInSystem",
     TICKET_CHAT_LIST: "ticketChatList",
     // TICKET_READ_OWN: "ticketReadOwn",           //(access to tickets I sent - all users has in user list of ticket)

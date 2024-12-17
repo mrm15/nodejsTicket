@@ -5,6 +5,7 @@ export const myPermissionsArray = [
     "statusListDelete",
 
     "ticketCreate", // دسترسی ایجاد تیکت
+    "ticketCreateAdvanced", // دسترسی ایجاد تیکت پیشرفته
     "readAllTicketsInSystem", // خواندن کل تیکت های سیتم
     "ticketChatList", // مشاهده ی چت لیست بعد از کلیک روی گزینه ی مشاهده
     "ticketReadOwn",
