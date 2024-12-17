@@ -12,6 +12,10 @@ import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTi
 import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
 import {sendSmsAfterSubmitOrder} from "../../SMS/SMS.IR/sendSms";
 import mongoose from "mongoose";
+import getUserByPhoneNumber from "../../utils/functions/getUserByPhoneNumber";
+import {TicketReply} from "../../models/ticketReply";
+import {userInfo} from "node:os";
+import forwardTicket from "../../utils/forwardTicketUtils/forwardTicket";
 
 
 const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -29,12 +33,13 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
         message += ' - توضیحات خالی قابل قبول نیست'
     }
 
-    // if (!ticketData.priority || ticketData.priority === '') {
-    //     message += ' - الویت خالی قابل قبول نیست'
-    // }
 
     if (!ticketData.files || ticketData.files.length === 0) {
         message += ' - هیچ فایلی ضمیمه نشده است'
+    }
+
+    if (!ticketData.firstReplyMessage || ticketData.firstReplyMessage.length === 0) {
+        message += ' - هیچ توضیحی برای نام فایل درج نشده!'
     }
     if (message !== '') {
         res.status(409).json({message})
@@ -47,11 +52,12 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
         res.status(403).json({message});
         return
     }
+    const {phoneNumber} = myToken
 
+    const userInfo = await getUserByPhoneNumber(phoneNumber)
     try {
 
 
-        const {phoneNumber} = myToken
 
 
         const arrayListToCheck = [ACCESS_LIST.TICKET_CREATE_ADVANCED]
@@ -74,7 +80,12 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
             return
         }
 
-        const senderUserId = userFound?._id
+        const senderPhoneNumber = ticketData?.senderTicketUserId
+        if (!senderPhoneNumber) {
+            res.status(500).json({message: "فرستنده مورد تایید نیست."});
+            return
+        }
+
         const ticketNumber = await getNextSequenceValue('ticketNumber')
 
 
@@ -116,13 +127,14 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
         let assignedToDepartmentId = null;
         let assignToUserId = null;
 
-        debugger
+
+
         // اگه قرار بود سفارشات ثبت شده به ادمنی دپارتمان
         if (isSendTicketToAdmin) {
             assignedToDepartmentId = adminSettingsResult.firstDestinationForTickets;
         } else {
 
-            assignToUserId = new mongoose.Types.ObjectId(ticketData.destinationUserId)
+            assignToUserId = new mongoose.Types.ObjectId(userInfo._id)
             // اول مطمین بشیم که کاربری که از فرانت آیدیش به عنوان دریافت کننده تیکت
             // میاد دقیقا توی همون دپارتمان وجود داره.
             // چون ممکنه یه درصد یه نفر بخواد هکی رو بکار ببره و اطلاعات اشتباه ثبت کنه
@@ -139,10 +151,11 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
 
         }
 
+        const senderInfo = await getUserByPhoneNumber(senderPhoneNumber)
 
         const newTicket: any = {
             ticketNumber,
-            userId: senderUserId,
+            userId: senderInfo._id,
             title: ticketData.title,
             description: ticketData.description,
             priority: 'زیاد',
@@ -161,12 +174,15 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
 
         const result: ITicket = await Ticket.create(newTicket);
 
+
+
+
         let msg1 = ""
         await addToAssignedTickets({
             ticketIdsArray: [result._id],
             departmentId: assignedToDepartmentId,
             userId: result.firstUserId,
-            senderUserId: senderUserId
+            senderUserId: senderInfo._id
         })
         msg1 += "تیکت ارجاع شد ";
         msg1 += 'سفارش با موفقیت ایجاد شد.';
@@ -184,41 +200,52 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
             n: myToken.UserInfo.userData.userData.name
         }); // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه
 
+
+
         // اینجا یه پیامک بدم به مشتری بگم سفارش شما اینجاد شد.
+
+        // تا اینجا تیکت ایجاد شده و مثلا برای امیر حسین اساین شده
+
+
+        // حالا امیر حسین میاد یه ریپلای درج میکنه
+        const dataToInsertInTicketReplyCollection = {
+            ticketId,
+            userId: userInfo._id,
+            departmentId:userInfo.departmentId,
+            description:ticketData.firstReplyMessage,
+            replyDate: getCurrentTimeStamp(),
+            attachments:[],
+            visibleToUser: true,
+            createAt: getCurrentTimeStamp(),
+            updateAt: getCurrentTimeStamp(),
+        }
+        const setReply = await TicketReply.create(dataToInsertInTicketReplyCollection);
+        // امیر حسین فوروارد میکنه واسه فاکتور
+
+        const billDepartment = adminSettingsResult?.billDepartment;
+        const resultOfTask = await forwardTicket({
+            ticketIdsArray: [ticketId],
+            departmentId: billDepartment,
+            userId: "",
+            senderUserId: userInfo._id,
+        })
+
+
+
+
+
 
         setTimeout(async () => {
 
+
             const sendSmsAfterSubmitOrder11 = await sendSmsAfterSubmitOrder({
-                mobile: phoneNumber,
+                mobile: senderPhoneNumber,
                 customerName: contactName,
                 orderTitle: result.title,
                 orderNumber: result.ticketNumber
             })
         }, 60000)
         // اینجا میخوام یه نوتیف بدم به کاربر
-        const notificationArray = [
-            {
-                userId: assignToUserId,
-                phoneNumber: undefined,
-                notification: {
-                    title: "سفارش جدید داری",
-                    body: ticketData.title,
-                    icon: "",
-                    click_action: "/inbox",
-                }
-            },
-            {
-                userId: senderUserId,
-                phoneNumber: undefined,
-                notification: {
-                    title: "سفارش ثبت شد.",
-                    body: ticketData.title,
-                    icon: "",
-                    click_action: "/",
-                }
-            },
-        ]
-        await sendNotificationToUser(notificationArray)
 
         const myDataForTicketNeedsBill: IInitialBillResponse = {
             ticketNumber: result.ticketNumber,
