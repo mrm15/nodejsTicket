@@ -3,6 +3,7 @@ import cron from 'node-cron';
 import {myLovelyFunction} from "../utils/myLovelyFunction";
 import {sendReportDaySMSToSomeOfUsers} from "../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
 import updateBillsFileFunction from "../utils/updateBillsFileFunction/updateBillsFileFunction";
+import saveProductList from "../utils/saveProductList/saveProductList";
 
 // Function to initialize cron jobs
 export const initializeCronJobs = () => {
@@ -56,6 +57,10 @@ export const initializeCronJobs = () => {
             const rightNowDate = new Date();
             const resultMessage = await updateBillsFileFunction(rightNowDate, rightNowDate)
             console.log(resultMessage , rightNowDate)
+        });
+        cron.schedule('0 20 * * *', async () => {
+            console.log('Running a task every night at 8 PM');
+            await saveProductList();
         });
     }
 

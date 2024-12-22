@@ -15,13 +15,16 @@ import {
     deleteBillInHesabfaControllerByNumber
 } from "../../controllers/hesabfaController/deleteBillInHesabfaControllerByNumber";
 import {updateBillsFileController} from "../../controllers/hesabfaController/updateBillsFileController";
+import {saveProductsAsFilePool} from "../../controllers/hesabfaController/saveProductsAsFilePool";
 
 
 const router = express.Router();
 
 // router.get('/getAllProducts', getAllProducts);
 router.get('/getAllProducts', getAllProductsFromFile);
+router.get('/getAllProducts', getAllProductsFromFile);
 router.get('/saveProductsAsFile', saveProductsAsFile);
+router.get('/saveProductsAsFilePool', saveProductsAsFilePool);
 router.get('/getAllProjects', getAllProjects)
 router.get('/getBillData/:billNumber', getBillData)
 router.get('/getCustomerList/', getCustomerList)
