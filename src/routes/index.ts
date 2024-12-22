@@ -31,6 +31,7 @@ import handleReportsRoute from "./handleReportsRoute/handleReportsRoute";
 import initialSetUpPlease from "./loginRegisterWithSms/initialSetUpPlease";
 import handleBankingRoute from "./handleBankingRoute/handleBankingRoute";
 import subscribeNotificationRoute from "./subscribeNotification/subscribeNotificationRoute";
+import handlePublicRoutes from "./handlePublicRoutes/handlePublicRoutes";
 
 
 // Add Routes
@@ -55,6 +56,7 @@ const myRouter = Router();
 
 
 
+myRouter.use('/public',handlePublicRoutes)
 myRouter.use('/setUp09384642159',initialSetUpPlease)
 myRouter.use('/login',loginSMS)
 // myRouter.use('/admin',admin)
