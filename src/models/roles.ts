@@ -16,7 +16,6 @@ interface IRole extends Document {
     ticketCreateAdvanced: Boolean; // ایجاد تیکت جدید
     readAllTicketsInSystem: Boolean; // خواند همه ی تیکت ها برای ادمین
     ticketChatList: Boolean; // مشاهده چت لیست
-    ticketReadOwn: Boolean; // خواندن تیکت هایی که خودم باز کردم و ایجاد کردم برای مشتریان
     ticketReadOwnReceived: Boolean; // تمام تیکت هایی که من توی مدل کاربر  در بخش تیکت بهشون دسترسی دارم
     ticketUpdate: Boolean;
     ticketDelete: Boolean;
