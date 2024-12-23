@@ -2,11 +2,10 @@ import fs from 'fs';
 import path from 'path';
 
 
-
-// Utility function to read all JSON files in the 'pool/bills' directory
-export const readProductList = async ()=> {
+// Utility function to read all JSON files in the 'pool/products' directory
+export const readProductList = async () => {
     try {
-        // Define the path to the 'pool/bills' directory
+        // Define the path to the 'pool/products' directory
         const productDirectory = path.join(__dirname, '../../../pool/products');
 
         // Check if the directory exists
@@ -35,11 +34,11 @@ export const readProductList = async ()=> {
             // If the data is an array, concatenate it, otherwise push the object directly
             return Array.isArray(data) ? acc.concat(data) : acc.concat([data]);
         }, []);
-
+        //
         return mergedData;
 
     } catch (error) {
-        console.error('Error while reading bills data:', error);
+        console.error('Error while reading  data:', error);
         throw error;
     }
 };
