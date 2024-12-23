@@ -3,7 +3,7 @@ import cron from 'node-cron';
 import {myLovelyFunction} from "../utils/myLovelyFunction";
 import {sendReportDaySMSToSomeOfUsers} from "../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
 import updateBillsFileFunction from "../utils/updateBillsFileFunction/updateBillsFileFunction";
-import saveProductList from "../utils/saveProductList/saveProductList";
+import saveProductList from "../utils/productListFile/saveProductList";
 
 // Function to initialize cron jobs
 export const initializeCronJobs = () => {
