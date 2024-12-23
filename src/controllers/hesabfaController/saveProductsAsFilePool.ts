@@ -1,7 +1,7 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import 'dotenv/config';
-import saveProductList from "../../utils/saveProductList/saveProductList";
+import saveProductList from "../../utils/productListFile/saveProductList";
 
 const saveProductsAsFilePool = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
