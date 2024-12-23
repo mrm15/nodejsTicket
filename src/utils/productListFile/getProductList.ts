@@ -18,7 +18,7 @@ const getCacheData = async (): Promise<any[] | null> => {
     return CacheFile;
 };
 
-export const getProductList = async ({filters}: { filters: any[] }) => {
+export const getProductList = async () => {
 
     const allData = await getCacheData();
 
