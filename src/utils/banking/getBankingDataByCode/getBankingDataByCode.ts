@@ -60,6 +60,8 @@ const getBankingDataByCode = async ({filters}: any ,usersAndCodes:any[]) => {
                 "000494",
                 "000495",
                 "000496",
+                "000811",
+                "000801",
             ]
         })
         temp.value = rrr.value
