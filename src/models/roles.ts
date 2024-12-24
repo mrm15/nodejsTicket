@@ -92,8 +92,6 @@ interface IRole extends Document {
     allContactsWhenSubmitBill: Boolean;
     showReportBillList: Boolean;
     adminReport: Boolean;
-    basteBandi: Boolean;
-    ersal: Boolean;
     hasAccessToUnCheckedSendPackages: Boolean;
     // widget
     widgetUserStatus: Boolean;
@@ -108,6 +106,12 @@ interface IRole extends Document {
     viewBills: Boolean;
     testBillCalculatePrice: Boolean;
     showMyTicketList: Boolean;
+    ///////////
+    canSetSeeChangeBillStatusButton:Boolean;
+    canSetStatusBillToBasteBandi:Boolean;
+    canSetStatusBillToTasvieShode:Boolean;
+    canSetStatusBillToAmadeErsal:Boolean;
+    canSetStatusBillToErsalShode:Boolean;
 
 
 }
@@ -210,8 +214,6 @@ const roleSchema: Schema<IRole> = new Schema({
     sellBill: {type: Boolean, default: false, required: true},
     showReportBillList: {type: Boolean, default: false, required: true},
     adminReport: {type: Boolean, default: false, required: true},
-    basteBandi: {type: Boolean, default: false, required: true},
-    ersal: {type: Boolean, default: false, required: true},
     hasAccessToUnCheckedSendPackages: {type: Boolean, default: false, required: true},
     // مشاهده گزارش های داشبورد
     widgetUserStatus: {type: Boolean, default: false, required: true}, //
@@ -233,6 +235,15 @@ const roleSchema: Schema<IRole> = new Schema({
     departmentAdminDashboard: {type: Boolean, default: false, required: true}, //
     fullAdminDashboard: {type: Boolean, default: false, required: true}, //
     showMyTicketList: {type: Boolean, default: false, required: true}, //
+
+    canSetSeeChangeBillStatusButton: {type: Boolean, default: false, required: true}, //
+    canSetTextIntoBillStatus: {type: Boolean, default: false, required: true}, //
+    canSetStatusBillToBasteBandi: {type: Boolean, default: false, required: true}, //
+    canSetStatusBillToTasvieShode: {type: Boolean, default: false, required: true}, //
+    canSetStatusBillToAmadeErsal: {type: Boolean, default: false, required: true}, //
+    canSetStatusBillToErsalShode: {type: Boolean, default: false, required: true}, //
+
+
 
 });
 
