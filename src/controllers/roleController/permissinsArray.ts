@@ -86,8 +86,6 @@ export const myPermissionsArray = [
     ///////////
     "showReportBillList", // درسترسی به لیست فاکتور فروش و فیلتر پیوت
     "adminReport",
-    "basteBandi",
-    "ersal",
     "hasAccessToUnCheckedSendPackages", // بسته هایی که ارسال شده رو بتونه از حالت ارسال شده تغییر بده به حالت ارسال نشده؟
     ////////////////////////
     "widgetUserStatus",
@@ -109,5 +107,13 @@ export const myPermissionsArray = [
     "organizationDashboard",
     "departmentAdminDashboard",
     "fullAdminDashboard",
+
+    /////////////////////////////////
+    "canSetSeeChangeBillStatusButton",
+    "canSetTextIntoBillStatus",
+    "canSetStatusBillToBasteBandi",
+    "canSetStatusBillToTasvieShode",
+    "canSetStatusBillToAmadeErsal",
+    "canSetStatusBillToErsalShode",
 
 ]
