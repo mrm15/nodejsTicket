@@ -37,18 +37,19 @@ const updateBillsFileController = async (req: CustomRequestMyTokenInJwt, res: Re
 
         // از تاریخی که داده درخواست میزنم به حسابفا و دونه_دونه دیتا رو میگیرم و توی استخر فاکتور ها ذخیره میکنم.
 
-        const myDateString = req.body.myDate;
-        const myDate = new Date(myDateString);
+        const startDateString = req.body.myDate.startDate;
+        const endDateString = req.body.myDate.startDate;
+        const startDateFront = new Date(startDateString);
+        const endDateFront = new Date(endDateString);
         // Check if myDate is an instance of Date and if it's a valid date
-        if (!myDate || !(myDate instanceof Date) || isNaN(myDate.getTime())) {
+        if (!req.body.myDate || !(startDateFront instanceof Date) || !(endDateFront instanceof Date)) {
             res.status(403).json({message: 'مقدار تاریخ درست درخواست داده نشده!'});
             return;
         }
 
-        const startDate = myDate
-        const endDate = new Date()
 
-        const resultMessage = await updateBillsFileFunction(startDate, endDate) // میخوام کل فاکتور ها رو بگیرم تا گزارش تعداد تایید نشده ها رو هم بتونم بعدا بگیرم
+
+        const resultMessage = await updateBillsFileFunction(startDateFront, endDateFront) // میخوام کل فاکتور ها رو بگیرم تا گزارش تعداد تایید نشده ها رو هم بتونم بعدا بگیرم
         res.status(200).json({
                 message: resultMessage
         });
