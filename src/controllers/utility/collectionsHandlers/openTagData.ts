@@ -1,26 +1,25 @@
 import {getCurrentTimeStamp} from "../../../utils/timing";
 
-export type myTagObjectType = {
+export interface myTagObjectType {
     n: string; // نام کسی که فاکتور میزنه
     tn: string;// شماره تیکت مشتری
-    bs: string;// وضعیت بسته بندی
-    db: Date | string; // تاریخ بسته بندی
-    ss: number | ""; // وضعیت ارسال3
-    ds: string; // تاریخ ارسال
+    // bs: string;// وضعیت بسته بندی
+    // db: Date | string; // تاریخ بسته بندی
+    // ss: number | ""; // وضعیت ارسال3
+    // ds: string; // تاریخ ارسال
     des: string;// توضیحات که قراره ارسال بنویسه
-
-
+    sn: string; // شماره استاتوس
 }
 export const makeEmptyTagObject = () => {
-
     const tagObject: myTagObjectType = {
-        db: "",
-        ds: "",
         n: "",
         tn: "",
-        bs: "",
-        ss: "",
+        // bs: "",
+        // db: "",
+        // ss: "",
+        // ds: "",
         des: "",
+        sn: "",
     };
     return tagObject
 }
@@ -37,11 +36,8 @@ export const openTagDataByRowReturnTagData = (row: any): myTagObjectType => {
             tagObject = {
                 n: parsedTag.n || "",
                 tn: parsedTag.tn || "",
-                bs: parsedTag.bs || "",
-                db: parsedTag.db || "",
-                ss: parsedTag.ss || "",
-                ds: parsedTag.ds || "",
                 des: parsedTag.des || "",
+                sn: parsedTag.sn || "",
             };
         }
     } catch (error) {
@@ -64,11 +60,12 @@ export const openTagData = (row: any): myTagObjectType => {
             tagObject = {
                 n: parsedTag.n || "",
                 tn: parsedTag.tn || "",
-                bs: parsedTag.bs || "",
-                db: parsedTag.db || "",
-                ss: parsedTag.ss || "",
-                ds: parsedTag.ds || "",
+                // bs: parsedTag.bs || "",
+                // db: parsedTag.db || "",
+                // ss: parsedTag.ss || "",
+                // ds: parsedTag.ds || "",
                 des: parsedTag.des || "",
+                sn: parsedTag.sn || "",
             };
         }
     } catch (error) {
@@ -79,7 +76,7 @@ export const openTagData = (row: any): myTagObjectType => {
     return {...row, ...tagObject};
 };
 
-export const openTagDataForBasteBandi = ({lastTag, date, statusNumber}: any): string => {
+export const openTagDataForBasteBandi = ({lastTag, date, statusNumber , description=""}: any): string => {
     let tagObject: myTagObjectType = makeEmptyTagObject();
 
     try {
@@ -90,16 +87,17 @@ export const openTagDataForBasteBandi = ({lastTag, date, statusNumber}: any): st
             tagObject = {
                 n: parsedTag.n || "",
                 tn: parsedTag.tn || "",
-                bs: parsedTag.bs || "",
-                db: date, //
-                ss: statusNumber,
-                ds: parsedTag.ds || "",
+                // bs: parsedTag.bs || "",
+                // db: date, //
+                // ss: statusNumber,
+                // ds: parsedTag.ds || "",
                 des: parsedTag.des || "",
+                sn: parsedTag.sn || "",
             };
         } else {
             // No need for else block as tagObject is already initialized with defaults
-            tagObject.db = date;  // Set the current timestamp
-            tagObject.ss = statusNumber  // Set the current timestamp
+            tagObject.des = description;
+            tagObject.sn = statusNumber  // Set the current timestamp
         }
     } catch (error) {
         console.error("Error parsing tag data:", error);
@@ -125,15 +123,15 @@ export const openTagDataForErsal = ({lastTag, description, statusNumber, sentDat
             tagObject = {
                 n: parsedTag.n || "",
                 tn: parsedTag.tn || "",
-                bs: parsedTag.bs || "",
-                db: parsedTag.db || "", //
-                ss: statusNumber,
-                ds: sentDate,
+                // bs: parsedTag.bs || "",
+                // db: parsedTag.db || "", //
+                // ss: statusNumber,
+                // ds: sentDate,
                 des: description,
+                sn: parsedTag.sn || "",
             }
         } else {
-            tagObject.ss = statusNumber
-            tagObject.ds = sentDate
+            tagObject.sn = statusNumber
             tagObject.des = description
         }
     } catch (error) {
@@ -162,3 +160,33 @@ export const openTagData1 = (row: any) => {
 
     return row
 }
+const safeParseJSON = (jsonString: string) => {
+    try {
+        return JSON.parse(jsonString);
+    } catch (error) {
+        console.error("Invalid JSON string:", jsonString);
+        return null;
+    }
+};
+
+export const openTagDataChangeStatus = ({ lastTag, statusNumber, description }: any): string => {
+    let tagObject: myTagObjectType = makeEmptyTagObject();
+
+    const parsedTag = lastTag?.trim() ? safeParseJSON(lastTag) : null;
+
+    if (parsedTag) {
+        tagObject = {
+            ...tagObject,
+            n: parsedTag.n || "",
+            tn: parsedTag.tn || "",
+            des: parsedTag.des || "",
+            sn: parsedTag.sn || "",
+        };
+    }
+
+    tagObject.sn = statusNumber;
+    tagObject.des = description;
+    return JSON.stringify(tagObject);
+};
+
+
