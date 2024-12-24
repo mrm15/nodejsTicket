@@ -5,23 +5,21 @@ import {getCustomerList} from "../../controllers/hesabfaController/getCustomerLi
 import {submitBillInHesabfa} from "../../controllers/hesabfaController/submitBillInHesabfa";
 import {getContactData} from "../../controllers/hesabfaController/getContactData";
 import {deleteBillInHesabfaController} from "../../controllers/hesabfaController/deleteBillInHesabfaController";
-import {saveProductsAsFile} from "../../controllers/hesabfaController/saveProductsAsFile";
 import {getAllProductsFromFile} from "../../controllers/hesabfaController/getAllProductsFromFile";
 import {getBillList} from "../../controllers/hesabfaController/getBillList";
 import {getBillListTableG} from "../../controllers/hesabfaController/getBillListTableG";
 import {updatePackStatusTo8} from "../../controllers/hesabfaController/updatePackStatusTo8";
-import {changeSentStatus} from "../../controllers/hesabfaController/changeSentStatus";
 import {
     deleteBillInHesabfaControllerByNumber
 } from "../../controllers/hesabfaController/deleteBillInHesabfaControllerByNumber";
 import {updateBillsFileController} from "../../controllers/hesabfaController/updateBillsFileController";
 import {saveProductsAsFilePool} from "../../controllers/hesabfaController/saveProductsAsFilePool";
+import {updateBillStatus} from "../../controllers/hesabfaController/updateBillStatus";
 
 
 const router = express.Router();
 
 router.get('/getAllProducts', getAllProductsFromFile);
-router.get('/saveProductsAsFile', saveProductsAsFile);
 router.post('/saveProductsAsFilePool', saveProductsAsFilePool);
 router.get('/getAllProjects', getAllProjects)
 router.get('/getBillData/:billNumber', getBillData)
@@ -33,7 +31,7 @@ router.get('/deleteBillFromHesabfa/:billNumber', deleteBillInHesabfaControllerBy
 router.post('/getBillList/', getBillList)
 router.post('/getBillListData/', getBillListTableG) // برای جدول بسته بندی و ارسال
 router.post('/updatePackStatusTo8/', updatePackStatusTo8) // برای جدول بسته بندی و ارسال
-router.post('/changeSentStatus/', changeSentStatus) // برای جدول بسته بندی و ارسال
+router.post('/changeSentStatus/', updateBillStatus) // بسته بندی و ارسال و تایید فاکتور
 
 // router.get('/getArchive', getArchiveController)
 // router.get('/getPending', getPendingController)
