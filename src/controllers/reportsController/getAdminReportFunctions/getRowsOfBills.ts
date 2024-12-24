@@ -1,9 +1,7 @@
-import {
-    myTagObjectType,
-    openTagDataByRowReturnTagData
-} from "../../utility/collectionsHandlers/openTagData";
+import {myTagObjectType, openTagDataByRowReturnTagData} from "../../utility/collectionsHandlers/openTagData";
 
-export interface INeededObject {
+
+export interface INeededObject extends  myTagObjectType{
     "myNumber": string,
     "myDate": string,
     "myContactCode": string,
@@ -21,15 +19,6 @@ export interface INeededObject {
     "myStatus": number,
     "myCurrency": "IRT" | "IRR" | undefined,
     "mySeller": string,
-    //
-    "n": string; // نام کسی که فاکتور میزنه
-    "tn": string;// شماره تیکت مشتری
-    "bs": string;// وضعیت بسته بندی
-    "db": Date | string; // تاریخ بسته بندی
-    "ss": number | ""; // وضعیت ارسال3
-    "ds": string; // تاریخ ارسال
-    "des": string;// توضیحات که قراره ارسال بنویسه
-
 }
 
 const getRowsOfInvoiceItemsFromBills = (billsArray: any[]): INeededObject[] => {
