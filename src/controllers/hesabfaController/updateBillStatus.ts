@@ -11,10 +11,10 @@ import {getCurrentTimeStamp} from "../../utils/timing";
 import generateRandomUUID from "../../utils/generateRandomUUID";
 
 const billStatusNumber = {
-    BASTED_BANDI: 5710,
-    TASFIE_SHODE: 5711,
-    AMADE_ERSAL: 5712,
-    ERSAL_SHODE: 5713,
+    BASTED_BANDI: "5710",
+    TASFIE_SHODE: "5711",
+    AMADE_ERSAL: "5712",
+    ERSAL_SHODE: "5713",
 }
 
 const updateBillStatus = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
