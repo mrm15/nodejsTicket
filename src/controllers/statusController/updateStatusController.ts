@@ -76,6 +76,7 @@ const updateStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
                 }
             }
             foundStatus.name = updatedStatus?.name;
+            foundStatus.statusCode = updatedStatus.statusCode;
             foundStatus.colorCode = updatedStatus.colorCode;
             foundStatus.description = updatedStatus.description;
             foundStatus.isActive = stringToBoolean(updatedStatus.isActive);
