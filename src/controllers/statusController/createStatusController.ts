@@ -87,7 +87,7 @@ const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
             res.status(409).json({
                 message: 'فقط یک وضعیت میتواند  وضعیت نهایی داشته باشد. قبلا یک استاتوس با وضعیت نهایی ثبت شده است.',
                 foundStatusFinal
-            });
+            })
             return
         }
 
@@ -96,6 +96,7 @@ const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
             userId,
             name: newStatus?.name,
+            statusCode: newStatus.statusCode,
             colorCode: newStatus.colorCode,
             description: newStatus.description,
             isActive: stringToBoolean(newStatus.isActive),
