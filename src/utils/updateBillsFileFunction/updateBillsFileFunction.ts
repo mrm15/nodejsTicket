@@ -15,6 +15,8 @@ const incrementDateByOneDay = (date: Date): Date => {
 const updateBillsFileFunction = async (startDate: Date, endDate: Date) => {
     const directoryUrl = "../../pool/bills";
     const fileName = "bills";
+    startDate.setHours(0,0,0,0)
+    endDate.setHours(0,0,0,0)
     let currentDate = startDate
 
     while (currentDate <= endDate) {
