@@ -106,6 +106,7 @@ interface IRole extends Document {
     viewBills: Boolean;
     testBillCalculatePrice: Boolean;
     showMyTicketList: Boolean;
+    showFactorListInMenu: Boolean;
     ///////////
     canSetSeeChangeBillStatusButton:Boolean;
     canSetStatusBillToBasteBandi:Boolean;
@@ -235,6 +236,7 @@ const roleSchema: Schema<IRole> = new Schema({
     departmentAdminDashboard: {type: Boolean, default: false, required: true}, //
     fullAdminDashboard: {type: Boolean, default: false, required: true}, //
     showMyTicketList: {type: Boolean, default: false, required: true}, //
+    showFactorListInMenu: {type: Boolean, default: false, required: true}, //
 
     canSetSeeChangeBillStatusButton: {type: Boolean, default: false, required: true}, //
     canSetTextIntoBillStatus: {type: Boolean, default: false, required: true}, //
