@@ -4,6 +4,7 @@ import {IDepartment} from "./department";
 // Define the Status document interface
 interface IStatus extends Document {
     name: string;
+    statusCode: string;
     description: string;
     colorCode: string;
     isActive: boolean;
@@ -20,6 +21,12 @@ const statusSchema: Schema<IStatus> = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+    },
+    // like 5173 I want to put numbers here and order them  if later add new item I need to  put between them
+    statusCode: {
+        type: String,
+        required: true,
+        unique:true,
     },
     description: {
         type: String,
