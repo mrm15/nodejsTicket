@@ -919,6 +919,7 @@ const makeDataObject = ({totalData}: any) => {
         filterIdForPivot: [
             "000158",
             "000159",
+            "000801",
 
             //////////////////////////
 
@@ -1130,6 +1131,7 @@ const makeDataObject = ({totalData}: any) => {
         filterIdForPivot: [
             "000252",
             "000253",
+            "000811",
         ]
     })
 
