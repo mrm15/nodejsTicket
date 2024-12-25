@@ -1,7 +1,5 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {getBillsDataFromHesabfa} from "./getAdminReportFunctions/getBillsDataFromHesabfa";
-import {getHeaderAndRowsDetails} from "../utility/hesabfa/functions";
 import makeDataObject from "../../utils/ReportsUtils/reportFunctions/makeDataObject";
 import {getBillsDataFromPoolBill} from "../../utils/getBillsDataFromPoolBill/getBillsDataFromPoolBill";
 import getRowsOfInvoiceItemsFromBills from "./getAdminReportFunctions/getRowsOfBills";
@@ -60,7 +58,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
         let temp11: any = getRowsOfInvoiceItemsFromBills(allBills)
         // temp11 = temp11.rows;
         const temp11Status1 = temp11.filter((row: any) => row.myStatus === 1)
-        debugger
+
         // const myPivotDataObject = calculatePivotById({totalData: temp11, myArray:detailReportArray })
         // const pivotAll = [...myPivotDataObject.pivotAll]
         // const tables = makeTables(pivotAll)
