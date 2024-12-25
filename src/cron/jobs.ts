@@ -52,7 +52,7 @@ export const initializeCronJobs = () => {
 
         })
         // Schedule a new job to run every 15 minutes between 7 AM and 7 PM
-        cron.schedule('*/15 7-19 * * *', async () => {
+        cron.schedule('*/15 7-22 * * *', async () => {
             console.log('Running a task every 15 minutes between 7 AM and 7 PM');
             const rightNowDate = new Date();
             const resultMessage = await updateBillsFileFunction(rightNowDate, rightNowDate)
