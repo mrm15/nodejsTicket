@@ -1,7 +1,7 @@
 export const ACCESS_LIST = {
 
     fatherAccess: "fatherAccess",
-    ersal: "ersal",
+    showFactorListInMenu: "showFactorListInMenu",
     basteBandi: "basteBandi",
     STATUS_LIST_CREATE: "statusListCreate",
     STATUS_LIST_READ: "statusListRead",

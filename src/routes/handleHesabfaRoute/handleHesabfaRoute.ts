@@ -29,7 +29,7 @@ router.post('/submitBill/', submitBillInHesabfa)
 router.get('/deleteBill/:billNumber/:type/:id', deleteBillInHesabfaController)
 router.get('/deleteBillFromHesabfa/:billNumber', deleteBillInHesabfaControllerByNumber)
 router.post('/getBillList/', getBillList)
-router.post('/getBillListData/', getBillListTableG) // برای جدول بسته بندی و ارسال
+router.post('/getBillListData/', getBillListTableG) //  showFactorListInMenu role
 // router.post('/updatePackStatusTo8/', updatePackStatusTo8) // برای جدول بسته بندی و ارسال
 // i will delete  updatePackStatusTo8.ts
 router.post('/changeSentStatus/', updateBillStatus) // بسته بندی و ارسال و تایید فاکتور
