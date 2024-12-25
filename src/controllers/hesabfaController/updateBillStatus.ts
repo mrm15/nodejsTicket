@@ -1,14 +1,11 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
-import {openTagDataChangeStatus, openTagDataForBasteBandi} from "../utility/collectionsHandlers/openTagData";
+import {openTagDataChangeStatus} from "../utility/collectionsHandlers/openTagData";
 import {sendSMSBasteBandi} from "../../SMS/SMS.IR/sendSms";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
 import {logEvents} from "../../utils/logEvents";
 import {getCurrentTimeStamp} from "../../utils/timing";
-import generateRandomUUID from "../../utils/generateRandomUUID";
 
 const billStatusNumber = {
     BASTED_BANDI: "5710",
@@ -68,7 +65,7 @@ const updateBillStatus = async (req: CustomRequestMyTokenInJwt, res: Response, n
             const currentTimeStamp = getCurrentTimeStamp();
             const dateString = new Date(currentTimeStamp).toLocaleString('fa-ir');
             const userFullName = `${foundUser.name} ${foundUser.familyName}`;
-            const logMessage = `${generateRandomUUID()}\t${currentTimeStamp}\t${dateString}\t${foundUser.id}\t${userFullName} changed Tag From ${lastTag} to ${newTag}.`;
+            const logMessage = `${currentTimeStamp}\t${dateString}\t${foundUser._id}\t${userFullName} billNumber: ${invoice.Number} changed Tag From ${lastTag} to ${newTag}.`;
             await logEvents(logMessage, "changeStatusBillEvents.txt");
             let message = " وضعیت فاکتور تغییر کرد"
 
