@@ -7,13 +7,15 @@ export const logEvents = async (message: string, logName: string): Promise<void>
     const dateTime = `${format(new Date(), 'yyyyMMdd\tHH:mm:ss')}`;
     const logItem = `${dateTime}\t${uuid()}\t${message}\n`;
 
+    const directoryUrl = path.resolve(__dirname, "../../pool/logs"); // Use directoryUrl
+
     try {
-        if (!fs.existsSync(path.join(__dirname, '..', 'logs'))) {
-            await fsPromises.mkdir(path.join(__dirname, '..', 'logs'));
-        }
+        // Ensure the logs directory exists (recursively)
+        await fsPromises.mkdir(directoryUrl, { recursive: true });
 
-        await fsPromises.appendFile(path.join(__dirname, '..', 'logs', logName), logItem);
+        // Append the log item to the log file
+        await fsPromises.appendFile(path.join(directoryUrl, logName), logItem);
     } catch (err) {
-
+        console.error("Failed to log event:", err);
     }
 };
