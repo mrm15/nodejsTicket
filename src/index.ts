@@ -12,6 +12,7 @@ import bodyParser from 'body-parser';
 import useragent from 'express-useragent';
 import myRouter from "./routes";
 import {initializeCronJobs} from "./cron/jobs";
+import {initializeWebSocket} from "./websocket/websocketServer";
 
 
 const app: Application = express();
@@ -64,12 +65,14 @@ app.all('*', (req: Request, res: Response) => {
 app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
-
-    console.log("connected To DB")
-    app.listen(PORT, () => {
+    console.log('connected To DB');
+    // اجرای سرور
+    const server = app.listen(PORT, () => {
         console.log('server is running on port ' + PORT);
-         initializeCronJobs()
 
-    })
+        // راه‌اندازی WebSocket روی سرور موجود
+        initializeWebSocket(server);
+        // راه‌اندازی Cron Jobs
+        initializeCronJobs();
+    });
 });
-
