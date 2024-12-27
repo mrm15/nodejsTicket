@@ -62,15 +62,16 @@ const updateBillStatus = async (req: CustomRequestMyTokenInJwt, res: Response, n
         const result = await hesabfaApiRequest(url, {invoice: newInvoice})
 
         if (result.response?.data.Result) {
+            const mobile = result.response.data.Result.Contact.Mobile;
+            const ContactTitle = result.response.data.Result.ContactTitle;
             const currentTimeStamp = getCurrentTimeStamp();
             const dateString = new Date(currentTimeStamp).toLocaleString('fa-ir');
             const userFullName = `${foundUser.name} ${foundUser.familyName}`;
-            const logMessage = `${currentTimeStamp}\t${dateString}\t${foundUser._id}\t${userFullName} billNumber: ${invoice.Number} changed Tag From ${lastTag} to ${newTag}.`;
+            const logMessage = `${currentTimeStamp}\t${dateString}\t${foundUser._id}\t${userFullName} billNumber: ${invoice.Number} changed Tag From ${lastTag} to ${newTag}. ${ContactTitle}\t${mobile}\t`;
             await logEvents(logMessage, "changeStatusBillEvents.txt");
             let message = " وضعیت فاکتور تغییر کرد"
 
-            const mobile = result.response.data.Result.Contact.Mobile;
-            const ContactTitle = result.response.data.Result.ContactTitle;
+
 
             if (mobile && ContactTitle) {
 
