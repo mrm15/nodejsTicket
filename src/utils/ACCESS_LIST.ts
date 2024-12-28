@@ -2,6 +2,7 @@ export const ACCESS_LIST = {
 
     fatherAccess: "fatherAccess",
     showFactorListInMenu: "showFactorListInMenu",
+    showMyBillListForCustomer: "showMyBillListForCustomer",
     basteBandi: "basteBandi",
     STATUS_LIST_CREATE: "statusListCreate",
     STATUS_LIST_READ: "statusListRead",
