@@ -108,7 +108,7 @@ interface IRole extends Document {
     showMyTicketList: Boolean;
     showFactorListInMenu: Boolean; // مشاهده ی لیست فاکتور در منوی کناری
     /////////// بتونه گزینه ی بسته بندی رو ببینه یا نه؟
-    canSetSeeChangeBillStatusButton: boolean;
+    canSeeChangeBillStatusButton: boolean;
     // بتونه متن وارد کنه؟
     canSetTextIntoBillStatus: boolean;
     // واحد بسته بندی از هیچی به حالت بسته بندی شده
@@ -116,13 +116,14 @@ interface IRole extends Document {
     // واحد بسته بندی از حالت آماده ارسال به حالت ارسال شده
     canChangeStatusFromAmadeErsalToErsalShode: boolean;
     // بتونه از بسته بندی شده به حالت تسویه شده بزاره - مالی نمارنگ
-    canChangeStatusFromNBasteBandiShodeToTasvieShode: boolean;
+    canChangeStatusFromBasteBandiShodeToTasvieShode: boolean;
     // بتونه از بسته بندی شده به حالت تسویه نشده بزاره - مالی نمارنگ
     canChangeStatusFromBasteBandiShodeToTasvieNaShode: boolean;
     // از حالت تسویه نشده به حالت پیگیری شده بزاره.
     canChangeStatusFromTasvieNaShodeToPeigiriShode: boolean;
     // از حالت تسویه شده به حالت آماده ارسال بزاره
-    canChangeStatusFromTasfieNashoeToAmadeErsal: boolean;
+    canChangeStatusFromTasfieShodeToAmadeErsal: boolean;
+    canChangeStatusFromEverythingToEverything: boolean;
 
 
 }
@@ -248,7 +249,7 @@ const roleSchema: Schema<IRole> = new Schema({
     showMyTicketList: {type: Boolean, default: false, required: true}, //
     showFactorListInMenu: {type: Boolean, default: false, required: true}, //
     // دکمه ی تغییر وضعیت رو ببینه یا نه؟
-    canSetSeeChangeBillStatusButton: {type: Boolean, default: false, required: true}, //
+    canSeeChangeBillStatusButton: {type: Boolean, default: false, required: true}, //
     // بتونه توی وضعیت متن وارد کنه؟
     canSetTextIntoBillStatus: {type: Boolean, default: false, required: true}, //
     //////////////////////////////////////////////////
@@ -257,13 +258,14 @@ const roleSchema: Schema<IRole> = new Schema({
     // واحد بسته بندی از حالت آماده ارسال به حالت ارسال شده
     canChangeStatusFromAmadeErsalToErsalShode: {type: Boolean, default: false, required: true}, //
     // بتونه از بسته بندی شده به حالت تسویه شده بزاره - مالی نمارنگ
-    canChangeStatusFromNBasteBandiShodeToTasvieShode: {type: Boolean, default: false, required: true}, //
+    canChangeStatusFromBasteBandiShodeToTasvieShode: {type: Boolean, default: false, required: true}, //
     // بتونه از هیچی به حالت تسویه نشده بزاره - مالی نمارنگ
     canChangeStatusFromBasteBandiShodeToTasvieNaShode: {type: Boolean, default: false, required: true}, //
     // از حالت تسویه نشده به حالت پیگیری شده بزاره.
     canChangeStatusFromTasvieNaShodeToPeigiriShode: {type: Boolean, default: false, required: true}, //
     // از حالت تسویه شده به حالت آماده ارسال بزاره
-    canChangeStatusFromTasfieNashoeToAmadeErsal: {type: Boolean, default: false, required: true}, //
+    canChangeStatusFromTasfieShodeToAmadeErsal: {type: Boolean, default: false, required: true}, //
+    canChangeStatusFromEverythingToEverything: {type: Boolean, default: false, required: true}, //
 
 
 });

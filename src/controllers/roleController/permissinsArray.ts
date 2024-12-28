@@ -111,21 +111,23 @@ export const myPermissionsArray = [
 
     /////////////////////////////////
     /////////// بتونه گزینه ی بسته بندی رو ببینه یا نه؟
-    "canSetSeeChangeBillStatusButton",//
+    "canSeeChangeBillStatusButton",//
     // بتونه متن وارد کنه؟
     "canSetTextIntoBillStatus",//
     // واحد بسته بندی از هیچی به حالت بسته بندی شده
     "canChangeStatusFromNothingToBasteBandiShode",//
     // واحد بسته بندی از حالت آماده ارسال به حالت ارسال شده
     "canChangeStatusFromAmadeErsalToErsalShode",//
+    
     // بتونه از بسته بندی شده به حالت تسویه شده بزاره - مالی نمارنگ
-    "canChangeStatusFromNBasteBandiShodeToTasvieShode",//
+    "canChangeStatusFromBasteBandiShodeToTasvieShode",//
     // بتونه از بسته بندی شده به حالت تسویه نشده بزاره - مالی نمارنگ
     "canChangeStatusFromBasteBandiShodeToTasvieNaShode",//
     // از حالت تسویه نشده به حالت پیگیری شده بزاره.
     "canChangeStatusFromTasvieNaShodeToPeigiriShode",//
     // از حالت تسویه شده به حالت آماده ارسال بزاره
-    "canChangeStatusFromTasfieNashoeToAmadeErsal",//
+    "canChangeStatusFromTasfieShodeToAmadeErsal",//
+    "canChangeStatusFromEverythingToAmadeErsal",//
     ////////////////////////////////////////////////////////
 
 ]
