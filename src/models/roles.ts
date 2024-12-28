@@ -106,7 +106,7 @@ interface IRole extends Document {
     viewBills: Boolean;
     testBillCalculatePrice: Boolean;
     showMyTicketList: Boolean;
-    showFactorListInMenu: Boolean;
+    showFactorListInMenu: Boolean; // مشاهده ی لیست فاکتور در منوی کناری
     ///////////
     canSetSeeChangeBillStatusButton:Boolean;
     canSetStatusBillToBasteBandi:Boolean;
