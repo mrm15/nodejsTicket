@@ -10,6 +10,8 @@ import {getCurrentTimeStamp} from "../../utils/timing";
 const billStatusNumber = {
     BASTED_BANDI: "5710",
     TASFIE_SHODE: "5711",
+    TASFIE_NASHODE: "5711.1",
+    PEIGIRI_SHODE: "5711.2",
     AMADE_ERSAL: "5712",
     ERSAL_SHODE: "5713",
 }
