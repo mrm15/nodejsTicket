@@ -14,7 +14,9 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
         const arrayListToCheck = [ACCESS_LIST.showFactorListInMenu]
         const hasAccessTo = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
 
-        if (!hasAccessTo ) {
+        const arrayListToCheck2 = [ACCESS_LIST.showMyBillListForCustomer]
+
+        if (!hasAccessTo && !arrayListToCheck2 ) {
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
             return
         }
