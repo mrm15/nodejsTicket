@@ -127,8 +127,7 @@ export const myPermissionsArray = [
     "canChangeStatusFromTasvieNaShodeToPeigiriShode",//
     // از حالت تسویه شده به حالت آماده ارسال بزاره
     "canChangeStatusFromTasfieShodeToAmadeErsal",//
-    "canChangeStatusFromEverythingToAmadeErsal",//
-    "canChangeStatusFromEverythingToEverything ",//
+    "canChangeStatusFromEverythingToEverything",//
     ////////////////////////////////////////////////////////
 
 ]
