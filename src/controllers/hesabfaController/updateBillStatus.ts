@@ -74,7 +74,6 @@ const updateBillStatus = async (req: CustomRequestMyTokenInJwt, res: Response, n
             let message = " وضعیت فاکتور تغییر کرد"
 
 
-
             if (mobile && ContactTitle) {
 
                 if (statusNumber === billStatusNumber.BASTED_BANDI) {
