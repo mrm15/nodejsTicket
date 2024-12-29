@@ -1,73 +1,32 @@
 // src/websocket/websocketServer.ts
-import WebSocket, { WebSocketServer, RawData } from 'ws';
-import http from 'http';
-import { handleUserMessage } from './handleUserMessage/handleUserMessage';
+import { Server } from 'socket.io';
+import { Server as HttpServer } from 'http';
 
-// نوع پیام‌های وب‌سوکت
-export interface WebSocketMessage {
-    type: string;
-    data: any;
-}
+export const initializeSocketIO = (httpServer: HttpServer) => {
+    // Initialize Socket.IO
+    const io = new Server(httpServer, {
+        cors: {
+            origin: '*', // Adjust this based on your client-side domain
+            methods: ['GET', 'POST'],
+        },
+    });
 
-// ذخیره شناسه کاربران در مپ
-const clients = new Map<WebSocket, string>(); // Map از کلاینت به شناسه کاربر
+    // Handle WebSocket connections
+    io.on('connection', (socket) => {
+        console.log('A user connected');
 
-let wss: WebSocketServer;
-
-// راه‌اندازی وب‌سوکت سرور
-export function initializeWebSocket(server: http.Server): void {
-    // ایجاد WebSocketServer با سرور HTTP
-    wss = new WebSocketServer({ server });
-
-    console.log('WebSocket server initialized');
-
-    // رویداد اتصال کلاینت جدید
-    wss.on('connection', (ws: WebSocket) => {
-        console.log('New client connected');
-
-        // رویداد دریافت پیام از کلاینت
-        ws.on('message', async (message: RawData) => {
-            try {
-                // تبدیل داده خام به ساختار WebSocketMessage
-                const parsedMessage: WebSocketMessage = JSON.parse(message.toString());
-
-                // اگر پیام از نوع 'identify' بود، شناسه کاربر را ثبت کن
-                if (parsedMessage.type === 'identify') {
-                    const userId = parsedMessage.data.userId;
-                    if (userId) {
-                        clients.set(ws, userId); // ذخیره کلاینت با شناسه کاربر
-                        console.log(`User identified: ${userId}`);
-                        console.log(clients);
-                    } else {
-                        console.error('Identify message received without userId');
-                    }
-                } else {
-                    // سایر پیام‌ها را مدیریت کن
-                    await handleUserMessage({ message, ws });
-                }
-            } catch (error) {
-                console.error('Error parsing message:', error);
-            }
+        // Example event: sending a message to the server
+        socket.on('message', (data) => {
+            console.log('Received message:', data);
+            // You can emit a response if needed
+            socket.emit('response', { message: 'Message received!' });
         });
 
-        // رویداد قطع اتصال کلاینت
-        ws.on('close', () => {
-            const userId = clients.get(ws);
-            if (userId) {
-                console.log(`Client disconnected: ${userId}`);
-            } else {
-                console.log('An unidentified client disconnected');
-            }
-            clients.delete(ws); // حذف کلاینت از Map
+        // Handle disconnection
+        socket.on('disconnect', () => {
+            console.log('A user disconnected');
         });
     });
-}
 
-// ارسال پیام به همه‌ی کلاینت‌های متصل
-export function broadcastMessage(message: WebSocketMessage): void {
-    wss.clients.forEach((client: WebSocket) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(message));
-        }
-    });
-}
+    return io;
+};

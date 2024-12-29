@@ -4,3 +4,4 @@ import WebSocket from 'ws';
 export function isClientConnected(client: WebSocket): boolean {
     return client.readyState === WebSocket.OPEN;
 }
+

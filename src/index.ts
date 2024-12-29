@@ -12,7 +12,7 @@ import bodyParser from 'body-parser';
 import useragent from 'express-useragent';
 import myRouter from "./routes";
 import {initializeCronJobs} from "./cron/jobs";
-import {initializeWebSocket} from "./websocket/websocketServer";
+import {initializeSocketIO} from "./websocket/websocketServer";
 
 
 const app: Application = express();
@@ -70,8 +70,7 @@ mongoose.connection.once('open', () => {
     const server = app.listen(PORT, () => {
         console.log('server is running on port ' + PORT);
 
-        // راه‌اندازی WebSocket روی سرور موجود
-        initializeWebSocket(server);
+        initializeSocketIO(server)
         // راه‌اندازی Cron Jobs
         initializeCronJobs();
     });
