@@ -50,6 +50,7 @@ export const openTagDataByRowReturnTagData = (row: any): myTagObjectType => {
 export const openTagData = (row: any): myTagObjectType => {
     let tagObject: myTagObjectType = makeEmptyTagObject();
 
+    debugger
     try {
         // Check if the tag exists and is not an empty string
         if (row.Tag && row.Tag.trim() !== "") {
@@ -70,7 +71,7 @@ export const openTagData = (row: any): myTagObjectType => {
         }
     } catch (error) {
         // If there's an error in parsing, return the empty tagObject
-        console.error("Error parsing tag data:", error);
+        // console.error("Error parsing tag data:", error);
     }
 
     return {...row, ...tagObject};
