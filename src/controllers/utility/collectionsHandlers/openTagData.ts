@@ -1,25 +1,27 @@
 import {getCurrentTimeStamp} from "../../../utils/timing";
+import {statusObject} from "../../../utils/initialSetup/statusObject";
 
 export interface myTagObjectType {
     n: string; // نام کسی که فاکتور میزنه
     tn: string;// شماره تیکت مشتری
     // bs: string;// وضعیت بسته بندی
-    // db: Date | string; // تاریخ بسته بندی
+    db: Date | string; // تاریخ بسته بندی date BasteBandi
     // ss: number | ""; // وضعیت ارسال3
-    // ds: string; // تاریخ ارسال
+    ds: Date | string; // تاریخ ارسال date Send
     des: string;// توضیحات که قراره ارسال بنویسه
     sn: string; // شماره استاتوس
 }
+
 export const makeEmptyTagObject = () => {
     const tagObject: myTagObjectType = {
         n: "",
         tn: "",
         // bs: "",
-        // db: "",
+        db: "",
         // ss: "",
-        // ds: "",
+        ds: "",
         des: "",
-        sn: "",
+        sn: ""
     };
     return tagObject
 }
@@ -38,6 +40,8 @@ export const openTagDataByRowReturnTagData = (row: any): myTagObjectType => {
                 tn: parsedTag.tn || "",
                 des: parsedTag.des || "",
                 sn: parsedTag.sn || "",
+                db: parsedTag.db || "",
+                ds: parsedTag.ds || "",
             };
         }
     } catch (error) {
@@ -61,12 +65,10 @@ export const openTagData = (row: any): myTagObjectType => {
             tagObject = {
                 n: parsedTag.n || "",
                 tn: parsedTag.tn || "",
-                // bs: parsedTag.bs || "",
-                // db: parsedTag.db || "",
-                // ss: parsedTag.ss || "",
-                // ds: parsedTag.ds || "",
                 des: parsedTag.des || "",
                 sn: parsedTag.sn || "",
+                db: parsedTag.db || "",
+                ds: parsedTag.ds || "",
             };
         }
     } catch (error) {
@@ -77,7 +79,7 @@ export const openTagData = (row: any): myTagObjectType => {
     return {...row, ...tagObject};
 };
 
-export const openTagDataForBasteBandi = ({lastTag, date, statusNumber , description=""}: any): string => {
+export const openTagDataForBasteBandi = ({lastTag, date, statusNumber, description = ""}: any): string => {
     let tagObject: myTagObjectType = makeEmptyTagObject();
 
     try {
@@ -94,6 +96,8 @@ export const openTagDataForBasteBandi = ({lastTag, date, statusNumber , descript
                 // ds: parsedTag.ds || "",
                 des: parsedTag.des || "",
                 sn: parsedTag.sn || "",
+                db: parsedTag.db || "",
+                ds: parsedTag.ds || "",
             };
         } else {
             // No need for else block as tagObject is already initialized with defaults
@@ -130,6 +134,8 @@ export const openTagDataForErsal = ({lastTag, description, statusNumber, sentDat
                 // ds: sentDate,
                 des: description,
                 sn: parsedTag.sn || "",
+                db: parsedTag.db || "",
+                ds: parsedTag.ds || "",
             }
         } else {
             tagObject.sn = statusNumber
@@ -170,7 +176,11 @@ const safeParseJSON = (jsonString: string) => {
     }
 };
 
-export const openTagDataChangeStatus = ({ lastTag, statusNumber, description }: any): string => {
+export const openTagDataChangeStatus = ({lastTag, statusNumber, description,}: any): string => {
+    // اگه بسته بندی بود باید مقدار  تاریخ بسته بندی رو پر کنیم
+    const currentTimeStamp = getCurrentTimeStamp();
+
+
     let tagObject: myTagObjectType = makeEmptyTagObject();
 
     const parsedTag = lastTag?.trim() ? safeParseJSON(lastTag) : null;
@@ -182,11 +192,21 @@ export const openTagDataChangeStatus = ({ lastTag, statusNumber, description }: 
             tn: parsedTag.tn || "",
             des: parsedTag.des || "",
             sn: parsedTag.sn || "",
+            db: parsedTag.db || "",
+            ds: parsedTag.ds || "",
         };
     }
 
     tagObject.sn = statusNumber;
     tagObject.des = description;
+    if (statusNumber === "5710") { //  بسته بندی
+        tagObject.db = currentTimeStamp
+    }
+    if (statusNumber === "5713") { //  ارسال شده
+        tagObject.ds = currentTimeStamp
+    }
+
+
     return JSON.stringify(tagObject);
 };
 
