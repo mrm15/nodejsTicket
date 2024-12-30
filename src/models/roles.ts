@@ -125,6 +125,8 @@ interface IRole extends Document {
     canChangeStatusFromTasfieShodeToAmadeErsal: boolean;
     canChangeStatusFromEverythingToEverything: boolean;
 
+    canViewCreditLibertyInHeader:boolean;
+
 
 }
 
@@ -266,6 +268,9 @@ const roleSchema: Schema<IRole> = new Schema({
     // از حالت تسویه شده به حالت آماده ارسال بزاره
     canChangeStatusFromTasfieShodeToAmadeErsal: {type: Boolean, default: false, required: true}, //
     canChangeStatusFromEverythingToEverything: {type: Boolean, default: false, required: true}, //
+
+    // آیا کاربر بتونه مانده حسابش در حسابفا رو بالای سایت ببینه؟
+    canViewCreditLibertyInHeader: {type: Boolean, default: false, required: true}, //
 
 
 });
