@@ -3,6 +3,7 @@ import {IUser, User} from "../../models/User";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
+import {changeUserStatus} from "../../utils/ChangeUserSatus/ChangeUserStatus";
 
 
 const setUserStatus = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -34,16 +35,18 @@ const setUserStatus = async (req: CustomRequestMyTokenInJwt, res: Response, next
 
             const {userId} = myToken?.UserInfo?.userData?.userData;
 
-            const foundUser: IUser | null = await User.findOne({_id: userId}).exec();
 
-            if (!foundUser) {
-                res.status(401).json({message: 'کاربری با این شماره تلفن یافت نشد'});
-                return
-            }
-
-            foundUser.userStatus = newUserStatus;
-
-            await foundUser?.save();
+            await changeUserStatus({userId, userStatus:newUserStatus})
+            // const foundUser: IUser | null = await User.findOne({_id: userId}).exec();
+            //
+            // if (!foundUser) {
+            //     res.status(401).json({message: 'کاربری با این شماره تلفن یافت نشد'});
+            //     return
+            // }
+            //
+            // foundUser.userStatus = newUserStatus;
+            //
+            // await foundUser?.save();
 
             res.status(200).json({
                 userStatus: newUserStatus,
