@@ -7,6 +7,7 @@ export const myPermissionsArray = [
     "ticketCreate", // دسترسی ایجاد تیکت
     "ticketCreateAdvanced", // دسترسی ایجاد تیکت پیشرفته
     "readAllTicketsInSystem", // خواندن کل تیکت های سیتم
+    "readAllOfTicketsAssignedToMe", // خواندن همه ی تیکت هایی که مقصد اون تیکت هستم
     "ticketChatList", // مشاهده ی چت لیست بعد از کلیک روی گزینه ی مشاهده
     "ticketReadOwn",
     "readMyAllTickets",
