@@ -149,6 +149,7 @@ const roleSchema: Schema<IRole> = new Schema({
     ticketCreate: {type: Boolean, default: false, required: true},
     ticketCreateAdvanced: {type: Boolean, default: false, required: true},
     readAllTicketsInSystem: {type: Boolean, default: false, required: true},
+    readAllOfTicketsAssignedToMe: {type: Boolean, default: false, required: true},
     ticketChatList: {type: Boolean, default: false, required: true},
     ticketUpdate: {type: Boolean, default: false, required: true},
     ticketDelete: {type: Boolean, default: false, required: true},
