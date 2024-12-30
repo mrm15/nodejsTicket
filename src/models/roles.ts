@@ -106,7 +106,6 @@ interface IRole extends Document {
     showMyBillListForCustomer: Boolean;
     viewBills: Boolean;
     testBillCalculatePrice: Boolean;
-    showMyTicketList: Boolean;
     showFactorListInMenu: Boolean; // مشاهده ی لیست فاکتور در منوی کناری
     /////////// بتونه گزینه ی بسته بندی رو ببینه یا نه؟
     canSeeChangeBillStatusButton: boolean;
@@ -249,7 +248,6 @@ const roleSchema: Schema<IRole> = new Schema({
     organizationDashboard: {type: Boolean, default: false, required: true}, //
     departmentAdminDashboard: {type: Boolean, default: false, required: true}, //
     fullAdminDashboard: {type: Boolean, default: false, required: true}, //
-    showMyTicketList: {type: Boolean, default: false, required: true}, //
     showFactorListInMenu: {type: Boolean, default: false, required: true}, //
     // دکمه ی تغییر وضعیت رو ببینه یا نه؟
     canSeeChangeBillStatusButton: {type: Boolean, default: false, required: true}, //
