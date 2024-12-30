@@ -129,5 +129,6 @@ export const myPermissionsArray = [
     "canChangeStatusFromTasfieShodeToAmadeErsal",//
     "canChangeStatusFromEverythingToEverything",//
     ////////////////////////////////////////////////////////
+    "canViewCreditLibertyInHeader", // مانده حساب کاربر در بالای سایت کنار اسمش
 
 ]
