@@ -13,6 +13,7 @@ export const identifyHandler = async ({socket, userId}: IdentifyHandlerParams): 
         await changeUserStatus({userId, userStatus: 'online'});
         // Emit success response
         socket.emit('ack', {success: true}); // Minimal acknowledgment
+
     } catch (error: any) {
         // Emit error response with details
         socket.emit('error', {message: `${error?.toString()} - An error occurred while identifying the user`});
