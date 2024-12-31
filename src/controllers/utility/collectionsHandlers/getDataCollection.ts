@@ -2,7 +2,7 @@ import {buildFilterObject} from "./filterUtils";
 import {fetchPaginatedResults, SortOptions} from "./queryUtils";
 import {Model} from "mongoose";
 
-export const getDataCollection = async (bodyData: any, collectionName: Model<any>) => {
+export const getDataCollection = async (bodyData: any, collectionName: Model<any>,sortOptions?:any) => {
     const {page = 1, pageSize = 2, filters = []} = bodyData;
 
     // Build the filter object
@@ -18,6 +18,6 @@ export const getDataCollection = async (bodyData: any, collectionName: Model<any
         collectionName,
         filterObject,
         paginationOptions,
-        // sortOptions,
+        sortOptions,
     )
 }

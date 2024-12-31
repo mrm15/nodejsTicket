@@ -22,7 +22,7 @@ const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response,
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
             return;
         }
-        const myFetchedData = await getDataCollection(req.body, User)
+        const myFetchedData = await getDataCollection(req.body, User , {userStatus: -1})
 
 
         if (myFetchedData?.results.length > 0) {

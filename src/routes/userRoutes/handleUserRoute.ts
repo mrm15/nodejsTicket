@@ -10,7 +10,7 @@ import {updateHisInfo} from "../../controllers/userController/updateHisInfo";
 const router = express.Router();
 
 router.post('/create', createUserController);
-router.get('/read', readUserController);
+// router.get('/read', readUserController);
 router.post('/read', readUserController);
 // router.post('/read:id', loginController.verifyLoginSMS);
 router.post('/update', updateUserController);

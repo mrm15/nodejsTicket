@@ -13,7 +13,7 @@ interface IRole extends Document {
     statusListUpdate: Boolean;
     statusListDelete: Boolean;
     ticketCreate: Boolean; // ایجاد تیکت جدید
-    ticketCreateAdvanced: Boolean; // ایجاد تیکت جدید
+    ticketCreateAdvanced: Boolean; // ایجاد تیکت جدید برای بچه های سفارش گیری که بجای مشتری ثبت سفارش کنند. ولی مشتری میتونه توی پنل خودش ببینه
     readAllTicketsInSystem: Boolean; // خواند همه ی تیکت ها برای ادمین
     readAllOfTicketsAssignedToMe: Boolean; // خواندن همه ی تیکت هایی که توی بخش مقصد من هستم برای بچه های سفارش گیری
     ticketChatList: Boolean; // مشاهده چت لیست
