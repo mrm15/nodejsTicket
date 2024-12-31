@@ -7,15 +7,17 @@ export const addUnreadForFirstOrderDepartment = async ({
                                                            senderUserId,
                                                            ticketFoundId,
                                                            assignedToUserId,
-                                                           assignedToDepartmentId,
+                                                           // assignedToDepartmentId,
                                                        }: {
     senderDepartmentId: ObjectId;
     senderUserId: ObjectId;
     ticketFoundId: ObjectId;
     assignedToUserId: ObjectId|null;
-    assignedToDepartmentId: ObjectId|null;
+    // assignedToDepartmentId: ObjectId|null;
 }) => {
     try {
+
+        debugger
         // Fetch admin settings and extract customer department ID
         const adminSettings: IAdminSettings | null = await AdminSettings.findOne({}).lean();
         if (!adminSettings || !adminSettings.customerDepartment) return false; // Early exit if admin settings or customer department is not found
@@ -29,8 +31,8 @@ export const addUnreadForFirstOrderDepartment = async ({
                 ticketId: ticketFoundId,
                 assignedBy: senderUserId,
                 assignedToUserId,
-                assignedToDepartmentId,
-            }).lean();
+                // assignedToDepartmentId,
+               }).lean();
 
             if (existingAssignment) {
                 // Update the existing assignment
@@ -42,6 +44,7 @@ export const addUnreadForFirstOrderDepartment = async ({
                             isDeleteFromAssignedBy: false,
                             readStatus: false, // Mark as unread
                             updatedAt: new Date(), // Update the timestamp
+                            assignDate:new Date(),
                         },
                     }
                 );

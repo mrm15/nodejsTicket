@@ -170,7 +170,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
             senderUserId: foundUser._id,
             ticketFoundId: ticketId,
             assignedToUserId: ticketDoc.firstUserId,
-            assignedToDepartmentId: ticketDoc.firstDepartmentId,
+            // assignedToDepartmentId: ticketDoc.firstDepartmentId,
         })
 
 
