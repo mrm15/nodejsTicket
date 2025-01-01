@@ -17,24 +17,38 @@ export async function getNextSequenceValue(sequenceName: string): Promise<number
 interface ITicket extends Document {
     ticketFound: mongoose.Types.ObjectId;
     // ticketId: string;
+    // شماره تیکت
     ticketNumber: number;
+    // آیدی کاربری که تیکت رو ایجاد کرده
     userId: mongoose.Schema.Types.ObjectId;
+    // عنوان تیکت چیه؟
     title: string;
+    // توضیحات تیکت
     description: string;
+    // الویت تیکت
     priority: string;
+    // وضعیت
     status: string;
+    // اولین دپارتمان تیکت، که فقط در صورتی پر میشه که تیکت بیاد توی دپارتمان سفارش گیری و به شخص خاصی ارجاع نشه
     firstDepartmentId: mongoose.Schema.Types.ObjectId;
+    // اولین شخصی که مشتری انتخاب کرده و سفارشش رو براش فرستاده که یه نفر از تیم سفارش گیر ها هستن
     firstUserId: mongoose.Schema.Types.ObjectId | null;
+    // چیازیی که کاربر ضمیمه کرده
     attachments: mongoose.Schema.Types.ObjectId[]; // Assuming attachments are an array of string URLs
+    // تاریخ آخرین تغییر روی این تیکت
     lastChangeTimeStamp: Date;
-    returnStatus: boolean;
-    returnUserId: mongoose.Schema.Types.ObjectId;
-    returnTime: string;
+    // شماره ی فاکتوری که برای این وجود داره که اگه مشتری دسترسی به فاکتور داعش باشه شماره فاکتور پر میشه
     billNumber: string | null;
+    // وضعیت فاکتوری که زده شده اگه تایید بشه اینجا 1 میشه
     billStatus: number | null; // (0=> draft )   (1=> verify)
+    // وضعیت خواندن فاکتور توی سازمان (وقتی مشتری پیام بزاره اینو فالز میکنم ینی سازمان هنوز ااینو نخونده( التبه که قراره وقتی سفارش گیری ها باز کردن تغییر کنه
     organizationReadStatus:boolean;
+    // وضعیت خواندن فاکتور وقتی مشتری قراره ببینه. اگه بچه های سازمان پیامی دادن باید اینو فالز کنم که برای مشتری بولد بشه و وقتی مشتری بازش کرد باید
     customerReadStatus:boolean;
+
+    // تاریخ ایجاد این سفارش تیکت
     createAt: Date;
+    // تاریخ آخرین به روز رسانی این سفارش تیکت
     updateAt: Date;
 }
 
@@ -84,21 +98,8 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    returnStatus: {
-        type: Boolean,
-        required: false,
-    },
     organizationReadStatus: {type: Boolean,required: false,default:false},
     customerReadStatus: {type: Boolean,required: false,default:true},
-    returnUserId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User collection
-        required: false,
-    },
-    returnTime: {
-        type: String,
-        required: false,
-    },
     billNumber: {
         type: String || null,
         required: false,
