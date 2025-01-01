@@ -2,9 +2,11 @@ import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
+import getAllTicketsByAggregation
+    from "../../utils/TicketAggrigate/getAllTicketsByAggrigation/getAllTicketsByAggregation";
 import {Ticket} from "../../models/ticket";
-import {convertIdsToName} from "../utility/convertTicketDataToName/convertIdsToName";
+import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
+
 
 
 const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -26,10 +28,18 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
             return
         }
 
+        debugger
+
+        const myResultAfterChange =await getAllTicketsByAggregation({
+            filters:req.body.filters,
+            page:req.body.page,
+            pageSize:req.body.pageSize
+        })
+
         const myResult = await getDataCollection(req.body, Ticket);
 
         // #10001 search #10001
-        const myResultAfterChange = await convertIdsToName(myResult)
+        // const myResultAfterChange = await convertIdsToName(myResult)
 
         res.status(200).json(myResultAfterChange);
         return;

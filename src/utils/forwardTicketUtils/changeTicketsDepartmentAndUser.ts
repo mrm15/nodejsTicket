@@ -17,9 +17,10 @@ const changeTicketsDepartmentAndUser = async ({
     const myList = await Promise.all(ticketIdsArray.map(async (singleTicketId: any) => {
         try{const ticketFound: ITicket = (await Ticket.findOne({_id: singleTicketId}).exec())!;
             // @ts-ignore
-            ticketFound.assignedToDepartmentId = departmentId
+            ticketFound.lastAssignedDepartmentId = departmentId
             // @ts-ignore
-            ticketFound.assignToUserId = userId || null
+            ticketFound.lastAssignedUserId = userId || null
+            // ticketFound.lastChangeTimeStamp = userId || null
 
             const resultTask = await ticketFound.save();
             return !!resultTask

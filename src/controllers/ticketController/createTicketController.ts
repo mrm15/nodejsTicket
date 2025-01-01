@@ -11,7 +11,7 @@ import {IInitialBillResponse} from "../utility/initialBillResponse";
 import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
 import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
 import {sendSmsAfterSubmitOrder} from "../../SMS/SMS.IR/sendSms";
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -120,6 +120,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         let assignedToDepartmentId = null;
         let assignToUserId = null;
+        const lastUserId= new mongoose.Schema.Types.ObjectId(ticketData.destinationUserId)
 
         debugger
         // اگه قرار بود سفارشات ثبت شده به ادمنی دپارتمان
@@ -127,7 +128,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             assignedToDepartmentId = adminSettingsResult.firstDestinationForTickets;
         } else {
 
-            assignToUserId = new mongoose.Types.ObjectId(ticketData.destinationUserId)
+            assignToUserId = lastUserId
             // اول مطمین بشیم که کاربری که از فرانت آیدیش به عنوان دریافت کننده تیکت
             // میاد دقیقا توی همون دپارتمان وجود داره.
             // چون ممکنه یه درصد یه نفر بخواد هکی رو بکار ببره و اطلاعات اشتباه ثبت کنه
@@ -146,21 +147,25 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
 
         const newTicket: any = {
-            ticketNumber,
-            userId: senderUserId,
-            title: ticketData.title,
-            description: ticketData.description,
+            ticketNumber:ticketNumber,
+            userId:senderUserId,
+            title:ticketData.title,
+            description:ticketData.description,
             priority: 'زیاد',
-            status,
-            firstDepartmentId: assignedToDepartmentId,
-            firstUserId: assignToUserId,
-            attachments: ticketData.files,
+            statusId:null,
+            firstDepartmentId:assignedToDepartmentId,
+            firstUserId:assignToUserId,
+            lastAssignedDepartmentId:assignedToDepartmentId,
+            lastAssignedUserId:lastUserId,
+            attachments:ticketData.files,
             lastChangeTimeStamp: getCurrentTimeStamp(),
-            returnStatus: null,
-            returnUserId: null,
-            returnTime: null,
+            billNumber:null,
+            billStatus:null,
+            organizationReadStatus:false,
+            customerReadStatus:false,
             createAt: getCurrentTimeStamp(),
             updateAt: getCurrentTimeStamp(),
+
         }
 
 

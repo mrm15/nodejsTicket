@@ -28,11 +28,16 @@ interface ITicket extends Document {
     // الویت تیکت
     priority: string;
     // وضعیت
-    status: string;
+    // status: string;
+    statusId:mongoose.Schema.Types.ObjectId| null;
     // اولین دپارتمان تیکت، که فقط در صورتی پر میشه که تیکت بیاد توی دپارتمان سفارش گیری و به شخص خاصی ارجاع نشه
-    firstDepartmentId: mongoose.Schema.Types.ObjectId;
+    firstDepartmentId: mongoose.Schema.Types.ObjectId| null;
     // اولین شخصی که مشتری انتخاب کرده و سفارشش رو براش فرستاده که یه نفر از تیم سفارش گیر ها هستن
     firstUserId: mongoose.Schema.Types.ObjectId | null;
+    // آخرین دپارتمانی که اون تیکت توش قرار داره
+    lastAssignedDepartmentId: mongoose.Schema.Types.ObjectId | null;
+    // آخرین کاربری که اون تیکت بهش ارجاع شده
+    lastAssignedUserId: mongoose.Schema.Types.ObjectId | null;
     // چیازیی که کاربر ضمیمه کرده
     attachments: mongoose.Schema.Types.ObjectId[]; // Assuming attachments are an array of string URLs
     // تاریخ آخرین تغییر روی این تیکت
@@ -79,9 +84,15 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
         type: String,
         required: true,
     },
-    status: {
-        type: String,
-        required: true,
+    // status: {
+    //     type: String,
+    //     required: true,
+    // },
+    statusId:{
+        type: mongoose.Schema.Types.ObjectId || null,
+        ref: 'Department', // Reference to the Department collection
+        required: false,
+        default:null
     },
     firstDepartmentId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -92,8 +103,21 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User collection
         required: false,
+        default:null,
     },
     attachments: [mongoose.Schema.Types.ObjectId],
+    lastAssignedUserId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the User collection
+        required: false,
+        default:null,
+    },
+    lastAssignedDepartmentId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Department', // Reference to the Department collection
+        required: false,
+        default:null,
+    },
     lastChangeTimeStamp: {
         type: Date,
         default: Date.now,

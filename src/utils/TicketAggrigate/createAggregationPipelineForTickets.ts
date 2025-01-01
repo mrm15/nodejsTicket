@@ -23,46 +23,283 @@ export const createAggregationPipelineForTickets = ({
         $sort: {_id: -1 as 1 | -1} // Explicitly type the sort direction as `1 | -1`
     });
 
-    // firstUserId name
-    myPipLine.push(
-        {
-            $lookup: {
-                from: "users",
-                localField: "firstUserId",
-                foreignField: "_id",
-                as: "z_firstUserIdDetails"
-            }
-        },
-    )
-
-    myPipLine.push(
-        {
-            $unwind: {
-                path: "$z_firstUserIdDetails",
-                preserveNullAndEmptyArrays: true
-            }
-        },
-    )
-
-    // sender
+    ///////////////////////////////////////////
+    // در این مرحله ما  میایم مقدار یوزر آیدی رو باز میکنیم و اگه نال بود هم که هیچی مقدار یوزر آیدی در واقع اون کاربرایی هستن که خودشون سفارش رو ثبت کردن
+    // پس ما اینجا اسمشو میزاریم
+    // z_userCreateThisOrderData
+    ///////////////////////////////////////////
     myPipLine.push(
         {
             $lookup: {
                 from: "users",
                 localField: "userId",
                 foreignField: "_id",
-                as: "z_userCreateThisOrder"
+                as: "z_userCreateThisOrderData"
             }
         },
     )
+
     myPipLine.push(
         {
             $unwind: {
-                path: "$z_userCreateThisOrder",
+                path: "$z_userCreateThisOrderData",
                 preserveNullAndEmptyArrays: true
             }
         },
     )
+
+    ///////////////////////////////////////////
+    // در این مرحله ما مقدار اولین دپارتمانی که تیکت بهش ارجاع شده رو میخوایم ببینیم و این در صورتی هست که کاربر به شخص ارسال نکرده باشه و فقط به دپارتمان ارسال کرده باشه
+    // پس ما اینجا اسمشو میزاریم
+    // z_firstDepartmentIdData
+    ///////////////////////////////////////////
+    myPipLine.push(
+        {
+            $lookup: {
+                from: "Departments",
+                localField: "firstDepartmentId",
+                foreignField: "_id",
+                as: "z_firstDepartmentIdData"
+            }
+        },
+    )
+
+    myPipLine.push(
+        {
+            $unwind: {
+                path: "$z_firstDepartmentIdData",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+    )
+
+    ///////////////////////////////////////////
+    // در این مرحله ما میایم و اطلاعات اولین کاربری که بهش ارجاع شده رو میاریم
+    // پس ما اینجا اسمشو میزاریم
+    // z_firstUserIdData
+    ///////////////////////////////////////////
+    myPipLine.push(
+        {
+            $lookup: {
+                from: "users",
+                localField: "firstUserId",
+                foreignField: "_id",
+                as: "z_firstUserIdData"
+            }
+        },
+    )
+
+    myPipLine.push(
+        {
+            $unwind: {
+                path: "$z_firstUserIdData",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+    )
+
+    ///////////////////////////////////////////
+    // در این مرحله ما میایم و اطلاعات آخرین دپارتمانی که بهش ارجاع شده رو میاریم
+    // پس ما اینجا اسمشو میزاریم
+    // lastAssignedDepartmentId
+    ///////////////////////////////////////////
+    myPipLine.push(
+        {
+            $lookup: {
+                from: "Departments",
+                localField: "lastAssignedDepartmentId",
+                foreignField: "_id",
+                as: "z_lastAssignedDepartmentIdData"
+            }
+        },
+    )
+
+    myPipLine.push(
+        {
+            $unwind: {
+                path: "$z_lastAssignedDepartmentIdData",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+    )
+
+    ///////////////////////////////////////////
+    // در این مرحله ما میایم و اطلاعات آخرین کاربری که بهش ارجاع شده رو میاریم
+    // پس ما اینجا اسمشو میزاریم
+    // z_lastAssignedUserIdData
+    ///////////////////////////////////////////
+    myPipLine.push(
+        {
+            $lookup: {
+                from: "users",
+                localField: "lastAssignedUserId",
+                foreignField: "_id",
+                as: "z_lastAssignedUserIdData"
+            }
+        },
+    )
+
+    myPipLine.push(
+        {
+            $unwind: {
+                path: "$z_lastAssignedUserIdData",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+    )
+    ///////////////////////////////////////////
+    // در این مرحله ما میایم و اطلاعات آخرین وضعیتی که ست شده رو میاریم
+    // پس ما اینجا اسمشو میزاریم
+    // z_statusIdData
+    ///////////////////////////////////////////
+    myPipLine.push(
+        {
+            $lookup: {
+                from: "users",
+                localField: "statusId",
+                foreignField: "_id",
+                as: "z_statusIdData"
+            }
+        },
+    )
+
+    myPipLine.push(
+        {
+            $unwind: {
+                path: "$z_statusIdData",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+    )
+
+    ////////////////////////
+
+
+    // خب حالا که چیزایی که لازم داشتیم رو ریختیم روی آبجکت هایی که میخواستیم حالا وقتشه که از توی اون آبجکت ها
+    // درشون بیاریم و  توی کلیدی که لازم داریم بریزیم تا دیتا خلاصه تر و کوتاه تر بشه
+    // و ما هم بتونیم کوتاه و خلاصه سمت فرانت بفرستیم
+
+
+    // توی این مرحله ما میایم و مقدار
+    // کاربری که این تیکت رو ایجاد کرده رو میریزیم توی چیزی که میخوایم
+
+    myPipLine.push(
+        {
+            $project: {
+                rowNumber: "",
+                _id:1,
+                ticketNumber:1,
+                userId:1,
+                title:1,
+                description:1,
+                priority:1,
+                statusId:1,
+                firstDepartmentId:1,
+                firstUserId:1,
+                lastAssignedDepartmentId:1,
+                lastAssignedUserId:1,
+                attachments:1,
+                lastChangeTimeStamp:1,
+                billNumber:1,
+                billStatus:1,
+                organizationReadStatus:1,
+                customerReadStatus:1,
+                createAt:1,
+                updateAt:1,
+                userCreateThisOrder: {
+                    $concat: [
+                        { $ifNull: ["$z_userCreateThisOrderData.name", ""] }, " ",
+                        { $ifNull: ["$z_userCreateThisOrderData.familyName", ""] }, " ",
+                        { $ifNull: ["$z_userCreateThisOrderData.phoneNumber", ""] }, " ",
+                        { $ifNull: ["$z_userCreateThisOrderData.city", ""] }, " ",
+                        { $ifNull: ["$z_userCreateThisOrderData.province", ""] }
+                    ]
+                },
+
+                firstDepartmentIdText: "$z_firstDepartmentIdData.name",
+                assignToUserIdText: {
+                    $concat: [
+                        { $ifNull: ["$z_assignedToUserDetails.name", ""] }, " ",
+                        { $ifNull: ["$z_assignedToUserDetails.familyName", ""] }
+                    ]
+                },
+                dateCreate: "$z_ticketDetails.createAt",
+
+                numberOfAttachments: { $size: { $ifNull: ["$z_ticketDetails.attachments", []] } },
+
+
+                assignedToUserIdText: {
+                    $concat: [
+                        { $ifNull: ["$z_assignedToUserDetails.name", ""] }, " ",
+                        { $ifNull: ["$z_assignedToUserDetails.familyName", ""] }
+                    ]
+                },
+                isDeleteDestination: 1,
+                assignedByText: {
+                    $concat: [
+                        { $ifNull: ["$z_assignedByDetails.name", ""] }, " ",
+                        { $ifNull: ["$z_assignedByDetails.familyName", ""] }
+                    ]
+                },
+                isDeleteFromAssignedBy: 1,
+                readStatus: 1,
+                readDate: 1,
+                numberOfAssign: 1,
+                assignmentType: 1,
+                assignDate: 1
+            }
+
+        },
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // // sender
+    // myPipLine.push(
+    //     {
+    //         $lookup: {
+    //             from: "users",
+    //             localField: "userId",
+    //             foreignField: "_id",
+    //             as: "z_userCreateThisOrder"
+    //         }
+    //     },
+    // )
+    // myPipLine.push(
+    //     {
+    //         $unwind: {
+    //             path: "$z_userCreateThisOrder",
+    //             preserveNullAndEmptyArrays: true
+    //         }
+    //     },
+    // )
 ////////////////////////////////////////////////////////////////////////////////////////////
     // Lookup for assignedToDepartmentId from departments
     // myPipLine.push(
@@ -156,66 +393,66 @@ export const createAggregationPipelineForTickets = ({
     // myPipLine.push({$unwind: "$z_ticketAssignedDepartmentDetails"},)
 
     //
-    myPipLine.push(
-        {
-            $project: {
-                // _id: "$ticketId", // id of ticket assignment
-                userPhoneNumber: {
-                    $concat: [
-                        {$ifNull: ["$z_userCreateThisOrder.phoneNumber", ""]}, " ",
-                    ]
-                },
-                userCreateThisOrder: {
-                    $concat: [
-                        {$ifNull: ["$z_userCreateThisOrder.name", ""]}, " ",
-                        {$ifNull: ["$z_userCreateThisOrder.familyName", ""]}, " ",
-                        {$ifNull: ["$z_userCreateThisOrder.phoneNumber", ""]}, " ",
-                        {$ifNull: ["$z_userCreateThisOrder.city", ""]}, " ",
-                        {$ifNull: ["$z_userCreateThisOrder.province", ""]}
-                    ]
-                },
-                assignedToDepartmentIdText: "$z_assignedToDepartmentDetails.name",
-                assignToUserIdText: {
-                    $concat: [
-                        {$ifNull: ["$z_assignedToUserDetails.name", ""]}, " ",
-                        {$ifNull: ["$z_assignedToUserDetails.familyName", ""]}
-                    ]
-                },
-                lastChangeTimeStamp: "$z_ticketDetails.lastChangeTimeStamp",
-
-                numberOfAttachments: {$size: {$ifNull: ["$z_ticketDetails.attachments", []]}},
-
-
-                assignedToUserIdText: {
-                    $concat: [
-                        {$ifNull: ["$z_assignedToUserDetails.name", ""]}, " ",
-                        {$ifNull: ["$z_assignedToUserDetails.familyName", ""]}
-                    ]
-                },
-                isDeleteDestination: 1,
-                assignedByText: {
-                    $concat: [
-                        {$ifNull: ["$z_assignedByDetails.name", ""]}, " ",
-                        {$ifNull: ["$z_assignedByDetails.familyName", ""]}
-                    ]
-                },
-
-                _id: 1,
-                firstUserId: 1,
-                ticketNumber: 1,
-                title: 1,
-                description: 1,
-                priority: 1,
-                status: 1,
-                createAt: 1,
-                dateCreate:"$createAt",
-                // فرانت صرفا فقط  رید استاتوس رو میبینه همین!
-                // readStatus: { $ifNull: ["$organizationReadStatus", "-"] }
-
-            }
-
-        },
-    )
+    // myPipLine.push(
+    //     {
+    //         $project: {
+    //             // _id: "$ticketId", // id of ticket assignment
+    //             userPhoneNumber: {
+    //                 $concat: [
+    //                     {$ifNull: ["$z_userCreateThisOrder.phoneNumber", ""]}, " ",
+    //                 ]
+    //             },
+    //             userCreateThisOrder: {
+    //                 $concat: [
+    //                     {$ifNull: ["$z_userCreateThisOrder.name", ""]}, " ",
+    //                     {$ifNull: ["$z_userCreateThisOrder.familyName", ""]}, " ",
+    //                     {$ifNull: ["$z_userCreateThisOrder.phoneNumber", ""]}, " ",
+    //                     {$ifNull: ["$z_userCreateThisOrder.city", ""]}, " ",
+    //                     {$ifNull: ["$z_userCreateThisOrder.province", ""]}
+    //                 ]
+    //             },
+    //             assignedToDepartmentIdText: "$z_assignedToDepartmentDetails.name",
+    //             assignToUserIdText: {
+    //                 $concat: [
+    //                     {$ifNull: ["$z_assignedToUserDetails.name", ""]}, " ",
+    //                     {$ifNull: ["$z_assignedToUserDetails.familyName", ""]}
+    //                 ]
+    //             },
+    //             lastChangeTimeStamp: "$z_ticketDetails.lastChangeTimeStamp",
+    //
+    //             numberOfAttachments: {$size: {$ifNull: ["$z_ticketDetails.attachments", []]}},
+    //
+    //
+    //             assignedToUserIdText: {
+    //                 $concat: [
+    //                     {$ifNull: ["$z_assignedToUserDetails.name", ""]}, " ",
+    //                     {$ifNull: ["$z_assignedToUserDetails.familyName", ""]}
+    //                 ]
+    //             },
+    //             isDeleteDestination: 1,
+    //             assignedByText: {
+    //                 $concat: [
+    //                     {$ifNull: ["$z_assignedByDetails.name", ""]}, " ",
+    //                     {$ifNull: ["$z_assignedByDetails.familyName", ""]}
+    //                 ]
+    //             },
+    //
+    //             _id: 1,
+    //             firstUserId: 1,
+    //             ticketNumber: 1,
+    //             title: 1,
+    //             description: 1,
+    //             priority: 1,
+    //             status: 1,
+    //             createAt: 1,
+    //             dateCreate:"$createAt",
+    //             // فرانت صرفا فقط  رید استاتوس رو میبینه همین!
+    //             // readStatus: { $ifNull: ["$organizationReadStatus", "-"] }
+    //
+    //         }
+    //
+    //     },
+    // )
     // console.log(matchConditions)
     if (matchConditions.length > 0) {
         myPipLine.push({
