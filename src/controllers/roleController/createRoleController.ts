@@ -47,7 +47,7 @@ const createRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
 
         // check if this role name is uniq
-        const isThereAnyRoleWithThatName: IRole[] | null = await Role.findOne({name: newRoleData.name}).lean()
+        const isThereAnyRoleWithThatName: IRole | null = await Role.findOne({name: newRoleData.name}).lean()
 
         if (!!isThereAnyRoleWithThatName && isThereAnyRoleWithThatName?.length !== 0) {
             res.status(409).json({
