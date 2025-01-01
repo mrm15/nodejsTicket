@@ -5,7 +5,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
 import {IUser, User} from "../../models/User";
 import {timestampToTime} from "../../utils/timestampToTime";
-import {Role} from "../../models/roles";
+import {IRole, Role} from "../../models/roles";
 
 const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     const {myToken} = req;
@@ -31,8 +31,8 @@ const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response,
                 try {
 
                     if(row.role){
-                        const userFound: IUser = (await Role.findOne({_id: row.role}).lean())!;
-                        row['roleName'] = userFound.name
+                        const foundedRole: IRole = (await Role.findOne({_id: row.role}).lean())!;
+                        row['roleName'] = foundedRole.name
                     }else {
                         row['roleName'] = ' ندارد '
                     }
