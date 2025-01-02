@@ -79,7 +79,7 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
         // پس باید یه کاری کنیم
         // کاربر و دپارتمان و آرایه ای از تیکت ها رو بدیم به تابع مون تا کارا رو برمون انجام بده و نتیجه رو بگه
         const senderUserIdTemp = myToken?.UserInfo?.userData?.userData?.userId;
-        const foundSenderUserIdLean: IUser | null = await User.findOne({_id: senderUserIdTemp}).lean();
+        const foundSenderUserIdLean: IUser | null = await User.findOne({_id: senderUserIdTemp})
 
         if (!foundSenderUserIdLean) {
             res.status(500).json({
@@ -88,7 +88,7 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
             return
         }
 
-        const senderUserId = foundSenderUserIdLean?._id
+        const senderUserId = foundSenderUserIdLean?.id ||foundSenderUserIdLean?._id
         console.log("user:")
         // console.log(user)
         const resultOfTask = await forwardTicket({

@@ -10,7 +10,7 @@ interface IUserTask {
 
 
 interface IUser extends Document {
-    [key: string]: any;
+    // [key: string]: any;
 
     userName?: string;
     nationalCode?: string;
@@ -62,13 +62,7 @@ interface IUser extends Document {
 
 // Create the User schema
 const userSchema: Schema<IUser> = new Schema<IUser>({
-    //
-    // _id: {
-    //     type: String,
-    //     required: false,
-    //     default: "",
-    //
-    // },
+
 
     userName: {
         unique: true,
@@ -308,15 +302,9 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
 
 });
 
-// Create a virtual 'id' property
-userSchema.virtual('id').get(function () {
-    return this._id.toHexString();
-});
+// userSchema.set('toObject', { virtuals: true });
+// userSchema.set('toJSON', { virtuals: true });
 
-// Ensure virtual fields are serialized
-userSchema.set('toJSON', {
-    virtuals: true
-});
 
 // Create and export the User model
 const User = mongoose.model<IUser>('User', userSchema);

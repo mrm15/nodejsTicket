@@ -25,6 +25,7 @@ const updateHisInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next
             // newData._id = _id
             // delete newData._id;
             for (const key in newData) {
+                // @ts-ignore
                 foundUser[key] = newData[key]
             }
 

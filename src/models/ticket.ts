@@ -15,7 +15,7 @@ export async function getNextSequenceValue(sequenceName: string): Promise<number
 
 // Define the Ticket document interface
 interface ITicket extends Document {
-    ticketFound: mongoose.Types.ObjectId;
+    // ticketFound: mongoose.Types.ObjectId;
     // ticketId: string;
     // شماره تیکت
     ticketNumber: number;
@@ -58,18 +58,13 @@ interface ITicket extends Document {
 }
 
 // Define the Ticket schema
-const ticketSchema: Schema<ITicket> = new mongoose.Schema({
-    // ticketId: {
-    //     type: String,
-    //     required: true,
-    // },
+const ticketSchema = new mongoose.Schema<ITicket>({
     ticketNumber: {
         type: Number,
-
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User collection
+        ref: 'User',
         required: true,
     },
     title: {
@@ -84,54 +79,54 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // status: {
-    //     type: String,
-    //     required: true,
-    // },
-    statusId:{
-        type: mongoose.Schema.Types.ObjectId || null,
-        ref: 'Department', // Reference to the Department collection
-        required: false,
-        default:null
+    statusId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Status',
+        default: null,
     },
     firstDepartmentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Department', // Reference to the Department collection
-        required: false,
+        ref: 'Department',
+        default: null,
     },
     firstUserId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User collection
-        required: false,
-        default:null,
+        ref: 'User',
+        default: null,
     },
-    attachments: [mongoose.Schema.Types.ObjectId],
-    lastAssignedUserId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User collection
-        required: false,
-        default:null,
+    attachments: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: [],
     },
-    lastAssignedDepartmentId:{
+    lastAssignedUserId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Department', // Reference to the Department collection
-        required: false,
-        default:null,
+        ref: 'User',
+        default: null,
+    },
+    lastAssignedDepartmentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Department',
+        default: null,
     },
     lastChangeTimeStamp: {
         type: Date,
         default: Date.now,
     },
-    organizationReadStatus: {type: Boolean,required: false,default:false},
-    customerReadStatus: {type: Boolean,required: false,default:true},
+    organizationReadStatus: {
+        type: Boolean,
+        default: false,
+    },
+    customerReadStatus: {
+        type: Boolean,
+        default: true,
+    },
     billNumber: {
-        type: String || null,
-        required: false,
-        default: "",
+        type: String,
+        default: null,
     },
     billStatus: {
-        type: Number || null,
-        required: false,
+        type: Number,
+        default: null,
     },
     createAt: {
         type: Date,
@@ -142,7 +137,6 @@ const ticketSchema: Schema<ITicket> = new mongoose.Schema({
         default: Date.now,
     },
 });
-
 // Export the Ticket model
 
 

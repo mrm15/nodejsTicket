@@ -43,7 +43,7 @@ const updateDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
             }
 
             // check if this phone number is uniq
-            let foundDepartment: IDepartment = (await Department.findOne({_id: id}).exec())!
+            let foundDepartment: IDepartment | null = await Department.findOne({_id: id}).exec()
 
 
             if (!foundDepartment) {
@@ -64,10 +64,9 @@ const updateDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
                 return
             }
 
-            const userId = userFound?._id
 
 
-            foundDepartment.userId = userId;
+            foundDepartment.userId = userFound?.id;
             foundDepartment.description = updatedDepartment?.description || " بدون توضیحات";
             foundDepartment.managerUserId = updatedDepartment?.managerUserId || null;
             foundDepartment.parentDepartmentId = updatedDepartment?.parentDepartmentId || null;

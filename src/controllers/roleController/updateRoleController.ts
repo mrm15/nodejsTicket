@@ -62,6 +62,7 @@ const updateRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
                 return
             }
 
+            debugger
             const userId = userFound?.id
 
 

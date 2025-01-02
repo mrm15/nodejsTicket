@@ -27,12 +27,12 @@ const getUserInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
             departmentId,
             role,
             tasks,
-            tickets,
+            // tickets,
             isActive,
             loginCode,
             loginCodeSendDate,
             updateAt,
-            __v,
+            // __v,
             ...rest
         } = userInfo
 

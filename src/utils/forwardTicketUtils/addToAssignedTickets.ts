@@ -80,8 +80,9 @@ const addToAssignedTickets = async ({ticketIdsArray, departmentId, userId, sende
         } else {
             const findAdminDepartment = await Department.findOne({managerUserId: userId})
             if (findAdminDepartment) {
+                debugger
                 const notificationArray = [{
-                    userId: findAdminDepartment._id,
+                    userId: findAdminDepartment.id,
                     phoneNumber: undefined,
                     notification: {
                         title: "پیام جدید دریافت شد.",

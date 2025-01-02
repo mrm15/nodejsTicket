@@ -1,17 +1,16 @@
-import {Request, Response, NextFunction} from 'express';
+import {Response, NextFunction} from 'express';
 import {IUser, User} from "../../models/User";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {getNextSequenceValue, ITicket, Ticket} from "../../models/ticket";
-import {getSettings} from "../../utils/getFirstStatus";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {IInitialBillResponse} from "../utility/initialBillResponse";
 import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
 import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
 import {sendSmsAfterSubmitOrder} from "../../SMS/SMS.IR/sendSms";
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -79,7 +78,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             return
         }
 
-        const senderUserId = userFound?._id
+        const senderUserId = userFound?.id
         const ticketNumber = await getNextSequenceValue('ticketNumber')
 
 
@@ -120,7 +119,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         let assignedToDepartmentId = null;
         let assignToUserId = null;
-        const lastUserId= new mongoose.Schema.Types.ObjectId(ticketData.destinationUserId)
+        const lastUserId = ticketData.destinationUserId
 
         debugger
         // اگه قرار بود سفارشات ثبت شده به ادمنی دپارتمان
@@ -147,22 +146,22 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
 
         const newTicket: any = {
-            ticketNumber:ticketNumber,
-            userId:senderUserId,
-            title:ticketData.title,
-            description:ticketData.description,
+            ticketNumber: ticketNumber,
+            userId: senderUserId,
+            title: ticketData.title,
+            description: ticketData.description,
             priority: 'زیاد',
-            statusId:null,
-            firstDepartmentId:assignedToDepartmentId,
-            firstUserId:assignToUserId,
-            lastAssignedDepartmentId:assignedToDepartmentId,
-            lastAssignedUserId:lastUserId,
-            attachments:ticketData.files,
+            statusId: null,
+            firstDepartmentId: assignedToDepartmentId,
+            firstUserId: assignToUserId,
+            lastAssignedDepartmentId: assignedToDepartmentId,
+            lastAssignedUserId: lastUserId,
+            attachments: ticketData.files,
             lastChangeTimeStamp: getCurrentTimeStamp(),
-            billNumber:null,
-            billStatus:null,
-            organizationReadStatus:false,
-            customerReadStatus:false,
+            billNumber: null,
+            billStatus: null,
+            organizationReadStatus: false,
+            customerReadStatus: false,
             createAt: getCurrentTimeStamp(),
             updateAt: getCurrentTimeStamp(),
 
@@ -173,7 +172,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         let msg1 = ""
         await addToAssignedTickets({
-            ticketIdsArray: [result._id],
+            ticketIdsArray: [result.id],
             departmentId: assignedToDepartmentId,
             userId: result.firstUserId,
             senderUserId: senderUserId
@@ -185,8 +184,8 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const contactCode = myToken.UserInfo.userData.userData.contactCode || 'Error'; // کد کسیه که الان لاگین شده و باید اینو توی جدول کد ها برابر با دیتای حسابفا بزارم.
         const billNumber = ""; // این باید خالی باشه. چون من دارم تازه یه دونه جدید ثبت میکنم
         const billType = "ticket";
-        const id = result._id
-        const ticketId = result._id; // اینجا این مقدارش در صورتی که ما داریم تیکت ریپلای میزنیم و میخوایم بعد از بازگشت برگرده به صفحه ی چت لیست و این مقدار رو لازم داریم. ولی چون اینجا  تازه داره تیکت ایجاد میکنه نیاز نیست
+        const id = result.id
+        const ticketId = result.id; // اینجا این مقدارش در صورتی که ما داریم تیکت ریپلای میزنیم و میخوایم بعد از بازگشت برگرده به صفحه ی چت لیست و این مقدار رو لازم داریم. ولی چون اینجا  تازه داره تیکت ایجاد میکنه نیاز نیست
         const note = "سفارش دهنده";
         const title = result.title;
         const tag = JSON.stringify({
@@ -198,12 +197,12 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         setTimeout(async () => {
 
-            const sendSmsAfterSubmitOrder11 = await sendSmsAfterSubmitOrder({
-                mobile: phoneNumber,
-                customerName: contactName,
-                orderTitle: result.title,
-                orderNumber: result.ticketNumber
-            })
+            // const sendSmsAfterSubmitOrder11 = await sendSmsAfterSubmitOrder({
+            //     mobile: phoneNumber,
+            //     customerName: contactName,
+            //     orderTitle: result.title,
+            //     orderNumber: result.ticketNumber
+            // })
         }, 60000)
         // اینجا میخوام یه نوتیف بدم به کاربر
         const notificationArray = [

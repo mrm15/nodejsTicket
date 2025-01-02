@@ -68,9 +68,9 @@ const statusSchema: Schema<IStatus> = new mongoose.Schema({
 // Create a virtual 'id' property
 
 
-statusSchema.virtual('id').get(function (this: IStatus) {
-    return this._id.toHexString();
-});
+// statusSchema.virtual('id').get(function (this: IStatus) {
+//     return this._id.toHexString();
+// });
 
 // Ensure virtual fields are serialized
 statusSchema.set('toJSON', {

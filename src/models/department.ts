@@ -25,9 +25,9 @@ interface IDepartment extends Document {
     updatedAt: Date;
 }
 
-const departmentSchema: Schema = new Schema({
+const departmentSchema: Schema<IDepartment> = new Schema<IDepartment>({
     name: {type: String, required: true},
-    userId: {type: Schema.Types.ObjectId, ref: 'User', required:false},
+    userId: {type: Schema.Types.ObjectId||null, ref: 'User', required:false},
     description: {type: String, required: false},
     managerUserId: {type: Schema.Types.ObjectId, ref: 'User' , index:true},
     parentDepartmentId: {type: Schema.Types.ObjectId, ref: 'Department', required:false},
@@ -52,9 +52,9 @@ const departmentSchema: Schema = new Schema({
 
 const Department = mongoose.model<IDepartment>('Department', departmentSchema);
 
-departmentSchema.virtual('id').get(function (this: IDepartment) {
-    return this._id.toHexString();
-});
+// departmentSchema.virtual('id').get(function (this: IDepartment) {
+//     return this._id.toHexString();
+// });
 
 // Ensure virtual fields are serialized
 departmentSchema.set('toJSON', {

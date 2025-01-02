@@ -70,9 +70,9 @@ const fileSchema: Schema<IFile> = new mongoose.Schema({
     },
 });
 
-fileSchema.virtual('id').get(function () {
-    return this._id.toHexString();
-});
+// fileSchema.virtual('id').get(function () {
+//     return this._id.toHexString();
+// });
 
 // Ensure virtual fields are serialized
 fileSchema.set('toJSON', {

@@ -1,9 +1,6 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {Department, IDepartment} from "../../models/department";
-import {getRoleAccessList} from "../LoginRegisterSms/getRoleAccessList";
-import * as perf_hooks from "node:perf_hooks";
-import {getDepartmentListWithUsers, getSameDepartmentUsers} from "../controllerUtilFunctions/getData";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
@@ -77,14 +74,14 @@ const getSafeAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Respons
             }
 
 
-            const randomDepartment: IDepartment | null = await Status.findOne({}).lean()
+            const randomDepartment: IStatus | null = await Status.findOne({}).lean()
             if (!randomDepartment) {
                 res.status(406).json({
                     message: 'لطفا یک دپارتمان تعریف کنید.',
                 });
                 return;
             }
-            const randomStatus: IStatus | null = await Department.findOne({}).lean()
+            const randomStatus: IDepartment | null = await Department.findOne({}).lean()
             if (!randomStatus) {
                 res.status(406).json({
                     message: 'لطفا یک استاتوس تعریف کنید.',
@@ -96,7 +93,7 @@ const getSafeAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Respons
             const currentTimeStamp = getCurrentTimeStamp()
             const newAdminSettingData: IAdminSettings = new AdminSettings({
 
-                userId: randomUser._id,
+                userId: randomUser.id,
                 firstDestinationForTickets: randomDepartment._id,
                 showUsersListInSendTicketForm: false,
                 firstStatusTicket: randomStatus._id,

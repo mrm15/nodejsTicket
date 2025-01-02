@@ -84,7 +84,7 @@ const getForwardConfig = async (req: CustomRequestMyTokenInJwt, res: Response, n
             list.mode = isDepartmentAdmin ? 'departmentAdmin' : 'usualUser';
             list.departmentList = isDepartmentAdmin ? departments.map(department => ({
                 name: department.name,
-                id: department._id
+                id: department.id
             })) : [];
             list.destinationUserList = await getSameDepartmentUsers(myToken.phoneNumber);
 

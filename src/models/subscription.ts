@@ -38,9 +38,9 @@ SubscriptionSchema.index(
     { unique: true }
 );
 
-SubscriptionSchema.virtual('id').get(function (this: ISubscription) {
-    return this._id.toHexString();
-});
+// SubscriptionSchema.virtual('id').get(function (this: ISubscription) {
+//     return this._id.toHexString();
+// });
 
 // Ensure virtual fields are serialized
 SubscriptionSchema.set('toJSON', {

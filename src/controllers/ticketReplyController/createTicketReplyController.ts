@@ -62,7 +62,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
 
     let smsMsg = "";
     const ticketDoc = (await Ticket.findOne({ticketNumber: ticketNumber}).exec())!
-    const ticketId = ticketDoc['_id'];
+    const ticketId :any = ticketDoc['_id'];
 
     const userId = myToken?.UserInfo?.userData?.userData?.userId
     const theUserName = myToken?.UserInfo?.userData?.userData?.name + myToken?.UserInfo?.userData?.userData.familyName
@@ -85,7 +85,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
     }
 
     //  دپارتمان فعلی که کاربر توش عضو هست رو وارد میکنم
-    const foundUser: IUser | null = await User.findOne({_id: userId}).lean()
+    const foundUser: IUser | null = await User.findById(userId)
     if (!foundUser) {
         res.status(500).json({
             message: 'هیچ کاربری برای ثبت  دپارتمان یافت نشد'
@@ -167,7 +167,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         debugger
         await addUnreadForFirstOrderDepartment({
             senderDepartmentId: departmentId,
-            senderUserId: foundUser._id,
+            senderUserId: foundUser.id,
             ticketFoundId: ticketId,
             assignedToUserId: ticketDoc.firstUserId,
             // assignedToDepartmentId: ticketDoc.firstDepartmentId,
@@ -181,7 +181,7 @@ const createTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
         const contactCode = customerDocument.contactCode; // کد مشتری هست که از روی داکیومنت مستری میگیریم
         const billNumber = ""; // این باید خالی باشه. چون من دارم تازه یه دونه جدید ثبت میکنم
         const billType = "ticketReply";
-        const id = result._id;
+        const id :any = result._id;
         const note = (myToken.UserInfo.userData.userData.contactCode === customerDocument.contactCode) ? "سفارش دهنده" : "کاربر سازمانی"
         const title = ticketDoc.title;
         const tag = myToken.UserInfo.userData.userData.name; // تگ برابر با کسی هست که داره این فاکتور رو ایجاد و یا ویرایش میکنه

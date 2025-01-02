@@ -29,6 +29,7 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
             delete newData.id;
             delete newData._id;
             for (const key in newData) {
+                // @ts-ignore
                 foundUser[key] = newData[key]
             }
 
