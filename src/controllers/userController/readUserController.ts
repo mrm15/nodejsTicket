@@ -36,6 +36,13 @@ const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response,
                     }else {
                         row['roleName'] = ' ندارد '
                     }
+
+                    if(row?.isActive){
+                        row['isActive']="1"
+                    }else {
+                        row['isActive']="0"
+                    }
+
                 } catch (error: any) {
                     //
                 }
