@@ -28,7 +28,7 @@ const getUserInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
             role,
             tasks,
             // tickets,
-            isActive,
+            // isActive,
             loginCode,
             loginCodeSendDate,
             updateAt,
