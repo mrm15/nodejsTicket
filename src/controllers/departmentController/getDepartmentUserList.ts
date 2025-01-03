@@ -46,7 +46,7 @@ const getDepartmentUserList = async (req: CustomRequestMyTokenInJwt, res: Respon
                 profilePictureUrl,
                 isActive,
             }
-        }).filter(user => (user?.isActive || user?.isActive==="1")).map(user => {
+        }).filter(user => user?.isActive).map(user => {
             const {isActive, ...rest} = user
             return rest;
         }) || []
