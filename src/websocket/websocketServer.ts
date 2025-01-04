@@ -92,8 +92,16 @@ export const initializeSocketIO = (httpServer: HttpServer) => {
             const userId = socketToUserMap.get(socket.id);
             if (userId) {
                 removeSocketForUser(userId, socket.id);
-                console.log(`Socket ${socket.id} for user ${userId} disconnected`);
-                await handleDisconnect({ socket, userId });
+                // Check if the Set<string> in userSocketMap is empty
+                const userSockets = userSocketMap.get(userId);
+                if (!userSockets || userSockets.size === 0) {
+                    // console.log(`User ${userId} has no remaining sockets. Handling disconnect.`);
+                    await handleDisconnect({ socket, userId });
+                } else {
+                    // console.log(`User ${userId} still has active sockets. Skipping disconnect.`);
+                }
+
+                // console.log(`Socket ${socket.id} for user ${userId} disconnected`);
             }
         });
     });
