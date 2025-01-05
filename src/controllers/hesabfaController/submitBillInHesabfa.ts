@@ -128,7 +128,7 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
 
                             if ((adminSettings.forwardTicketsAfterVerify && invoice.Status === 1) || (adminSettings.forwardTicketsAfterVerify && invoice.Status === "1")) {
                                                                 // اینجا قراره ببینم آیا بعد از تایید فاکتور باید اینو به مدیر دپارتمان نود گیری
-                                await addToAssignedTickets({ticketIdsArray: [billData.ticketId], departmentId:adminSettings.forwardTicketsAfterVerify, userId:null, senderUserId:foundUser.id})
+                                await addToAssignedTickets({ticketIdsArray: [billData.ticketId], departmentId:adminSettings.forwardTicketsAfterVerify as any, userId:null, senderUserId:foundUser.id})
                                 // await forwardTicketAfterVerify({
                                 //     depId: adminSettings.forwardTicketsAfterVerify,
                                 //     billData
