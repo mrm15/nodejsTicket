@@ -1,5 +1,4 @@
 import {PipelineStage} from "mongoose";
-import {Department} from "../../models/department";
 
 
 interface ICreateAggregationPipelineForTickets {
@@ -107,7 +106,7 @@ export const createAggregationPipelineForTickets = ({
     myPipLine.push(
         {
             $lookup: {
-                from: "Department",
+                from: "departments",
                 localField: "lastAssignedDepartmentId",
                 foreignField: "_id",
                 as: "z_lastAssignedDepartmentIdData"
