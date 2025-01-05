@@ -5,30 +5,32 @@ import mongoose from "mongoose";
 import {NotificationPayload, sendNotificationToUser} from "../pushNotification/pushNotification";
 
 interface IInput {
-    ticketIdsArray: ITicket[];
-    departmentId: string | null | mongoose.Schema.Types.ObjectId;
-    userId: string | null | mongoose.Schema.Types.ObjectId;
-    senderUserId: string;
+    ticketIdsArray: ITicket[],
+    departmentId: mongoose.Types.ObjectId | null,
+    userId: mongoose.Types.ObjectId | null ,
+    senderUserId: string,
 }
 
 const addToAssignedTickets = async ({ticketIdsArray, departmentId, userId, senderUserId}: IInput) => {
-
+    debugger
     const myList = await Promise.all(ticketIdsArray.map(async (singleTicketId: any) => {
         // آیدی اون تیکت رو میگیریم
+        debugger
         const ticketFound: ITicket = (await Ticket.findOne({_id: singleTicketId}).exec())!;
-        const newRow: any = {};
-        newRow.ticketId = ticketFound._id
-        newRow.assignedBy = senderUserId
+
+        const newRow: any={};
+        newRow.ticketId = ticketFound.id
+        newRow.assignedBy = new mongoose.Types.ObjectId(senderUserId)
         newRow.createdAt = new Date();
         // نگاه میکنیم به مقدار  کاربر  اگه ست شده بود به کاربر باید اختصاص بدیم و به دپارتمان توجه نکنیم
         if (userId) {
-            newRow.assignmentType = "user"
-            newRow.assignedToDepartmentId = null
-            newRow.assignedToUserId = userId
+            newRow.assignmentType = "user";
+            newRow.assignedToDepartmentId = null;
+            newRow.assignedToUserId = userId;
         } else if (departmentId && !userId) {
-            newRow.assignmentType = "department"
-            newRow.assignedToDepartmentId = departmentId
-            newRow.assignedToUserId = null
+            newRow.assignmentType = "department";
+            newRow.assignedToDepartmentId = departmentId;
+            newRow.assignedToUserId = null;
         }
         const isThereSameAssignment: ITicketAssignment | null = await TicketAssignment.findOne({
             ticketId: ticketFound._id,
@@ -36,7 +38,7 @@ const addToAssignedTickets = async ({ticketIdsArray, departmentId, userId, sende
             assignedToUserId: userId ? userId : null,
             assignedToDepartmentId: (departmentId && !userId) ? departmentId : null,
         }).lean()
-        newRow.assignedBy = senderUserId
+        newRow.assignedBy = new mongoose.Types.ObjectId(senderUserId)
         newRow.createdAt = new Date();
 
         let result
