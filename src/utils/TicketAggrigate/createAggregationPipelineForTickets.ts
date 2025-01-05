@@ -188,6 +188,7 @@ export const createAggregationPipelineForTickets = ({
             $project: {
                 rowNumber: "",
                 _id:1,
+                id:1,
                 ticketNumber:1,
                 userId:1,
                 title:1,
@@ -216,37 +217,19 @@ export const createAggregationPipelineForTickets = ({
                     ]
                 },
 
-                firstDepartmentIdText: "$z_firstDepartmentIdData.name",
-                assignToUserIdText: {
+                firstDepartmentName: "$z_firstDepartmentIdData.name",
+                firstUserName: {
                     $concat: [
-                        { $ifNull: ["$z_assignedToUserDetails.name", ""] }, " ",
-                        { $ifNull: ["$z_assignedToUserDetails.familyName", ""] }
+                        { $ifNull: ["$z_firstUserIdData.name", ""] }, " ",
+                        { $ifNull: ["$z_firstUserIdData.name.familyName", ""] }, " ",
                     ]
                 },
-                dateCreate: "$z_ticketDetails.createAt",
+                lastAssignedDepartmentName:  { $ifNull: ["$z_lastAssignedDepartmentIdData.name", "Undefined"] },
+                lastAssignedUserName:{ $ifNull: ["$z_lastAssignedUserIdData.name", "Undefined"] },
+                statusName: { $ifNull: ["$z_statusIdData.name", "Undefined"] }, // Handle undefined case
+                numberOfAttachments: { $size: { $ifNull: ["$attachments", []] } },
 
-                numberOfAttachments: { $size: { $ifNull: ["$z_ticketDetails.attachments", []] } },
 
-
-                assignedToUserIdText: {
-                    $concat: [
-                        { $ifNull: ["$z_assignedToUserDetails.name", ""] }, " ",
-                        { $ifNull: ["$z_assignedToUserDetails.familyName", ""] }
-                    ]
-                },
-                isDeleteDestination: 1,
-                assignedByText: {
-                    $concat: [
-                        { $ifNull: ["$z_assignedByDetails.name", ""] }, " ",
-                        { $ifNull: ["$z_assignedByDetails.familyName", ""] }
-                    ]
-                },
-                isDeleteFromAssignedBy: 1,
-                readStatus: 1,
-                readDate: 1,
-                numberOfAssign: 1,
-                assignmentType: 1,
-                assignDate: 1
             }
 
         },
