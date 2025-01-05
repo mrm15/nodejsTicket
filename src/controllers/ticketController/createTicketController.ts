@@ -173,8 +173,8 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         let msg1 = ""
         await addToAssignedTickets({
             ticketIdsArray: [result.id],
-            departmentId: assignedToDepartmentId,
-            userId: result.firstUserId,
+            departmentId: assignedToDepartmentId as any,
+            userId: result.firstUserId as any,
             senderUserId: senderUserId
         })
         msg1 += "تیکت ارجاع شد ";
