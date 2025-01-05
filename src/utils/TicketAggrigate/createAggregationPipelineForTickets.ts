@@ -1,4 +1,5 @@
 import {PipelineStage} from "mongoose";
+import {Department} from "../../models/department";
 
 
 interface ICreateAggregationPipelineForTickets {
@@ -106,7 +107,7 @@ export const createAggregationPipelineForTickets = ({
     myPipLine.push(
         {
             $lookup: {
-                from: "Departments",
+                from: "Department",
                 localField: "lastAssignedDepartmentId",
                 foreignField: "_id",
                 as: "z_lastAssignedDepartmentIdData"
@@ -221,10 +222,16 @@ export const createAggregationPipelineForTickets = ({
                 firstUserName: {
                     $concat: [
                         { $ifNull: ["$z_firstUserIdData.name", ""] }, " ",
-                        { $ifNull: ["$z_firstUserIdData.name.familyName", ""] }, " ",
+                        { $ifNull: ["$z_firstUserIdData.familyName", ""] }, " ",
                     ]
                 },
-                lastAssignedDepartmentName:  { $ifNull: ["$z_lastAssignedDepartmentIdData.name", "Undefined"] },
+                lastAssignedDepartmentName: {
+                    $concat: [
+                        { $ifNull: ["$z_lastAssignedDepartmentIdData.name", ""] }, " ",
+                        // { $ifNull: ["$z_firstUserIdData.familyName", ""] }, " ",
+                    ]
+                },
+                // lastAssignedDepartmentName:  { $ifNull: ["$z_lastAssignedDepartmentIdData.description", "Undefined"] },
                 lastAssignedUserName:{ $ifNull: ["$z_lastAssignedUserIdData.name", "Undefined"] },
                 statusName: { $ifNull: ["$z_statusIdData.name", "Undefined"] }, // Handle undefined case
                 numberOfAttachments: { $size: { $ifNull: ["$attachments", []] } },
