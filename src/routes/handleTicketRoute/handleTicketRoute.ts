@@ -43,7 +43,7 @@ router.get('/statusList', ticketList);
 
 // Apply the filter middleware to these routes
 // این دوتا مستقیم با تیکت سروکار دارن
-router.post('/read', filterMiddleware,readTicketController) // read all tickets for admin
+router.post('/read', readTicketController) // read all tickets for admin
 router.post('/myTicketList', myTicketListController) //
 router.post('/readSentTickets', filterMiddleware,ReadSentTicketController) //for customer read sentTickets List for example I sent a ticket
 //--------------------------------------------------
