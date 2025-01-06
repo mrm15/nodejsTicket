@@ -7,7 +7,7 @@ type RoleKeyValuePair = {
 
 const getRoleListKeyValuePairs = async (): Promise<IRole|any[]> => {
 
-    const roleListArray: IRole | null = await Role.find({}).lean()
+    const roleListArray: any | null = await Role.find({}).lean()
     if (!roleListArray) {
         return []
     } else {
