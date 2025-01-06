@@ -11,7 +11,7 @@ export const userTicketTable = async ({userId}: myObject) => {
 
 
     // get userTicket List from user Model
-    const foundUser: IUser | null = await User.findOne({_id: userId}).lean()
+    const foundUser: any | null = await User.findOne({_id: userId}).lean()
     let userTicketArray: any | undefined | [] = foundUser?.tickets
     if (!userTicketArray) {
         userTicketArray = []
