@@ -30,7 +30,7 @@ export const inboxTicketList = async ({ userId }: myInterface) => {
 
     // Filter department tickets that also exist in user's personal ticket list
      inboxTickets = departmentTicketList.filter(ticket =>
-        rowDataTemp.some(userTicket => userTicket?._id.toString() === ticket._id?.toString())
+        rowDataTemp.some((userTicket:any) => userTicket?._id.toString() === ticket._id?.toString())
     );
 
 
