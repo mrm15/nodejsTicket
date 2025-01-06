@@ -1,17 +1,6 @@
 import {Request, Response, NextFunction} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
-import {userTicketTable} from "../../utils/userTicketTable";
-import {inboxTicketList} from "../../utils/inboxTicketList";
-import {Department, IDepartment} from "../../models/department";
-import {departmentTickets} from "../../utils/getDepartmentTicketList";
-import mongoose from "mongoose";
-import getDepartmentByPhoneNumber from "../../utils/functions/getDepartmentByPhoneNumber";
-import {ITicketAssignment, TicketAssignment} from "../../models/ticketAssignment ";
-import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
-import {ITicket, Ticket} from "../../models/ticket";
-import {convertIdsToName} from "../utility/convertTicketDataToName/convertIdsToName";
+
 import getUserByPhoneNumber from "../../utils/functions/getUserByPhoneNumber";
 import {IUser} from "../../models/User";
 import getDataByAggregation2
