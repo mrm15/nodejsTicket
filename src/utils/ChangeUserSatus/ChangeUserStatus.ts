@@ -8,12 +8,11 @@ interface IInput {
 
 export const changeUserStatus = async ({userId, userStatus}: IInput) => {
 
-    const foundUser: IUser | null = await User.findOne({_id: userId}).exec();
-
+    const foundUser: IUser | null = await User.findById(userId)
     if (!foundUser) {
         // res.status(401).json({message: 'کاربری با این شماره تلفن یافت نشد'});
         // return
-        throw new Error('کاربری با این شماره تلفن یافت نشد')
+        throw new Error('کاربری با این شماره آیدی یافت نشد')
     }
 
     foundUser.userStatus = userStatus;
