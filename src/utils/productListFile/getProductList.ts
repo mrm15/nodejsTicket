@@ -2,7 +2,7 @@ import {readProductList} from "./readProductList";
 
 let CacheFile:any [] | null = null;
 let lastCacheUpdate: number | null = null; // زمان آخرین به‌روزرسانی کش
-const CACHE_TTL = 1000 * 60 * (6 * 60); // 6*60  دقیقه
+const CACHE_TTL = 1000 * 60 * (6 * 60); // 6*60  دقیقه ==== 6 ساعت ===
 
 // تابع برای مدیریت کش
 const getCacheData = async (): Promise<any[] | null> => {
