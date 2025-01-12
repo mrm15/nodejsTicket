@@ -9,13 +9,13 @@ const getAllProductsFromFilePublic = async (req: CustomRequestMyTokenInJwt, res:
 
         // این تابع خودش هر 6 ساعت یه بار به روز میشه
         const allProducts = await getProductList();
-        debugger
+
         const neededProducts = productMapper(allProducts || [])
         // این تایه هم در صورتی که 6 ساعت رد شده باشه باید دوباره آجکت رو بسازه در غیر این صورت دیتا قبلی رو بده
         // const
         res.status(200).json({
             data: {
-                List: neededProducts
+                List: neededProducts,
             }
         });
     } catch (error) {
