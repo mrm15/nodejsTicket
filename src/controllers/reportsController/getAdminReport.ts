@@ -69,7 +69,7 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
         const endTime = Date.now();
         const timeCalculationInSeconds = ((endTime - startTime) / 1000).toFixed(2); // Convert to seconds and format
-
+        debugger
         res.status(200).json({
             // tables,
             treeView : dataObject.treeView,

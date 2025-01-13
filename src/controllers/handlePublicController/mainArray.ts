@@ -506,8 +506,8 @@ export const mainArray = [
     {
         title: "لبه ها", id: 2,
         subMenu: [
-            {title: "لبه سوئدی", id: 1, items: [...labe_suedi]},
             {title: "لبه چلنیوم", id: 2, items: [...labe_chalenium]},
+            {title: "لبه سوئدی", id: 1, items: [...labe_suedi]},
             {title: "لبه پلاستیک", id: 3, items: [...labe_plastic]},
             {title: "لبه آهن", id: 4, items: [...labe_ahan]},
             {title: "لبه استیل", id: 5, items: [...labe_estil]},
