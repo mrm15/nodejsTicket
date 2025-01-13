@@ -483,6 +483,16 @@ const noors = [
     { Code: "000585", ...sampleObject },
 
 ]
+
+const  chap_sticker = [
+    { Code: "000157", ...sampleObject },
+    { Code: "000122", ...sampleObject },
+    { Code: "000132", ...sampleObject },
+    { Code: "000375", ...sampleObject },
+    { Code: "000144", ...sampleObject },
+    { Code: "000138", ...sampleObject },
+
+]
 export const mainArray = [
     {
         title: "ورق ها", id: 1,
@@ -523,6 +533,12 @@ export const mainArray = [
             {title: "اجرت برش", id: 1, items: [...ojrat_boresh]},
             {title: "اجرت ساخت", id: 2, items: [...ojrat_shakht]},
             {title: "اجرت مونتاژ", id: 3, items: [...ojrat_montaj]},
+        ],
+    },
+    {
+        title: "چاپ و استیکر", id: 6,
+        subMenu: [
+            {title: "انواع چاپ و استیکر", id: 1, items: [...chap_sticker]},
         ],
     },
 
