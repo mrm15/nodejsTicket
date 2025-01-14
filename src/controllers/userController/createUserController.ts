@@ -9,6 +9,7 @@ import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNu
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {submitAddOrEditContactToHesabfa} from "../HesabfaFunction/submitAddOrEditContactToHesabfa";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const createUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -62,35 +63,16 @@ const createUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
         //
 
         const result = await User.create({...newUserData});
-
-        res.status(500).json({message:"ثبت شد",});
+        await addLog({
+            req: req,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `یک کاربر با  مشخصات زیر ایجاد کرد: 
+            ${JSON.stringify(newUserData)}
+            `,
+            statusCode: 200,
+        })
+        res.status(200).json({message: "ثبت شد",});
         return;
-
-        const resultAddNewUser = await submitAddOrEditContactToHesabfa(newUserData)
-
-
-        let message = 'کاربر جدید ثبت شد';
-        // این بخش بخاطر همگامسازی با حسابفا میزنم.
-        // در صورتی که کاربری رو توی سایت خودمون ایجاد کردیم حالا باید بریم براش توی سایت حسابفا اکانت بسازیم
-        //بعدش که کاربر رو ایجاد کردیمک باید کد مکشتری که حسابفا داده رو بگیریم و بزاریم توی کد مشتری همین کاربر
-
-        if (resultAddNewUser.Success) {
-            // اینجا باید کد مشتری رو بگیرم و توی دیتا بیس خودم ذخیره کنم.
-            const code = resultAddNewUser.Result.Code;
-            const result = await User.create({...newUserData, contactCode: code});
-
-
-            message += 'در حسابداری ثبت شد '
-            res.status(200).json({result, message,});
-            return;
-
-        } else {
-            message += 'در حسابداری ثبت نشد با مدیر سایت تماس بگیرید' + '   ' + resultAddNewUser.ErrorMessage + resultAddNewUser.Error
-        }
-
-        res.status(500).json({message,});
-        return;
-
     } catch (error) {
 
         res.status(500).json({error: error?.toString()});
