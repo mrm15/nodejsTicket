@@ -12,6 +12,12 @@ interface IInputObject {
     responseTime?: null | number;
     error?: Record<string, any> | string | null; // Flexible error type
 }
+interface IInputObjectSocket {
+    phoneNumber: string;
+    description: string;
+    statusCode: number;
+    error?: Record<string, any> | string | null; // Flexible error type
+}
 
 const addLog = async ({
                           req,
@@ -56,4 +62,22 @@ const addLog = async ({
     }
 };
 
+
+const addSocketLog = async ({
+                                phoneNumber,
+                                description,
+                                statusCode,
+
+                            }: IInputObjectSocket)=>{
+
+
+    console.log({
+        phoneNumber,
+        description,
+        statusCode,
+
+    })
+    return 0
+
+}
 export { addLog };
