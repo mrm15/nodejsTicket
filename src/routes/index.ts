@@ -32,6 +32,7 @@ import initialSetUpPlease from "./loginRegisterWithSms/initialSetUpPlease";
 import handleBankingRoute from "./handleBankingRoute/handleBankingRoute";
 import subscribeNotificationRoute from "./subscribeNotification/subscribeNotificationRoute";
 import handlePublicRoutes from "./handlePublicRoutes/handlePublicRoutes";
+import handleLogsRoute from "./handleLogsRoute/handleLogsRoute";
 
 
 // Add Routes
@@ -85,6 +86,7 @@ myRouter.use('/reports' , handleReportsRoute);
 myRouter.use('/hesabfa' , handleHesabfaRoute);
 myRouter.use('/banking' , handleBankingRoute);
 myRouter.use('/subscribe' , subscribeNotificationRoute);
+myRouter.use('/logs' , handleLogsRoute);
 
 
 
