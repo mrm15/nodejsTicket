@@ -3,6 +3,8 @@ import mongoose, { Schema, Document } from 'mongoose';
 interface ILogs extends Document {
     // Phone number associated with the log (if applicable)
     phoneNumber: string | null;
+
+    // Description of the log
     description: string | null;
 
     // IP address of the user making the request
@@ -10,9 +12,6 @@ interface ILogs extends Document {
 
     // User-Agent string from the request header
     userAgent: string | null;
-
-    // Event type (e.g., login, API request, click, etc.)
-    eventType: string;
 
     // Route or URL the request was made to
     route: string | null;
@@ -44,6 +43,9 @@ interface ILogs extends Document {
     // Browser used for the request (e.g., Chrome, Firefox)
     browser: string | null;
 
+    // Error object or message (if applicable)
+    error: Record<string, any> | string | null;
+
     // Document creation time (added automatically by Mongoose)
     createdAt?: Date;
 
@@ -73,10 +75,6 @@ const logSchema: Schema<ILogs> = new Schema<ILogs>(
             type: String,
             required: false,
             default: null,
-        },
-        eventType: {
-            type: String,
-            required: true,
         },
         route: {
             type: String,
@@ -127,15 +125,23 @@ const logSchema: Schema<ILogs> = new Schema<ILogs>(
             required: false,
             default: null,
         },
+        error: {
+            type: Schema.Types.Mixed, // Can store an object or a string
+            required: false,
+            default: null,
+        },
     },
     {
         timestamps: true, // Automatically add createdAt and updatedAt fields
     }
 );
 
+// Index definitions
 logSchema.index({ eventType: 1 });
 logSchema.index({ phoneNumber: 1 });
 logSchema.index({ timestamp: -1 }); // Descending order for recent logs
+
 // Create and export the model
 const LogModel = mongoose.model<ILogs>('logs', logSchema);
+
 export { LogModel, ILogs };
