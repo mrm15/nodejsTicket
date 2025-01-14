@@ -6,6 +6,7 @@ import {getDataCollection} from "../utility/collectionsHandlers/getDataCollectio
 import {IUser, User} from "../../models/User";
 import {timestampToTime} from "../../utils/timestampToTime";
 import {IRole, Role} from "../../models/roles";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     const {myToken} = req;
@@ -51,7 +52,12 @@ const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response,
             myFetchedData.results = myList
         }
 
-
+        await addLog({
+            req: req,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `صفحه ی کاربران رو مشاهده کرد.`,
+            statusCode: 200,
+        })
         res.status(200).json({
 
             ...myFetchedData
