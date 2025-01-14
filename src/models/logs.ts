@@ -1,65 +1,76 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface ILogs extends Document {
-    // شناسه کاربر، مشخص‌کننده کاربری که این لاگ به او مرتبط است
-    phoneNumber: mongoose.Schema.Types.ObjectId | null;
+    // Phone number associated with the log (if applicable)
+    phoneNumber: string | null;
+    description: string | null;
 
-    // آدرس IP کاربر که درخواست را ارسال کرده است
+    // IP address of the user making the request
     ipAddress: string | null;
 
-    // اطلاعات مرورگر و دستگاه کاربر که از طریق User-Agent بدست می‌آید
+    // User-Agent string from the request header
     userAgent: string | null;
 
-    // نوع رویداد، مشخص‌کننده نوع اتفاقی که لاگ شده (مثلاً ورود به سیستم، کلیک، درخواست API و غیره)
+    // Event type (e.g., login, API request, click, etc.)
     eventType: string;
 
-    // مسیر (Route) یا URL که درخواست به آن ارسال شده است
+    // Route or URL the request was made to
     route: string | null;
 
-    // نوع متد HTTP که برای درخواست استفاده شده (GET, POST, PUT, DELETE و غیره)
+    // HTTP method used for the request (GET, POST, etc.)
     method: string | null;
 
-    // کد وضعیت (Status Code) پاسخ سرور برای این درخواست
+    // Server response status code
     statusCode: number | null;
 
-    // تاریخ و زمان ثبت لاگ
+    // Date and time of the log
     timestamp: Date;
 
-    // زمان پاسخگویی سرور به درخواست کاربر (به میلی‌ثانیه)
+    // Server response time in milliseconds
     responseTime: number | null;
 
-    // داده‌های اضافی که همراه درخواست ارسال شده است (مانند Body درخواست)
-    payload?: Record<string, any>;
+    // Additional data sent with the request (e.g., request body)
+    payload: Record<string, any>;
 
-    // هدرهای ارسال شده همراه درخواست کاربر
-    headers?: Record<string, any>;
+    // Headers sent with the request
+    headers: Record<string, any>;
 
-    // نوع دستگاه کاربر (مانند موبایل، دسکتاپ و غیره)
+    // Type of device making the request (e.g., mobile, desktop)
     deviceType: string | null;
 
-    // سیستم عامل کاربر (مانند ویندوز، لینوکس، اندروید و غیره)
+    // Operating system of the device (e.g., Windows, Linux, Android)
     os: string | null;
 
-    // مرورگر کاربر (مانند کروم، فایرفاکس و غیره)
+    // Browser used for the request (e.g., Chrome, Firefox)
     browser: string | null;
 
-    // زمان ایجاد سند
+    // Document creation time (added automatically by Mongoose)
     createdAt?: Date;
 
-    // زمان آخرین به‌روزرسانی سند
+    // Document update time (added automatically by Mongoose)
     updatedAt?: Date;
 }
 
-// ساخت اسکیمای لاگ‌ها
+// Log schema definition
 const logSchema: Schema<ILogs> = new Schema<ILogs>(
     {
+        phoneNumber: {
+            type: String,
+            required: false,
+            default: null,
+        },
+        description: {
+            type: String,
+            required: false,
+            default: null,
+        },
         ipAddress: {
-            type: String || null,
+            type: String,
             required: false,
             default: null,
         },
         userAgent: {
-            type: String || null,
+            type: String,
             required: false,
             default: null,
         },
@@ -68,17 +79,17 @@ const logSchema: Schema<ILogs> = new Schema<ILogs>(
             required: true,
         },
         route: {
-            type: String || null,
+            type: String,
             required: false,
             default: null,
         },
         method: {
-            type: String || null,
+            type: String,
             required: false,
             default: null,
         },
         statusCode: {
-            type: Number || null,
+            type: Number,
             required: false,
             default: null,
         },
@@ -87,7 +98,7 @@ const logSchema: Schema<ILogs> = new Schema<ILogs>(
             default: Date.now,
         },
         responseTime: {
-            type: Number || null,
+            type: Number,
             required: false,
             default: null,
         },
@@ -102,26 +113,29 @@ const logSchema: Schema<ILogs> = new Schema<ILogs>(
             default: null,
         },
         deviceType: {
-            type: String || null,
+            type: String,
             required: false,
             default: null,
         },
         os: {
-            type: String || null,
+            type: String,
             required: false,
             default: null,
         },
         browser: {
-            type: String || null,
+            type: String,
             required: false,
             default: null,
         },
     },
     {
-        timestamps: true, // افزودن خودکار فیلدهای createdAt و updatedAt
+        timestamps: true, // Automatically add createdAt and updatedAt fields
     }
 );
 
-// ساخت و خروجی گرفتن از مدل لاگ‌ها
+logSchema.index({ eventType: 1 });
+logSchema.index({ phoneNumber: 1 });
+logSchema.index({ timestamp: -1 }); // Descending order for recent logs
+// Create and export the model
 const LogModel = mongoose.model<ILogs>('logs', logSchema);
 export { LogModel, ILogs };
