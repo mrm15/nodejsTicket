@@ -7,12 +7,14 @@ import {getUserAgentData} from "./LoginRegisterSms/getUserAgentData";
 import {getCurrentTimeStamp} from "../utils/timing";
 import {getRoleAccessList} from "./LoginRegisterSms/getRoleAccessList";
 import {clearJwtCookie, setJwtCookie} from "./utility/cookieHelpers/cookieHelpers";
+import {addLog} from "../utils/logMethods/addLog";
 
 const handleRefreshToken = async (req: Request, res: Response): Promise<void> => {
 
     const cookies = req.cookies;
 
     if (!cookies?.jwt) {
+
         res.status(401).json({message: "handleRefreshToken Not Found User"});
         return
     }
@@ -36,13 +38,19 @@ const handleRefreshToken = async (req: Request, res: Response): Promise<void> =>
         const newTokensArray = foundUser.tokens.filter(rt => rt.refreshToken !== refreshToken);
         const refreshToken1 = await generateRefreshToken(foundUser.phoneNumber)
         const {os, ip, useragent, loginTime} = getUserAgentData(req)
-        const newToken = {refreshToken:refreshToken1, os, ip, useragent, loginTime}
+        const newToken = {refreshToken: refreshToken1, os, ip, useragent, loginTime}
         foundUser.tokens = [...newTokensArray, newToken]
         try {
             const result = await foundUser.save()
             setJwtCookie(res, refreshToken)
             const accessToken = await generateAccessToken(foundUser.phoneNumber)
             const userInfo = await getUserInfoByPhoneNumber(phoneNumber)
+            await addLog({
+                req: req,
+                phoneNumber: phoneNumber,
+                description: "ورود با رفرش توکن",
+                statusCode: 200,
+            })
             res.status(200).json({userInfo, accessToken});
             return;
 
