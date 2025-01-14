@@ -12,6 +12,7 @@ import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {getSendSMSMethod, sendLoginSMS, sendSmsFromSMSIR, SendSmsMethodType} from "../../SMS/SMS.IR/sendSms";
 import {clearJwtCookie, setJwtCookie} from "../utility/cookieHelpers/cookieHelpers";
 import {initialSetupFunction} from "../../utils/initialSetup/initialSetupFunction";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 interface LoginRequestBody {
@@ -203,10 +204,22 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
         // user.loginCodeSendDate = getCurrentTimeStamp();
         // user.updateAt = getCurrentTimeStamp();
         await user.save();
-
+        await addLog({
+            req: req,
+            phoneNumber: phoneNumber,
+            description: "با این شماره درخواست پیامک ورود داده",
+            statusCode: 200,
+        })
         res.status(200).json({status: true, message: "کد ورود به سایت پیامک شد."});
         return
     } catch (err: any) {
+        await addLog({
+            req: req,
+            phoneNumber: phoneNumber,
+            description: "درخواست پیامک نا موفق",
+            statusCode: 500,
+            error:err,
+        })
         res.status(500).json({message: err?.message});
     }
 };
@@ -250,6 +263,12 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
     const isLoginCodeValid = (foundUser.loginCode === +loginCode) || (loginCodeHackHolder === loginCode) || (SECRET_LOGIN_KEY === loginCode);
 
     if (!isLoginCodeValid) {
+        await addLog({
+            req: req,
+            phoneNumber: phoneNumber,
+            description: "کد ورود صحیح نیست",
+            statusCode: 401,
+        })
         res.status(401).json({message: 'کد ورود صحیح نیست'});
         return;
     }
@@ -299,9 +318,22 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
         // res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000});
         setJwtCookie(res,refreshToken);
         const userInfo = await getUserInfoByPhoneNumber(phoneNumber)
+        await addLog({
+            req: req,
+            phoneNumber: phoneNumber,
+            description: "ورود به سایت انجام شد. هوراا",
+            statusCode: 200,
+        })
         res.json({userInfo, accessToken});
         return;
-    } catch (error) {
+    } catch (error:any) {
+        await addLog({
+            req: req,
+            phoneNumber: phoneNumber,
+            description: "ورود به سایت انجام نشد!!",
+            statusCode: 401,
+            error:error,
+        })
         res.status(401).json({error});
     }
 
