@@ -1,7 +1,17 @@
-import {getUserAgentData} from "../../controllers/LoginRegisterSms/getUserAgentData";
-import {getCurrentTimeStamp} from "../timing";
-import {LogModel} from "../../models/logs";
+import { getUserAgentData } from "../../controllers/LoginRegisterSms/getUserAgentData";
+import { getCurrentTimeStamp } from "../timing";
+import { ILogs, LogModel } from "../../models/logs";
+import { CustomRequestMyTokenInJwt } from "../../middleware/verifyJWT";
+import { Request } from 'express';
 
+interface IInputObject {
+    req: CustomRequestMyTokenInJwt | Request;
+    phoneNumber: string;
+    description: string;
+    statusCode: number;
+    responseTime?: null | number;
+    error?: Record<string, any> | string | null; // Flexible error type
+}
 
 const addLog = async ({
                           req,
@@ -9,44 +19,41 @@ const addLog = async ({
                           description,
                           statusCode,
                           responseTime,
-
-
-                      }: any) => {
+                          error,
+                      }: IInputObject) => {
     try {
         // Extract data from the request
-        const {
-            ip,
-            os,
-            useragent,
-        } = getUserAgentData(req);
+        const { ip, os, useragent } = getUserAgentData(req);
 
         // Prepare the log entry
         const logEntry = {
-            phoneNumber: phoneNumber || null, // Assuming the phone number is in the request body
+            phoneNumber: phoneNumber || null, // Assuming the phone number is in the request
             description: description || null, // Optional description
             ipAddress: ip,
             userAgent: useragent,
-            eventType: req.body.eventType || 'unknown', // Ensure event type is provided
             route: req.originalUrl || null,
             method: req.method || null,
             statusCode: statusCode || null,
             timestamp: getCurrentTimeStamp(),
-            responseTime: responseTime, // You can compute this if available
-            payload: req.body || null, // Log request body
-            headers: req.headers || null,
+            responseTime: responseTime || null, // Log response time
+            payload: req.body || {}, // Log request body
+            headers: req.headers || {},
             deviceType: req?.useragent?.platform || 'unknown',
             os,
             browser: req?.useragent?.browser || 'unknown',
+            error: error || null, // Log any error if present
         };
 
         // Insert the log into the collection
         const log = new LogModel(logEntry);
         await log.save();
 
+        // Uncomment for debugging
         // console.log('Log saved successfully:', log);
-    } catch (error) {
-        // console.error('Error saving log:', error);
+    } catch (err) {
+        // Handle logging error
+        // console.error('Error saving log:', err);
     }
 };
 
-export {addLog};
+export { addLog };
