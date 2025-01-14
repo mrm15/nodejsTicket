@@ -3,6 +3,7 @@ import {IUser, User} from "../../models/User";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {clearJwtCookie} from "../utility/cookieHelpers/cookieHelpers";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -18,12 +19,9 @@ const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, n
         res.status(403).json({message});
         return
     }
+    const {phoneNumber} = myToken
 
     try {
-
-
-        const {phoneNumber} = myToken
-
 
         const foundUser: IUser | null = await User.findOne({phoneNumber}).exec();
 
@@ -56,7 +54,12 @@ const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, n
 
         try {
             await foundUser.save();
-
+            await addLog({
+                req: req,
+                phoneNumber: phoneNumber,
+                description: "شما با موفقیت از سایت خارج شدید",
+                statusCode: 200,
+            })
             res.json({message:'شما با موفقیت از سایت خارج شدید'});
             return;
         } catch (error) {
@@ -64,7 +67,12 @@ const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, n
         }
 
     } catch (error) {
-
+        await addLog({
+            req: req,
+            phoneNumber: phoneNumber,
+            description: "خطا هنگام خروج از سایت.",
+            statusCode: 500,
+        })
         res.status(500).json({
             error: error?.toString(),
 
