@@ -7,8 +7,8 @@ import {getSafeAdminSettings} from "../../controllers/adminSettingsController/ge
 const router = express.Router();
 
 router.get('/getAdminSettings', getAdminSettings)
-router.get('/getSafeAdminSettings', getSafeAdminSettings)
-router.post('/submit', updateAdminSettingsController)  //  // forward  to user Or department
+router.get('/getSafeAdminSettings', getSafeAdminSettings) // no logs
+router.post('/submit', updateAdminSettingsController)  //
 
 
 export default router;
