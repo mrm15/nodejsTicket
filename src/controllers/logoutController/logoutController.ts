@@ -56,6 +56,7 @@ const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, n
             await foundUser.save();
             await addLog({
                 req: req,
+                name:foundUser?.name + " " + foundUser.familyName,
                 phoneNumber: phoneNumber,
                 description: "شما با موفقیت از سایت خارج شدید",
                 statusCode: 200,
@@ -69,6 +70,7 @@ const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, n
     } catch (error) {
         await addLog({
             req: req,
+            name:" " ,
             phoneNumber: phoneNumber,
             description: "خطا هنگام خروج از سایت.",
             statusCode: 500,

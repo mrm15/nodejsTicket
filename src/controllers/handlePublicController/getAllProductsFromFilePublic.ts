@@ -16,6 +16,7 @@ const getAllProductsFromFilePublic = async (req: CustomRequestMyTokenInJwt, res:
         // const
         await addLog({
             req: req,
+            name:"",
             phoneNumber: req?.myToken?.phoneNumber || "00000000000",
             description: "صفحه ی قیمت های محصولات مشاهده شد!",
             statusCode: 200,
@@ -28,6 +29,7 @@ const getAllProductsFromFilePublic = async (req: CustomRequestMyTokenInJwt, res:
     } catch (error:any) {
         await addLog({
             req: req,
+            name:"",
             phoneNumber: req?.myToken?.phoneNumber || "000000",
             description: "خطا در لود صفحه ی قیمت ها!",
             statusCode: 500,

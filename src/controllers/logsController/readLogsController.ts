@@ -20,8 +20,7 @@ const readLogsController = async (req: CustomRequestMyTokenInJwt, res: Response,
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
             return;
         }
-        const myFetchedData = await getDataCollection(req.body, LogModel , )
-
+        const myFetchedData = await getDataCollection(req.body, LogModel, {creatAt: -1})
 
 
         res.status(200).json({

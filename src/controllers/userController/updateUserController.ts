@@ -8,6 +8,7 @@ import {uuidGenerator} from "../../utils/uuidGenerator";
 import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -36,6 +37,17 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
             foundUser.updateAt = getCurrentTimeStamp()
             const result = await foundUser.save()
+            await addLog({
+                req:req,
+                name: foundUser?.name + " " + foundUser?.familyName ,
+                phoneNumber:foundUser.phoneNumber,
+                description : `
+                مشخصات یه کاربر رو به روز 
+                `,
+                statusCode:200,
+                responseTime:null,
+                error:null,
+            })
             res.status(200).json({
                 message: "کاربر با موفقیت به روز شد."
             });

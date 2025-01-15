@@ -48,6 +48,7 @@ const handleRefreshToken = async (req: Request, res: Response): Promise<void> =>
             await addLog({
                 req: req,
                 phoneNumber: phoneNumber,
+                name:foundUser?.name + " " + foundUser?.familyName,
                 description: "ورود با رفرش توکن",
                 statusCode: 200,
             })

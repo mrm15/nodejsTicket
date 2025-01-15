@@ -54,6 +54,7 @@ const readUserController = async (req: CustomRequestMyTokenInJwt, res: Response,
 
         await addLog({
             req: req,
+            name:myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName ,
             phoneNumber: req?.myToken?.phoneNumber || "00000000000",
             description: `صفحه ی کاربران رو مشاهده کرد.`,
             statusCode: 200,

@@ -206,6 +206,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
         await user.save();
         await addLog({
             req: req,
+            name:user?.name + " " + user?.familyName,
             phoneNumber: phoneNumber,
             description: "با این شماره درخواست پیامک ورود داده",
             statusCode: 200,
@@ -215,6 +216,7 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
     } catch (err: any) {
         await addLog({
             req: req,
+            name: "",
             phoneNumber: phoneNumber,
             description: "درخواست پیامک نا موفق",
             statusCode: 500,
@@ -265,6 +267,7 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
     if (!isLoginCodeValid) {
         await addLog({
             req: req,
+            name:foundUser?.name + " " + foundUser.familyName,
             phoneNumber: phoneNumber,
             description: "کد ورود صحیح نیست",
             statusCode: 401,
@@ -320,6 +323,7 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
         const userInfo = await getUserInfoByPhoneNumber(phoneNumber)
         await addLog({
             req: req,
+            name:foundUser?.name + " " + foundUser.familyName,
             phoneNumber: phoneNumber,
             description: "ورود به سایت انجام شد. هوراا",
             statusCode: 200,
@@ -329,6 +333,7 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
     } catch (error:any) {
         await addLog({
             req: req,
+            name:foundUser?.name + " " + foundUser.familyName,
             phoneNumber: phoneNumber,
             description: "ورود به سایت انجام نشد!!",
             statusCode: 401,
