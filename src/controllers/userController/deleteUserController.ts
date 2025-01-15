@@ -8,6 +8,7 @@ import {uuidGenerator} from "../../utils/uuidGenerator";
 import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const deleteUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -45,6 +46,19 @@ const deleteUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
 
         // Successfully deleted the user
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: myToken.phoneNumber,
+            description: `
+                یه کاربر رو حذف کرد.
+                
+               ${JSON.stringify(deletedUser)}
+                `,
+            statusCode: 200,
+            responseTime: null,
+            error: null,
+        })
         res.status(200).json({message: `کاربر با شماره ${deletedUser.phoneNumber} برای همیشه حذف شد.`,});
         return
     } catch (error: any) {
