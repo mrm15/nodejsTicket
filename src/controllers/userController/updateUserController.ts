@@ -21,8 +21,6 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
 
 
-
-
         try {
             const {id} = req.body
             const foundUser: IUser = (await User.findOne({_id: id}).exec())!;
@@ -38,15 +36,17 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
             foundUser.updateAt = getCurrentTimeStamp()
             const result = await foundUser.save()
             await addLog({
-                req:req,
-                name: foundUser?.name + " " + foundUser?.familyName ,
-                phoneNumber:foundUser.phoneNumber,
-                description : `
-                مشخصات یه کاربر رو به روز 
+                req: req,
+                name: foundUser?.name + " " + foundUser?.familyName,
+                phoneNumber: foundUser.phoneNumber,
+                description: `
+                مشخصات یه کاربر رو به روز  کرد.
+                
+               ${JSON.stringify(newData)}
                 `,
-                statusCode:200,
-                responseTime:null,
-                error:null,
+                statusCode: 200,
+                responseTime: null,
+                error: null,
             })
             res.status(200).json({
                 message: "کاربر با موفقیت به روز شد."
