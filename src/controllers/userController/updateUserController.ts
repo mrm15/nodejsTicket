@@ -34,6 +34,7 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
 
             foundUser.updateAt = getCurrentTimeStamp()
+            const {tokens , ...foundUserObject} =  foundUser.toObject()
             const result = await foundUser.save()
             await addLog({
                 req: req,
@@ -42,6 +43,8 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
                 description: `
                 مشخصات یه کاربر رو به روز  کرد.
                 
+               ${JSON.stringify(foundUserObject)}
+               
                ${JSON.stringify(newData)}
                 `,
                 statusCode: 200,
