@@ -1,12 +1,12 @@
-import {Request, Response, NextFunction} from 'express';
+import { Response, NextFunction} from 'express';
 import {IUser, User} from "../../models/User";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {Department} from "../../models/department";
 import {stringToBoolean} from "../../utils/stringBoolean";
 import {Status, IStatus} from "../../models/status";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -109,10 +109,28 @@ const createStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
 
         const result = await Status.create(newStatusObject);
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `وضعیت جدید ایجاد شد 
+            ${JSON.stringify(newStatusObject)}
+            `,
+            statusCode: 200,
+        })
+
         res.status(200).json({result, message: 'وضعیت با موفقیت ایجاد شد.',});
         return;
 
-    } catch (error) {
+    } catch (error:any) {
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `خطا در ایجاد وضعیت جدید`,
+            error: error.toString(),
+            statusCode: 500,
+        })
 
         res.status(500).json({
             error: error?.toString(),
