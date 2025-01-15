@@ -7,6 +7,7 @@ import { Request } from 'express';
 interface IInputObject {
     req: CustomRequestMyTokenInJwt | Request;
     phoneNumber: string;
+    name?: string;
     description: string;
     statusCode: number;
     responseTime?: null | number;
@@ -22,6 +23,7 @@ interface IInputObjectSocket {
 const addLog = async ({
                           req,
                           phoneNumber,
+                          name,
                           description,
                           statusCode,
                           responseTime,
@@ -34,6 +36,7 @@ const addLog = async ({
         // Prepare the log entry
         const logEntry = {
             phoneNumber: phoneNumber || null, // Assuming the phone number is in the request
+            name,
             description: description || null, // Optional description
             ipAddress: ip,
             userAgent: useragent,
