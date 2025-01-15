@@ -65,6 +65,7 @@ const createUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
         const result = await User.create({...newUserData});
         await addLog({
             req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
             phoneNumber: req?.myToken?.phoneNumber || "00000000000",
             description: `یک کاربر با  مشخصات زیر ایجاد کرد: 
             ${JSON.stringify(newUserData)}
