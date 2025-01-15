@@ -4,6 +4,9 @@ interface ILogs extends Document {
     // Phone number associated with the log (if applicable)
     phoneNumber: string | null;
 
+    // Phone number associated with the log (if applicable)
+    name: string | null;
+
     // Description of the log
     description: string | null;
 
@@ -57,6 +60,11 @@ interface ILogs extends Document {
 const logSchema: Schema<ILogs> = new Schema<ILogs>(
     {
         phoneNumber: {
+            type: String,
+            required: false,
+            default: null,
+        },
+        name: {
             type: String,
             required: false,
             default: null,
@@ -137,7 +145,6 @@ const logSchema: Schema<ILogs> = new Schema<ILogs>(
 );
 
 // Index definitions
-logSchema.index({ eventType: 1 });
 logSchema.index({ phoneNumber: 1 });
 logSchema.index({ timestamp: -1 }); // Descending order for recent logs
 
