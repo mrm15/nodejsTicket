@@ -8,6 +8,7 @@ import {IRole, Role} from "../../models/roles";
 import {Department, IDepartment} from "../../models/department";
 import {booleanToString, stringToBoolean} from "../../utils/stringBoolean";
 import {IStatus, Status} from "../../models/status";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const updateStatusController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -86,6 +87,15 @@ const updateStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
 
             await foundStatus.save()
+            await addLog({
+                req: req,
+                name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                description: ` استاتوس رو آپدیت کرد
+                ${updatedStatus}
+                `,
+                statusCode: 200,
+            })
             res.status(200).json({message: 'اطلاعات وضعیت با موفقیت آپدیت شد',});
             return;
 
