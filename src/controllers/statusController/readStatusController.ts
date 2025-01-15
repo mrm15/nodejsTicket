@@ -5,6 +5,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {Role} from "../../models/roles";
 import {Department, IDepartment} from "../../models/department";
 import {IStatus, Status} from "../../models/status";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const readStatusController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -63,6 +64,13 @@ const readStatusController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
         const list = {columnDefs, rowData}
 
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: ` جدول وضعیت ها رو مشاهده کرد.`,
+            statusCode: 200,
+        })
         res.status(200).json({
             list, message: 'لیست بارگزاری شد.',
 
