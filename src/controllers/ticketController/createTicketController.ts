@@ -11,6 +11,7 @@ import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTi
 import {sendNotificationToUser} from "../../utils/pushNotification/pushNotification";
 import {sendSmsAfterSubmitOrder} from "../../SMS/SMS.IR/sendSms";
 import mongoose from "mongoose";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -242,6 +243,16 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
             tag,
         }
 
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `یک تیکت به شماره 
+            ${result.ticketNumber}
+            ایجاد کرد.
+            `,
+            statusCode: 200,
+        })
         res.status(200).json({
 
                 message: msg1,
@@ -251,7 +262,13 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         return;
 
     } catch (error) {
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `خطا در ایجاد تیکت.`,
+            statusCode: 200,
+        })
         res.status(500).json({
             message: error?.toString(),
         });
