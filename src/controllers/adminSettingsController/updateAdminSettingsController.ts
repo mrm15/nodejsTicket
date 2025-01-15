@@ -8,6 +8,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {setNullIfEmpty} from "../../utils/functions";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -72,6 +73,15 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
 
 
             await AdminSettings.updateOne({_id: currentSettings._id}, currentSettings).exec();
+            await addLog({
+                req: req,
+                name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                description: `به روز رسانی تنظیمات مدیریتی 
+            ${JSON.stringify(currentSettings)}
+            `,
+                statusCode: 200,
+            })
             res.status(200).json({message: 'تنظیمات مدیریتی با موفقیت ثبت شد.',});
             return;
 
