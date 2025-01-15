@@ -6,6 +6,7 @@ import getAllTicketsByAggregation
     from "../../utils/TicketAggrigate/getAllTicketsByAggrigation/getAllTicketsByAggregation";
 import {Ticket} from "../../models/ticket";
 import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 
@@ -41,11 +42,26 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
         // #10001 search #10001
         // const myResultAfterChange = await convertIdsToName(myResult)
 
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `صفحه ی تیکت های کل سیستم رو مشاهده کرد.`,
+            statusCode: 200,
+        })
         res.status(200).json(myResultAfterChange);
         return;
 
     } catch (error: any) {
 
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `خطا در مشاهده ی تیکت های کل سیستم`,
+            statusCode: 500,
+            error:error,
+        })
         res.status(500).json({error: error.toString() + ' موردی در  دریافت اطلاعات رخ داد.'});
         return
     }

@@ -17,6 +17,7 @@ import {IUser} from "../../models/User";
 import getSimpleData from "../../utils/ticketAssigmentHepler/readInBoxAssignmentController/getSimpleData";
 import getDataByAggregation2
     from "../../utils/ticketAssigmentUtils/readDepartmentTicketsControllerUtils/getDataByAggregation2";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const readInBoxAssignmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -49,7 +50,13 @@ const readInBoxAssignmentController = async (req: CustomRequestMyTokenInJwt, res
             page:req.body.page,
             pageSize:req.body.pageSize
         })
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `صفحه ی صندوق ورودی رو مشاهده کرد.`,
+            statusCode: 200,
+        })
         return res.status(200).json(updatedTickets);
 
 

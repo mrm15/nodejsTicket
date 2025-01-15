@@ -4,6 +4,7 @@ import path from 'path';
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import deleteSingleTicket from "../../utils/ticketUtils/deteleSingleTicket/deleteSingleTicket";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const deleteTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -28,7 +29,20 @@ const deleteTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const deleteTicketResult =await deleteSingleTicket(id);
 
         const statusCode = deleteTicketResult.status ? 200 : 500;
+
         const message = deleteTicketResult.message
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `
+            حذف سفارش و پیام های سفارش و فایل های سفارش:
+            
+            ${message}
+            
+            `,
+            statusCode: statusCode,
+        })
         res.status(statusCode).json({message});
         return
 

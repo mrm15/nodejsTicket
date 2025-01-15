@@ -4,6 +4,7 @@ import sleep from "../../utils/sleep";
 import getDataByAggregation2
     from "../../utils/ticketAssigmentUtils/readDepartmentTicketsControllerUtils/getDataByAggregation2";
 import resultOfMarkAsReadArray from "../../utils/ticketAssigmentUtils/resultOfMarkAsReadArray/resultOfMarkAsReadArray";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const markAsReadTicketAssignments = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -26,6 +27,16 @@ const markAsReadTicketAssignments = async (req: CustomRequestMyTokenInJwt, res: 
         }
 
         const resultOfMarkAsRead = await resultOfMarkAsReadArray({idArray, readStatus})
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `تیکت های  
+            ${JSON.stringify(idArray)}
+            به حالت خوانده شده تغییر کرد
+            `,
+            statusCode: 200,
+        })
         return res.status(200).json(resultOfMarkAsRead);
     } catch (error: any) {
 

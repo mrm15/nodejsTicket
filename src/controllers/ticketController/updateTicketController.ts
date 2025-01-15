@@ -12,7 +12,9 @@ import {IStatus, Status} from "../../models/status";
 
 const updateTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
-
+        // اینجا باید ویرایش اطلاعات تیکت رو بنویسم.
+        // لاگ هم فراموش نشه.
+        // اینکه اطلاعات یه تیکت رو ویرایش کنیم.
         const {myToken} = req;
         const updatedStatus = req.body;
 

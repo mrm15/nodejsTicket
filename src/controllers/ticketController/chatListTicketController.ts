@@ -10,6 +10,7 @@ import {Department, IDepartment} from "../../models/department";
 import {filesToFileData} from "../../utils/filesToFileData";
 import {ITicketReply, TicketReply} from "../../models/ticketReply";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
+import {addLog} from "../../utils/logMethods/addLog";
 
 interface IChatList {
     ticketId?: string;
@@ -197,12 +198,30 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
 
 
         chatList.data = [...myData, ...myList]
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `اطلاعات چت لیست رو دریافت کرد.
+            ticket Id:${chatList.ticketId},
+            ticketNumber:${chatList.ticketNumber},
+            title: ${chatList.title},
+             `,
+            statusCode: 200,
+        })
         res.status(200).json({
             chatList,
             message: 'چت لیست دریافت شد',
         });
         return
     } catch (error: any) {
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `خطا در دریافت چت لیست`,
+            statusCode: 200,
+        })
         res.status(500).json({error: error.toString()});
         return
     }

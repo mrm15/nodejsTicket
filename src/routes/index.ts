@@ -77,8 +77,8 @@ myRouter.use('/role' , handleRoleRoute);
 myRouter.use('/department' , handleDepartmentRoute);
 myRouter.use('/status' , handleStatusRoute);
 myRouter.use('/ticket' , handleTicketRoute);
-myRouter.use('/ticketReply' , handleTicketReplyRoute);
-myRouter.use('/forward' , handleForwardRoute);
+myRouter.use('/ticketReply' , handleTicketReplyRoute); // no log here
+myRouter.use('/forward' , handleForwardRoute); //
 myRouter.use('/adminSettings' , handleAdminSettingsRoute);
 myRouter.use('/userStatus' , handleUserStatusRoute);
 myRouter.use('/reports' , handleReportsRoute);

@@ -6,6 +6,7 @@ import { Ticket } from "../../models/ticket";
 import { getDataCollection } from "../utility/collectionsHandlers/getDataCollection";
 import { convertIdsToName } from "../utility/convertTicketDataToName/convertIdsToName";
 import getUserByPhoneNumber from "../../utils/functions/getUserByPhoneNumber";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const ReadSentTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     try {
@@ -38,6 +39,13 @@ const ReadSentTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         const updatedTickets = await convertIdsToName(tickets);
 
         // Send response
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `صفحه ی پیگیری سفارشات رو مشاهده کرد. `,
+            statusCode: 200,
+        })
         return res.status(200).json(updatedTickets);
 
     } catch (error:any) {

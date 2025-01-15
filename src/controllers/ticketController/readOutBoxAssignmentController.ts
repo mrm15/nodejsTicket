@@ -5,6 +5,7 @@ import getUserByPhoneNumber from "../../utils/functions/getUserByPhoneNumber";
 import {IUser} from "../../models/User";
 import getDataByAggregation2
     from "../../utils/ticketAssigmentUtils/readDepartmentTicketsControllerUtils/getDataByAggregation2";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const readOutBoxAssignmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -38,6 +39,13 @@ const readOutBoxAssignmentController = async (req: CustomRequestMyTokenInJwt, re
             pageSize:req.body.pageSize
         })
 
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `صفحه ی صندوق ارسالی رو مشاهده کرد.`,
+            statusCode: 200,
+        })
         return res.status(200).json(updatedTickets);
 
         /*********************************************/

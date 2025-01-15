@@ -4,6 +4,7 @@ import {IDepartment} from "../../models/department";
 import getDepartmentByPhoneNumber from "../../utils/functions/getDepartmentByPhoneNumber";
 import getDataByAggregation2
     from "../../utils/ticketAssigmentUtils/readDepartmentTicketsControllerUtils/getDataByAggregation2";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const readDepartmentTicketsController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -39,6 +40,13 @@ const readDepartmentTicketsController = async (req: CustomRequestMyTokenInJwt, r
             pageSize:req.body.pageSize
         })
 
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `صفحه ی ورودی دپارتمان رو مشاهده کرد.`,
+            statusCode: 200,
+        })
         return res.status(200).json(updatedTickets);
     } catch (error: any) {
 

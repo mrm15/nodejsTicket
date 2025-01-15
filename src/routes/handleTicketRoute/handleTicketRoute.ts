@@ -3,7 +3,6 @@ import {createTicketController} from "../../controllers/ticketController/createT
 import {readTicketController} from "../../controllers/ticketController/readTicketController";
 import {updateTicketController} from "../../controllers/ticketController/updateTicketController";
 import {deleteTicketController} from "../../controllers/ticketController/deleteTicketController";
-import {ticketList} from "../../controllers/ticketController/ticketList";
 import {chatListTicketController} from "../../controllers/ticketController/chatListTicketController";
 import {ReadSentTicketController} from "../../controllers/ticketController/readSentTicketController";
 import {readDepartmentTicketsController} from "../../controllers/ticketController/readDepartmentTicketsController";
@@ -37,15 +36,14 @@ router.post('/createAdvanced', createTicketAdvancedController);
 // router.get('/readDepartmentTickets', readDepartmentTicketsController); // تیکت های  دپارتمان که فقط ادمین دپارتمان بهشون دسترسی داره  tickets that is im my department  just admin of department has access to this part
 /**  End Of   get Ticket List   */
 router.get('/chatList/:ticketId', chatListTicketController);
-router.post('/update', updateTicketController);
+router.post('/update', updateTicketController); // need to work!
 router.delete('/delete/:id', deleteTicketController);
-router.get('/statusList', ticketList);
 
 // Apply the filter middleware to these routes
 // این دوتا مستقیم با تیکت سروکار دارن
 router.post('/read', readTicketController) // read all tickets for admin
 router.post('/myTicketList', myTicketListController) //
-router.post('/readSentTickets', filterMiddleware,ReadSentTicketController) //for customer read sentTickets List for example I sent a ticket
+router.post('/readSentTickets', ReadSentTicketController) //for customer read sentTickets List for example I sent a ticket
 //--------------------------------------------------
 // router.post('/readMyAllTickets', filterMiddleware, readMyAllTicketsControllerPost) // read my tickets   from custom table With Read Status
 
