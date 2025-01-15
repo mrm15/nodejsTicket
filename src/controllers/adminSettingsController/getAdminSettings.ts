@@ -13,6 +13,7 @@ import mongoose from "mongoose";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {IStatus, Status} from "../../models/status";
 import {registerRandomAdminSettings} from "../../utils/initialSetup/registerRandomAdminSettings";
+import {addLog} from "../../utils/logMethods/addLog";
 
 export interface IDataList {
     name: string;
@@ -82,7 +83,15 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
         }
 
         const adminSettingData = {...result}
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `تنظیمات مدیریتی رو مشاهده کرد:
+            ${JSON.stringify(adminSettingData)}
+            `,
+            statusCode: 200,
+        })
         res.status(200).json({
             adminSettingData,
             message: 'تنظیمات فعلی بازیابی شد.',
