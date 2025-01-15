@@ -2,6 +2,7 @@ import {NextFunction, Response} from 'express';
 import {IUser, User} from "../../models/User";
 import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const updateHisInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -32,6 +33,19 @@ const updateHisInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next
 
             foundUser.updateAt = getCurrentTimeStamp()
             const result = await foundUser.save()
+            await addLog({
+                req: req,
+                name: foundUser?.name + " " + foundUser?.familyName,
+                phoneNumber: foundUser.phoneNumber,
+                description: `
+                مشخصات خودشو به روز کرد.
+                ${newData}
+                
+                         `,
+                statusCode: 200,
+                responseTime: null,
+                error: null,
+            })
             res.status(200).json({
                 message: "کاربر با موفقیت به روز شد."
             });
