@@ -5,6 +5,8 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 
 import {IRole, Role} from "../../models/roles";
 import {Department} from "../../models/department";
+import {IStatus, Status} from "../../models/status";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const deleteStatusController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -18,33 +20,30 @@ const deleteStatusController = async (req: CustomRequestMyTokenInJwt, res: Respo
     try {
 
         const {id} = req.params;
-        try {
-            const foundUser: IUser | null = await User.findOne({departmentId: id}).exec()
-            if (foundUser) {
-                res.status(409).json({
-                    message: `برای حذف این دپارتمان ابتدا کاربرانی که عضو این دپارتمان هستند را حذف کنید!!!.🙄`
-                });
-                return
-            }
-
-        } catch (error: any) {
-            res.status(500).json({message: 'Error deleting department', error: error?.message});
-            return
-        }
 
         // Attempt to find and delete the user by ID
-        const deletedDepartment = await Department.findByIdAndDelete(id);
+        const deletedStatus = await Status.findByIdAndDelete(id);
 
         // Check if a user was found and deleted
-        if (!deletedDepartment) {
+        if (!deletedStatus) {
             res.status(404).json({message: 'Department not found'});
             return
         }
 
 
-        const message = 'باید حتما اینجا چک کنم که  قبل از پاک کردن استاتوس هیچ تیکتی  این استاتوس رو نداشته باشه.';
+        const message = 'تیکت هایی که اون استاتوس رو داشتن به حالت  تعریف نشده در اومدن';
         // Successfully deleted the user
-        res.status(200).json({message: `وضعیت با نام ${deletedDepartment.name} برای همیشه حذف شد.` + message,});
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: ` استاتوس رو حذف کرد
+            
+                ${deletedStatus}
+                `,
+            statusCode: 200,
+        })
+        res.status(200).json({message: `وضعیت با نام ${deletedStatus.name} برای همیشه حذف شد.` + message,});
         return
     } catch (error: any) {
         // Handle potential errors, such as invalid ObjectId format
