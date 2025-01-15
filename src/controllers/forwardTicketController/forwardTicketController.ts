@@ -3,6 +3,7 @@ import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {IUser, User} from "../../models/User";
 import forwardTicket from "../../utils/forwardTicketUtils/forwardTicket";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -99,6 +100,20 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
         })
 
 
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `تیکت های ارجاعی:
+              
+            ${JSON.stringify(ticketIdsArray)}
+            دپارتمان مقصد
+            ${JSON.stringify(department)}
+            کاربر مقصد
+            ${JSON.stringify(user)}
+            `,
+            statusCode: 200,
+        })
         res.status(200).json({
             message: resultOfTask.message
         });
