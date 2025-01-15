@@ -105,7 +105,6 @@ const forwardTicketController = async (req: CustomRequestMyTokenInJwt, res: Resp
             name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
             phoneNumber: req?.myToken?.phoneNumber || "00000000000",
             description: `تیکت های ارجاعی:
-              
             ${JSON.stringify(ticketIdsArray)}
             دپارتمان مقصد
             ${JSON.stringify(department)}
