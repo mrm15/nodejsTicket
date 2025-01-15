@@ -6,6 +6,7 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {Department} from "../../models/department";
 import {stringToBoolean} from "../../utils/stringBoolean";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const createDepartmentController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -95,6 +96,19 @@ const createDepartmentController = async (req: CustomRequestMyTokenInJwt, res: R
 
 
         const result = await Department.create(newDepartmentObject);
+        await addLog({
+            req: req,
+            name: userFound?.name + " " + userFound?.familyName,
+            phoneNumber: phoneNumber,
+            description: `
+                یک دپارتمان ایجاد کرد.
+                
+               ${JSON.stringify(newDepartmentObject)}
+                `,
+            statusCode: 200,
+            responseTime: null,
+            error: null,
+        })
         res.status(200).json({result, message: 'دپارتمان با موفقیت ایجاد شد.',});
         return;
 
