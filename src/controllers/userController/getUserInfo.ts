@@ -1,6 +1,7 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import getUserByPhoneNumber from "../../utils/functions/getUserByPhoneNumber";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const getUserInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -37,6 +38,19 @@ const getUserInfo = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
         } = userInfo
 
 
+        await addLog({
+            req: req,
+            name: userInfo?.name + " " + userInfo?.familyName,
+            phoneNumber: phoneNumber,
+            description: `
+                مشخصات خودشو دریافت کرد.
+                
+               ${JSON.stringify(userInfo)}
+                `,
+            statusCode: 200,
+            responseTime: null,
+            error: null,
+        })
         res.status(200).json({
             data: rest, message: 'لیست بارگزاری شد.',
         });
