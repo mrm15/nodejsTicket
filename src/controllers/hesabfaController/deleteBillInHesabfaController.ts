@@ -7,6 +7,7 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {deleteOneBillFromTicketOrTicketReply} from "./functions";
 import {logEvents} from "../../middleware/logEvents";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const deleteBillInHesabfaController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     try {
@@ -58,6 +59,15 @@ const deleteBillInHesabfaController = async (req: CustomRequestMyTokenInJwt, res
         if (result.data.Result === true) {
             const deleteResult = await deleteOneBillFromTicketOrTicketReply({billNumber, id, type});
             if (deleteResult) {
+                await addLog({
+                    req: req,
+                    name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                    phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                    description: `فاکتو رو حذف کرد.
+                    ${result?.data}
+                    `,
+                    statusCode: 200,
+                })
                 return res.status(200).json({message: 'فاکتور حذف شد'});
             } else {
                 await logEvents(`factor Delete From Hesabfa Not From WebSite${req.url}\ttype\t${type}\tid\t${id}`, 'deletedFromHesabfaButNotFromSite.txt')
