@@ -1,14 +1,6 @@
 import {Request, Response, NextFunction} from 'express';
-import {IUser, User} from "../../models/User";
-import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {addNewUserF} from "../LoginRegisterSms/addNewUserF";
-import {uuidGenerator} from "../../utils/uuidGenerator";
-import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
-import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
-import {checkAccessList} from "../../utils/checkAccessList";
-import {IRole, Role} from "../../models/roles";
-import {myPermissionsArray} from "../roleController/permissinsArray";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const myBankDepartment = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -30,7 +22,13 @@ const myBankDepartment = async (req: CustomRequestMyTokenInJwt, res: Response, n
 
 
         const {phoneNumber} = myToken
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `گزارش متراژی که هنوز نیاز مند توسعه هست رو مشاهده کرد.`,
+            statusCode: 200,
+        })
         res.status(500).json({
             phoneNumber,
             message: 'نیازمند توسعه کد',
