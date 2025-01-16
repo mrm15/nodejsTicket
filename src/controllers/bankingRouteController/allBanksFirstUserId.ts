@@ -5,6 +5,7 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 
 import getBankingDataByCode from "../../utils/banking/getBankingDataByCode/getBankingDataByCode";
 import {userListAndCodes} from "../../utils/banking/getBankingDataByCode/userListAndCodes";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -29,7 +30,13 @@ const allBanksFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response
 
         const result = await getBankingDataByCode({filters: filters11 || []}, userListToCalculate)
 
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `گزارش متراژ همه ی سفارش گیرها رو مشاهده کرد.`,
+            statusCode: 200,
+        })
         res.status(200).json({
             data: result,
             message: 'اطلاعات به روز شد.',
