@@ -6,6 +6,7 @@ import {sendSMSBasteBandi} from "../../SMS/SMS.IR/sendSms";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
 import {logEvents} from "../../utils/logEvents";
 import {getCurrentTimeStamp} from "../../utils/timing";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const billStatusNumber = {
     BASTED_BANDI: "5710",
@@ -93,7 +94,18 @@ const updateBillStatus = async (req: CustomRequestMyTokenInJwt, res: Response, n
                     // }
                 }
             }
-
+            await addLog({
+                req: req,
+                name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                description: `${message} ,
+                
+                ${logMessage}
+                
+                
+                `,
+                statusCode: 200,
+            })
 
             res.status(200).json({message, res: result.response.data.Result});
             return;
