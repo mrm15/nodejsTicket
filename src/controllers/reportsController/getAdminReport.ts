@@ -3,6 +3,7 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import makeDataObject from "../../utils/ReportsUtils/reportFunctions/makeDataObject";
 import {getBillsDataFromPoolBill} from "../../utils/getBillsDataFromPoolBill/getBillsDataFromPoolBill";
 import getRowsOfInvoiceItemsFromBills from "./getAdminReportFunctions/getRowsOfBills";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -69,7 +70,13 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
         const endTime = Date.now();
         const timeCalculationInSeconds = ((endTime - startTime) / 1000).toFixed(2); // Convert to seconds and format
-        debugger
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `گزارش مدیریتی متراژ کارها رو مشاهده کرد`,
+            statusCode: 200,
+        })
         res.status(200).json({
             // tables,
             treeView : dataObject.treeView,
@@ -91,7 +98,14 @@ const getAdminReport = async (req: CustomRequestMyTokenInJwt, res: Response, nex
 
 
     } catch (error: any) {
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `خطا در ارسال متراژ کارها`,
+            statusCode: 500,
+            error,
+        })
         res.status(500).json({error: error?.toString()});
         return
     }
