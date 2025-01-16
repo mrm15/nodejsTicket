@@ -3,6 +3,7 @@ import {NextFunction, Response} from "express";
 import {IUser, User} from "../../models/User";
 import {handleResponse} from "../utility/handleResponse";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const getBillList = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     try {
@@ -31,8 +32,22 @@ const getBillList = async (req: CustomRequestMyTokenInJwt, res: Response, next: 
         }
         const myResult = await hesabfaApiRequest("invoice/getinvoices", myData)
         if (!myResult.response) {
+            await addLog({
+                req: req,
+                name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                description: `خطا در مشاهده ی لیست فاکتورها `,
+                statusCode: 500,
+            })
             return res.status(500).json({message: myResult.message});
         } else if (myResult.response) {
+            await addLog({
+                req: req,
+                name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                description: `لیست فاکتور ها رو مشاهده کرد.`,
+                statusCode: 200,
+            })
             handleResponse(myResult.response, res)
         }
 
