@@ -3,6 +3,7 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import getBankingData from "../../utils/banking/getBankingData/getBankingData";
 import getBankingDataByCode from "../../utils/banking/getBankingDataByCode/getBankingDataByCode";
 import {userListAndCodes} from "../../utils/banking/getBankingDataByCode/userListAndCodes";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const myBankFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -40,7 +41,13 @@ const myBankFirstUserId = async (req: CustomRequestMyTokenInJwt, res: Response, 
 
         const result = await getBankingDataByCode({filters: filters11 || []}, [newUserList])
 
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `گزارش متراژ روزانه خودشو مشاهده کرد.`,
+            statusCode: 200,
+        })
         res.status(200).json({
             data: result,
             message: 'اطلاعات به روز شد.',
