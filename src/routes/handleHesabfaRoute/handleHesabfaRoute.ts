@@ -36,7 +36,7 @@ router.post('/changeSentStatus/', updateBillStatus) // بسته بندی و ار
 
 // router.get('/getArchive', getArchiveController)
 // router.get('/getPending', getPendingController)
-router.post('/updateBillsFile/', updateBillsFileController) // به روز رسانی فایل های  فاکتور bills
+router.post('/updateBillsFile/', updateBillsFileController) // به روز رسانی فایل های  فاکتور bills // no need to log
 
 
 
