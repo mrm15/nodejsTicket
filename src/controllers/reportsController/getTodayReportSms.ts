@@ -10,6 +10,7 @@ import {
 import {destinationPhoneNumberArray} from "../../utils/cronFunctions/destinationPhoneNumber";
 import {logEvents} from "../../utils/logEvents";
 import {sendReportDaySMSToSomeOfUsers} from "../../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const getTodayReportSms = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -22,42 +23,36 @@ const getTodayReportSms = async (req: CustomRequestMyTokenInJwt, res: Response, 
         return
     }
 
-
-    // const calculateTodayReportResult = await calculateTodayReport();
-
     try {
           await sendReportDaySMSToSomeOfUsers()
 
 
-        //
-        // const smsPromises = destinationPhoneNumberArray.map(({name, phoneNumber, renderFunction}) => {
-        //     return renderFunction({...calculateTodayReportResult, mobile: phoneNumber, ADMINNAME: name});
-        // });
-        //
-        // const results = await Promise.all(smsPromises);
-        //
-        // const message = `پیامک گزارش برای مخاطبین ارسال شد
-        //     ${destinationPhoneNumberArray.map(({phoneNumber}) => phoneNumber).join(',\n')}
-        // `;
-        // await logEvents(message, "smsReportEveryDay.txt");
-
-        // console.log("All SMS sent successfully:", results);
-
-
         if (true) {
+            await addLog({
+                req: req,
+                name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                description: `پیامک دستی به کاربران ارسال کرد
+            `,
+                statusCode: 200,
+            })
             res.status(200).json({
                 // calculateTodayReportResult,
                 message: 'تسک انجام شد.',
             })
             return;
         }
-        // else {
-        //     res.status(500).json({message: "پیام ارسال نشد!!!"});
-        //     return
-        // }
-        /////////////////////////////////////////
 
     } catch (error: any) {
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `خطا در ارسال پیامک دستی به کاربران 
+            `,
+            statusCode: 500,
+            error,
+        })
         res.status(500).json({error: error?.toString()});
         return
     }
