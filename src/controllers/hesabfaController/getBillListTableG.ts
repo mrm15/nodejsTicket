@@ -3,10 +3,13 @@ import {NextFunction, Response} from "express";
 import {getDataCollectionFromHesabfa} from "../utility/collectionsHandlers/getDataCollectionFromHesabfa";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
+
+    const {myToken} = req;
+
     try {
-        const {myToken} = req;
         if (!myToken) {
             return res.status(200).json({message: 'Token not found in the request'});
         }
@@ -54,12 +57,26 @@ const getBillListTableG = async (req: CustomRequestMyTokenInJwt, res: Response, 
         const results = myResult.response?.data?.Result?.List
         const totalDocuments = myResult.response?.data?.Result?.TotalCount
         const currentPage = page
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: ` لیست فاکتور ها رو مشاهده کرد. `,
+            statusCode: 500,
+        })
         res.status(200).json({results, totalDocuments, currentPage, pageSize});
         return;
 
     } catch (error: any) {
 
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `خطا در مشاهده ی لیست فاکتورها `,
+            statusCode: 500,
+            error,
+        })
         if (error.hostname === 'api.hesabfa.com') {
             error.message = "هیچ پاسخی از حسابفا دریافت نشد!";
         }
