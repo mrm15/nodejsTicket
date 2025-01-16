@@ -4,6 +4,7 @@ import {getBillsDataFromPoolBill} from "../../../utils/getBillsDataFromPoolBill/
 import getRowsOfInvoiceItemsFromBills from "../getAdminReportFunctions/getRowsOfBills";
 import calculateBillDepartmentActivity
     from "../../../utils/calculateBillDepartmentActivity/calculateBillDepartmentActivity";
+import {addLog} from "../../../utils/logMethods/addLog";
 
 const getBillUsersReport = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
@@ -37,7 +38,7 @@ const getBillUsersReport = async (req: CustomRequestMyTokenInJwt, res: Response,
         // const basteBandiCountObject = await basteBandiCounter(myData)
         // console.log(basteBandiCountObject)
         const allBills = await getBillsDataFromPoolBill({filters: filterItems})
-        debugger
+
         // let temp11: any = (getHeaderAndRowsDetails(billsDataFromHesabfa.response?.data?.Result?.List))
         // let temp11: any = (getHeaderAndRowsDetails(allBills))
         let temp11: any = getRowsOfInvoiceItemsFromBills(allBills)
@@ -58,7 +59,13 @@ const getBillUsersReport = async (req: CustomRequestMyTokenInJwt, res: Response,
 
         const endTime = Date.now();
         const timeCalculationInSeconds = ((endTime - startTime) / 1000).toFixed(2); // Convert to seconds and format
-
+        await addLog({
+            req: req,
+            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+            description: `گزارش مدیریتی متراژ کاربران حسابفا رو به تفکیک مشاهده کرد.`,
+            statusCode: 200,
+        })
         res.status(200).json({
             allBills:allBills.length,
             data: result,
