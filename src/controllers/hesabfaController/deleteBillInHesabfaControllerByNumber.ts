@@ -8,6 +8,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {deleteOneBillFromTicketOrTicketReply} from "./functions";
 import {logEvents} from "../../middleware/logEvents";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
+import {addLog} from "../../utils/logMethods/addLog";
 
 const deleteBillInHesabfaControllerByNumber = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     try {
@@ -48,6 +49,15 @@ const deleteBillInHesabfaControllerByNumber = async (req: CustomRequestMyTokenIn
 
         if (result?.data?.Result === true) {
 
+            await addLog({
+                req: req,
+                name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                description: `فاکتو رو حذف کرد از توی لیست فاکتور ها.
+                    ${result?.data}
+                    `,
+                statusCode: 200,
+            })
             const logMessage = `factor az hesabfa hazf shod shomareFactor: ${billNumber},  phoneNumberUserWhoDeleteBill: ${foundUser.phoneNumber} \t${req.url}\t`
             await logEvents(logMessage, 'deletedFromHesabfaButNotFromSite.txt')
             return res.status(200).json({message: 'فاکتور حذف شد'})
