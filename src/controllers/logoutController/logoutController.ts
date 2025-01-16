@@ -58,7 +58,7 @@ const logoutController = async (req: CustomRequestMyTokenInJwt, res: Response, n
                 req: req,
                 name:foundUser?.name + " " + foundUser.familyName,
                 phoneNumber: phoneNumber,
-                description: "شما با موفقیت از سایت خارج شدید",
+                description: "شما با موفقیت از سایت خارج شدید لاگ اوت زد.",
                 statusCode: 200,
             })
             res.json({message:'شما با موفقیت از سایت خارج شدید'});
