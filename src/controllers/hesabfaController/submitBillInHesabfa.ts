@@ -5,7 +5,7 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
 import axios from "axios";
 import {handleResponse} from "../utility/handleResponse";
-import { saveFactorNumberAndStatus} from "./functions";
+import {saveFactorNumberAndStatus} from "./functions";
 import {sendAfterSavedBillSMS} from "./sendAfterSavedBillSMS";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
@@ -14,6 +14,7 @@ import {timestampToTimeFromHesabfa} from "../utility/timestampToTimeFromHesabfa"
 import {formatNumber} from "../../utils/number";
 import {p2e} from "../utility/NumericFunction";
 import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
+import {addLog} from "../../utils/logMethods/addLog";
 
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -100,7 +101,21 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
             // const result = await axios.post(url, data);
             const apiRes = await hesabfaApiRequest(url, {invoice});
             const result = apiRes?.response
-
+            await addLog({
+                req: req,
+                name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                phoneNumber: req?.myToken?.phoneNumber || "00000000000",
+                description: `فاکتور پیش نویس یا تایید کرد.
+                نوع: ${result?.data?.Result.Status === 0 ? " پیش نویس" :
+                    result?.data?.Result.Status === 1 ? " تایید " : "نامشخص"
+                }
+               عنوان: ${JSON.stringify(result?.data?.Result?.ContactTitle)}
+               شماره تماس: ${JSON.stringify(result?.data?.Result?.Contact.Mobile)}
+                 شماره فاکتور:${JSON.stringify(result?.data?.Result?.Number)}
+                 وضعیت:${JSON.stringify(result?.data?.Result?.Status)}
+                `,
+                statusCode: result?.status || 500,
+            })
 
             // خب فاکتور توی حسابفا ثبت شد حالا ما باید اطلاعات فاکتور رو توی دیتا بیس خودمون ثبت کنیم.
 
