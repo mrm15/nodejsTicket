@@ -1,9 +1,9 @@
 // cronJobs.ts
 import cron from 'node-cron';
-import {myLovelyFunction} from "../utils/myLovelyFunction";
 import {sendReportDaySMSToSomeOfUsers} from "../utils/cronFunctions/sendReportDaySMSToSomeOfUsers";
 import updateBillsFileFunction from "../utils/updateBillsFileFunction/updateBillsFileFunction";
 import saveProductList from "../utils/productListFile/saveProductList";
+import {deleteOldLogs} from "../utils/Logs/deleteOldLogs";
 
 // Function to initialize cron jobs
 export const initializeCronJobs = () => {
@@ -56,13 +56,22 @@ export const initializeCronJobs = () => {
             console.log('Running a task every 15 minutes between 7 AM and 7 PM');
             const rightNowDate = new Date();
             const resultMessage = await updateBillsFileFunction(rightNowDate, rightNowDate)
-            console.log(resultMessage , rightNowDate)
+            console.log(resultMessage, rightNowDate)
         });
         // every night at  8 PM  Update ProductList From Hesabfa To Server
         cron.schedule('0 20 * * *', async () => {
             console.log('Running a task every night at 8 PM');
             await saveProductList();
         });
+        // every night Delete old Logs before 3 month ago
+        cron.schedule('0 20 * * *', async () => {
+            // Calculate the threshold date (3 months ago)
+            const threeMonthsAgo = new Date();
+            threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+            const deleteCount = await deleteOldLogs({timestamp: threeMonthsAgo});
+            console.log(`deleted  ${deleteCount} logs!`)
+        });
+
     }
 
 
