@@ -331,127 +331,6 @@ const makeDataObject = ({totalData}: any) => {
         ]
     })
 
-    const NEON_FELAX_KOLLI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس کلی",
-        id: "21",
-        ...keys,
-        filterIdForPivot: [
-            "000479",
-            "000480",
-            "000481",
-            "000482",
-            "000483",
-            "000484",
-            "000485",
-            "000486",
-            "000487",
-            "000488",
-            "000489",
-            "000490",
-            "000491",
-            "000492",
-        ]
-    })
-    const NEON_FELAX_SEFID_YAKHI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس سفید یخی",
-        id: "22",
-        ...keys,
-        filterIdForPivot: [
-            "000479",
-        ]
-    })
-    const NEON_FELAX_ABI_FIROOZEI_ZIMEMSI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس آبی فیروزه ای یا آسمانی",
-        id: "23",
-        ...keys,
-        filterIdForPivot: [
-            "000485",
-        ]
-    })
-    const NEON_FELAX_QERMEZ = calculateSingleObject(totalData, {
-        caption: "نئون فلکس قرمز",
-        id: "24",
-        ...keys,
-        filterIdForPivot: [
-            "000481",
-        ]
-    })
-    const NEON_FELAX_AFTABI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس آفتابی",
-        id: "25",
-        ...keys,
-        filterIdForPivot: [
-            "000480",
-        ]
-    })
-
-    const NEON_FELAX_BANAFSH = calculateSingleObject(totalData, {
-        caption: "نئون فلکس بنفش",
-        id: "27",
-        ...keys,
-        filterIdForPivot: [
-            "000490",
-        ]
-    })
-    const NEON_FELAX_ANBEI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس انبه ای",
-        id: "27",
-        ...keys,
-        filterIdForPivot: [
-            "000483",
-        ]
-    })
-    const NEON_FELAX_LIMOOI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس لیمویی",
-        id: "28",
-        ...keys,
-        filterIdForPivot: [
-            "000484",
-        ]
-    })
-
-    const NEON_FELAX_SABZ_ZIMENSI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس سبز زیمنسی",
-        id: "29",
-        ...keys,
-        filterIdForPivot: [
-            "000487",
-        ]
-    })
-    const NEON_FELAX_SABZ_CHAMANI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس سبز چمنی",
-        id: "29",
-        ...keys,
-        filterIdForPivot: [
-            "000488",
-        ]
-    })
-    const NEON_FELAX_SOORATI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس صورتی",
-        id: "30",
-        ...keys,
-        filterIdForPivot: [
-            "000482",
-        ]
-    })
-    const NEON_FELAX_KARBONI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس کاربنی",
-        id: "31",
-        ...keys,
-        filterIdForPivot: [
-            "000486",
-        ]
-    })
-
-    const NEON_FELAX_NARENGI = calculateSingleObject(totalData, {
-        caption: "نئون فلکس نارنجی",
-        id: "32",
-        ...keys,
-        filterIdForPivot: [
-            "000489",
-        ]
-    })
-
     const CHALENIUM_SUEDI_KOLI = calculateSingleObject(totalData, {
         caption: "چلنیوم سوئدی باهم",
         id: "33",
@@ -1349,11 +1228,11 @@ const makeDataObject = ({totalData}: any) => {
                 ...NEON_PLASTIC
             }
         ],
-        [
-            {
-                ...NEON_FELAX_KOLLI
-            }
-        ],
+        // [
+        //     {
+        //         ...NEON_FELAX_KOLLI
+        //     }
+        // ],
         [
             {
                 ...SUM_OJRAT_SAKHT_ESTIL
@@ -1553,95 +1432,7 @@ const makeDataObject = ({totalData}: any) => {
         },
         ///////
         // ////////
-        {
-            // title: "نئون فلکس",
-            // value: "120",
-            ...NEON_FELAX_KOLLI,
-            subItems: [
-                {
-                    // title: 'سفید یخی',
-                    // value: '120',
-                    ...NEON_FELAX_SEFID_YAKHI
 
-                },
-                {
-                    // title: 'زیمسی ( آبی فیروزه ای)',
-                    // value: '120',
-                    ...NEON_FELAX_ABI_FIROOZEI_ZIMEMSI
-
-                },
-                {
-                    // title: 'قرمز:',
-                    // value: '120',
-                    ...NEON_FELAX_QERMEZ
-
-
-                },
-                {
-                    // title: 'آفتابی',
-                    // value: '120',
-                    ...NEON_FELAX_AFTABI
-
-
-                },
-                {
-                    // title: 'آبی فیروزه ای زیمنسی',
-                    // value: '120',
-                    ...NEON_FELAX_ABI_FIROOZEI_ZIMEMSI
-
-
-                },
-                {
-                    // title: 'بنفش',
-                    // value: '120',
-                    ...NEON_FELAX_BANAFSH
-
-                },
-                {
-                    // title: 'انبه ای',
-                    // value: '120',
-                    ...NEON_FELAX_ANBEI
-
-                },
-                {
-                    // title: 'لیمویی',
-                    // value: '120',
-                    ...NEON_FELAX_LIMOOI
-
-
-                },
-                {
-                    // title: 'سبز',
-                    // value: '120',
-                    ...NEON_FELAX_SABZ_ZIMENSI
-
-                },
-                {
-                    // title: 'سبز',
-                    // value: '120',
-                    ...NEON_FELAX_SABZ_CHAMANI
-
-                },
-                {
-                    // title: 'صورتی',
-                    // value: '120',
-                    ...NEON_FELAX_SOORATI
-
-                },
-                {
-                    // title: 'کاربنی',
-                    // value: '120',
-                    ...NEON_FELAX_KARBONI
-
-                },
-                {
-                    // title: 'نارنجی',
-                    // value: '120',
-                    ...NEON_FELAX_NARENGI
-
-                },
-            ]
-        },
         ///////
         // ////////
         {
