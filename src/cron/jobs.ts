@@ -58,6 +58,7 @@ export const initializeCronJobs = () => {
             const resultMessage = await updateBillsFileFunction(rightNowDate, rightNowDate)
             console.log(resultMessage , rightNowDate)
         });
+        // every night at  8 PM  Update ProductList From Hesabfa To Server
         cron.schedule('0 20 * * *', async () => {
             console.log('Running a task every night at 8 PM');
             await saveProductList();
