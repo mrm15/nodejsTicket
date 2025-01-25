@@ -1188,6 +1188,22 @@ const makeDataObject = ({totalData}: any) => {
             "000374",
         ]
     })
+
+    const SUM_OF_OJRAT_ALL = calculateSingleObject(totalData, {
+        caption: "جمع اجرت برش",
+        bgColor: "#989898",
+        textColor: "black",
+        id: "620",
+        ...keys,
+        filterIdForPivot: [
+            "000004",//  "اجرت برش لیزر ورق 2.8 میل
+            "000067", //  اجرت برش پی وی سی - سی ان سی
+            "000082", //  "اجرت برش لیزر استیل
+            "000238", // "اجرت برش لیزر پلکسی 5 میل
+            "000254", // "اجرت برش لیزر آهن
+            "000374", ///  "اجرت برش لیزر پلکسی 10 میل",
+        ]
+    })
     const numberOfSMD = calculateSingleObject(totalData, {
         caption: "تعداد کل سفارش های نور SMD",
         id: "62",
@@ -1266,6 +1282,9 @@ const makeDataObject = ({totalData}: any) => {
             {
                 ...OJRAT_BORESH_LEISER_2_8MILL
             },
+            {
+                ...SUM_OF_OJRAT_ALL
+            }
 
 
         ],
