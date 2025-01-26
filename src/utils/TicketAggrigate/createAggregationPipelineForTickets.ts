@@ -155,7 +155,7 @@ export const createAggregationPipelineForTickets = ({
     myPipLine.push(
         {
             $lookup: {
-                from: "users",
+                from: "status",
                 localField: "statusId",
                 foreignField: "_id",
                 as: "z_statusIdData"
