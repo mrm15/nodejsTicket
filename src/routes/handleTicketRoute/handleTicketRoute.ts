@@ -6,13 +6,13 @@ import {deleteTicketController} from "../../controllers/ticketController/deleteT
 import {chatListTicketController} from "../../controllers/ticketController/chatListTicketController";
 import {ReadSentTicketController} from "../../controllers/ticketController/readSentTicketController";
 import {readDepartmentTicketsController} from "../../controllers/ticketController/readDepartmentTicketsController";
-import {filterMiddleware} from "../../middleware/filterForSearchTickets/filterMiddleware";
 import {readOutBoxAssignmentController} from "../../controllers/ticketController/readOutBoxAssignmentController";
 import {readInBoxAssignmentController} from "../../controllers/ticketController/readInBoxAssignmentController";
 import {readAllAssignmentController} from "../../controllers/ticketController/readAllAssignmentController";
 import {markAsReadTicketAssignments} from "../../controllers/ticketController/markAsReadTicketAssignments";
 import {myTicketListController} from "../../controllers/ticketController/myTicketListController";
 import {createTicketAdvancedController} from "../../controllers/ticketController/createTicketAdvancedController";
+import {changeTicketStatusController} from "../../controllers/ticketController/changeTicketStatusController";
 
 const router = express.Router();
 
@@ -57,6 +57,7 @@ router.post('/readDepartmentTickets', readDepartmentTicketsController)
 // همه ی تیکت های ارجاعی برای مدیر
 router.post('/readAllAssignments', readAllAssignmentController)
 router.post('/markAsReadTicketAssignments', markAsReadTicketAssignments)
+router.post('/changeStatus', changeTicketStatusController)
 
 
 export default router;
