@@ -11,11 +11,13 @@ import {filesToFileData} from "../../utils/filesToFileData";
 import {ITicketReply, TicketReply} from "../../models/ticketReply";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {addLog} from "../../utils/logMethods/addLog";
+import {IStatus, Status} from "../../models/status";
 
 interface IChatList {
     ticketId?: string;
     ticketNumber?: number;
     title?: string;
+    statusName?:string;
     createAt?: string;
     lastChangeTimeStamp?: string;
     lastDepartment?: string;
@@ -72,7 +74,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
             return;
         }
 
-        const chatList: IChatList = {}
+        const chatList: IChatList = {statusName: ""}
         // میریم که تیکت رو پیدا کنیم
         const foundTicket: ITicket | null = await Ticket.findOne({_id: ticketId});
         if (!foundTicket) {
@@ -95,6 +97,13 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         const department: IDepartment = (await Department.findOne({_id: foundTicket.firstDepartmentId}))!; // اولین دپارتمان تیکت
 
         chatList.lastDepartment = department?.name;
+        const foundStatus : IStatus | null = await Status.findById(foundTicket.statusId);
+        if(foundStatus){
+            chatList.statusName="";
+        }
+        if(foundStatus?.name){
+            chatList.statusName = foundStatus.name
+        }
 
         // const tempFilesArray = await Promise.all(foundTicket.attachments.map(async (fileId) => {
         //     const fileObject: IFile = (await File.findOne({_id: fileId}).lean())!;
