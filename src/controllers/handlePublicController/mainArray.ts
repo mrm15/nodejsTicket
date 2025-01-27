@@ -514,7 +514,6 @@ export const mainArray = [
         title: "لایت باکس", id: 1.5,
         subMenu: [
             {title: "انواع لایت باکس", id: 1, items: [...light_box]},
-
         ],
     },
     {
