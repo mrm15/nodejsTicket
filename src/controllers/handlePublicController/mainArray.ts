@@ -483,6 +483,13 @@ const noors = [
     { Code: "000585", ...sampleObject },
 
 ]
+const light_box = [
+    { Code: "000669", ...sampleObject },
+    { Code: "000667", ...sampleObject },
+    { Code: "000830", ...sampleObject },
+    { Code: "000831", ...sampleObject },
+    { Code: "000668", ...sampleObject },
+]
 
 const  chap_sticker = [
     { Code: "000157", ...sampleObject },
@@ -501,6 +508,13 @@ export const mainArray = [
             {title: "ورق پی وی سی", id: 2, items: [...varaq_pvc]},
             {title: "ورق آهن", id: 3, items: [...varaq_ahan]},
             {title: "ورق استیل", id: 4, items: [...varaq_estil]},
+        ],
+    },
+    {
+        title: "لایت باکس", id: 1.5,
+        subMenu: [
+            {title: "انواع لایت باکس", id: 1, items: [...light_box]},
+
         ],
     },
     {
