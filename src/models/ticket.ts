@@ -50,7 +50,8 @@ interface ITicket extends Document {
     organizationReadStatus:boolean;
     // وضعیت خواندن فاکتور وقتی مشتری قراره ببینه. اگه بچه های سازمان پیامی دادن باید اینو فالز کنم که برای مشتری بولد بشه و وقتی مشتری بازش کرد باید
     customerReadStatus:boolean;
-
+    // تگ که مشحص میکنه این چه تگی داره. که بعدا توی لیست پیام هام تگ ها رو مشخص کنم.
+    messageTag: mongoose.Schema.Types.ObjectId | null;
     // تاریخ ایجاد این سفارش تیکت
     createAt: Date;
     // تاریخ آخرین به روز رسانی این سفارش تیکت
@@ -128,6 +129,7 @@ const ticketSchema = new mongoose.Schema<ITicket>({
         type: Number,
         default: null,
     },
+    messageTag: {type: mongoose.Schema.Types.ObjectId,ref: 'messageTag',default: null,},
     createAt: {
         type: Date,
         default: Date.now,
