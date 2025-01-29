@@ -275,6 +275,8 @@ const roleSchema: Schema<IRole> = new Schema({
 
     // آیا کاربر بتونه مانده حسابش در حسابفا رو بالای سایت ببینه؟
     canViewCreditLibertyInHeader: {type: Boolean, default: false, required: true}, //
+    messageTagCollection: {type: Boolean, default: false, required: true}, //
+    setMessageTagOnRepliesInChat: {type: Boolean, default: false, required: true}, //
 
 
 });
