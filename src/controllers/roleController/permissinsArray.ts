@@ -130,5 +130,7 @@ export const myPermissionsArray = [
     "canChangeStatusFromEverythingToEverything",//
     ////////////////////////////////////////////////////////
     "canViewCreditLibertyInHeader", // مانده حساب کاربر در بالای سایت کنار اسمش
+    "messageTagCollection",  // ویرایش افزودن  حذف تگ پیام ها
+    "setMessageTagOnRepliesInChat", // بتونه ی پیام ها
 
 ]
