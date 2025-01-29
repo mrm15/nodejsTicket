@@ -126,6 +126,10 @@ interface IRole extends Document {
     canChangeStatusFromEverythingToEverything: boolean;
 
     canViewCreditLibertyInHeader:boolean;
+    // دسترسی بگ افزودن و ویرایش و حذف تگ های پیام ها
+    messageTagCollection:boolean;
+    // بتونه روی پیام ها  تگ ست کنه. یا تگ ها رو تغییر بده
+    setMessageTagOnRepliesInChat: boolean;
 
 
 }
