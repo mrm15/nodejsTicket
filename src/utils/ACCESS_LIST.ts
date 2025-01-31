@@ -1,6 +1,7 @@
 export const ACCESS_LIST = {
 
     fatherAccess: "fatherAccess",
+    messageTagCollection: "messageTagCollection",
     showFactorListInMenu: "showFactorListInMenu",
     showMyBillListForCustomer: "showMyBillListForCustomer",
     basteBandi: "basteBandi",
