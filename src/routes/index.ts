@@ -33,6 +33,7 @@ import handleBankingRoute from "./handleBankingRoute/handleBankingRoute";
 import subscribeNotificationRoute from "./subscribeNotification/subscribeNotificationRoute";
 import handlePublicRoutes from "./handlePublicRoutes/handlePublicRoutes";
 import handleLogsRoute from "./handleLogsRoute/handleLogsRoute";
+import handleMessageTagRoute from "./handleMessageTagRoute/handleMessageTagRoute";
 
 
 // Add Routes
@@ -74,6 +75,7 @@ myRouter.use(verifyJWT);
 myRouter.use('/upload' , handleUpload);
 myRouter.use('/user' , handleUserRoute);
 myRouter.use('/role' , handleRoleRoute);
+myRouter.use('/messageTag' , handleMessageTagRoute);
 myRouter.use('/department' , handleDepartmentRoute);
 myRouter.use('/status' , handleStatusRoute);
 myRouter.use('/ticket' , handleTicketRoute);
@@ -82,6 +84,7 @@ myRouter.use('/forward' , handleForwardRoute); //
 myRouter.use('/adminSettings' , handleAdminSettingsRoute);
 myRouter.use('/userStatus' , handleUserStatusRoute);
 myRouter.use('/reports' , handleReportsRoute);
+
 
 myRouter.use('/hesabfa' , handleHesabfaRoute);
 myRouter.use('/banking' , handleBankingRoute);
