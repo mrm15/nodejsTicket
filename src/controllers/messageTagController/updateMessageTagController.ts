@@ -4,8 +4,6 @@ import {getCurrentTimeStamp} from "../../utils/timing";
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {IRole, Role} from "../../models/roles";
-import {myPermissionsArray} from "./permissinsArray";
 import {IMessageTag, messageTag} from "../../models/messageTag";
 
 

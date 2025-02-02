@@ -8,8 +8,6 @@ import {uuidGenerator} from "../../utils/uuidGenerator";
 import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNumber";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {IRole, Role} from "../../models/roles";
-import {myPermissionsArray} from "./permissinsArray";
 import {IMessageTag, messageTag} from "../../models/messageTag";
 
 

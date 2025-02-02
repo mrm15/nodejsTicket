@@ -1,9 +1,10 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {Role} from "../../models/roles";
+import {IMessageTag, messageTag} from "../../models/messageTag";
 
 
-const roleList = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
+const messageTagList = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
     const {myToken} = req;
     if (!myToken) {
@@ -19,18 +20,15 @@ const roleList = async (req: CustomRequestMyTokenInJwt, res: Response, next: Nex
 
 
     try {
-        // const arrayListToCheck = [ACCESS_LIST.USER_READ_ALL]
-        // const hasAccessToReadAllUsers = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
-        // if (!hasAccessToReadAllUsers) {
-        //     res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
-        //     return
-        // }
+        const tagList: IMessageTag[] | null = await messageTag.find({}).lean()
 
-        const roleListFromCollection = await Role.find({}).exec();
+        // just show Active Items
+        const activeTagList = tagList.filter(row => row.isActive)
 
+        // sort Items by  messageTagCode
+        const sortedActiveTagList = activeTagList.sort((a, b) => Number(a.messageTagCode) - Number(b.messageTagCode));
 
-        const list = roleListFromCollection.map(row => {
-
+        const list = sortedActiveTagList.map(row => {
             return {
                 value: row.id ? row.id : row._id,
                 key: row.name
@@ -52,4 +50,4 @@ const roleList = async (req: CustomRequestMyTokenInJwt, res: Response, next: Nex
 
 };
 
-export {roleList};
+export {messageTagList};

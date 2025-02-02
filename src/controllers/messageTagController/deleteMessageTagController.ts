@@ -9,9 +9,12 @@ import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNu
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {IRole, Role} from "../../models/roles";
+import {ITicket, Ticket} from "../../models/ticket";
+import {ITicketReply, TicketReply} from "../../models/ticketReply";
+import {messageTag} from "../../models/messageTag";
 
 
-const deleteRoleController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
+const deleteMessageTagController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
     const {myToken} = req;
     if (!myToken) {
@@ -23,10 +26,13 @@ const deleteRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
 
         const {id} = req.params;
         try {
-            const foundUser: IUser | null = await User.findOne({role: id}).exec()
-            if (foundUser) {
+            // فعلا که دقیق داره کار مینه الما بعدا باید تگ رو ست کنم و بعدش حذف رو چک کنم.
+            const foundTickets: ITicket | null = await Ticket.findOne({messageTag: id}).exec()
+            const foundTicketReply: ITicketReply | null = await TicketReply.findOne({messageTag: id}).exec()
+
+            if (foundTickets || foundTicketReply) {
                 res.status(409).json({
-                    message: `برای حذف نقش ابتدا کاربرانی که این نقش را دارند حذف کنید!!!.🙄`
+                    message: `برای حذف تگ باید ابتدا  پیام هایی که این تگ را دارند حذف کنید!!!.🙄`
                 });
                 return
             }
@@ -37,24 +43,24 @@ const deleteRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
 
         // Attempt to find and delete the user by ID
-        const deletedRole = await Role.findByIdAndDelete(id);
+        const deletedTag = await messageTag.findByIdAndDelete(id);
 
         // Check if a user was found and deleted
-        if (!deletedRole) {
-            res.status(404).json({message: 'ROLE not found'});
+        if (!deletedTag) {
+            res.status(404).json({message: 'Tag not found'});
             return
         }
 
         // Successfully deleted the user
-        res.status(200).json({message: `نقش با نام ${deletedRole.name} برای همیشه حذف شد.`,});
+        res.status(200).json({message: `تگ پیام  با نام ${deletedTag.name} برای همیشه حذف شد.`,});
         return
     } catch (error: any) {
         // Handle potential errors, such as invalid ObjectId format
-        res.status(500).json({message: 'Error deleting ROLE', error: error?.message});
+        res.status(500).json({message: 'Error deleting TAG MESSAGE', error: error?.message});
         return
     }
 
 
 };
 
-export {deleteRoleController};
+export {deleteMessageTagController};
