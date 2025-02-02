@@ -13,6 +13,7 @@ import {markAsReadTicketAssignments} from "../../controllers/ticketController/ma
 import {myTicketListController} from "../../controllers/ticketController/myTicketListController";
 import {createTicketAdvancedController} from "../../controllers/ticketController/createTicketAdvancedController";
 import {changeTicketStatusController} from "../../controllers/ticketController/changeTicketStatusController";
+import {ticketChangeTag} from "../../controllers/ticketController/ticketChangeTag";
 
 const router = express.Router();
 
@@ -58,6 +59,6 @@ router.post('/readDepartmentTickets', readDepartmentTicketsController)
 router.post('/readAllAssignments', readAllAssignmentController)
 router.post('/markAsReadTicketAssignments', markAsReadTicketAssignments)
 router.post('/changeStatus', changeTicketStatusController)
-
+router.post('/newTag', ticketChangeTag);
 
 export default router;
