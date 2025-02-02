@@ -22,27 +22,27 @@ const ticketChangeTag = async (req: CustomRequestMyTokenInJwt, res: Response, ne
             return res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
         }
 
-        const {ticketId, statusId} = req.body;
+        const {id, tagId} = req.body;
 
         // Validate input data
-        if (!ticketId || !statusId) {
+        if (!id || !tagId) {
             return res.status(400).json({message: 'ticketId و statusId باید وارد شوند.'});
         }
 
         // Validate that the statusId is a valid ObjectId
-        if (!mongoose.Types.ObjectId.isValid(statusId)) {
+        if (!mongoose.Types.ObjectId.isValid(tagId)) {
             return res.status(400).json({message: 'فرمت statusId نامعتبر است.'});
         }
 
         // Find the ticket by its ID
-        const foundTicket: ITicket | null = await Ticket.findById(ticketId);
+        const foundTicket: ITicket | null = await Ticket.findById(id);
 
         if (!foundTicket) {
             return res.status(404).json({message: 'تیکت پیدا نشد.'});
         }
 
         // Assign the valid ObjectId to messageTag
-        foundTicket.messageTag = new mongoose.Schema.Types.ObjectId(statusId);
+        foundTicket.messageTag = new mongoose.Types.ObjectId(tagId) as any;
 
         await foundTicket.save();
 
@@ -52,7 +52,10 @@ const ticketChangeTag = async (req: CustomRequestMyTokenInJwt, res: Response, ne
 
     } catch (error) {
         console.error(error);
-        return res.status(500).json({message: 'خطا در پردازش درخواست'});
+        return res.status(500).json({
+            message: 'خطا در پردازش درخواست',
+            error,
+        });
     }
 
 

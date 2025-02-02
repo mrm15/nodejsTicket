@@ -11,6 +11,7 @@ interface ITicketReply extends Document {
     visibleToUser: boolean;
     billNumber: string | null;
     billStatus: number | null; // (0=> draft )   (1=> verify)
+    messageTag: mongoose.Schema.Types.ObjectId | null;
     createAt: Date;
     updateAt: Date;
 }
@@ -59,6 +60,7 @@ const ticketReplySchema: Schema<ITicketReply> = new mongoose.Schema({
         type: Number || null,
         required: false,
     },
+    messageTag: {type: mongoose.Schema.Types.ObjectId,ref: 'messageTag',default: null,},
     createAt: {
         type: Date,
         default: Date.now,
