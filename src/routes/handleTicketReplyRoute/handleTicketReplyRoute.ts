@@ -4,6 +4,7 @@ import {readTicketReplyController} from "../../controllers/ticketReplyController
 import {updateTicketReplyController} from "../../controllers/ticketReplyController/updateTicketReplyController";
 import {deleteTicketReplyController} from "../../controllers/ticketReplyController/deleteTicketReplyController";
 import {ticketReplyList} from "../../controllers/ticketReplyController/ticketReplyList";
+import {ticketReplyChangeTag} from "../../controllers/ticketReplyController/ticketReplyChangeTag";
 
 
 const router = express.Router();
@@ -13,5 +14,6 @@ router.get('/read', readTicketReplyController)
 router.post('/update', updateTicketReplyController);
 router.delete('/delete/:id', deleteTicketReplyController);
 router.get('/replyList', ticketReplyList);
+router.post('/newTag', ticketReplyChangeTag);
 
 export default router;
