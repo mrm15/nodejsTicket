@@ -12,6 +12,7 @@ import {ITicketReply, TicketReply} from "../../models/ticketReply";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {addLog} from "../../utils/logMethods/addLog";
 import {IStatus, Status} from "../../models/status";
+import {IMessageTag, messageTag} from "../../models/messageTag";
 
 interface IChatList {
     ticketId?: string;
@@ -28,6 +29,8 @@ interface IChatList {
 interface IChatListArray {
     name: string;
     description: string;
+    messageTag:any;
+    messageTagName:string;
     files: {
         fileName: string;
         fileSize: number;
@@ -132,16 +135,20 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
                 department_name = foundDepartment.name
             }
 
+
         }
 
         const tempFilesArray = await filesToFileData(foundTicket.attachments)
         const senderUserId = foundTicket.userId.toString()
         const isHeTicketSenderHere = (senderUserId === myToken?.UserInfo?.userData?.userData?.userId.toString());
+        const foundMessageTagForTicket: IMessageTag = (await messageTag.findOne({_id: foundTicket.messageTag}).lean())!;
 
         myData.push({
             isTicketSender: isHeTicketSenderHere,
             userId: senderUserId,
             ticketReplyId: '',
+            messageTag:foundTicket.messageTag,
+            messageTagName: foundMessageTagForTicket?.name,
             type: "ticket", // اگه لازم باشه فاکتور حذف بشه لازم میشه
             id: foundTicket._id, // اگه لازم باشه فاکتور حذف بشه لازم میشه
             user_name,
@@ -167,6 +174,7 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
         let myList = await Promise.all(replies.map(async (singleTicketReply) => {
             const row: any = {};
             const foundUser: IUser = (await User.findOne({_id: singleTicketReply.userId}).lean())!;
+            const foundMessageTag: IMessageTag = (await messageTag.findOne({_id: singleTicketReply.messageTag}).lean())!;
             const foundDepartment: IDepartment = (await Department.findOne({_id: singleTicketReply.departmentId}).lean())!;
 
             let filesPropertiesArray: { fileName: string; fileSize: number; filePath: string; fileType: string; }[] = []
@@ -176,6 +184,8 @@ const chatListTicketController = async (req: CustomRequestMyTokenInJwt, res: Res
 
             row['isTicketSender'] = (singleTicketReply.userId.toString() === myToken?.UserInfo?.userData?.userData?.userId.toString());
             row['userId'] = singleTicketReply.userId;
+            row['messageTag'] = singleTicketReply?.messageTag;
+            row['messageTagName'] = foundMessageTag?.name;
             row['ticketReplyId'] = singleTicketReply._id
             row['user_name'] = foundUser?.name
             row['department_name'] = foundDepartment?.name
