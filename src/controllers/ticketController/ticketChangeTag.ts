@@ -25,12 +25,12 @@ const ticketChangeTag = async (req: CustomRequestMyTokenInJwt, res: Response, ne
         const {id, tagId} = req.body;
 
         // Validate input data
-        if (!id || !tagId) {
-            return res.status(400).json({message: 'ticketId و statusId باید وارد شوند.'});
+        if (!id) {
+            return res.status(400).json({message: 'ticketId  باید وارد شود.'});
         }
 
         // Validate that the statusId is a valid ObjectId
-        if (!mongoose.Types.ObjectId.isValid(tagId)) {
+        if (tagId!==null && !mongoose.Types.ObjectId.isValid(tagId)) {
             return res.status(400).json({message: 'فرمت statusId نامعتبر است.'});
         }
 
@@ -42,7 +42,7 @@ const ticketChangeTag = async (req: CustomRequestMyTokenInJwt, res: Response, ne
         }
 
         // Assign the valid ObjectId to messageTag
-        foundTicket.messageTag = new mongoose.Types.ObjectId(tagId) as any;
+        foundTicket.messageTag = tagId!==null ? (new mongoose.Types.ObjectId(tagId) as any) : null;
 
         await foundTicket.save();
 
