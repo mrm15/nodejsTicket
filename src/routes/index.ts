@@ -34,6 +34,7 @@ import subscribeNotificationRoute from "./subscribeNotification/subscribeNotific
 import handlePublicRoutes from "./handlePublicRoutes/handlePublicRoutes";
 import handleLogsRoute from "./handleLogsRoute/handleLogsRoute";
 import handleMessageTagRoute from "./handleMessageTagRoute/handleMessageTagRoute";
+import {apiLimiter} from "../middleware/rateLimiter/rateLimiter";
 
 
 // Add Routes
@@ -58,9 +59,9 @@ const myRouter = Router();
 
 
 
-myRouter.use('/public',handlePublicRoutes)
+myRouter.use('/public',apiLimiter,handlePublicRoutes)
 myRouter.use('/setUp09384642159',initialSetUpPlease)
-myRouter.use('/login',loginSMS)
+myRouter.use('/login',apiLimiter,loginSMS)
 // myRouter.use('/admin',admin)
 myRouter.use('/download' , handleDownloadRoute)
 myRouter.use('/hesabfaOpen' , handleHesabfaOpenRoute);
