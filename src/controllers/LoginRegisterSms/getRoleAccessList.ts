@@ -1,11 +1,18 @@
-import { Types } from "mongoose";
-import { Role, IRole } from "../../models/roles";
-import { IUser, User } from "../../models/User";
-
-// Define the type for the keys of roleAccessList
-
+import { Role } from "../../models/roles";
+import {  User } from "../../models/User";
+import myNodeCache from "../../utils/cache/cache";
+import cacheKeyNames from "../../utils/cache/cacheKeyNames";
 
 export const getRoleAccessList = async (phoneNumber: string): Promise<string[] | null> => {
+
+    // Define a unique cache key based on the phone number
+    const cacheKey = `${cacheKeyNames.getRoleAccessList}${phoneNumber}`;
+    // Check if the access list is already in the cache
+    const cachedAccessList = myNodeCache.get<string[]>(cacheKey);
+    if (cachedAccessList) {
+        return cachedAccessList;
+    }
+
     const foundUser = await User.findOne({ phoneNumber }).exec();
 
 
@@ -28,6 +35,8 @@ export const getRoleAccessList = async (phoneNumber: string): Promise<string[] |
                 }
             }
 
+            // Store the result in the cache for future requests
+            myNodeCache.set(cacheKey, roleAccessListArray);
             return roleAccessListArray;
         }
     }

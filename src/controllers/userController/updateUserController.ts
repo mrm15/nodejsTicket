@@ -9,6 +9,7 @@ import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNu
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {addLog} from "../../utils/logMethods/addLog";
+import {clearRoleAccessListCache} from "../../utils/cache/clearRoleAccessListCache";
 
 
 const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -51,6 +52,7 @@ const updateUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
                 responseTime: null,
                 error: null,
             })
+            clearRoleAccessListCache(foundUser.phoneNumber)
             res.status(200).json({
                 message: "کاربر با موفقیت به روز شد."
             });

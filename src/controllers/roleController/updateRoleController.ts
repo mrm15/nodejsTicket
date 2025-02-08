@@ -6,6 +6,7 @@ import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {IRole, Role} from "../../models/roles";
 import {myPermissionsArray} from "./permissinsArray";
+import {clearRoleAccessListCache} from "../../utils/cache/clearRoleAccessListCache";
 
 
 const updateRoleController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -83,6 +84,7 @@ const updateRoleController = async (req: CustomRequestMyTokenInJwt, res: Respons
             })
 
             await foundRole.save()
+            clearRoleAccessListCache()
             res.status(200).json({message: 'نقش با موفقیت آپدیت شد',});
             return;
 
