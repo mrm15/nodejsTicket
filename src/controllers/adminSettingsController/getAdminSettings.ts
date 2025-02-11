@@ -1,17 +1,8 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {Department, IDepartment} from "../../models/department";
-import {getRoleAccessList} from "../LoginRegisterSms/getRoleAccessList";
-import * as perf_hooks from "node:perf_hooks";
-import {getDepartmentListWithUsers, getSameDepartmentUsers} from "../controllerUtilFunctions/getData";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
-import {IUser, User} from "../../models/User";
-import {IRole, Role} from "../../models/roles";
-import mongoose from "mongoose";
-import {getCurrentTimeStamp} from "../../utils/timing";
-import {IStatus, Status} from "../../models/status";
 import {registerRandomAdminSettings} from "../../utils/initialSetup/registerRandomAdminSettings";
 import {addLog} from "../../utils/logMethods/addLog";
 

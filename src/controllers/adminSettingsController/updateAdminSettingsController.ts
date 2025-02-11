@@ -54,7 +54,7 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             updatedAdminSettings.registerDepartment = setNullIfEmpty(updatedAdminSettings.registerDepartment);
             updatedAdminSettings.registerRole = setNullIfEmpty(updatedAdminSettings.registerRole);
 
-
+            debugger
             currentSettings.userId = myToken?.UserInfo?.userData?.userData?.userId;
             currentSettings.firstDestinationForTickets = updatedAdminSettings.firstDestinationForTickets;
             currentSettings.showUsersListInSendTicketForm = updatedAdminSettings.showUsersListInSendTicketForm;
@@ -69,10 +69,10 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             currentSettings.sendSMSAfterVerifyBill = updatedAdminSettings.sendSMSAfterVerifyBill;
             currentSettings.exceptionFromChangeFactorTagList = updatedAdminSettings.exceptionFromChangeFactorTagList;
             currentSettings.loginCodeHack = updatedAdminSettings.loginCodeHack;
-            currentSettings.mainFileMessageTagId = updatedAdminSettings.mainFileMessageTagId;
-            currentSettings.screenShotMessageTagId = updatedAdminSettings.screenShotMessageTagId;
-            currentSettings.billMessageTagId = updatedAdminSettings.billMessageTagId;
-            currentSettings.nodeFileMessageId = updatedAdminSettings.nodeFileMessageId;
+            currentSettings.mainFileMessageTagId = updatedAdminSettings.mainFileMessageTagId|| null;
+            currentSettings.screenShotMessageTagId = updatedAdminSettings.screenShotMessageTagId|| null;
+            currentSettings.billMessageTagId = updatedAdminSettings.billMessageTagId|| null;
+            currentSettings.nodeFileMessageId = updatedAdminSettings.nodeFileMessageId|| null;
             currentSettings.updateAt = getCurrentTimeStamp();
 
 
