@@ -56,6 +56,7 @@ const updateMessageTagController = async (req: CustomRequestMyTokenInJwt, res: R
 
             foundMessageTag.name = newData?.name || "بدون نام"
             foundMessageTag.description = newData?.description || " بدون توضیحات"
+            foundMessageTag.isActive=newData?.isActive !== "0"
             foundMessageTag.updateAt = getCurrentTimeStamp()
             foundMessageTag.userId = userId
 
