@@ -15,6 +15,10 @@ interface IAdminSettings extends Document {
     sendSMSAfterVerifyBill: boolean;
     exceptionFromChangeFactorTagList: string;
     loginCodeHack: string | null;
+    mainFileMessageTagId:mongoose.Schema.Types.ObjectId | null;
+    screenShotMessageTagId:mongoose.Schema.Types.ObjectId | null;
+    billMessageTagId:mongoose.Schema.Types.ObjectId | null;
+    nodeFileMessageId:mongoose.Schema.Types.ObjectId | null;
     createAt: Date;
     updateAt: Date;
 }
@@ -71,6 +75,10 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
         required: false,
         default: null,
     },
+    mainFileMessageTagId: {type: mongoose.Schema.Types.ObjectId,required: false,default: null,},
+    screenShotMessageTagId: {type: mongoose.Schema.Types.ObjectId,required: false,default: null,},
+    billMessageTagId: {type: mongoose.Schema.Types.ObjectId,required: false,default: null,},
+    nodeFileMessageId: {type: mongoose.Schema.Types.ObjectId,required: false,default: null,},
     sendSMSAfterSubmitBill: {
         type: Boolean,
         default: false,

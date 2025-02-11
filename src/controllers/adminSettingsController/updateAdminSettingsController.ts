@@ -69,6 +69,10 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             currentSettings.sendSMSAfterVerifyBill = updatedAdminSettings.sendSMSAfterVerifyBill;
             currentSettings.exceptionFromChangeFactorTagList = updatedAdminSettings.exceptionFromChangeFactorTagList;
             currentSettings.loginCodeHack = updatedAdminSettings.loginCodeHack;
+            currentSettings.mainFileMessageTagId = updatedAdminSettings.mainFileMessageTagId;
+            currentSettings.screenShotMessageTagId = updatedAdminSettings.screenShotMessageTagId;
+            currentSettings.billMessageTagId = updatedAdminSettings.billMessageTagId;
+            currentSettings.nodeFileMessageId = updatedAdminSettings.nodeFileMessageId;
             currentSettings.updateAt = getCurrentTimeStamp();
 
 
