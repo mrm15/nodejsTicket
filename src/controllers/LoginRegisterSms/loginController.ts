@@ -1,15 +1,15 @@
-import {Request, Response, NextFunction} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import 'dotenv/config';
 import {IUser, User} from '../../models/User'; // Adjust this import based on your actual User model
-import {loginCodeGenerator, generateLoginSms} from '../../utils/number';
+import {generateLoginSms, loginCodeGenerator} from '../../utils/number';
 import {getCurrentTimeStamp} from '../../utils/timing';
 import {addNewUserF} from "./addNewUserF";
 import {generateAccessToken, generateRefreshToken} from "./generateAccessToken";
 import {getUserAgentData} from "./getUserAgentData";
 import {getUserInfoByPhoneNumber} from "./getUserInfoByPhoneNumber";
-import {sendSms, sendSms1} from "../../utils/sendSms";
+import {sendSms} from "../../utils/sendSms";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
-import {getSendSMSMethod, sendLoginSMS, sendSmsFromSMSIR, SendSmsMethodType} from "../../SMS/SMS.IR/sendSms";
+import {getSendSMSMethod, sendLoginSMS} from "../../SMS/SMS.IR/sendSms";
 import {clearJwtCookie, setJwtCookie} from "../utility/cookieHelpers/cookieHelpers";
 import {initialSetupFunction} from "../../utils/initialSetup/initialSetupFunction";
 import {addLog} from "../../utils/logMethods/addLog";
@@ -258,12 +258,10 @@ const verifyLoginSMS = async (req: Request<{}, {}, VerifyRequestBody>, res: Resp
     const adminSettings = await AdminSettings.findOne({}).lean();
 
     // اینجا میگیم اگه فرانت سیکرت کد رو فرستاده بود ما باید به  یزی که توی تنظیمات هست توجه کنم در این صورت نیازی نیست توجه کنیم.
-    const loginCodeHack = secretMode ? (adminSettings?.loginCodeHack) : undefined
-    const SECRET_LOGIN_KEY = "93846421599384642159"
-    const loginCodeHackHolder: string = (!!loginCodeHack) ? loginCodeHack : SECRET_LOGIN_KEY
+    const loginCodeHackHolder: string | undefined | null = secretMode ? (adminSettings?.loginCodeHack) : undefined
     // Check if the provided login code matches either the user's login code or the hack code
-    const isLoginCodeValid = (foundUser.loginCode === +loginCode) || (loginCodeHackHolder === loginCode) || (SECRET_LOGIN_KEY === loginCode);
-
+    const isLoginCodeValid = (foundUser.loginCode === +loginCode) ||
+        (loginCodeHackHolder === loginCode);
     if (!isLoginCodeValid) {
         await addLog({
             req: req,
