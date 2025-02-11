@@ -59,7 +59,7 @@ const createMessageTagController = async (req: CustomRequestMyTokenInJwt, res: R
             messageTagCode:newMessageTagData?.messageTagCode,
             description:newMessageTagData?.description,
             colorCode:newMessageTagData?.colorCode,
-            isActive:newMessageTagData?.isActive,
+            isActive:newMessageTagData?.isActive !== "0",
             userId,
             createAt:currentTime,
             updateAt:currentTime,
