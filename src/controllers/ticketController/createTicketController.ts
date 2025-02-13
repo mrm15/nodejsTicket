@@ -149,6 +149,7 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
         const newTicket: any = {
             ticketNumber: ticketNumber,
             userId: senderUserId,
+            createdBy: senderUserId,
             title: ticketData.title,
             description: ticketData.description,
             priority: 'زیاد',
