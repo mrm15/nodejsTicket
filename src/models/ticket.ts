@@ -19,8 +19,10 @@ interface ITicket extends Document {
     // ticketId: string;
     // شماره تیکت
     ticketNumber: number;
-    // آیدی کاربری که تیکت رو ایجاد کرده
+    // آیدی کاربری که تیکت رو ایجاد کرده و توی توی تیکت های من توی پنل خودش میاد.
     userId: mongoose.Schema.Types.ObjectId;
+    // گاهی ممکنه سفارش گیر هم تیکت رو ایجاد کنه که من اینجا این ستون رو میزارم در صورتی پر میشه که سفارش گیر براش تیکت رو ثبت کرده باشه
+    createdBy: mongoose.Schema.Types.ObjectId | null;
     // عنوان تیکت چیه؟
     title: string;
     // توضیحات تیکت
@@ -52,6 +54,8 @@ interface ITicket extends Document {
     customerReadStatus:boolean;
     // تگ که مشحص میکنه این چه تگی داره. که بعدا توی لیست پیام هام تگ ها رو مشخص کنم.
     messageTag: mongoose.Schema.Types.ObjectId | null;
+    // زمان تقریبی آماده سازی
+    estimatedDeliveryTime: Date| null;
     // تاریخ ایجاد این سفارش تیکت
     createAt: Date;
     // تاریخ آخرین به روز رسانی این سفارش تیکت
@@ -67,6 +71,12 @@ const ticketSchema = new mongoose.Schema<ITicket>({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false,
+        default:null
     },
     title: {
         type: String,
@@ -130,6 +140,10 @@ const ticketSchema = new mongoose.Schema<ITicket>({
         default: null,
     },
     messageTag: {type: mongoose.Schema.Types.ObjectId,ref: 'messageTag',default: null,},
+    estimatedDeliveryTime: {
+        type: Date || null,
+        default: Date.now,
+    },
     createAt: {
         type: Date,
         default: Date.now,
