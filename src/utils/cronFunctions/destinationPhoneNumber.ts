@@ -30,8 +30,8 @@ export const destinationPhoneNumberArray = [
         renderFunction: sendSMSBoreshPlaxiShab
     },
     {
-        name: " زهرای",
-        phoneNumber: "09908425653",
+        name: " فیروز",
+        phoneNumber: "09117508344",
         renderFunction: sendSMSBoreshPlaxiShab,
     },
     {
