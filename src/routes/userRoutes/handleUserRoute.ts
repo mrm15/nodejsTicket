@@ -6,6 +6,7 @@ import {deleteUserController} from "../../controllers/userController/deleteUserC
 import {userList} from "../../controllers/userController/userList";
 import {getUserInfo} from "../../controllers/userController/getUserInfo";
 import {updateHisInfo} from "../../controllers/userController/updateHisInfo";
+import {userListDetails} from "../../controllers/userController/userListDetails";
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.post('/read', readUserController);
 router.post('/update', updateUserController);
 router.delete('/delete/:id', deleteUserController);
 router.get('/userList', userList);
+router.get('/userListDetails', userListDetails);
 router.get('/info', getUserInfo);
 router.post('/updateInfo', updateHisInfo); // update by id in token  user is changing his info
 
