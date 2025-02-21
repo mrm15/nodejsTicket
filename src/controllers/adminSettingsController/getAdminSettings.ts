@@ -2,9 +2,8 @@ import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
-import {registerRandomAdminSettings} from "../../utils/initialSetup/registerRandomAdminSettings";
 import {addLog} from "../../utils/logMethods/addLog";
+import getAdminSettingsData from "../../utils/adminSettings/getAdminSettingsData";
 
 export interface IDataList {
     name: string;
@@ -58,22 +57,9 @@ const getAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Response, n
         }
 
 
-        const result: IAdminSettings | null = await AdminSettings.findOne({}).lean()
-        if (!result) {
-            // هیچ تنظیماتی نیست. بریم الکی ثبت کنیم
-            const resultOfRegisterNewAdminSettings = await registerRandomAdminSettings()
+        const result = await getAdminSettingsData()
 
-            const myAdminSettings = await AdminSettings.findOne({}).lean()
-
-
-            res.status(resultOfRegisterNewAdminSettings.statusCode).json({
-                adminSettingData: myAdminSettings,
-                message: resultOfRegisterNewAdminSettings.message,
-            });
-            return;
-        }
-
-        const adminSettingData = {...result}
+        const adminSettingData = result.adminSettingData
         await addLog({
             req: req,
             name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
