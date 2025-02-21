@@ -9,6 +9,8 @@ import {checkAccessList} from "../../utils/checkAccessList";
 import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {setNullIfEmpty} from "../../utils/functions";
 import {addLog} from "../../utils/logMethods/addLog";
+import cacheKeyNames from "../../utils/cache/cacheKeyNames";
+import myNodeCache from "../../utils/cache/cache";
 
 
 const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -86,6 +88,8 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             `,
                 statusCode: 200,
             })
+            // کش ها رو اینجا حدف میکنیم چون آپدیت شده
+            myNodeCache.del(cacheKeyNames.adminSettings);
             res.status(200).json({message: 'تنظیمات مدیریتی با موفقیت ثبت شد.',});
             return;
 
