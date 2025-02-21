@@ -88,7 +88,8 @@ const ticketSchema = new mongoose.Schema<ITicket>({
     },
     priority: {
         type: String,
-        required: true,
+        required: false,
+        default:null,
     },
     statusId: {
         type: mongoose.Schema.Types.ObjectId,
