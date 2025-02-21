@@ -1,13 +1,8 @@
 import {NextFunction, Response} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
-import {Department, IDepartment} from "../../models/department";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
-import {IUser, User} from "../../models/User";
-
-import {getCurrentTimeStamp} from "../../utils/timing";
-import {IStatus, Status} from "../../models/status";
+import getAdminSettingsData from "../../utils/adminSettings/getAdminSettingsData";
 
 export interface IDataList {
     name: string;
@@ -61,68 +56,16 @@ const getSafeAdminSettings = async (req: CustomRequestMyTokenInJwt, res: Respons
         }
 
 
-        const result: IAdminSettings | null = await AdminSettings.findOne({}).lean()
+        const myResult = await getAdminSettingsData()
+        const result = myResult.adminSettingData
+
         if (!result) {
-            // هیچ تنظیماتی نیست. بریم الکی ثبت کنیم
-
-            const randomUser: IUser | null = await User.findOne({}).lean();
-            if (!randomUser) {
-                res.status(406).json({
-                    message: 'لطفا یک کاربر تعریف کنید.',
-                });
-                return;
-            }
-
-
-            const randomDepartment: IStatus | null = await Status.findOne({}).lean()
-            if (!randomDepartment) {
-                res.status(406).json({
-                    message: 'لطفا یک دپارتمان تعریف کنید.',
-                });
-                return;
-            }
-            const randomStatus: IDepartment | null = await Department.findOne({}).lean()
-            if (!randomStatus) {
-                res.status(406).json({
-                    message: 'لطفا یک استاتوس تعریف کنید.',
-                });
-                return;
-            }
-
-
-            const currentTimeStamp = getCurrentTimeStamp()
-            const newAdminSettingData: IAdminSettings = new AdminSettings({
-
-                userId: randomUser.id,
-                firstDestinationForTickets: randomDepartment._id,
-                showUsersListInSendTicketForm: false,
-                firstStatusTicket: randomStatus._id,
-                maxFileSize: 5.0,
-                customerDepartment: null,
-                registerInPanel: "notActive",
-                registerDepartment: null,
-                registerRole: null,
-                forwardTicketsAfterVerify: null,
-                sendSMSAfterSubmitBill: false,
-                sendSMSAfterVerifyBill: false,
-                exceptionFromChangeFactorTagList: "",
-                loginCodeHack: null,
-                createAt: currentTimeStamp,
-                updateAt: currentTimeStamp,
-            })
-            await newAdminSettingData.save();
-
-            const myAdminSettings = await AdminSettings.findOne({}).lean()
-
-
             res.status(200).json({
-                adminSettingData: myAdminSettings,
-                message: 'تنظیمات اولیه ثبت شد.',
+                adminSettingData: null,
+                message: 'تنظیمات فعلی بازیابی شد.',
             });
             return;
         }
-
-
         const {
             loginCodeHack,
             _id,
