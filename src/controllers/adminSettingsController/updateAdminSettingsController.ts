@@ -59,6 +59,7 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             debugger
             currentSettings.userId = myToken?.UserInfo?.userData?.userData?.userId;
             currentSettings.firstDestinationForTickets = updatedAdminSettings.firstDestinationForTickets;
+            currentSettings.billDepartmentId = updatedAdminSettings.billDepartmentId;
             currentSettings.showUsersListInSendTicketForm = updatedAdminSettings.showUsersListInSendTicketForm;
             currentSettings.firstStatusTicket = updatedAdminSettings.firstStatusTicket;
             currentSettings.registerInPanel = updatedAdminSettings.registerInPanel;
