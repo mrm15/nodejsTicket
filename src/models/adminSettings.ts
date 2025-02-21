@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 interface IAdminSettings extends Document {
     userId: mongoose.Schema.Types.ObjectId | null;
     firstDestinationForTickets: mongoose.Schema.Types.ObjectId | null;
+    billDepartmentId: mongoose.Schema.Types.ObjectId | null;
     showUsersListInSendTicketForm: boolean;
     firstStatusTicket: mongoose.Schema.Types.ObjectId | null;
     maxFileSize: number | null;
@@ -30,11 +31,8 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
         required: false,
         default: null,
     },
-    firstDestinationForTickets: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: false,
-        default: null,
-    },
+    firstDestinationForTickets: {type: mongoose.Schema.Types.ObjectId,required: false,default: null,},
+    billDepartmentId: {type: mongoose.Schema.Types.ObjectId,required: false,default: null,},
     showUsersListInSendTicketForm: {
         type: Boolean,
         default: false,
