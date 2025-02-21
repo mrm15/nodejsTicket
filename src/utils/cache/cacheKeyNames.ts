@@ -4,6 +4,7 @@ import {getRoleAccessList} from "../../controllers/LoginRegisterSms/getRoleAcces
 const cacheKeyNames = {
     // get  and set and delete when will delete when user update , role update. role delete
     getRoleAccessList: "getRoleAccessList",
+    adminSettings: "adminSettings",
     // "roleAccessList":"roleAccessList",
 }
 export default cacheKeyNames
