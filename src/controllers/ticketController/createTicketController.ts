@@ -199,13 +199,13 @@ const createTicketController = async (req: CustomRequestMyTokenInJwt, res: Respo
 
         setTimeout(async () => {
 
-            // const sendSmsAfterSubmitOrder11 = await sendSmsAfterSubmitOrder({
-            //     mobile: phoneNumber,
-            //     customerName: contactName,
-            //     orderTitle: result.title,
-            //     orderNumber: result.ticketNumber
-            // })
-        }, 60000)
+            const sendSmsAfterSubmitOrder11 = await sendSmsAfterSubmitOrder({
+                mobile: phoneNumber,
+                customerName: contactName,
+                orderTitle: result.title,
+                orderNumber: result.ticketNumber
+            })
+        }, 6000)
         // اینجا میخوام یه نوتیف بدم به کاربر
         const notificationArray = [
             {
