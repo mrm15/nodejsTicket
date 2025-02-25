@@ -420,6 +420,17 @@ const makeDataObject = ({totalData}: any) => {
 
         ]
     })
+    const CHALENIUM_ONLY_OJRAT = calculateSingleObject(totalData, {
+        caption: "جمع اجرت چلنیوم",
+        id: "34",
+        ...keys,
+        textColor:"gray",
+        filterIdForPivot: [
+            "000068",
+            "000251",
+
+        ]
+    })
 
     const CHALENIUM_LABE_NOQREI_7SANT_SADE = calculateSingleObject(totalData, {
         caption: "چلنیوم لبه نقره ای 7 سانت ساده",
@@ -664,9 +675,9 @@ const makeDataObject = ({totalData}: any) => {
         id: "52",
         ...keys,
         filterIdForPivot: [
-            "000081",
-            "000146",
-            "000365",
+            // "000081",
+            // "000146",
+            // "000365",
 
             // "000118",
             // "000119",
@@ -679,7 +690,34 @@ const makeDataObject = ({totalData}: any) => {
             // "000372",
             // "000376",
             // "000382",
+            "000118",
+            "000119",
+            "000120",
+            "000121",
+            "000133",
+            "000134",
+            "000135",
+            "000136",
+            "000372",
+            "000376",
+            "000382",
+            "000437",
+            "000576",
+
         ]
+    })
+    const SUEDI_KOLLI_OJRAT = calculateSingleObject(totalData, {
+        caption: "جمع اجرت سوئدی",
+        id: "52",
+        ...keys,
+        bgColor: "white",
+        textColor: "gray",
+        filterIdForPivot: [
+            "000081",
+            "000146",
+            "000365",
+        ],
+
     })
     const SUEDI_LABE_NOQREI_5_SANT_BARRAT = calculateSingleObject(totalData, {
         caption: "سوئدی لبه نقره ای 5 سانت آیینه ای",
@@ -795,6 +833,118 @@ const makeDataObject = ({totalData}: any) => {
         caption: "نئون پلاستیک (لبه)",
         id: "62",
         ...keys,
+        filterIdForPivot: [
+            "000105",
+            "000106",
+            "000107",
+            "000108",
+            "000109",
+            "000110",
+            "000111",
+            "000112",
+            "000113",
+            "000114",
+            "000115",
+            "000147",
+            "000699",
+            "000700",
+            "000701",
+            "000702",
+            "000703",
+            "000704",
+            "000705",
+            "000706",
+            "000707",
+            "000708",
+            "000709",
+            "000710",
+            "000711",
+            "000712",
+            "000713",
+            "000714",
+            "000715",
+            "000716",
+            "000717",
+            "000718",
+            "000719",
+            "000720",
+            "000721",
+            "000722",
+            "000723",
+            "000724",
+            "000725",
+            "000726",
+            "000727",
+            "000728",
+            "000729",
+            "000730",
+            "000731",
+            "000732",
+            "000733",
+            "000734",
+            "000735",
+            "000736",
+            "000737",
+            "000738",
+            "000739",
+            "000740",
+            "000741",
+            "000742",
+            "000743",
+            "000744",
+            "000745",
+            "000746",
+            "000747",
+            "000748",
+            "000749",
+            "000750",
+            "000751",
+            "000752",
+            "000753",
+            "000757",
+            "000758",
+            "000759",
+            "000760",
+            "000763",
+            "000764",
+            "000765",
+            "000767",
+            "000768",
+            "000769",
+            "000774",
+            "000775",
+            "000777",
+            "000783",
+            "000785",
+            "000786",
+            "000788",
+            "000789",
+            "000795",
+            "000796",
+            "000802",
+            "000829",
+            "000851",
+            "000855",
+            "000856",
+            "000858",
+            "000859",
+            "000860",
+            "000862",
+            "000866",
+            "000873",
+            "000874",
+            "000880",
+
+            //////////////////////////
+
+
+        ]
+    })
+    const NEON_PLASTIC_OJRAT = calculateSingleObject(totalData, {
+        caption: "اجرت نئون پلاستیک (لبه)",
+        id: "62",
+        ...keys,
+        textColor:"gray",
         filterIdForPivot: [
             "000158",
             "000159",
@@ -1218,6 +1368,167 @@ const makeDataObject = ({totalData}: any) => {
         ]
     })
 
+    const ajrat_bores_laser_varagh_2_8_mil = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت برش لیزر ورق 2.8 میل",
+        ...keys,
+        filterIdForPivot: ["000004"]
+    });
+
+    const ajrat_bores_pvc_cnc = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت برش پی وی سی - سی ان سی",
+        ...keys,
+        filterIdForPivot: ["000067"]
+    });
+
+    const ajrat_sakht_chanelium_horof_adi = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت چلنیوم حروف عادی",
+        ...keys,
+        filterIdForPivot: ["000068"]
+    });
+
+    const ajrat_panchi_talagh_2_8_mil_sadeh = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت پانچی کردن ( حالت ساده ) طلق 2.8 میل",
+        ...keys,
+        filterIdForPivot: ["000069"]
+    });
+
+    const ajrat_sakht_steel_horof_adi = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت استیل حروف عادی",
+        ...keys,
+        filterIdForPivot: ["000080"]
+    });
+
+    const ajrat_sakht_horof_swedi_asan = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت حروف سوئدی آسان",
+        ...keys,
+        filterIdForPivot: ["000081"]
+    });
+
+    const ajrat_bores_laser_steel = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت برش لیزر استیل",
+        ...keys,
+        filterIdForPivot: ["000082"]
+    });
+
+    const esticker_abi_karbani_ba_nasb_roye_plexi = calculateSingleObject(totalData, {
+        id: "",
+        caption: "استیکر آبی کاربنی همراه با اجرت نصب روی پلکسی",
+        ...keys,
+        filterIdForPivot: ["000122"]
+    });
+
+    const ajrat_dooble_ba_keler_form = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت دوبل همراه با مبلغ کلر فرم",
+        ...keys,
+        filterIdForPivot: ["000131"]
+    });
+
+    const esticker_meshki_ba_nasb_roye_plexi = calculateSingleObject(totalData, {
+        id: "",
+        caption: "استیکر مشکی همراه با اجرت نصب روی پلکسی",
+        ...keys,
+        filterIdForPivot: ["000132"]
+    });
+
+    const esticker_ghermez_ba_nasb_roye_plexi = calculateSingleObject(totalData, {
+        id: "",
+        caption: "استیکر قرمز با اجرت نصب روی پلکسی",
+        ...keys,
+        filterIdForPivot: ["000138"]
+    });
+
+    const ajrat_sakht_horof_swedi_sakht = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت حروف سوئدی سخت",
+        ...keys,
+        filterIdForPivot: ["000146"]
+    });
+
+    const ajrat_multi_band_labe_plastic = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت مولتی بند کردن لبه پلاستیک",
+        ...keys,
+        filterIdForPivot: ["000147"]
+    });
+
+    const ajrat_panchi_talagh_2_8_mil_tarhdar = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت پانچی کردن ( حالت طرحدار ) طلق 2.8 میل",
+        ...keys,
+        filterIdForPivot: ["000156"]
+    });
+
+    const ajrat_sakht_neon_plastic_horof_standard_labe_3_ta_8 = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت نئون پلاستیک ( حروف استاندارد ) لبه 3 تا 8 سانت",
+        ...keys,
+        filterIdForPivot: ["000158"]
+    });
+
+    const ajrat_sakht_neon_plastic_horof_sakht_labe_3_ta_8 = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت نئون پلاستیک ( حروف سخت) لبه 3 تا 8 سانت",
+        ...keys,
+        filterIdForPivot: ["000159"]
+    });
+
+    const ajrat_panch_va_bores_pattern_varagh_steel_va_ahan_ta_1_mil = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت پانچ و برش طرح پترن ورق استیل و آهن تا ضخامت یک میل",
+        ...keys,
+        filterIdForPivot: ["000234"]
+    });
+
+    const ajrat_sakht_steel_horof_sakht = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت استیل حروف های سخت",
+        ...keys,
+        filterIdForPivot: ["000235"]
+    });
+
+    const ajrat_bores_laser_plexi_5_mil = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت برش لیزر پلکسی 5 میل",
+        ...keys,
+        filterIdForPivot: ["000238"]
+    });
+
+    const ajrat_sakht_chanelium_horof_sakht = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت چلنیوم حروف سخت",
+        ...keys,
+        filterIdForPivot: ["000251"]
+    });
+
+    const ajrat_sakht_horof_ahan_adi = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت حروف آهن عادی",
+        ...keys,
+        filterIdForPivot: ["000252"]
+    });
+
+    const ajrat_sakht_horof_ahan_sakht = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت ساخت حروف آهن سخت",
+        ...keys,
+        filterIdForPivot: ["000253"]
+    });
+
+    const ajrat_bores_laser_ahan = calculateSingleObject(totalData, {
+        id: "",
+        caption: "اجرت برش لیزر آهن",
+        ...keys,
+        filterIdForPivot: ["000254"]
+    });
+
 
 
 
@@ -1230,7 +1541,13 @@ const makeDataObject = ({totalData}: any) => {
                 ...SUEDI_KOLLI,
             },
             {
+                ...SUEDI_KOLLI_OJRAT,
+            },
+            {
                 ...CHALENIUM_ONLY,
+            },
+            {
+                ...CHALENIUM_ONLY_OJRAT,
             },
             {
                 ...CHALENIUM_SUEDI_KOLI,
@@ -1242,7 +1559,11 @@ const makeDataObject = ({totalData}: any) => {
                 // title: "نئون پلاستیک ",
                 // value: "نداریم",
                 ...NEON_PLASTIC
-            }
+            },
+            {
+                // title: "نئون پلاستیک اجرت ",
+                ...NEON_PLASTIC_OJRAT
+            },
         ],
         // [
         //     {
@@ -1292,6 +1613,63 @@ const makeDataObject = ({totalData}: any) => {
     ]
 
     const treeViewData = [
+
+        {
+
+            title:"ریز جزئیات اجرت ساخت.",
+            subItems : [
+                { ...ajrat_bores_laser_varagh_2_8_mil },
+                { ...ajrat_bores_pvc_cnc },
+                { ...ajrat_sakht_chanelium_horof_adi },
+                { ...ajrat_panchi_talagh_2_8_mil_sadeh },
+                { ...ajrat_sakht_steel_horof_adi },
+                { ...ajrat_sakht_horof_swedi_asan },
+                { ...ajrat_bores_laser_steel },
+                { ...esticker_abi_karbani_ba_nasb_roye_plexi },
+                { ...ajrat_dooble_ba_keler_form },
+                { ...esticker_meshki_ba_nasb_roye_plexi },
+                { ...esticker_ghermez_ba_nasb_roye_plexi },
+                { ...ajrat_sakht_horof_swedi_sakht },
+                { ...ajrat_multi_band_labe_plastic },
+                { ...ajrat_panchi_talagh_2_8_mil_tarhdar },
+                { ...ajrat_sakht_neon_plastic_horof_standard_labe_3_ta_8 },
+                { ...ajrat_sakht_neon_plastic_horof_sakht_labe_3_ta_8 },
+                { ...ajrat_panch_va_bores_pattern_varagh_steel_va_ahan_ta_1_mil },
+                { ...ajrat_sakht_steel_horof_sakht },
+                { ...ajrat_bores_laser_plexi_5_mil },
+                { ...ajrat_sakht_chanelium_horof_sakht },
+                { ...ajrat_sakht_horof_ahan_adi },
+                { ...ajrat_sakht_horof_ahan_sakht },
+                { ...ajrat_bores_laser_ahan }
+            ]
+        },
+        {
+
+            // title: 'پلکسی کلی',
+            // value : "",
+            ...PLAXI_KOLLI,
+            subItems: [
+                {
+                    // title: 'پلکسی 2.8 میل',
+                    // value: '120',
+                    ...PLAXI_2_8_MILL,
+
+                },
+                {
+                    // title: 'پلکسی دوغی 5 میل',
+                    // value: '120',
+                    ...PLAXI_duqi_5_Mill
+
+                },
+                {
+                    // title: 'پلکسی دوغی 10 میل',
+                    // value: '120',
+                    ...PLAXI_duqi_10_Mill
+
+                },
+
+            ]
+        },
         {
 
             // title: 'پلکسی کلی',
