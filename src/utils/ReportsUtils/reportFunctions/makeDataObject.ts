@@ -1138,34 +1138,167 @@ const makeDataObject = ({totalData}: any) => {
             "000435",
         ]
     })
+    const ELEMAN_SHAHRI_OJRAT = calculateSingleObject(totalData, {
+        caption: "المان شهری",
+        id: "62",
+        ...keys,
+        filterIdForPivot: [
+            "000811",
+        ]
+    })
 
 
-    const SUM_OJRAT_SAKHT_ESTIL = calculateSingleObject(totalData, {
-        caption: "متراژ استیل",
+    const SUM_OJRAT_SAKHT_ESTIL_LABE = calculateSingleObject(totalData, {
+        caption: "متراژ لبه استیل",
         id: "62",
         ...keys,
         // bgColor:"#989898",
         // textColor:"black",
+        filterIdForPivot: [
+            "000087",
+            "000088",
+            "000090",
+            "000091",
+            "000173",
+            "000174",
+            "000175",
+            "000176",
+            "000177",
+            "000178",
+            "000179",
+            "000180",
+            "000181",
+            "000182",
+            "000183",
+            "000184",
+            "000185",
+            "000186",
+            "000187",
+            "000188",
+            "000189",
+            "000190",
+            "000191",
+            "000192",
+            "000193",
+            "000194",
+            "000195",
+            "000196",
+            "000197",
+            "000198",
+            "000199",
+            "000200",
+            "000201",
+            "000202",
+            "000203",
+            "000204",
+            "000205",
+            "000206",
+            "000207",
+            "000208",
+            "000209",
+            "000210",
+            "000211",
+            "000212",
+            "000213",
+            "000214",
+            "000215",
+            "000216",
+            "000217",
+            "000218",
+            "000219",
+            "000220",
+            "000221",
+            "000222",
+            "000223",
+            "000224",
+            "000225",
+            "000226",
+            "000227",
+            "000228",
+            "000229",
+            "000230",
+            "000362",
+            "000367",
+            "000434",
+            "000462",
+            "000630",
+            "000632",
+            "000633",
+            "000634",
+            "000635",
+            "000636",
+            "000637",
+            "000638",
+            "000642",
+            "000643",
+            "000770",
+            "000779",
+            "000834",
+            "000852",
+        ]
+    })
+    const SUM_OJRAT_SAKHT_ESTIL = calculateSingleObject(totalData, {
+        caption: "اجرت لبه استیل",
+        id: "62",
+        ...keys,
+        // bgColor:"#989898",
+        textColor:"gray",
         filterIdForPivot: [
             "000080",
             "00235",
         ]
     })
-    const SUM_OJRAT_SAKHT_AHAN = calculateSingleObject(totalData, {
-        caption: "متراژ آهن",
+    const SUM_OJRAT_SAKHT_AHAN_LABE = calculateSingleObject(totalData, {
+        caption: "متراژ لبه آهن",
         id: "62",
         ...keys,
         // bgColor:"#989898",
         // textColor:"black",
         filterIdForPivot: [
-            "000252",
+            "000117",
+            "000239",
+            "000240",
+            "000241",
+            "000242",
+            "000243",
+            "000244",
+            "000245",
+            "000246",
+            "000247",
+            "000248",
+            "000249",
+            "000454",
+            "000505",
+            "000523",
+            "000610",
+            "000639",
+            "000640",
+            "000641",
+            "000771",
+            "000820",
+            "000821",
+            "000837",
+            "000854",
+            "000875",
+
+        ]
+    })
+    const SUM_OJRAT_SAKHT_AHAN = calculateSingleObject(totalData, {
+        caption: "اجرت ساخت آهن سخت و آسان",
+        id: "62",
+        ...keys,
+        textColor:"gray",
+        // bgColor:"#989898",
+        // textColor:"black",
+        filterIdForPivot: [
+            "000252" ,
             "000253",
-            "000811",// المان شهری؟؟؟
+
         ]
     })
 
     const SUM_FELEZAT = calculateSingleObject(totalData, {
-        caption: "جمع متراژ فلزات",
+        caption: "جمع متراژ فلزات (استیل آهن جوش فایبر المان شهری)",
         id: "62",
         ...keys,
         bgColor: "#989898",
@@ -1180,6 +1313,8 @@ const makeDataObject = ({totalData}: any) => {
             // جوش فایبراا
             "000381",
             "000435",
+            // المان شهری
+            "000811"
         ]
     })
 
@@ -1572,13 +1707,22 @@ const makeDataObject = ({totalData}: any) => {
         // ],
         [
             {
+                ...SUM_OJRAT_SAKHT_ESTIL_LABE
+            },
+            {
                 ...SUM_OJRAT_SAKHT_ESTIL
+            },
+            {
+                ...SUM_OJRAT_SAKHT_AHAN_LABE
             },
             {
                 ...SUM_OJRAT_SAKHT_AHAN
             },
             {
                 ...JOOSH_FIBER
+            },
+            {
+                ...ELEMAN_SHAHRI_OJRAT
             },
             {
                 ...SUM_FELEZAT
