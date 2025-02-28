@@ -12,7 +12,6 @@ import { sendSmsAfterSubmitOrder } from "../../SMS/SMS.IR/sendSms";
 import { startSession } from 'mongoose';
 import { CustomRequestMyTokenInJwt } from "../../middleware/verifyJWT";
 
-// اینو از فرانت کپی کردم چون فقط بعضی از آیتم هاش بکار میاد کلشو گرفتم بدونم
 export interface AdvancedTicketTypes {
     // عنوان سفارش
     title: string,
@@ -60,7 +59,7 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
         return res.status(400).json({ message: error.details[0].message });
     }
 
-    // مرحله 4: اول از همه دسترسی کاربر رو چک کنیم
+    // مرحله 4: ابتدا دسترسی کاربر را چک می‌کنیم
     const roleAccessListToTicketAdvanced = [ACCESS_LIST.ticketCreateAdvanced];
     const hasAccessTo = await checkAccessList({
         arrayListToCheck: roleAccessListToTicketAdvanced,
@@ -103,116 +102,104 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
             });
         }
 
-        // مرحله 5: استفاده از Transaction برای ایجاد تیکت و ثبت تیکت ریپلای
-        const session = await startSession();
-        session.startTransaction();
-        try {
-            // ایجاد یک تیکت جدید
-            const ticketNumber = await getNextSequenceValue('ticketNumber');
-            const currentTimeStamp = getCurrentTimeStamp();
+        // حذف بخش‌های مربوط به تراکنش (چون Replica Set در دسترس نیست)
+        // ایجاد یک تیکت جدید
+        const ticketNumber = await getNextSequenceValue('ticketNumber');
+        const currentTimeStamp = getCurrentTimeStamp();
 
-            const newTicket = {
-                ticketNumber: ticketNumber,
-                userId: myData.senderUserId,
-                createdBy: foundUser.id, // شناسه کاربر ثبت کننده
-                title: myData.title,
-                description: myData.description,
-                priority: 'زیاد',
-                statusId: adminSettings?.firstStatusTicket,
-                firstDepartmentId: adminSettings?.firstDestinationForTickets,
-                firstUserId: foundUser.id,
-                lastAssignedDepartmentId: adminSettings?.firstStatusTicket,
-                lastAssignedUserId: foundUser.id,
-                messageTag: adminSettings?.mainFileMessageTagId,
-                attachments: myData?.filesUploadId,
-                lastChangeTimeStamp: currentTimeStamp,
-                billNumber: null,
-                billStatus: null,
-                organizationReadStatus: false,
-                customerReadStatus: false,
-                createAt: currentTimeStamp,
-                updateAt: currentTimeStamp,
-            };
+        const newTicket = {
+            ticketNumber: ticketNumber,
+            userId: myData.senderUserId,
+            createdBy: foundUser.id, // شناسه کاربر ثبت کننده
+            title: myData.title,
+            description: myData.description,
+            priority: 'زیاد',
+            statusId: adminSettings?.firstStatusTicket,
+            firstDepartmentId: adminSettings?.firstDestinationForTickets,
+            firstUserId: foundUser.id,
+            lastAssignedDepartmentId: adminSettings?.firstStatusTicket,
+            lastAssignedUserId: foundUser.id,
+            messageTag: adminSettings?.mainFileMessageTagId,
+            attachments: myData?.filesUploadId,
+            lastChangeTimeStamp: currentTimeStamp,
+            billNumber: null,
+            billStatus: null,
+            organizationReadStatus: false,
+            customerReadStatus: false,
+            createAt: currentTimeStamp,
+            updateAt: currentTimeStamp,
+        };
 
-            // ثبت تیکت جدید (ایجاد شده توسط کسی که پنل را باز کرده)
-            const ticketResult: ITicket = await Ticket.create([newTicket], { session }).then(docs => docs[0]);
-            resultAction.ticketCreated = true;
-            msg += " فایل ثبت شد";
+        // ثبت تیکت جدید بدون استفاده از تراکنش
+        const ticketResult: ITicket = await Ticket.create([newTicket]).then(docs => docs[0]);
+        resultAction.ticketCreated = true;
+        msg += " فایل ثبت شد";
 
-            // ثبت تیکت ریپلای به همراه اسکرین شات
-            const dataToInsertInTicketReplyCollection = {
-                ticketId: ticketResult.id,
-                userId: foundUser.id,
-                // دپارتمان کاربر ثبت کننده
-                departmentId: foundUser.departmentId,
-                description: "اسکرین شات ",
-                // تگ اسکرین شات از تنظیمات مدیریتی
-                messageTag: adminSettings?.screenShotMessageTagId,
-                replyDate: getCurrentTimeStamp(),
-                attachments: myData?.screenShotUploadId,
-                visibleToUser: true,
-                createAt: getCurrentTimeStamp(),
-                updateAt: getCurrentTimeStamp(),
-            };
-            await TicketReply.create([dataToInsertInTicketReplyCollection], { session });
-            resultAction.ticketReplyCreated = true;
-            msg += " شات ثبت شد.";
+        // ثبت تیکت ریپلای به همراه اسکرین شات
+        const dataToInsertInTicketReplyCollection = {
+            ticketId: ticketResult.id,
+            userId: foundUser.id,
+            // دپارتمان کاربر ثبت کننده
+            departmentId: foundUser.departmentId,
+            description: "اسکرین شات ",
+            // تگ اسکرین شات از تنظیمات مدیریتی
+            messageTag: adminSettings?.screenShotMessageTagId,
+            replyDate: getCurrentTimeStamp(),
+            attachments: myData?.screenShotUploadId,
+            visibleToUser: true,
+            createAt: getCurrentTimeStamp(),
+            updateAt: getCurrentTimeStamp(),
+        };
+        await TicketReply.create([dataToInsertInTicketReplyCollection]);
+        resultAction.ticketReplyCreated = true;
+        msg += " شات ثبت شد.";
 
-            // پایان ترنزکشن در صورت موفقیت
-            await session.commitTransaction();
-            await session.endSession();
+        // استفاده از Promise.all برای اجرای موازی ارجاع تیکت به دو واحد مختلف
+        const [assignResultSelf, assignResultBill] = await Promise.all([
+            // ارجاع تیکت به خود (سری اول)
+            addToAssignedTickets({
+                ticketIdsArray: [ticketResult.id],
+                departmentId: adminSettings?.firstStatusTicket as any,
+                userId: foundUser.id as any,
+                senderUserId: foundUser.id,
+            }),
+            // ارجاع تیکت به واحد فاکتور (سری دوم)
+            addToAssignedTickets({
+                ticketIdsArray: [ticketResult.id],
+                departmentId: adminSettings?.billDepartmentId as any,
+                userId: null,
+                senderUserId: foundUser.id,
+            })
+        ]);
 
-            // استفاده از Promise.all برای اجرای موازی ارجاع تیکت به دو واحد مختلف
-            const [assignResultSelf, assignResultBill] = await Promise.all([
-                // ارجاع تیکت به خود (سری اول)
-                addToAssignedTickets({
-                    ticketIdsArray: [ticketResult.id],
-                    departmentId: adminSettings?.firstStatusTicket as any,
-                    userId: foundUser.id as any,
-                    senderUserId: foundUser.id,
-                }),
-                // ارجاع تیکت به واحد فاکتور (سری دوم)
-                addToAssignedTickets({
-                    ticketIdsArray: [ticketResult.id],
-                    departmentId: adminSettings?.billDepartmentId as any,
-                    userId: null,
-                    senderUserId: foundUser.id,
-                })
-            ]);
-
-            if (assignResultSelf) {
-                resultAction.assignedToSelf = true;
-                msg += " تیکت به خودت ارجاع شد ";
-            }
-            if (assignResultBill) {
-                resultAction.assignedToBill = true;
-                msg += " تیکت به فاکتور ارجاع شد ";
-            }
-
-            // ارسال پیامک پس از ثبت سفارش برای مشتری
-            const customerObject = await User.findById(myData.senderUserId).lean();
-            if (customerObject) {
-                const sendSmsResult = await sendSmsAfterSubmitOrder({
-                    mobile: customerObject.phoneNumber,
-                    customerName: customerObject?.name,
-                    orderTitle: ticketResult.title,
-                    orderNumber: ticketResult.ticketNumber,
-                });
-                if (sendSmsResult) {
-                    resultAction.smsSent = true;
-                    msg += ' پیامک ثبت سفارش برای مشتری ارسال شد.';
-                }
-            }
-
-            // ارسال شیء resultAction همراه با msg به فرانت‌اند جهت اطلاع از وضعیت هر بخش
-            return res.status(200).json({ resultAction, message:msg });
-        } catch (innerError) {
-            await session.abortTransaction();
-            await session.endSession();
-            return res.status(500).json({ message: "ثبت تیکت ناموفق بود." , error: innerError?.toString() });
+        if (assignResultSelf) {
+            resultAction.assignedToSelf = true;
+            msg += " تیکت به خودت ارجاع شد ";
         }
+        if (assignResultBill) {
+            resultAction.assignedToBill = true;
+            msg += " تیکت به فاکتور ارجاع شد ";
+        }
+
+        // ارسال پیامک پس از ثبت سفارش برای مشتری
+        const customerObject = await User.findById(myData.senderUserId).lean();
+        if (customerObject) {
+            const sendSmsResult = await sendSmsAfterSubmitOrder({
+                mobile: customerObject.phoneNumber,
+                customerName: customerObject?.name,
+                orderTitle: ticketResult.title,
+                orderNumber: ticketResult.ticketNumber,
+            });
+            if (sendSmsResult) {
+                resultAction.smsSent = true;
+                msg += ' پیامک ثبت سفارش برای مشتری ارسال شد.';
+            }
+        }
+
+        // ارسال شیء resultAction همراه با msg به فرانت‌اند جهت اطلاع از وضعیت هر بخش
+        return res.status(200).json({ resultAction, message: msg });
     } catch (error) {
-        return res.status(500).json({ message: "مشکلی در پردازش درخواست شما به وجود آمد." });
+        return res.status(500).json({ message: "مشکلی در پردازش درخواست شما به وجود آمد.", error: error?.toString() });
     }
 };
 
