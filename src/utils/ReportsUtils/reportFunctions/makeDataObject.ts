@@ -1,12 +1,13 @@
 import {calculateSingleObject} from "./calculatePivotById";
 import sortInnerRecursive from "../../sortInnerRecursive";
+import {anbarExport} from "./anbarExport";
 
 const myKey = "myItemCode"
 const sumKey = "myTotalAmount"
 const countKey = "myQuantity";
+export const keys = {myKey, sumKey, countKey,}
 
 const makeDataObject = ({totalData}: any) => {
-    const keys = {myKey, sumKey, countKey,}
 
     const PLAXI_KOLLI = calculateSingleObject(totalData, {
         caption: "پلکسی کلی",
@@ -1500,6 +1501,10 @@ const makeDataObject = ({totalData}: any) => {
             "000141",
             "000142",
             "000143",
+            "000369",
+            "000585",
+            "000612",
+
         ]
     })
 
@@ -1753,7 +1758,11 @@ const makeDataObject = ({totalData}: any) => {
 
 
         ],
-        [numberOfSMD]
+        [numberOfSMD],
+
+
+        anbarExport(totalData)
+
     ]
 
     const treeViewData = [
