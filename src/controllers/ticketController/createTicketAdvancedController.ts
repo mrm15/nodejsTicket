@@ -190,7 +190,7 @@ const createTicketAdvancedController = async (req: CustomRequestMyTokenInJwt, re
                 orderTitle: ticketResult.title,
                 orderNumber: ticketResult.ticketNumber,
             });
-            if (sendSmsResult) {
+            if (sendSmsResult.status) {
                 resultAction.smsSent = true;
                 msg += ' پیامک ثبت سفارش برای مشتری ارسال شد.';
             }
