@@ -42,15 +42,16 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
 
     try {
 
+        const {invoice, billData} = req.body;
 
-        const arrayListToCheck = [
-            ACCESS_LIST.SAVE_BILL_AS_DONE
-        ]
-        const hasAccessTo11 = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck})
+        debugger
+        const hasAccessToSaveAsDone = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck:[ACCESS_LIST.SAVE_BILL_AS_DONE]})
+        const hasAccessToSaveAsDraft = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck:[ACCESS_LIST.SAVE_BILL_AS_DRAFT]})
 
-        if (!hasAccessTo11) {
-            res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'})
-            return
+        // اگر هیچ کدام از مجوزها وجود نداشت، اجازه دسترسی به بخش داده نمی‌شود.
+        if (!hasAccessToSaveAsDone && !hasAccessToSaveAsDraft) {
+            res.status(403).json({ message: 'شما مجوز دسترسی به این بخش را ندارید.' });
+            return;
         }
 
 
@@ -65,7 +66,6 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
         }
 
 
-        const {invoice, billData} = req.body;
         if (!invoice.ContactCode) {
             res.status(500).json({message: 'کد مشتری برای این کاربر تعریف نشده است.'});
             return
