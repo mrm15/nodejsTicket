@@ -90,9 +90,6 @@ const processFilterOperators = (filter: any) => {
         filterObject[filterField] = convertValue(filter.value);
     }
 
-    console.log("================== filterObject ====================================");
-    console.log(filterObject);
-    console.log("====================================================================");
     return filterObject;
 };
 
