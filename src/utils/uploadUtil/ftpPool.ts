@@ -25,6 +25,8 @@ class FtpPool {
             return this.pool.pop()!; // Reuse an existing client
         } else {
             const client = new Client();
+            client.ftp.verbose = true; // Enable verbose logging
+
             await client.access({
                 host: this.host,
                 user: this.user,
