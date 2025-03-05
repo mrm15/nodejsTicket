@@ -5,6 +5,7 @@ import fs from "fs/promises";
 import mongoose from "mongoose";
 import path from "path";
 import {TicketAssignment} from "../../../models/ticketAssignment ";
+import {deleteFileFromFtp} from "../../uploadUtil/deleteFileFromFtp";
 
 interface TaskResult {
     status: boolean;
@@ -19,16 +20,17 @@ const deleteFile = async (fileId: mongoose.Schema.Types.ObjectId, resultTask: Ta
             // Delete the file from the server
             const absoluteFilePath = path.join(__dirname, '../../../../uploads', file.filePath);
 
-            await fs.unlink(absoluteFilePath);
+            // await fs.unlink(absoluteFilePath);
+            await deleteFileFromFtp(absoluteFilePath)
             // Delete the file from the database
             await File.deleteOne({ _id: fileId });
-            resultTask.message += `فایل ${file.fileName} حذف شد. 🙌 `;
+            resultTask.message += `فایل ${file?.fileName} حذف شد. 🙌 `;
         } else {
             resultTask.message += `فایل با شناسه ${fileId} پیدا نشد. ❌ `;
         }
     } catch (error: unknown) {
         if (error instanceof Error) {
-            resultTask.message += `خطا در حذف فایل ${fileId}: ${error.message} 🚨 `;
+            resultTask.message += `خطا در حذف فایل ${fileId}: ${error?.message} 🚨 `;
         } else {
             resultTask.message += `خطای ناشناخته‌ای در حذف فایل ${fileId} رخ داد. 🚨 `;
         }
