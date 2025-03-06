@@ -53,7 +53,7 @@ const handleUpload = (req: CustomRequestMyTokenInJwt, res: Response, next: NextF
 
         try {
             // Upload file to FTP server
-            await uploadToFtp(fileDetails.buffer, remoteFileName);
+            await uploadToFtp({fileBuffer:fileDetails.buffer, remoteFileName});
             // Save file metadata in the database
             const resultId = await saveFileToDataBase(myToken, remoteFileName, fileDetails, tag);
             res.status(200).json({ message: 'فایل با موفقیت بارگزاری شد.', id: resultId });

@@ -12,17 +12,21 @@ function bufferToStream(buffer: Buffer): Readable {
     return Readable.from([buffer]);
 }
 
+interface IUploadToFtp {
+    fileBuffer: Buffer, remoteFileName: string,myPath?:string
+}
 /**
  * Uploads a file to the FTP server using environment variables for configuration.
  * @param fileBuffer The file data as a Buffer.
  * @param remoteFileName The remote filename including the desired path.
+ * @param myPath
  */
-export async function uploadToFtp(fileBuffer: Buffer, remoteFileName: string): Promise<void> {
+export async function uploadToFtp({fileBuffer, remoteFileName, myPath = "uploads"}:IUploadToFtp): Promise<void> {
 
     const client = await ftpPool.getClient();
     try {
         const stream = bufferToStream(fileBuffer);
-        await client.uploadFrom(stream, `/data/uploads/${remoteFileName}`);
+        await client.uploadFrom(stream, `/data/${myPath}/${remoteFileName}`);
     } catch (error) {
         console.error("FTP upload error:", error);
         throw error;
