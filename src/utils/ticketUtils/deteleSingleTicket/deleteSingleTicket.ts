@@ -13,12 +13,12 @@ interface TaskResult {
 }
 
 // Function to delete a file from server and database
-const deleteFile = async (fileId: mongoose.Schema.Types.ObjectId, resultTask: TaskResult): Promise<void> => {
+export const deleteFile = async (fileId: mongoose.Schema.Types.ObjectId, resultTask: TaskResult): Promise<void> => {
     try {
         const file = await File.findById(fileId);
         if (file) {
             // Delete the file from the server
-            const absoluteFilePath = path.join(__dirname, '../../../../uploads', file.filePath);
+            const absoluteFilePath = path.join('/data/uploads', file.filePath);
 
             // await fs.unlink(absoluteFilePath);
             await deleteFileFromFtp(absoluteFilePath)
