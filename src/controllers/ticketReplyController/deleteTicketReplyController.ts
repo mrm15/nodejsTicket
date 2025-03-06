@@ -8,6 +8,7 @@ import {Department} from "../../models/department";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {TicketReply} from "../../models/ticketReply";
+import {deleteFile} from "../../utils/ticketUtils/deteleSingleTicket/deleteSingleTicket";
 
 
 const deleteTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -30,6 +31,18 @@ const deleteTicketReplyController = async (req: CustomRequestMyTokenInJwt, res: 
 
         const {id} = req.params;
 
+
+        // Step 3: Find and delete ticket replies
+        const foundedReply = await TicketReply.findById(id)
+        if(!foundedReply){
+            res.status(500).json({message: 'تیکت ریپلای یافت نشد.'});
+            return
+        }
+        // Collect all attachments from replies
+        // Delete all reply attachments
+        if(foundedReply?.attachments && foundedReply?.attachments.length > 0 ){
+            await Promise.all(foundedReply?.attachments.map((fileId) => deleteFile(fileId, {message:"", status:false})));
+        }
 
         // Attempt to find and delete the user by ID
         const deletedTicketReply = await TicketReply.findByIdAndDelete(id);
