@@ -20,55 +20,56 @@ class FtpPool {
         }
     }
 
+    /**
+     * Check if an FTP client is still connected
+     */
+    private isClientConnected(client: Client): boolean {
+        return !!client.ftp.socket && !client.closed;
+    }
+
+    /**
+     * Get an available FTP client from the pool or create a new one.
+     */
     async getClient(): Promise<Client> {
         let client = this.pool.pop() || new Client();
         client.ftp.verbose = true;
 
         try {
-            if (client.ftp.socket) {
-                return client; // Return existing client if still connected
+            // If the client is still connected, return it
+            if (this.isClientConnected(client)) {
+                return client;
             }
 
-            console.warn("Reconnecting FTP client...");
+            // Otherwise, establish a new connection
+            console.warn("FTP client disconnected, reconnecting...");
             await client.access({
                 host: this.host,
                 user: this.user,
                 password: this.password,
                 secure: this.secure,
             });
+
             return client;
         } catch (error) {
-            console.error("FTP reconnection failed:", error);
+            console.error("FTP connection failed:", error);
             throw error;
         }
     }
 
+    /**
+     * Release an FTP client back into the pool, if it's still connected.
+     */
     releaseClient(client: Client) {
-        if (!client.ftp.socket) {
-            console.log("Client disconnected. Attempting reconnection...");
-
-            client.access({
-                host: this.host,
-                user: this.user,
-                password: this.password,
-                secure: this.secure,
-            }).then(() => {
-                if (this.pool.length < this.maxConnections) {
-                    this.pool.push(client);
-                } else {
-                    client.close();
-                }
-            }).catch((error) => {
-                console.error("Failed to reconnect client:", error);
-                client.close();
-            });
+        if (!this.isClientConnected(client)) {
+            console.log("Client disconnected. Closing instead of returning to pool.");
+            client.close();
             return;
         }
 
         if (this.pool.length < this.maxConnections) {
             this.pool.push(client);
         } else {
-            client.close();
+            client.close(); // If pool is full, close client
         }
     }
 }
