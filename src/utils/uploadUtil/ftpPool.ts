@@ -21,12 +21,15 @@ class FtpPool {
     }
 
     async getClient(): Promise<Client> {
-        if (this.pool.length > 0) {
-            return this.pool.pop()!; // Reuse an existing client
-        } else {
-            const client = new Client();
-            client.ftp.verbose = true; // Enable verbose logging
+        let client = this.pool.pop() || new Client();
+        client.ftp.verbose = true;
 
+        try {
+            if (client.ftp.socket) {
+                return client; // Return existing client if still connected
+            }
+
+            console.warn("Reconnecting FTP client...");
             await client.access({
                 host: this.host,
                 user: this.user,
@@ -34,14 +37,38 @@ class FtpPool {
                 secure: this.secure,
             });
             return client;
+        } catch (error) {
+            console.error("FTP reconnection failed:", error);
+            throw error;
         }
     }
 
     releaseClient(client: Client) {
+        if (!client.ftp.socket) {
+            console.log("Client disconnected. Attempting reconnection...");
+
+            client.access({
+                host: this.host,
+                user: this.user,
+                password: this.password,
+                secure: this.secure,
+            }).then(() => {
+                if (this.pool.length < this.maxConnections) {
+                    this.pool.push(client);
+                } else {
+                    client.close();
+                }
+            }).catch((error) => {
+                console.error("Failed to reconnect client:", error);
+                client.close();
+            });
+            return;
+        }
+
         if (this.pool.length < this.maxConnections) {
-            this.pool.push(client); // Return client to pool
+            this.pool.push(client);
         } else {
-            client.close(); // Close client if pool is full
+            client.close();
         }
     }
 }

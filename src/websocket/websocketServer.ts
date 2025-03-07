@@ -65,7 +65,7 @@ export const initializeSocketIO = (httpServer: HttpServer) => {
     });
 
     io.on('connection', (socket) => {
-        console.log(`A user connected with socket ${socket.id}`);
+        // console.log(`A user connected with socket ${socket.id}`);
 
         /**
          * Handles the 'identify' event where the client sends their userId.
