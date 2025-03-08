@@ -130,6 +130,7 @@ interface IRole extends Document {
     messageTagCollection:boolean;
     // بتونه روی پیام ها  تگ ست کنه. یا تگ ها رو تغییر بده
     setMessageTagOnRepliesInChat: boolean;
+    createCustomer: boolean;
 
 
 }
@@ -277,6 +278,8 @@ const roleSchema: Schema<IRole> = new Schema({
     canViewCreditLibertyInHeader: {type: Boolean, default: false, required: true}, //
     messageTagCollection: {type: Boolean, default: false, required: true}, //
     setMessageTagOnRepliesInChat: {type: Boolean, default: false, required: true}, //
+    // افزودن مشتری جدید به سایت و حسابفا
+    createCustomer: {type: Boolean, default: false, required: true}, //
 
 
 });
