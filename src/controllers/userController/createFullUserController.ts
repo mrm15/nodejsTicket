@@ -1,5 +1,5 @@
 import {Response, NextFunction} from 'express';
-import {User} from "../../models/User";
+import {IUser, User} from "../../models/User";
 
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {uuidGenerator} from "../../utils/uuidGenerator";
@@ -12,97 +12,88 @@ import getAdminSettingsData from "../../utils/adminSettings/getAdminSettingsData
 
 
 const createCustomerController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
-
-    const {myToken} = req;
+    const { myToken } = req;
     const newUserData = req.body;
-
-    // res.status(201).json({myToken})
-    //
-    // return
-
+    let message="";
     if (!myToken) {
-        const message = 'مقدار توکن توی ری کوئست موجود نیست'
-        res.status(403).json({message});
-        return
+        return res.status(403).json({ message: 'مقدار توکن توی ری کوئست موجود نیست' });
     }
 
     try {
+        const { phoneNumber } = myToken;
+        const arrayListToCheck = [ACCESS_LIST.createCustomer];
+        const hasAccessToAddUser = await checkAccessList({ phoneNumber, arrayListToCheck });
 
-        const {phoneNumber} = myToken
-
-
-        // آیا کاربر اجازه داره   کابری رو ثبت کنه؟
-        const arrayListToCheck = [
-            ACCESS_LIST.createCustomer
-        ]
-        const hasAccessToAddUser = await checkAccessList({phoneNumber, arrayListToCheck})
         if (!hasAccessToAddUser) {
-            res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
-            return
+            return res.status(403).json({ message: 'شما مجوز دسترسی به این بخش را ندارید.' });
         }
 
-        // check if this phone number is uniq
-        const isThereAnyUserWithThatPhoneNumber = await getUserInfoByPhoneNumber(newUserData.phoneNumber);
-
-        if (Object.keys(isThereAnyUserWithThatPhoneNumber).length !== 0) {
-            // res.status(409).json({
-            //     message: 'قبلا یه کاربر با این شماره موبایل توی سایت موجود هست.',
-            // });
-            // return
-        } else {
-            const adminSetting = await getAdminSettingsData()
-            const adminSettingsData = adminSetting.adminSettingData;
-            newUserData.departmentId = adminSettingsData?.customerDepartment
-            newUserData.roleId = adminSettingsData?.customerRole
-            const result = await User.create({...newUserData});
-
-        }
-
-        // maybe user dont enter userName  but it is required so
+        // Set default values for userName and isActive if they are not provided.
+        // This follows best practices to ensure required fields are set before saving data.
         if (!newUserData.userName) {
-            newUserData.userName = uuidGenerator()
+            newUserData.userName = uuidGenerator(); // Generates a unique identifier if userName is missing.
         }
-        // اگه تعیین نکرد که کاربر فعال یا غیر فعال باشه توی این فرم باید کاربر پیش فرض فعال باشه
-        if (!newUserData.isActive) {
-            newUserData.isActive = true
-        }
-        //
 
-        debugger
-        const myContact = newUserData
+        if (newUserData.isActive === undefined || newUserData.isActive === null) {
+            newUserData.isActive = true; // Defaults new users to active if not explicitly set.
+        }
+
+        // Check if the user with the provided phone number already exists.
+        const existingUser : IUser | {} = await getUserInfoByPhoneNumber(newUserData.phoneNumber);
+        if (existingUser && Object.keys(existingUser).length !== 0) {
+            // If the user already exists and already has a contactCode, we return an error.
+            if ('contactCode' in existingUser && existingUser.contactCode) {
+                return res.status(409).json({ message: 'کاربر از قبل وجود دارد و دارای contactCode می‌باشد.' });
+            }
+        } else {
+            // If the user does not exist, set additional default fields before creating a new user.
+            const adminSetting = await getAdminSettingsData();
+            const adminSettingsData = adminSetting.adminSettingData;
+            newUserData.departmentId = adminSettingsData?.customerDepartment;
+            newUserData.roleId = adminSettingsData?.customerRole;
+            await User.create({ ...newUserData });
+            message+="کاربر در سایت نمارنگ ایجاد شد.  ";
+
+
+        }
+
+        // Prepare contact data to send to Hesabfa.
         const contact = {
-            Code: myContact?.contactCode,
-            Name: myContact?.name,
-            FirstName: myContact?.name,
-            LastName: myContact?.familyName,
-            ContactType: "1", // اشخاص رو حقیقی در نظر میگیریم
-            EconomicCode: myContact?.economicCodeCompany,
-            RegistrationNumber: myContact?.registerNumberCompany,
-            Address: myContact?.address,
-            Phone: myContact?.phoneNumber,
-            Mobile: myContact?.mobile,
+            name: newUserData?.name,
+            // FirstName: newUserData?.name,
+            // LastName: newUserData?.familyName,
+            ContactType: 1, // Treating as a natural person.
+            Address: newUserData?.address,
+            Mobile: newUserData?.mobile,
             Tag: "از سایت",
+        };
+
+        // Attempt to add or update contact information in Hesabfa.
+        const result2 = await submitAddOrEditContactToHesabfa(contact);
+        const contactCode = result2?.Result?.Code;
+
+        // If a valid contactCode is returned, update the user's record accordingly.
+        if (contactCode) {
+            await User.updateOne(
+                { phoneNumber: newUserData.phoneNumber },
+                { $set: { contactCode } }
+            );
+            message+="کاربر در حسابفا ثبت شد و کد مشتری اختصاص یافت."
         }
 
-        const result2 = await submitAddOrEditContactToHesabfa(contact)
+        // Log the operation for auditing and traceability.
         await addLog({
             req: req,
-            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+            name: `${myToken?.UserInfo?.userData?.userData?.name} ${myToken?.UserInfo?.userData?.userData?.familyName}`,
             phoneNumber: req?.myToken?.phoneNumber || "00000000000",
-            description: `یک کاربر با  مشخصات زیر ایجاد کرد: 
-            ${JSON.stringify(newUserData)}
-            `,
+            description: `یک کاربر با مشخصات زیر ایجاد کرد: ${JSON.stringify(newUserData)}`,
             statusCode: 200,
-        })
-        res.status(200).json({message: "ثبت شد",});
-        return;
+        });
+
+        return res.status(200).json({ message });
     } catch (error) {
-
-        res.status(500).json({error: error?.toString()});
-        return
+        return res.status(500).json({ error: error?.toString() });
     }
-
-
 };
 
-export {createCustomerController};
+export { createCustomerController };
