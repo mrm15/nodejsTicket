@@ -65,6 +65,7 @@ const updateAdminSettingsController = async (req: CustomRequestMyTokenInJwt, res
             currentSettings.registerInPanel = updatedAdminSettings.registerInPanel;
             currentSettings.maxFileSize = parseFloat(updatedAdminSettings.maxFileSize);
             currentSettings.customerDepartment = updatedAdminSettings.customerDepartment;
+            currentSettings.customerRole = updatedAdminSettings.customerRole;
             currentSettings.registerDepartment = updatedAdminSettings.registerDepartment;
             currentSettings.registerRole = updatedAdminSettings.registerRole;
             currentSettings.forwardTicketsAfterVerify = updatedAdminSettings.forwardTicketsAfterVerify || null;
