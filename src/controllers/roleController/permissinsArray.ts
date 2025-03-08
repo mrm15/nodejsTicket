@@ -132,5 +132,7 @@ export const myPermissionsArray = [
     "canViewCreditLibertyInHeader", // مانده حساب کاربر در بالای سایت کنار اسمش
     "messageTagCollection",  // ویرایش افزودن  حذف تگ پیام ها
     "setMessageTagOnRepliesInChat", // بتونه ی پیام ها
+    // افزودن مشتری جدید به سایت و حسابفا
+    "createCustomer",
 
 ]
