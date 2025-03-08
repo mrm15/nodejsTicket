@@ -7,10 +7,12 @@ import {userList} from "../../controllers/userController/userList";
 import {getUserInfo} from "../../controllers/userController/getUserInfo";
 import {updateHisInfo} from "../../controllers/userController/updateHisInfo";
 import {userListDetails} from "../../controllers/userController/userListDetails";
+import {createCustomerController } from "../../controllers/userController/createFullUserController";
 
 const router = express.Router();
 
 router.post('/create', createUserController);
+router.post('/createFullUser', createCustomerController);
 // router.get('/read', readUserController);
 router.post('/read', readUserController);
 // router.post('/read:id', loginController.verifyLoginSMS);
