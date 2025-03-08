@@ -8,6 +8,7 @@ interface IAdminSettings extends Document {
     firstStatusTicket: mongoose.Schema.Types.ObjectId | null;
     maxFileSize: number | null;
     customerDepartment: mongoose.Schema.Types.ObjectId | null; // Changed to ObjectId
+    customerRole: mongoose.Schema.Types.ObjectId | null; // Changed to ObjectId
     registerInPanel: "active" | "notActive" | null;
     registerDepartment: mongoose.Schema.Types.ObjectId | null;
     registerRole: mongoose.Schema.Types.ObjectId | null;
@@ -48,6 +49,11 @@ const adminSettingsSchema: Schema<IAdminSettings> = new Schema<IAdminSettings>({
         default: null,
     },
     customerDepartment: {
+        type: mongoose.Schema.Types.ObjectId, // Changed to ObjectId
+        required: false,
+        default: null,
+    },
+    customerRole: {
         type: mongoose.Schema.Types.ObjectId, // Changed to ObjectId
         required: false,
         default: null,
