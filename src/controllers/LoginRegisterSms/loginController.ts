@@ -13,6 +13,7 @@ import {getSendSMSMethod, sendLoginSMS} from "../../SMS/SMS.IR/sendSms";
 import {clearJwtCookie, setJwtCookie} from "../utility/cookieHelpers/cookieHelpers";
 import {initialSetupFunction} from "../../utils/initialSetup/initialSetupFunction";
 import {addLog} from "../../utils/logMethods/addLog";
+import getAdminSettingsData from "../../utils/adminSettings/getAdminSettingsData";
 
 
 interface LoginRequestBody {
@@ -53,8 +54,9 @@ const handleLoginSMS = async (req: Request<{}, {}, LoginRequestBody>, res: Respo
         if (!user) {
 
             // چک کن ببین آیا توی تنظیمات ثبت نام باز هست یا نه؟
-            const adminSettingsData: IAdminSettings | null | any = await AdminSettings.findOne({}).lean();
+            const adminSettings = await getAdminSettingsData()
 
+            const adminSettingsData = adminSettings.adminSettingData
 
             if (!adminSettingsData) {
                 const resultOfFirst = await initialSetupFunction();
