@@ -1,5 +1,6 @@
 export const ACCESS_LIST = {
 
+    createCustomer: "createCustomer",
     ticketCreateAdvanced: "ticketCreateAdvanced",
     fatherAccess: "fatherAccess",
     setMessageTagOnRepliesInChat: "setMessageTagOnRepliesInChat",
