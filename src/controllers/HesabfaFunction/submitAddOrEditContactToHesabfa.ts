@@ -5,7 +5,7 @@ export const submitAddOrEditContactToHesabfa = async (myContact:any) => {
 
     try {
 
-        debugger
+
 
         const API_KEY = process.env.HESABFA_API_KEY
         if (!API_KEY) {
@@ -23,19 +23,7 @@ export const submitAddOrEditContactToHesabfa = async (myContact:any) => {
 
         }
 
-        const contact  = {
-            Code: myContact?.contactCode,
-            Name: myContact?.name,
-            FirstName: myContact?.name,
-            LastName: myContact?.familyName,
-            ContactType: "1", // اشخاص رو حقیقی در نظر میگیریم
-            EconomicCode: myContact?.economicCodeCompany,
-            RegistrationNumber: myContact?.registerNumberCompany,
-            Address: myContact?.address,
-            Phone: myContact?.phoneNumber,
-            Mobile: myContact?.mobile,
-            Tag: "از سایت",
-        }
+        const contact = {...myContact}
         if (!contact.Code) {
 
             delete contact.Code
