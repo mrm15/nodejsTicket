@@ -9,6 +9,7 @@ import {getUserInfoByPhoneNumber} from "../LoginRegisterSms/getUserInfoByPhoneNu
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {addLog} from "../../utils/logMethods/addLog";
+import {deleteContactFromHesabfa} from "../HesabfaFunction/deleteContactFromHesabfa";
 
 
 const deleteUserController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -30,37 +31,50 @@ const deleteUserController = async (req: CustomRequestMyTokenInJwt, res: Respons
                 });
                 return
             }
+            debugger
+            // Attempt to find and delete the user by ID
+            const deleteFromHesabfaResult = await deleteContactFromHesabfa(requestUser.contactCode)
+            debugger
+            if(deleteFromHesabfaResult.response?.data?.Result===true){
+                const deletedUser = await User.findByIdAndDelete(id);
+                // Check if a user was found and deleted
+                if (!deletedUser) {
+                    res.status(404).json({message: 'User not found'});
+                    return
+                }
+
+                // Successfully deleted the user
+                await addLog({
+                    req: req,
+                    name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
+                    phoneNumber: myToken.phoneNumber,
+                    description: `
+                یه کاربر رو حذف کرد.
+                
+               ${JSON.stringify(deletedUser)}
+                `,
+                    statusCode: 200,
+                    responseTime: null,
+                    error: null,
+                })
+                res.status(200).json({message: `کاربر با شماره ${deletedUser.phoneNumber} برای همیشه از سایت و حسابفا حذف شد.`,});
+                return
+
+            }else {
+                throw new Error(deleteFromHesabfaResult?.response?.data?.ErrorMessage + " " + deleteFromHesabfaResult?.response?.data?.ErrorCode);
+            }
+
+
+
+
+
 
         } catch (error:any) {
             res.status(500).json({message: 'Error deleting user', error: error?.message});
             return
         }
 
-        // Attempt to find and delete the user by ID
-        const deletedUser = await User.findByIdAndDelete(id);
 
-        // Check if a user was found and deleted
-        if (!deletedUser) {
-            res.status(404).json({message: 'User not found'});
-            return
-        }
-
-        // Successfully deleted the user
-        await addLog({
-            req: req,
-            name: myToken?.UserInfo?.userData?.userData?.name + " " + myToken?.UserInfo?.userData?.userData?.familyName,
-            phoneNumber: myToken.phoneNumber,
-            description: `
-                یه کاربر رو حذف کرد.
-                
-               ${JSON.stringify(deletedUser)}
-                `,
-            statusCode: 200,
-            responseTime: null,
-            error: null,
-        })
-        res.status(200).json({message: `کاربر با شماره ${deletedUser.phoneNumber} برای همیشه حذف شد.`,});
-        return
     } catch (error: any) {
         // Handle potential errors, such as invalid ObjectId format
         res.status(500).json({message: 'Error deleting user', error: error?.message});
