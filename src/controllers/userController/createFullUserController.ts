@@ -37,7 +37,6 @@ const createCustomerController = async (req: CustomRequestMyTokenInJwt, res: Res
         if (newUserData.isActive === undefined || newUserData.isActive === null) {
             newUserData.isActive = true; // Defaults new users to active if not explicitly set.
         }
-        debugger
         // Check if the user with the provided phone number already exists.
         const existingUser : any | {} = await getUserInfoByPhoneNumber(newUserData.phoneNumber);
         if (existingUser && Object.keys(existingUser).length !== 0) {
@@ -58,50 +57,36 @@ const createCustomerController = async (req: CustomRequestMyTokenInJwt, res: Res
         }
 
         // Prepare contact data to send to Hesabfa.
-        debugger
-        const contact= {
+        const nameHere =(newUserData.name ?? "") + (newUserData.familyName  ?? "")
+        let contact = {
             "Code": null,
-            "Name":newUserData?.name,
-            "name":newUserData?.name,
-            "Company": null,
-            "FirstName": null,
-            "LastName": null,
-            "ContactType": "-1",
-            "NationalCode": newUserData?.nationalCode+"",
+            "Name": nameHere,
+            "Company": newUserData.company,
+            "FirstName": nameHere,
+            "LastName": newUserData.familyName,
+            "ContactType": "1",
+            "NationalCode": newUserData.nationalCode,
             "EconomicCode": null,
             "RegistrationNumber": null,
-            "Address": newUserData?.address,
-            "City": null,
-            "State": null,
+            "Address": newUserData.address,
+            "City": newUserData.city,
+            "State": newUserData.province,
             "PostalCode": null,
-            "Phone": null,
+            "Phone": newUserData.mobile,
             "Fax": null,
-            "Mobile": newUserData?.phoneNumber+"",
+            "Mobile": newUserData.phoneNumber,
             "Email": null,
             "Website": null,
-            "Tag": null,
-            "TaxType": "-1",
+            "Tag": "از سایت ",
+            // "TaxType": "-1",
             "Active": "true",
-            "Note": null,
+            "Note": newUserData.description,
             "ContactCredit": null,
-            "NodeFamily": null,
+            "NodeFamily": "اشخاص : مشتریان عادی"
         }
-        const contact1 = {
-            name: newUserData?.name,
-            NationalCode: newUserData?.nationalCode,
-            // FirstName: newUserData?.name,
-            // LastName: newUserData?.familyName,
-            ContactType: 1, // Treating as a natural person.
-            Address: newUserData?.address,
-            Mobile: newUserData?.phoneNumber,
-            Tag: "از سایت",
-            Active:"true",
-            nodeFamily:"اشخاص : مشتریان عادی",
-        };
 
         // Attempt to add or update contact information in Hesabfa.
         const result2 = await submitAddOrEditContactToHesabfa(contact);
-        debugger
         const contactCode = result2?.Result?.Code;
 
         // If a valid contactCode is returned, update the user's record accordingly.
