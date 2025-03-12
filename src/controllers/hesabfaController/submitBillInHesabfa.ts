@@ -15,6 +15,7 @@ import {formatNumber} from "../../utils/number";
 import {p2e} from "../utility/NumericFunction";
 import addToAssignedTickets from "../../utils/forwardTicketUtils/addToAssignedTickets";
 import {addLog} from "../../utils/logMethods/addLog";
+import getAdminSettingsData from "../../utils/adminSettings/getAdminSettingsData";
 
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
@@ -48,6 +49,7 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
         const hasAccessToSaveAsDone = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck:[ACCESS_LIST.SAVE_BILL_AS_DONE]})
         const hasAccessToSaveAsDraft = await checkAccessList({phoneNumber: myToken.phoneNumber, arrayListToCheck:[ACCESS_LIST.SAVE_BILL_AS_DRAFT]})
 
+        // برای این قسمت باید حداقل یکی از دسترسی ها رو داشته باشه پس:
         // اگر هیچ کدام از مجوزها وجود نداشت، اجازه دسترسی به بخش داده نمی‌شود.
         if (!hasAccessToSaveAsDone && !hasAccessToSaveAsDraft) {
             res.status(403).json({ message: 'شما مجوز دسترسی به این بخش را ندارید.' });
@@ -82,7 +84,10 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
         }
 
 
-        const adminSettings = await AdminSettings.findOne({}).lean()!
+        // const adminSettings = await AdminSettings.findOne({}).lean()!
+        const adminSetting = await getAdminSettingsData();
+        const adminSettings = adminSetting.adminSettingData
+
         const isSendSmsWhenVerifyBill = adminSettings?.sendSMSAfterVerifyBill
 
 
