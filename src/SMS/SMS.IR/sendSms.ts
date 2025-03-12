@@ -6,11 +6,14 @@ export const getSendSMSMethod = (): SendSmsMethodType => {
     return "smsIR"
     // return "nikSMS"
 }
-
+interface singleParam {
+    name:string,
+    value:any
+}
 interface inputTypes {
     "mobile": string;
     "templateId": string;
-    "parameters": {}[];
+    "parameters": singleParam[];
 }
 
 // Define the return type interface
@@ -22,10 +25,15 @@ export interface SendSmsResponse {
 
 const myApiKey: string = `48Q30RepX0qVRyTtPUGvfJevRKfHNoOqWmMO5BYQFdHOQpaWHViy799peS4ygupD`
 export const sendSmsFromSMSIR = async ({mobile, templateId, parameters}: inputTypes): Promise<SendSmsResponse> => {
+    // Process each parameter's value using cutTextForSmsIR
+    const processedParameters = parameters.map((param:singleParam) => ({
+        ...param,
+        value: cutTextForSmsIR(param.value)
+    }));
     const data = JSON.stringify({
         "mobile": mobile,
         "templateId": templateId,
-        "parameters": parameters
+        "parameters": processedParameters,
         // "parameters":
         //     [
         //     {name: 'PARAMETER1', value: '000000'},
@@ -853,11 +861,11 @@ export const sendSmsAfterSubmitOrder = async ({
         mobile: mobile, templateId: "322874", parameters: [
             {
                 "name": "customerName",
-                "value": customerName
+                "value": cutTextForSmsIR(customerName)
             },
             {
                 "name": "orderTitle",
-                "value": orderTitle
+                "value": cutTextForSmsIR(orderTitle)
             },
             {
                 "name": "orderNumber",
