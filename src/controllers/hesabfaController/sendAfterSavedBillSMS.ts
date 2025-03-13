@@ -1,12 +1,10 @@
-import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
-import {afterSubmitBillSmsText, afterVerifiedBillSmsText} from "../../SMS/template";
-import {IInitialBillResponse} from "../utility/initialBillResponse";
 import {sendSubmitBillSMS, sendVerifyBillSMS} from "../../SMS/SMS.IR/sendSms";
 import {formatNumber} from "../../utils/number";
 import {timestampToTimeFromHesabfa} from "../utility/timestampToTimeFromHesabfa";
 import {p2e} from "../utility/NumericFunction";
 
-export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdminSettings) => {
+export const sendAfterSavedBillSMS = async ({billResult, adminSettings, ticketNumber}: any) => {
+        const billData = billResult
         // Determine if the bill is verified
         const isBillVerified = (billData.Status === "1" || billData.Status === 1);
 
@@ -25,13 +23,13 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
             let orderNumber = billData?.ticketNumber;
             let sendSmsResult;
             ////////////////////////////////////////
-            const orderName = billData.ContactTitle
+            const orderName = billData.ContactTitle ?? ""
             const Sum = billData.Sum
             const orderPrice = formatNumber(Sum)
 
             let billDate = timestampToTimeFromHesabfa(billData?.Date)?.split(",")[0]
             billDate = p2e(billDate)
-            let the_user_name = billData.Contact.Name;
+            let the_user_name = billData.Contact.Name ?? "کاربر عزیز";
 
 
             ////////////////////////////////////////
@@ -43,14 +41,13 @@ export const sendAfterSavedBillSMS = async (billData: any, adminSettings: IAdmin
             } else {
                 debugger
                 sendSmsResult = await sendVerifyBillSMS(
-                    // {mobile: destinationNumber, contactName, billLink, orderNumber}
                     {
                         mobile: destinationNumber,
                         contactName: the_user_name,
                         orderName: orderName,
                         orderPrice,
                         DATE: billDate,
-                        orderNumber
+                        orderNumber: ticketNumber
                     }
                 )
             }
