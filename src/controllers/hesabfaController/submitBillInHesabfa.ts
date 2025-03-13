@@ -3,11 +3,8 @@ import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
 import {IUser, User} from "../../models/User";
-import axios from "axios";
-import {handleResponse} from "../utility/handleResponse";
 import {saveFactorNumberAndStatus} from "./functions";
 import {sendAfterSavedBillSMS} from "./sendAfterSavedBillSMS";
-import {AdminSettings, IAdminSettings} from "../../models/adminSettings";
 import {hesabfaApiRequest} from "../utility/hesabfa/functions";
 import {sendSubmitBillSMS_NoTicketId} from "../../SMS/SMS.IR/sendSms";
 import {timestampToTimeFromHesabfa} from "../utility/timestampToTimeFromHesabfa";
@@ -20,17 +17,6 @@ import getAdminSettingsData from "../../utils/adminSettings/getAdminSettingsData
 
 const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
 
-
-    const API_KEY = process.env.HESABFA_API_KEY
-    if (!API_KEY) {
-        res.status(500).json({message: 'api key یافت نشد'});
-        return
-    }
-    const LOGIN_TOKEN = process.env.HESABFA_LOGIN_TOKEN
-    if (!LOGIN_TOKEN) {
-        res.status(500).json({message: 'LOGIN TOKEN یافت نشد'});
-        return
-    }
 
 
     const {myToken} = req;
@@ -87,6 +73,12 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
         // const adminSettings = await AdminSettings.findOne({}).lean()!
         const adminSetting = await getAdminSettingsData();
         const adminSettings = adminSetting.adminSettingData
+        if(!adminSettings) {
+            res.status(500).json({
+                message: "تنطیمات مدیریتی موجود نیست.",
+            })
+            return;
+        }
 
         const isSendSmsWhenVerifyBill = adminSettings?.sendSMSAfterVerifyBill
 
@@ -95,15 +87,6 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
 
             //
             const url = '/invoice/save'
-            // const data = {
-            //     apiKey: API_KEY,
-            //     // userId: 'mail@example.com',
-            //     // password: '123456',
-            //     loginToken: LOGIN_TOKEN,
-            //     invoice
-            // }
-            //
-            // const result = await axios.post(url, data);
             const apiRes = await hesabfaApiRequest(url, {invoice});
             const result = apiRes?.response
             await addLog({
@@ -138,23 +121,19 @@ const submitBillInHesabfa = async (req: CustomRequestMyTokenInJwt, res: Response
 
                         const isSavedFactor = await saveFactorNumberAndStatus(result.data.Result, billData);
                         if (isSavedFactor) {
-                            const adminSettings: IAdminSettings | null = await AdminSettings.findOne({}).lean();
-                            if (!adminSettings) {
-                                return false;
-                            }
-                            const isSentSMS = await sendAfterSavedBillSMS(result.data.Result, adminSettings)
+                            const isSentSMS = await sendAfterSavedBillSMS({billResult:result.data.Result, adminSettings , ticketNumber:billData.ticketNumber})
                             // اگه فاکتور تایید شده بود. باید تیکت رو بفرستم به دپارتمان مربوط به نود گیری. این فرآیند خودکار انجام میشه
                             // در واقع اگه دپارتمان مقصد تعریف شده بود و نال نبود باید تیکت رو بفرستیم بره به دپارتمان نود گیری
 
                             if ((adminSettings.forwardTicketsAfterVerify && invoice.Status === 1) || (adminSettings.forwardTicketsAfterVerify && invoice.Status === "1")) {
-                                                                // اینجا قراره ببینم آیا بعد از تایید فاکتور باید اینو به مدیر دپارتمان نود گیری
+                                // اینجا قراره ببینم آیا بعد از تایید فاکتور باید اینو به مدیر دپارتمان نود گیری
                                 await addToAssignedTickets({ticketIdsArray: [billData.ticketId], departmentId:adminSettings.forwardTicketsAfterVerify as any, userId:null, senderUserId:foundUser.id})
-                                // await forwardTicketAfterVerify({
-                                //     depId: adminSettings.forwardTicketsAfterVerify,
-                                //     billData
-                                // })
                             }
-                            handleResponse(result, res)
+                            const myRes = {
+                                message: 'ثبت شد',
+                            }
+                            res.status(200).json(myRes);
+                            return
                         }
                     } else {
                         // اگه مشتری شماره تماس داشت
