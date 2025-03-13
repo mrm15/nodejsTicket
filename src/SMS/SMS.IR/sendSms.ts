@@ -28,7 +28,7 @@ export const sendSmsFromSMSIR = async ({mobile, templateId, parameters}: inputTy
     // Process each parameter's value using cutTextForSmsIR
     const processedParameters = parameters.map((param:singleParam) => ({
         ...param,
-        value: cutTextForSmsIR(param.value)
+        value: cutTextForSmsIR(param?.value)
     }));
     const data = JSON.stringify({
         "mobile": mobile,
@@ -127,7 +127,9 @@ export const sendSubmitBillSMS = async ({mobile, contactName, billLink}: any) =>
     })
 }
 export const sendVerifyBillSMS = async ({mobile, contactName, orderName, orderPrice, DATE, orderNumber}: any) => {
-    return await sendSmsFromSMSIR({
+
+
+    const result = await sendSmsFromSMSIR({
         // توی تملیت آیدی براش متن تعریف شده
         mobile: mobile, templateId: "808848", parameters: [
             {
@@ -153,6 +155,8 @@ export const sendVerifyBillSMS = async ({mobile, contactName, orderName, orderPr
 
         ]
     })
+
+    return result
 }
 export const sendPackageSMS = async ({mobile, contactName, orderNumber}: any) => {
     return await sendSmsFromSMSIR({
