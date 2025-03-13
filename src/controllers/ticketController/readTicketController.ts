@@ -37,7 +37,7 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
             pageSize:req.body.pageSize
         })
 
-        const myResult = await getDataCollection(req.body, Ticket);
+        // const myResult = await getDataCollection(req.body, Ticket);
 
         // #10001 search #10001
         // const myResultAfterChange = await convertIdsToName(myResult)

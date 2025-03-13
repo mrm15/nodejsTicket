@@ -107,6 +107,27 @@ export const createAggregationPipeline = ({
         {
             $unwind: {
                 path: "$z_ticketDetails",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+    )
+
+    myPipLine.push(
+        {
+            $lookup: {
+                from: "status",
+                localField: "z_ticketDetails.statusId",
+                foreignField: "_id",
+                as: "z_statusIdData"
+            }
+        },
+    )
+
+    myPipLine.push(
+        {
+            $unwind: {
+                path: "$z_statusIdData",
+                preserveNullAndEmptyArrays: true
             }
         },
     )
@@ -187,7 +208,7 @@ export const createAggregationPipeline = ({
                 lastChangeTimeStamp: "$z_ticketDetails.lastChangeTimeStamp",
                 priority: "$z_ticketDetails.priority",
 
-                statusText: "در حال کار",
+                statusName: { $ifNull: ["$z_statusIdData.name", "Undefined"] }, // Handle undefined case
                 numberOfAttachments: { $size: { $ifNull: ["$z_ticketDetails.attachments", []] } },
 
                 description: "$z_ticketDetails.description",
