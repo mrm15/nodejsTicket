@@ -57,7 +57,7 @@ const createCustomerController = async (req: CustomRequestMyTokenInJwt, res: Res
         }
 
         // Prepare contact data to send to Hesabfa.
-        const nameHere =(newUserData.name ?? "") + (newUserData.familyName  ?? "")
+        const nameHere =(newUserData.name ?? "") + " "+ (newUserData.familyName  ?? "")
         let contact = {
             "Code": null,
             "Name": nameHere,
