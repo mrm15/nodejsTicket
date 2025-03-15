@@ -29,7 +29,7 @@ const readTicketController = async (req: CustomRequestMyTokenInJwt, res: Respons
             return
         }
 
-        debugger
+
 
         const myResultAfterChange =await getAllTicketsByAggregation({
             filters:req.body.filters,
