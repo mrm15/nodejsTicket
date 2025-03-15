@@ -2,6 +2,8 @@ import processFilterOperators
     from "../../ticketAssigmentUtils/readDepartmentTicketsControllerUtils/processFilterOperators";
 import {createAggregationPipelineForTickets} from "../createAggregationPipelineForTickets";
 import {Ticket} from "../../../models/ticket";
+import {LogModel} from "../../../models/logs";
+import {createAggregationPipelineForLogs} from "../../Logs/createAggregationPipelineForLogs";
 
 interface inputObjectGetDataByAggregation2 {
     filters: any[],
@@ -21,9 +23,9 @@ const getAllTicketsByAggregation = async ({filters, page, pageSize}: inputObject
 
     // console.log(matchConditions)
     // Create the pipeline using match conditions and pagination details
-    const myPipelineForTickets = createAggregationPipelineForTickets({matchConditions, page, pageSize});
+    const myPipelineForLogs = createAggregationPipelineForLogs({matchConditions, page, pageSize});
 
-    const result = await Ticket.aggregate(myPipelineForTickets);
+    const result = await LogModel.aggregate(myPipelineForLogs);
 
 
     // Extract results and total document count
