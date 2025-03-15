@@ -63,7 +63,7 @@ myRouter.use('/public',apiLimiter,handlePublicRoutes)
 myRouter.use('/setUp09384642159',initialSetUpPlease)
 myRouter.use('/login',apiLimiter,loginSMS)
 // myRouter.use('/admin',admin)
-myRouter.use('/download' , handleDownloadRoute)
+// myRouter.use('/download' , handleDownloadRoute)
 myRouter.use('/hesabfaOpen' , handleHesabfaOpenRoute);
 // myRouter.use('/register', require('./routes/auth/register'));
 // myRouter.use('/auth', require('./routes/auth/auth'));
