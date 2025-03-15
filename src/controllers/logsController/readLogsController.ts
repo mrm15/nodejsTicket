@@ -1,9 +1,9 @@
-import {Request, Response, NextFunction} from 'express';
+import { Response, NextFunction} from 'express';
 import {CustomRequestMyTokenInJwt} from "../../middleware/verifyJWT";
 import {ACCESS_LIST} from "../../utils/ACCESS_LIST";
 import {checkAccessList} from "../../utils/checkAccessList";
-import {getDataCollection} from "../utility/collectionsHandlers/getDataCollection";
-import {LogModel} from "../../models/logs";
+
+import getAllLogsByAggregation from "../../utils/Logs/logsUtils/getAllLogsByAggregation";
 
 const readLogsController = async (req: CustomRequestMyTokenInJwt, res: Response, next: NextFunction) => {
     const {myToken} = req;
@@ -20,13 +20,12 @@ const readLogsController = async (req: CustomRequestMyTokenInJwt, res: Response,
             res.status(403).json({message: 'شما مجوز دسترسی به این بخش را ندارید.'});
             return;
         }
-        const myFetchedData = await getDataCollection(req.body, LogModel, {timestamp: -1})
-
-
-        res.status(200).json({
-
-            ...myFetchedData
-        });
+        const myResultAfterChange =await getAllLogsByAggregation({
+            filters:req.body.filters,
+            page:req.body.page,
+            pageSize:req.body.pageSize
+        })
+        res.status(200).json(myResultAfterChange);
         return;
     } catch (error) {
         res.status(500).json({error});
