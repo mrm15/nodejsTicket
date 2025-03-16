@@ -23,9 +23,9 @@ const getAllTicketsByAggregation = async ({filters, page, pageSize}: inputObject
 
     // console.log(matchConditions)
     // Create the pipeline using match conditions and pagination details
-    const myPipelineForLogs = createAggregationPipelineForLogs({matchConditions, page, pageSize});
+    const myPipelineForLogs = createAggregationPipelineForTickets({matchConditions, page, pageSize});
 
-    const result = await LogModel.aggregate(myPipelineForLogs);
+    const result = await Ticket.aggregate(myPipelineForLogs);
 
 
     // Extract results and total document count
