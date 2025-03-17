@@ -1,3 +1,5 @@
+import {INeededObject} from "../../../controllers/reportsController/getAdminReportFunctions/getRowsOfBills";
+
 export const findFilterRows = (totalData: any, myRowWithFilters: { filterIdForPivot:string[] ;caption: any; id: any; bgColor?: any; textColor?: any; myKey:string; } ) => {
     return totalData.filter((row: any) => {
         // Check if any of the keywords are included in the myKey field of the row
@@ -111,3 +113,53 @@ export const calculatePivotById = ({totalData, myArray}: any) => {
     }
 
 };
+//calculateSingleObjectSeperatedByContactCode
+
+interface DataItem {
+    myContactCode: string;
+    // Include other properties as needed
+    [key: string]: any;
+}
+
+const groupByContactCode = (totalData: DataItem[]): DataItem[][] => {
+    const grouped: Record<string, DataItem[]> = totalData.reduce((acc:any, item) => {
+        const code = item.myContactCode;
+        if (!acc[code]) {
+            acc[code] = [];
+        }
+        acc[code].push(item);
+        return acc;
+    }, {});
+
+    // Convert the grouped object into an array of arrays
+    return Object.values(grouped);
+};
+
+
+
+export const calculateSingleObjectSeperatedByContactCode = (totalData:INeededObject[],myRowWithFilters:  { filterIdForPivot:string[] ;caption: any; id: any; bgColor?: any; textColor?: any; myKey:string; })=>{
+    const filteredRows = findFilterRows(totalData, myRowWithFilters)
+
+    // اینجا میخوایم که بر حسب شماره مشتری جدا کنیم پس باید
+    // ردیف های فیلتر شده که شامل اجرت ساخت هستند رو برحسب شماره مشتری گروه بندی میکنیم
+    const groupedData = groupByContactCode(filteredRows);
+
+
+    const arraysOfObjects = groupedData.map(singleArray=>{
+
+        const t = calculateFilteredRowsValues(singleArray, myRowWithFilters)
+
+        const singleContactValue = {
+            myContactCode:singleArray[0]?.myContactCode,
+            myContactName:singleArray[0]?.myContactName,
+            phoneNumber:singleArray[0]?.myContactPhoneNumber,
+            value: t,
+        }
+        return singleContactValue
+    })
+
+    arraysOfObjects.sort((a, b) => b.value - a.value);
+
+    return arraysOfObjects
+}
+

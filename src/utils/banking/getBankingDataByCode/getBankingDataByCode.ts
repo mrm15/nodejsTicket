@@ -2,7 +2,10 @@ import {getBillsDataFromPoolBill} from "../../getBillsDataFromPoolBill/getBillsD
 import {handleFindUserAndCalculate} from "./helper";
 import getRowsOfInvoiceItemsFromBills
     , {INeededObject} from "../../../controllers/reportsController/getAdminReportFunctions/getRowsOfBills";
-import {calculateSingleObject} from "../../ReportsUtils/reportFunctions/calculatePivotById";
+import {
+    calculateSingleObject,
+    calculateSingleObjectSeperatedByContactCode
+} from "../../ReportsUtils/reportFunctions/calculatePivotById";
 
 const myKey = "myItemCode"
 const sumKey = "myTotalAmount"
@@ -25,6 +28,7 @@ const getBankingDataByCode = async ({filters}: any ,usersAndCodes:any[]) => {
         const temp: any = {
             name: singleUser.name,
             value: "",
+            contactsValue:[],
         }
         const totalData: INeededObject[] = []
         allRowsWithItems.forEach(singleRowOfItem => {
@@ -35,6 +39,7 @@ const getBankingDataByCode = async ({filters}: any ,usersAndCodes:any[]) => {
                 totalData.push(singleRowOfItem)
             }
         })
+
 
         const rrr = calculateSingleObject(totalData, {
             caption: "متراژ ساخت",
@@ -65,6 +70,37 @@ const getBankingDataByCode = async ({filters}: any ,usersAndCodes:any[]) => {
             ]
         })
         temp.value = rrr.value
+
+        const seperatedByContactCode = calculateSingleObjectSeperatedByContactCode(totalData, {
+            caption: "متراژ ساخت",
+            id: "1",
+            bgColor: "black",
+            textColor: "white",
+            ...keys,
+            // متراژ ساخت که از مهندس امانزاده کد هاشو گرفتم
+            filterIdForPivot: [
+                "000068",
+                "000080",
+                "000081",
+                "000146",
+                "000158",
+                "000159",
+                "000235",
+                "000251",
+                "000252",
+                "000253",
+                "000381",
+                "000435",
+                "000493",
+                "000494",
+                "000495",
+                "000496",
+                "000811",
+                "000801",
+            ]
+        })
+        temp.contactsValue= seperatedByContactCode
+
         return temp
     })
 
